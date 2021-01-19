@@ -1,0 +1,289 @@
+\ifx\pdfminorversion\undefined\else\pdfminorversion=4\fi
+\documentclass[aspectratio=169,t]{beamer}
+%\documentclass[aspectratio=169,t,handout]{beamer}
+
+% English version FAU Logo
+\usepackage[english]{babel}
+% German version FAU Logo
+%\usepackage[ngerman]{babel}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{fontawesome}
+\usepackage[backend=biber,sorting=none,doi=true,style=ieee]{biblatex}
+
+% Options:
+%  - inst:      Institute
+%                 med:      MedFak FAU theme
+%                 nat:      NatFak FAU theme
+%                 phil:     PhilFak FAU theme
+%                 rw:       RWFak FAU theme
+%                 rw-jura:  RWFak FB Jura FAU theme
+%                 rw-wiso:  RWFak FB WISO FAU theme
+%                 tf:       TechFak FAU theme
+%  - image:     Cover image on title page
+%  - plain:     Plain title page
+%  - longtitle: Title page layout for long title
+\usetheme[%
+  image,%
+  longtitle%
+]{fau}
+
+% Enable semi-transparent animation preview
+\setbeamercovered{transparent}
+
+
+\lstset{%
+  language=C++,
+  tabsize=2,
+  basicstyle=\tt,
+  keywordstyle=\color{blue},
+  commentstyle=\color{green!50!black},
+  stringstyle=\color{red},
+  numbers=left,
+  numbersep=0.5em,
+  xleftmargin=1em,
+  numberstyle=\tt
+}
+
+
+\defbibheading{bibliography}{}
+\addbibresource[label=primary]{references.bib}
+\nocite{*}
+
+
+% Title, authors, and date
+\title[KDD]{Knowledge Discovery in Databases}
+\subtitle{With a view towards machine learning}
+\author[L.~Melodia]{Luciano Melodia}
+% English version
+\institute[Department]{Evolutionary Data Management, Friedrich-Alexander University Erlangen-Nürnberg}
+% German version
+%\institute[Lehrstuhl]{Lehrstuhl, Friedrich-Alexander-Universit\"at Erlangen-N\"urnberg}
+\date{Summer semester 2021}
+% Set additional logo (overwrites FAU seal)
+%\logo{\includegraphics[width=.15\textwidth]{themefau/art/xxx/xxx.pdf}}
+
+
+\begin{document}
+  % Title
+  \maketitle
+
+  { % Motivation
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Who and for whom?}
+      \begin{itemize}
+        \item Luciano Melodia M.A.
+            \begin{itemize}
+              \item Evolutionary Data Management.
+              \item \texttt{luciano.melodia@fau.de}.
+            \end{itemize}
+        \item Master course in Computer Science:
+            \begin{itemize}
+              \item For partial fulfillment of a module with \underline{$5$ ECTS}.
+              \item Examination: Oral exam together with another lecture, such as:
+                  \begin{itemize}
+                      \item DBRN (Datenbanken in Rechnernetzen).
+                      \item DSS (Datenstromsysteme, German only).
+                      \item DW (Data Warehousing).
+                      \item TAS (Transaktionssysteme, also in Englisch).
+                  \end{itemize}
+              \item Other programs:
+                  \begin{itemize}
+                      \item M.Sc. International Information Systems.
+                      \item M.Sc. Computational Engineering.
+                      \item M.Sc. Mechanical Engineering.
+                      \item M.Sc. Information- and Communication Technology.
+                      \item \ldots
+                  \end{itemize}
+            \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Outline
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Prerequisites}
+      \begin{itemize}
+          \item IDB (Implementierung von Datenbanksystemen, every WS).
+          \item IDS (Introduction to Database Systems)
+              \begin{itemize}
+                  \item With parts on implementation:
+                    \begin{itemize}
+                        \item Index structures.
+                        \item Query processing.
+                        \item \ldots
+                    \end{itemize}
+              \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Lecture
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Lecture}
+      \begin{itemize}
+          \item Time and place (during \texttt{SARS-CoV2} pandemic via Zoom):
+              \begin{itemize}
+                  \item Tuesday, 16:00 - 17:30 s.t.
+                  \item Room: K$2$-$119$.
+              \end{itemize}
+          \item Lecture notes will be available as \texttt{PDF} via StudOn.
+          \item Additional information is also available in StudOn.
+          \item What about \textbf{feedback, questions, remarks} or \textbf{complaints}?
+              \begin{itemize}
+                  \item Always welcome.
+                  \item Drop me a line: \texttt{luciano.melodia@fau.de}.
+                  \item Consultation hours: Thursday, 5-6 p.m.
+                  \item Room: 08.132.
+                  \item Course will be evaluated electronically.
+              \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+
+  { % Lecture
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Lecture}
+      \begin{itemize}
+          \item The lecture is based on the following book:
+              \begin{itemize}
+                  \item Jiawei Han, Micheline Kamber, and Jian Pei: \emph{Data Mining – Concepts and Technologies}, 3rd ed. Waltham, M.A.: Morgan Kaufmann, 2012 (The Morgan Kaufmann Series in Data Management Systems).
+                  \item \small{Copies are available at the TNZB.}
+                  \item \small{Slides have been downloaded from Jiawei Han's web server and modified.}
+              \end{itemize}
+          \item Also interesting and related textbooks are:
+              \begin{itemize}
+                  \item Hongbo Du: \emph{Data Mining Techniques and Applications}, 1st ed. Cengage Learning, 2010.
+                  \item Ian Witten, Eibe Frank, and Mark Hall: \emph{Data Mining: Practical Machine Learning Tools and Techniques}, 3rd ed. Burlington, M.A.: Morgan Kaufmann, 2011 (The Morgan Kaufmann Series in Data Management Systems).
+                  \item \ldots
+              \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Goal
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Our goal}
+      \begin{itemize}
+          \item Introduce you to the principles of data mining. \\ This is the core of knowledge discovery in databases.
+          \item We'll make you familiar with:
+              \begin{itemize}
+                  \item Some KDD pipelines.
+                  \item The challenge of data minin on large sets of data.
+                  \item Technologies available for data analysis.
+                  \item Systems offering these technologies.
+                  \item Some applications \ldots
+              \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Goal
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Companion lecture: \textbf{Deep Learning}}
+      \begin{itemize}
+          \item First time hold in winter term $2017/2018$,\\
+                now offered again at:
+                \begin{itemize}
+                    \item Thursday, 8-9:45 a.m. c.t.
+                    \item Room: H4.
+                    \item Pattern Recognition Lab.
+                    \item Lecture is in Englisch.
+                \end{itemize}
+          \item Topics covered:
+                \begin{itemize}
+                    \item Classification using Neural Networks, \\
+                          probably in much more detail.
+                    \item No databases, no indexes, no clustering \ldots
+                \end{itemize}
+          \item This lecture gives a broader overview, thus is less detailed.
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Modules
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Modules}
+      \begin{itemize}
+          \item A module is the \textbf{unit of examination} at FAU and must have at least $5$ ECTS.
+          \item Thus, KDD alone is a too small lecture.
+                \begin{itemize}
+                    \item Just $2.5$ ECTS, which corresponds to \\
+                          $75$ hours of work, \\
+                          $30$ for attendance and \\
+                          $45$ hours for own studies and exam preparation.
+                \end{itemize}
+          \item \textbf{Combine KDD with another lecture} of the same size, such as:
+                \begin{itemize}
+                    \item DBRN (Datenbanken in Rechnernetzen).
+                    \item DSS (Datenstromsysteme).
+                    \item DW (Data Warehousing).
+                    \item TAS or TRASYS (Transaktionssysteme).
+                \end{itemize}
+          \item Examination: a single oral exam for \textbf{both lectures} together.\\
+                $30$ minutes with approximately $15$ minutes per lecture.
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Modules
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Exceptions for modules}
+      \begin{itemize}
+          \item Combinations with DW (Data Warehousing):
+                \begin{itemize}
+                    \item DW has its own written exam.
+                    \item Thus, you'll need a supplementary oral exam for KDD alone.\\
+                          This exam will be also a $30$ minutes exam.
+                \end{itemize}
+          \item \textbf{Medical Engineering} Master program:
+                \begin{itemize}
+                    \item Modules of $2.5$ ECTS are still allowed.
+                    \item KDD can be chosen in \\
+                          \emph{Studienrichtung Medizinische Bild- und Datenverarbeitung \\ M5 Medizintechnische Vertiefungsmodule (BDV).}\\
+                          Examination number 392229.
+                    \item Examination: an oral exam for $30$ minutes.
+                \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Exam
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Exam}
+      \begin{itemize}
+          \item \textbf{Registration} for examination:
+                \begin{itemize}
+                    \item At the examination office (dt. Prüfungsamt) or rather in \texttt{MeinCampus}.
+                    \item Period: May $27$ -- June $14, 2021$ (three weeks).
+                    \item Please denote your examination number!
+                \end{itemize}
+          \item \textbf{Appointment} for oral exams:
+                \begin{itemize}
+                    \item In StudOn, or visit our \href{https://www.cs6.tf.fau.de/lehre/pruefungsinformationen/}{homepage}: Lehrstuhl $\rightarrow$ Lehre $\rightarrow$ Prüfungsinformationen.
+                    \item Or visit \url{https://www.cs6.tf.fau.de/lehre/pruefungsinformationen/}.
+                \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}{}
+    \begin{frame}[c]
+      \begin{center}
+        Thank you for your attention.\\
+        {\bf Any questions about orga?}\\[0.5cm]
+        Ask them now, or again, drop me a line: \\ 
+        \faSendO \ \texttt{luciano.melodia@fau.de}.
+      \end{center}
+    \end{frame}
+  }
+\end{document}
+
