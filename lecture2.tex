@@ -26,6 +26,7 @@
     }
 }
 \usetikzlibrary{matrix}
+\usetikzlibrary{intersections}
 % Options:
 %  - inst:      Institute
 %                 med:      MedFak FAU theme
@@ -290,6 +291,58 @@
       \end{tikzpicture}
     \end{frame}
   }
+
+   { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Example: a web-mining framework}
+    \textbf{Web mining usually involves:}
+    \begin{itemize}
+        \item Data cleaning.
+        \item Data integration from multiple sources.
+        \item Warehousing the data.
+        \item Data-cube construction.
+        \item Data selection for data mining.
+        \item Data mining.
+        \item Presentation of the mining results.
+        \item Patterns and knowledge to be used or stored in a knowledge base.
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Data mining in business}
+    \centering
+    \begin{tikzpicture}
+    \coordinate (A) at (-6,0) {};
+    \coordinate (B) at ( 6,0) {};
+    \coordinate (C) at (0,6) {};
+    \draw[name path=AC] (A) -- (C);
+    \draw[name path=BC] (B) -- (C);
+
+    \node (Data Integration) at (1,5) {\parbox{\linewidth}{Increasing potential \\ to support decisions.}};
+    \node (Data Integration) at (12.9,1) {\parbox{\linewidth}{Database \\ administration.}};
+    \node (Data Integration) at (12.9,3) {\parbox{\linewidth}{Data \\ analyst.}};
+    \node (Data Integration) at (12.9,4.5) {\parbox{\linewidth}{Business \\ analyst.}};
+    \node (Data Integration) at (12.9,5.5) {\parbox{\linewidth}{End user.}};
+
+    \foreach \y/\A in {0/{
+        \parbox{\linewidth}{\centering \textbf{Sources of data}: \\ \small{paper, files, web documents, scientific experiments, database system.}}},
+        1/\parbox{\linewidth}{\centering \textbf{Data preprocessing/integration,\\ data warehouses.}},
+        2/\parbox{\linewidth}{\centering \textbf{Data exploration:} \\ statistics, querying and reporting.},
+        3/\parbox{\linewidth}{\centering \textbf{Data mining:} \\ information discovery.},
+        4/\parbox{\linewidth}{\centering \textbf{Presentation:} \\ visualization techniques.},
+        5/\parbox{\linewidth}{\centering \textbf{Decision}.}} {
+        \path[name path=horiz] (A|-0,\y) -- (B|-0,\y);
+        \draw[name intersections={of=AC and horiz,by=P},
+              name intersections={of=BC and horiz,by=Q}] (P) -- (Q)
+            node[midway,above] {\A};
+    }
+    \end{tikzpicture}
+    \end{frame}
+  }
+
+
 
   { % Questions?
     \setbeamertemplate{footline}{}
