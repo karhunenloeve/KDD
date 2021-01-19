@@ -31,7 +31,8 @@
 %  - longtitle: Title page layout for long title
 \usetheme[%
   image,%
-  longtitle%
+  longtitle,%
+  tf
 ]{fau}
 
 % Enable semi-transparent animation preview
@@ -39,7 +40,7 @@
 
 
 \lstset{%
-  language=C++,
+  language=Python,
   tabsize=2,
   basicstyle=\tt,
   keywordstyle=\color{blue},
@@ -202,12 +203,23 @@
     \end{frame}
   }
 
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{What is data mining?}
+    \textbf{Data mining or knowledge discovery from data}:
+        \begin{itemize}
+            \item Extraction of interesting (\textbf{non-trivial, implicit, previously unknown \\
+                  and potentially useful}) patterns from huge amounts of data.
+        \end{itemize}
+    \end{frame}
+  }
+
   { % Questions?
     \setbeamertemplate{footline}{}
     \begin{frame}[c]
       \begin{center}
         Thank you for your attention.\\
-        {\bf Any questions about orga?}\\[0.5cm]
+        {\bf Any questions about the introduction?}\\[0.5cm]
         Ask them now, or again, drop me a line: \\ 
         \faSendO \ \texttt{luciano.melodia@fau.de}.
       \end{center}
