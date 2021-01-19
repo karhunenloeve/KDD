@@ -17,6 +17,7 @@
 \usepackage{fontawesome}
 \usepackage{tikz}
 \usepackage{tikz-cd}
+
 \tikzset{
     vertex/.style = {
         circle,
@@ -26,7 +27,7 @@
     }
 }
 \usetikzlibrary{matrix}
-\usetikzlibrary{intersections}
+\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,fit,positioning,shapes.symbols,chains,intersections}
 % Options:
 %  - inst:      Institute
 %                 med:      MedFak FAU theme
@@ -358,6 +359,78 @@
     \end{itemize}
     \end{frame}
   }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{KDD pipeline: a typical view from machine learning and statistics}
+    \begin{itemize}
+        \item This is a view from typical machine-learning and statistics communities.
+    \end{itemize}
+    \vspace{0.5cm}
+    \centering
+    \begin{tikzpicture}
+    [node distance = 1cm, auto,font=\footnotesize,
+    % STYLES
+    every node/.style={node distance=1cm},
+    % The comment style is used to describe the characteristics of each force
+    comment/.style={rectangle, inner sep= 5pt, text width=3.8cm, node distance=0.5cm, font=\scriptsize\sffamily},
+    % The force style is used to draw the forces' name
+    force/.style={rectangle, draw, fill=black!10, inner sep=5pt, text width=1.8cm, text badly centered, minimum height=1cm, font=\bfseries\footnotesize\sffamily}] 
+
+    % Draw forces
+    \node [force, dashed] (a) {\parbox{\linewidth}{\centering Data \\ input.}};
+    \node [force, right=1cm of a] (b) {\parbox{\linewidth}{\centering Data \\ preprocessing.}};
+    \node [force, right=1cm of b] (c) {\parbox{\linewidth}{\centering Data \\ mining.}};
+    \node [force, right=1cm of c] (d) {\parbox{\linewidth}{\centering Post \\ processing.}};
+    \node [force, dashed, right=1cm of d] (e) {\parbox{\linewidth}{\centering Pattern, \\ information, \\ knowledge.}};
+
+    %%%%%%%%%%%%%%%
+    % Change data from here
+
+    % SUPPLIERS
+    \node [comment, below=0.25cm of b] {
+    \begin{itemize}
+        \item Data integration.
+        \item Normalization.
+        \item Feature selection.
+        \item Dimension reduction.
+    \end{itemize}
+    };
+
+    % USERS
+    \node [comment, below=0.25 of c] {
+    \begin{itemize}
+        \item Pattern discovery.
+        \item Association/correlation.
+        \item Classification.
+        \item Clustering.
+        \item Outlier analysis.
+        \item \ldots
+    \end{itemize}
+    };
+
+    % PUBLIC POLICIES
+    \node [comment, below=0.25 of d] {
+      \begin{itemize}
+        \item Pattern evaluation.
+        \item Pattern selection.
+        \item Pattern interpretation.
+        \item Pattern visualization.
+    \end{itemize}
+    };
+
+    \path[->,thick] 
+    (a) edge (b)
+    (b) edge (c)
+    (c) edge (d)
+    (d) edge (e);
+
+    \end{tikzpicture} 
+    \end{frame}
+  }
+
+
+
 
   { % Questions?
     \setbeamertemplate{footline}{}
