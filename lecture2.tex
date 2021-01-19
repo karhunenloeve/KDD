@@ -15,8 +15,17 @@
 \usepackage{url}
 \usepackage{hyperref}
 \usepackage{fontawesome}
+\usepackage{tikz}
 \usepackage{tikz-cd}
-
+\tikzset{
+    vertex/.style = {
+        circle,
+        fill            = black,
+        outer sep = 2pt,
+        inner sep = 1pt,
+    }
+}
+\usetikzlibrary{matrix}
 % Options:
 %  - inst:      Institute
 %                 med:      MedFak FAU theme
@@ -210,7 +219,66 @@
         \begin{itemize}
             \item Extraction of interesting (\textbf{non-trivial, implicit, previously unknown \\
                   and potentially useful}) patterns from huge amounts of data.
+            \item Is \textbf{data mining} a misnomer?
         \end{itemize}
+    Alternative names:
+        \begin{itemize}
+            \item Knowledge discovery/mining in databases (KDD).
+            \item Knowledge extraction.
+            \item Data/pattern analysis.
+            \item Data archeology.
+            \item Data dredging.
+            \item Information harvesting.
+            \item Business intelligence.
+        \end{itemize}
+    Watch out: Is everything \textbf{data mining}?
+        \begin{itemize}
+            \item Simple search and query processing is considered not to be.
+            \item Neither are deductive expert systems.
+        \end{itemize}
+    \end{frame}
+  }
+
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Knowledge discovery pipeline}
+    \begin{itemize}
+        \item This is a typical view from a typical database-systems and data-warehousing community.
+        \item Data mining plays an essential role in the knowledge-discovery process.
+    \end{itemize}
+ 
+    \begin{tikzpicture}
+      % Dialectics
+      \node[draw] (Database) at (0,0) {Database};
+      \node[draw,fill=black,text=white] (Data warehouse) at (2.8,1) {Data warehouse};
+      \node[draw] (Task-relevant data) at (6,2) {Task-relevant data};
+      \node[draw,fill=black,text=white] (Data mining) at (8.9,3) {Data mining};
+      \node[draw] (Knowledge discovery) at (11.9,4) {Knowledge discovery};
+
+      \draw node[vertex] (Joint1) at (1.3,0.46) {};
+      \draw node[vertex] (Joint2) at (4.5,1.52) {};
+
+      \draw node[vertex] (Joint3) at (4.5,0.46) {};
+      \draw node[vertex] (Joint7) at (4.5,0.46) {};
+      \draw node[vertex] (Joint8) at (7.6,0.46) {};
+      \draw node[vertex] (Joint9) at (10.3,0.46) {};
+
+      \draw node[vertex] (Joint5) at (7.6,2.55) {};
+      \draw node[vertex] (Joint6) at (10.3,3.47) {};
+
+
+      \draw[->,draw=black] (Database) to (Data warehouse);
+      \draw[->,draw=black] (Data warehouse) to (Task-relevant data);
+      \draw[->,draw=black] (Task-relevant data) to (Data mining);
+      \draw[->,draw=black] (Data mining) to (Knowledge discovery);
+      \draw[-,draw=black, dashed] (Joint1) to (Joint3);
+      \draw[->,draw=black, dashed] (Joint3) to (Joint2);
+      \draw[->,draw=black] (Joint6) to (Joint9);
+      \draw[-,draw=black] (Joint9) to (Joint8);
+      \draw[->,draw=black] (Joint8) to (Joint7);
+      \draw[->,draw=black] (Joint8) to (Joint5);
+      \end{tikzpicture}
     \end{frame}
   }
 
