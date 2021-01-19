@@ -520,14 +520,14 @@
     };
 
     \path[->,thick] 
-    (a) edge (b)
-    (b) edge (a)
     (b) edge (c)
-    (c) edge (d)
-    (d) edge (c)
     (d) edge (f)
     (f) edge (e)
     (f) edge (a);
+
+    \path[<->,thick] 
+    (a) edge (b)
+    (c) edge (d);
     \end{tikzpicture}   
     \end{frame}
   }
