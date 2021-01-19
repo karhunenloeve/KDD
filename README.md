@@ -6,11 +6,6 @@ The following topics are covered in this lecture:
 - The process of data mining.
 - Applications.
 
-# References
-1. Han Jiawei, Kamber Micheline, Pei Jian: Data Mining: Concepts and Techniques. 3rd ed. Waltham, M.A.: Morgan Kaufmann, 2012 (The Morgan Kaufmann Series in Data Management Systems).
-2. Witten Ian, Frank Eibe, Hall Mark: Data Mining. Practical Machine Learning Tools and Techniques. 3rd ed. Burlington, M.A.: Morgan Kaufmann, 2011 (The Morgan Kaufmann Series in Data Management Systems).
-3. Du Hongbo: Data Mining Techniques and Applications. Andover, UK: Cengage Learning, 2010
-
 # Lecture slides
 1. [Prologue](https://karhunenloeve.github.io/KDD/lecture1.pdf).
 2. [Introduction](https://karhunenloeve.github.io/KDD/lecture2.pdf).
@@ -21,3 +16,8 @@ The following topics are covered in this lecture:
 7. Classification.
 8. Cluster analysis.
 9. Outlier detection.
+
+# References
+1. Han Jiawei, Kamber Micheline, Pei Jian: Data Mining: Concepts and Techniques. 3rd ed. Waltham, M.A.: Morgan Kaufmann, 2012 (The Morgan Kaufmann Series in Data Management Systems).
+2. Witten Ian, Frank Eibe, Hall Mark: Data Mining. Practical Machine Learning Tools and Techniques. 3rd ed. Burlington, M.A.: Morgan Kaufmann, 2011 (The Morgan Kaufmann Series in Data Management Systems).
+3. Du Hongbo: Data Mining Techniques and Applications. Andover, UK: Cengage Learning, 2010.
