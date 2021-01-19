@@ -253,8 +253,12 @@
       \node[draw] (Database) at (0,0) {Database};
       \node[draw,fill=black,text=white] (Data warehouse) at (2.8,1) {Data warehouse};
       \node[draw] (Task-relevant data) at (6,2) {Task-relevant data};
-      \node[draw,fill=black,text=white] (Data mining) at (8.9,3) {Data mining};
+      \node[draw,fill=black,text=white] (Data mining) at (8.9,3) {Visualization};
       \node[draw] (Knowledge discovery) at (11.9,4) {Knowledge discovery};
+
+      \node (Data Integration) at (3,0.25) {Data Integration};
+      \node (Selection) at (5.3,1.3) {Selection};
+      \node (Data Mining) at (8.7,2.25) {Data Mining};
 
       \draw node[vertex] (Joint1) at (1.3,0.46) {};
       \draw node[vertex] (Joint2) at (4.5,1.52) {};
@@ -263,6 +267,8 @@
       \draw node[vertex] (Joint7) at (4.5,0.46) {};
       \draw node[vertex] (Joint8) at (7.6,0.46) {};
       \draw node[vertex] (Joint9) at (10.3,0.46) {};
+      \draw node[vertex] (Joint10) at (10.3,-0.2) {};
+      \draw node[vertex] (Joint11) at (1.3,-0.2) {};
 
       \draw node[vertex] (Joint5) at (7.6,2.55) {};
       \draw node[vertex] (Joint6) at (10.3,3.47) {};
@@ -278,6 +284,9 @@
       \draw[-,draw=black] (Joint9) to (Joint8);
       \draw[->,draw=black] (Joint8) to (Joint7);
       \draw[->,draw=black] (Joint8) to (Joint5);
+      \draw[->,draw=black,dashed] (Joint10) to (Joint11);
+      \draw[->,draw=black,dashed] (Joint9) to (Joint10);
+      \draw[->,draw=black,dashed] (Joint11) to (Joint1);
       \end{tikzpicture}
     \end{frame}
   }
