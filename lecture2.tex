@@ -429,7 +429,108 @@
     \end{frame}
   }
 
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Example: medical data mining}
+    \begin{itemize}
+        \item \textbf{Health care and medical data mining}:
+        \begin{itemize}
+            \item Often adopted such a view in statistics and machine learning.
+        \end{itemize}
+        \item \textbf{Preprocessing of data}:
+        \begin{itemize}
+            \item Includes feature extraction and dimension reduction.
+        \end{itemize}
+        \item \textbf{Classification and/or clustering processes.}
+        \item \textbf{Post processing for presentation}.
+    \end{itemize}
+    \end{frame}
+  }
 
+ { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{CRISP-DM}
+    \begin{itemize}
+        \item \textbf{CRoss-Industry Standard Process for Data Mining}:
+    \end{itemize}
+      \vspace{0.5cm}
+    \centering
+    \begin{tikzpicture}
+    [node distance = 2cm, auto,font=\footnotesize,
+    % STYLES
+    every node/.style={node distance=2cm},
+    % The comment style is used to describe the characteristics of each force
+    comment/.style={rectangle, inner sep= 5pt, text width=5cm, node distance=0.5cm, font=\scriptsize\sffamily},
+    % The force style is used to draw the forces' name
+    force/.style={rectangle, draw, fill=black!10, inner sep=5pt, text width=4cm, minimum height=2cm, font=\footnotesize\sffamily}] 
+
+    % Draw forces
+    \node [force] (a) {
+    \parbox{\linewidth}{
+    \textbf{Business understanding}.\\
+    - Determine business objectives.\\
+    - Assess situation.\\
+    - Determine data mining goals.\\
+    - Produce project plan.
+    }
+    };
+    \node [force, right=1cm of a] (b) {
+    \parbox{\linewidth}{
+    \textbf{Data understanding}.\\
+    - Collect initial data.\\
+    - Describe data.\\
+    - Explore data.\\
+    - Verify data quality.
+    }
+    };
+    \node [force, right=1cm of b] (c) {
+    \parbox{\linewidth}{
+    \textbf{Data preparation}.\\
+    - Select data.\\
+    - Clean data.\\
+    - Construct data.\\
+    - Integrate/format data.
+    }
+    };
+    \node [force, below=1cm of c] (d) {
+    \parbox{\linewidth}{
+    \textbf{Modeling}.\\
+    - Select modeling techniques.\\
+    - Generate test design.\\
+    - Build model.\\
+    - Assess model.
+    }
+    };
+    \node [force, below=1cm of a] (e) {
+    \parbox{\linewidth}{
+    \textbf{Deployment}.\\
+    - Plan deployment.\\
+    - Plan monitoring/maintenance.\\
+    - Produce final report.\\
+    - Review project.
+    }
+    };
+    \node [force, below=1cm of b] (f) {
+    \parbox{\linewidth}{
+    \textbf{Evaluation}.\\
+    - Evaluate results.\\
+    - Review process.\\
+    - Determine next steps.
+    }
+    };
+
+    \path[->,thick] 
+    (a) edge (b)
+    (b) edge (a)
+    (b) edge (c)
+    (c) edge (d)
+    (d) edge (c)
+    (d) edge (f)
+    (f) edge (e)
+    (f) edge (a);
+    \end{tikzpicture}   
+    \end{frame}
+  }
 
 
   { % Questions?
