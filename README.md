@@ -6,6 +6,8 @@ The following topics are covered in this lecture:
 - The process of data mining.
 - Applications.
 
+Please note, that this lecture is an informal overview rather then a formal introduction into the topic.
+
 # Lecture slides
 1. [Prologue](https://karhunenloeve.github.io/KDD/lecture1.pdf).
 2. [Introduction](https://karhunenloeve.github.io/KDD/lecture2.pdf).
