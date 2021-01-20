@@ -11,7 +11,7 @@ Please note, that this lecture is an informal overview rather then a formal intr
 # Lecture slides
 1. [Prologue](https://karhunenloeve.github.io/KDD/lecture1.pdf).
 2. [Introduction](https://karhunenloeve.github.io/KDD/lecture2.pdf).
-3. Data.
+3. [Data](https://karhunenloeve.github.io/KDD/lecture3.pdf).
 4. Preprocessing.
 5. OLAP.
 6. Frequent patterns.
