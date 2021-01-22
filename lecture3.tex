@@ -13,8 +13,11 @@
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{url}
+\usepackage{enumitem}
 \usepackage{hyperref}
 \usepackage{fontawesome}
+\usepackage{graphicx}
+\usepackage{booktabs}
 \usepackage{tikz}
 \usepackage{tikz-cd}
 
@@ -31,6 +34,7 @@
 \tikzset{level 1/.append style={sibling angle=50,level distance = 165mm}}
 \tikzset{level 2/.append style={sibling angle=20,level distance = 45mm}}
 \tikzset{every node/.append style={scale=1}}
+\newcommand{\tikzmark}[1]{\tikz[remember picture] \node[coordinate] (#1) {#1};}
 % Options:
 %  - inst:      Institute
 %                 med:      MedFak FAU theme
@@ -68,7 +72,7 @@
 
 
 % Title, authors, and date
-\title[KDD]{Chapter I: Introduction}
+\title[KDD]{Chapter II: Data}
 \subtitle{Knowledge Discovery in Databases}
 \author[L.~Melodia]{Luciano Melodia M.A.}
 % English version
@@ -86,22 +90,88 @@
 
   { 
     \setbeamertemplate{footline}{}
-    \begin{frame}{Chapter I: Introduction}
+    \begin{frame}{Chapter II: Getting to know your data}
     This is our agenda for this lecture:
         \begin{itemize}
-            \item \textbf{Why data mining?}
-            \item What is data mining?
-            \item A multi-dimensional view of data mining.
-            \item What kind of data can be mined?
-            \item What kinds of patterns can be mined?
-            \item What technologies are used?
-            \item What kinds of applications are targeted?
-            \item Major issues in data mining.
-            \item A brief history of data mining.
-            \item Summary.
+            \item \textbf{Data objects and attribute types}
+            \item Basic statistical descriptions of data
+            \item Data visualization
+            \item Measuring data similarity and dissimilarity
+            \item Summary
         \end{itemize}
     \end{frame}
   }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Types of data sets}
+      \begin{columns}
+        \begin{column}{0.45\textwidth}
+          \textbf{Records:}
+          \begin{itemize}[noitemsep]
+              \item Relational records.
+              \item Data matrix, e.g. numerical matrix, crosstabs.
+              \item Document data: text documents, \textbf{term-trequency vectors}. \tikzmark{n1}
+              \item \textbf{Transaction data}. \tikzmark{n2}
+          \end{itemize}
+          \textbf{Graph and network:}
+          \begin{itemize}[noitemsep]
+              \item World wide web.
+              \item Social of information networks.
+              \item Molecular structures.
+          \end{itemize}
+        \end{column}
+        \begin{column}{0.45\textwidth}  %%<--- here
+        \begin{table}
+         \begin{tabular}{|c|c|c|c|}
+            \cline{2-4}
+            \multicolumn{1}{c|}{} & Item1 & Item2 & Item3 \\ \hline
+            \tikzmark{t1} Group1 & 0.8   & 0.1   & 0.1  \\ \hline
+            Group2 & 0.1   & 0.8   & 0.1  \\ \hline
+            Group3 & 0.1   & 0.1   & 0.8  \\ \hline
+            Group4 & 0.34  & 0.33  & 0.33 \\
+            \hline
+          \end{tabular}\\[0.5cm]
+          \begin{tabular} { | c | l |}
+          \hline
+          \textbf{TID} & \textbf{Items} \\
+          \hline
+          \tikzmark{t2} 1 & Bread, Coke, Milk\\
+          2 & Beer, Bread\\
+          3 & Beer, Coke, Diapers, Milk\\
+          4 & Beer, Bread, Diapers, Milk\\
+          5 & Coke, Diapers, Milk \\
+          \hline
+          \end{tabular}
+        \end{table}
+        \begin{tikzpicture}[remember picture,overlay]
+           \path[draw=blue,thick,->]<1-> ([yshift=1mm]n1) -- (t1);
+           \path[draw=blue,thick,->]<1-> ([yshift=1mm]n2) -- (t2);
+        \end{tikzpicture}
+        \end{column}
+      \end{columns}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Types of data sets}
+          \textbf{Ordered data:}
+          \begin{itemize}[noitemsep]
+              \item Video data: sequences of images.
+              \item Temporal data: time series.
+              \item Sequential data: transaction sequences.
+              \item Genetic sequence data.
+          \end{itemize}
+          \textbf{Spatial, image and multimedia:}
+          \begin{itemize}[noitemsep]
+              \item Spatial data: maps.
+              \item Image data.
+              \item Video data.
+          \end{itemize}
+    \end{frame}
+  }
+
 
   { % Questions?
     \setbeamertemplate{footline}{}
