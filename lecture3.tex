@@ -123,13 +123,11 @@
         \end{column}
         \begin{column}{0.45\textwidth}  %%<--- here
         \begin{table}
-         \begin{tabular}{|c|c|c|c|}
-            \cline{2-4}
-            \multicolumn{1}{c|}{} & Item1 & Item2 & Item3 \\ \hline
-            \tikzmark{t1} Group1 & 0.8   & 0.1   & 0.1  \\ \hline
-            Group2 & 0.1   & 0.8   & 0.1  \\ \hline
-            Group3 & 0.1   & 0.1   & 0.8  \\ \hline
-            Group4 & 0.34  & 0.33  & 0.33 \\
+         \begin{tabular}{|c|c|c|c|c|c|c|}
+            \multicolumn{1}{c|}{} & \rotatebox[origin=c]{270}{team} & \rotatebox[origin=c]{270}{couch} & \rotatebox[origin=c]{270}{play} & \rotatebox[origin=c]{270}{ball} & \rotatebox[origin=c]{270}{score} & \rotatebox[origin=c]{270}{game} \\ \hline
+            \tikzmark{t1} Document1 & 3 & 0 & 5 & 0 & 2 & 6 \\ \hline
+            Document2 & 0 & 7 & 0 & 2 & 1 & 0 \\ \hline
+            Document3 & 0 & 1 & 0 & 0 & 1 & 2 \\
             \hline
           \end{tabular}\\[0.5cm]
           \begin{tabular} { | c | l |}
@@ -172,6 +170,47 @@
     \end{frame}
   }
 
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Important characteristics of structured data}
+        \textbf{Dimensionality}:\\
+        Curse of dimensionality (sparse high-dimensional data spaces).\\[0.2cm]
+        % make the example with the volume of a cube
+
+        \textbf{Sparsity}:\\
+        Only presence counts.\\[0.2cm]
+
+        \textbf{Resolution}:\\
+        Patterns depend on the scale.\\[0.2cm]
+
+        \textbf{Distribution}:\\
+        Centrality and dispersion.
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Data objects}
+      \textbf{Data sets are made up of data objects}.\\
+      \textbf{A data object represents an entity}.\\[0.2cm]
+
+      Examples:
+      \begin{itemize}
+          \item Sales database: customers, store items, sales.
+          \item Medical database: patients, treatments.
+          \item University database: students, professors, courses.
+      \end{itemize}
+
+      They are also called:\\
+      Sampels, examples, instances, data points, objects, tuples, \ldots\\[0.2cm]
+
+      \textbf{Data objects are described by attributes}:
+      \begin{itemize}
+          \item Database rows $\rightarrow$ data objects.
+          \item Columns $\rightarrow$ attributes.
+      \end{itemize}
+    \end{frame}
+  }
 
   { % Questions?
     \setbeamertemplate{footline}{}
