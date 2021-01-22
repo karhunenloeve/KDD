@@ -93,11 +93,11 @@
     \begin{frame}{Chapter II: Getting to know your data}
     This is our agenda for this lecture:
         \begin{itemize}
-            \item \textbf{Data objects and attribute types}
-            \item Basic statistical descriptions of data
-            \item Data visualization
-            \item Measuring data similarity and dissimilarity
-            \item Summary
+            \item \textbf{Data objects and attribute types.}
+            \item Basic statistical descriptions of data.
+            \item Data visualization.
+            \item Measuring data similarity and dissimilarity.
+            \item Summary.
         \end{itemize}
     \end{frame}
   }
@@ -229,6 +229,140 @@
       \begin{itemize}
         \item Interval scaled.
         \item Ratio scaled.
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Attribute types}
+    \begin{itemize}
+        \item \textbf{Nominal}:
+        \begin{itemize}
+            \item Categories, states, or "names of things".\\
+                  E.g. \texttt{hair\_color} $= \{\text{auburn, black, blond, brown, grey, red, white}\}$.\\
+                  Other examples: \texttt{marital status}, \texttt{occupation}, \texttt{ID}, \texttt{ZIP code}.
+        \end{itemize}
+        \item \textbf{Binary}:
+            \begin{itemize}
+                \item Nominal attribute with only two states ($0$ and $1$).
+                \item \textbf{Symmetric binaries}: both outcomes equally important, such as \texttt{gender}.
+                \item \textbf{Asymmetric binary}: outcomes not equally important. \\
+                      E.g. medical test (positive vs. negative).\\
+                      Convention: assign 1 to most important outcome (e.g. HIV positive).
+            \end{itemize}
+        \item \textbf{Ordinal}:
+        \begin{itemize}
+            \item Values have a meaningful order (ranking),\\
+            but magnitude between successive values is not known.\\
+            E.g. \texttt{size} $= \{\text{small, medium, large}\}$, grades, army rankings.
+        \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Numerical attribute types}
+    \begin{itemize}
+        \item \textbf{Numerical: Quantity (integer- or real-valued)}.
+        \item \textbf{Interval scaled}:
+            \begin{itemize}
+                \item Measured on a scale of \textbf{equally sized} units.
+                \item Values have order.\\
+                      E.g. temperature in $C$ or $F$, calender dates.
+                \item No true zero-point.
+            \end{itemize}
+        \item \textbf{Ratio scaled}:
+        \begin{itemize}
+            \item Inherent \textbf{zero point}.
+            \item We can speak of values as being an order of magnitude larger \\
+            than the unit of measurement.\\
+            E.g. $10 K$ is twice as high as $5 K$.\\
+            E.g. temperature in Kelvin, length, counts, monetary quantities.
+        \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Discrete vs. continuous attributes }
+    \begin{itemize}
+        \item \textbf{Discrete attribute}:
+              \begin{itemize}
+                  \item Has finite or countably infinite elements.\\
+                        E.g. ZIP code, profession, or the set of words in a collection of documents.
+                  \item Sometimes represented as integer variables.
+                  \item Note: Binary attributes are a special case of discrete attributes.
+              \end{itemize}
+        \item \textbf{Continuous attribute}:
+            \begin{itemize}
+                \item Has real numbers as attribute values.\\
+                      E.g. temperature, height, or weight.
+                \item Practically, real values can only be measured and represented using a finite number of digits.
+                \item Continuous attributes are typically represented as floating-point variables.
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Chapter II: Getting to know your data}
+        \begin{itemize}
+            \item Data objects and attribute types.
+            \item \textbf{Basic statistical descriptions of data.}
+            \item Data visualization.
+            \item Measuring data similarity and dissimilarity.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Basic statistical descriptions of data}
+    \textbf{Motivation}:
+    \begin{itemize}
+      \item To better understand the data: central tendency, variation and spread.
+    \end{itemize}
+
+    \textbf{Data dispersion characteristics}:
+    \begin{itemize}
+        \item Median, max, min, quantiles, outliers, variance etc.
+    \end{itemize}
+
+    \textbf{Numerical dimensions correspond to sorted intervals.}\\
+    \begin{itemize}
+      \item Data dispersion: analyzed with multiple granularities of precision.
+      \item Boxplot or quantile analysis on sorted intervals
+    \end{itemize}
+
+  \textbf{Dispersion analysis on computed measures.}\\
+    \begin{itemize}
+        \item Folding measures into numerical dimensions.
+        \item Boxplot or quantile analysis on the transformed cube.
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Basic statistical descriptions of data}
+    \begin{itemize}
+      \item \textbf{Mean}:
+      \begin{itemize}
+          \item $N$ denotes the amount of samples within the data set.
+          \item The \textbf{sample mean} is given by\\
+                \begin{equation*}
+                  \bar{x} = \frac{1}{N} \sum_{i=1}^{N} x_i.
+                \end{equation*}
+          \item While the \textbf{population mean} is defined by
+                \begin{equation*}
+                  \mu = \sum x \cdot p(x | \theta) \cdots.
+                \end{equation*}
       \end{itemize}
     \end{itemize}
     \end{frame}
