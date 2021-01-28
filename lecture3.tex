@@ -371,14 +371,99 @@
   { 
     \setbeamertemplate{footline}{}
     \begin{frame}{Measuring the central tendency (2)}
-    \begin{itemize}
-      \item \textbf{Median}:
-      \begin{itemize}
-          \item 
-      \end{itemize}
-    \end{itemize}
+      \begin{columns}
+        \begin{column}{0.6\textwidth}
+          \textbf{Median:}
+          \begin{itemize}[noitemsep]
+            \item The median $\tilde{m}$ minimizes the sum of absolute deviations for any $x$ of a sample $X$:
+            \begin{align}
+              \sum_{i=1}^{n} |\tilde{x}-x_i| \leq \sum_{i=1}^{n} |x-x_i|.
+            \end{align}
+          \end{itemize}
+        \end{column}
+        \begin{column}{0.3\textwidth}  %%<--- here
+        \begin{table}
+        \begin{tabular}{|c|c|}
+          Age & Frequency \\ \hline
+          $1-5$ & $200$ \\
+          $6-15$ & $450$ \\
+          $16-20$ & $300$ \\
+          $21-50$ & $1500$ \\
+          $51-80$ & $700$ \\
+          $81-110$ & $44$
+        \end{tabular}\\[0.5cm]
+        \end{table}
+        \end{column}
+      \end{columns}
     \end{frame}
   }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Measuring the central tendency (3)}
+      \begin{columns}
+        \begin{column}{0.6\textwidth}
+          \textbf{Median for interval grouped data:}
+          \begin{itemize}[noitemsep]
+            \item Let $n$ be the total amount of data points, $n_i$ the respective number of the $i$th group and $l_i$ or $u_i$ the lower or upper interval limit. We determine the group to which the median belongs and denote it as $m$th group. It is determined by
+            \begin{align}
+              \sum_{k=1}^{m-1}n_k < \frac{n}{2}, \; \text{but} \; \sum_{k=1}^{m} n_k \geq \frac{n}{2}.
+            \end{align}
+            \item If there is no information about the underlying distribution, we just assume that data is equally distributed and use linear interpolation to estimate the median:
+            \begin{align}
+              \tilde{x} = l_m + \frac{\frac{n}{2}-\sum_{k=1}^{m-1}n_k}{n_m} \cdot (u_m-l_m).
+            \end{align}
+          \end{itemize}
+        \end{column}
+        \begin{column}{0.3\textwidth}  %%<--- here
+        \begin{table}
+        \begin{tabular}{|c|c|}
+          Age & Frequency \\ \hline
+          $1-5$ & $200$ \\
+          $6-15$ & $450$ \\
+          $16-20$ & $300$ \\
+          $21-50$ & $1500$ \\
+          $51-80$ & $700$ \\
+          $81-110$ & $44$
+        \end{tabular}\\[0.5cm]
+        \end{table}
+        \end{column}
+      \end{columns}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Measuring the central tendency (3)}
+      \begin{columns}
+        \begin{column}{0.6\textwidth}
+          \textbf{Mode:}
+          \begin{itemize}[noitemsep]
+            \item Value that occurs most frequently within the data set.
+            \item Can be unimodal, bimodal, trimodal etc.
+            \item Empirical formula:
+            \begin{align}
+              \overline{x} - \text{mode} \approx 3(\overline{x}- \tilde{x}).
+            \end{align}
+          \end{itemize}
+        \end{column}
+        \begin{column}{0.3\textwidth}  %%<--- here
+        \begin{table}
+        \begin{tabular}{|c|c|}
+          Age & Frequency \\ \hline
+          $1-5$ & $200$ \\
+          $6-15$ & $450$ \\
+          $16-20$ & $300$ \\
+          $21-50$ & $1500$ \\
+          $51-80$ & $700$ \\
+          $81-110$ & $44$
+        \end{tabular}\\[0.5cm]
+        \end{table}
+        \end{column}
+      \end{columns}
+    \end{frame}
+  }
+
 
   { % Questions?
     \setbeamertemplate{footline}{}
