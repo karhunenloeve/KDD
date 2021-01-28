@@ -20,6 +20,8 @@
 \usepackage{booktabs}
 \usepackage{tikz}
 \usepackage{tikz-cd}
+\usepackage{pgfplots}
+\pgfplotsset{height=4cm,width=8cm,compat=1.16}
 
 \tikzset{
     vertex/.style = {
@@ -431,7 +433,7 @@
       \end{columns}
     \end{frame}
   }
-
+  
   { 
     \setbeamertemplate{footline}{}
     \begin{frame}{Measuring the central tendency (3)}
@@ -464,6 +466,40 @@
     \end{frame}
   }
 
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Example of mode, median and mean}
+      \centering
+      \begin{tikzpicture}[font=\sffamily,
+      declare function={Gauss(\x,\y,\z,\u)=1/(\z*sqrt(2*pi))*exp(-((\x-\y+\u*(\x-\y)*sign(\x-\y))^2)/(2*\z^2));},
+      every pin edge/.style={latex-,line width=1.5pt},
+      every pin/.style={fill=yellow!50,rectangle,rounded corners=3pt,font=\small}]
+      \begin{axis}[
+          every axis plot post/.append style={
+          mark=none,samples=101},
+          clip=false,
+          axis y line=none,
+          axis x line*=bottom,
+          ymin=0,
+          xtick=\empty,]
+          \addplot[line width=1.5pt,blue,domain=-1:3] {Gauss(x,0,0.6,-0.4)};
+          \draw[line width=1.5pt,dashed, black] (0,0) -- (0,{Gauss(0,0,0.6,-0.4)});
+          \draw[line width=1.5pt,dashed, red] (0.6,0) -- (0.6,{Gauss(0.6,0,0.6,-0.4)});
+          \draw[line width=1.5pt,dashed, red] (-0.4,0) -- (-0.4,{Gauss(-0.4,0,0.6,-0.4)});
+          \path (-0.4,0) coordinate (ML) (0.6,0) coordinate (MR) (0,0) coordinate (MM);
+      \end{axis}
+      \draw[latex-] (ML) to[out=-90,in=45] ++ (-0.4,-0.6) node[below left,inner
+      sep=1pt]{Mean};
+      \draw[latex-] (MR) to[out=-90,in=135] ++ (0.6,-0.6) node[below right,inner
+      sep=1pt]{Median};
+      \draw[latex-] (MM) --++ (0,-0.6) node[below,inner
+      sep=1pt]{Mode};
+      \end{tikzpicture}
+      \begin{align}
+        f(x \vert \mu, \sigma) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(x-\mu)^2}{2\sigma^2}\right).
+      \end{align}
+    \end{frame}
+  }
 
   { % Questions?
     \setbeamertemplate{footline}{}
