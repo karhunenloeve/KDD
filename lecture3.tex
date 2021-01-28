@@ -433,7 +433,7 @@
       \end{columns}
     \end{frame}
   }
-  
+
   { 
     \setbeamertemplate{footline}{}
     \begin{frame}{Measuring the central tendency (3)}
@@ -498,6 +498,26 @@
       \begin{align}
         f(x \vert \mu, \sigma) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(x-\mu)^2}{2\sigma^2}\right).
       \end{align}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Example of mode, median and mean}
+    \textbf{Quartiles, outliers and boxplots:}
+    \begin{itemize}
+      \item \textbf{Quartiles:} {\color{blue}$\mathbf{Q}_1$} ($25^{\text{th}}$ percentile), {\color{blue}$\mathbf{Q}_3$} ($75^{\text{th}}$ percentile).
+      \item \textbf{Inter quartile range:} {\color{blue}IQR} $=Q_3-Q-1$.
+      \item Five number summary: min, $Q_1$, median, $Q_3$, max.
+      \item \textbf{Boxplot}: ends of the box are the quartiles; \\ median is marked; add whiskers and plot outliers individually.
+      \item \textbf{Outlier}: usually assigned to values higher/lower than $1.5 \cdot \text{IQR}$.
+    \end{itemize}
+    \textbf{Variance $\sigma^2$ and standard deviation $\sigma$}:
+    \begin{itemize}
+      \item Empirical sample variance: $\overline{\sigma^2} = \frac{1}{n} \sum_{i=1}^{n}(x_i-\overline{x})^2$
+      \item Empirical population variance: $\sigma^2 = \frac{1}{N} \sum_{i=1}^{n} (x_i - \mu)^2$.
+      \item Standard deviation is the square root $\sigma = \sqrt{\sigma^2}$.
+    \end{itemize}
     \end{frame}
   }
 
