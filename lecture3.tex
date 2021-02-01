@@ -25,6 +25,7 @@
 \pgfmathdeclarefunction{gauss}{2}{%
   \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
 }
+
 \tikzset{
     vertex/.style = {
         circle,
@@ -577,8 +578,63 @@
     \begin{frame}{Properties of normal distribution curves}
     \begin{itemize}
         \item \textbf{The normal distribution:}
-        \item From $\mu - \sigma$ 
+        \begin{itemize}
+          \item From $\mu - \sigma$ to $\mu + \sigma$: contains about $68\%$ of the measurements.
+          \begin{itemize}
+              \item $\mu$: mean,
+              \item $\sigma$: standard deviation.
+          \end{itemize}
+          \item From $\mu - 2 \sigma$ to $\mu + 2\sigma$: contains about $95\%$ of the surface under the curve.
+          \item $\mu-3\sigma$ to $\mu + 3\sigma$: contains about $99.7\%$ of the surface under the curve.
+        \end{itemize}
     \end{itemize}
+    \vspace{0.2cm}
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+      no markers, domain=-3:3, samples=100,
+      axis lines*=left, xlabel=$x$, ylabel=$y$,
+      height=3.5cm, width = 5cm,
+      xtick={-3,-2,-1,0,1,2,3}, ytick=\empty,
+      enlargelimits=false, clip=false, axis on top,
+      grid = major
+      ]
+      \addplot [fill=blue!20, draw=none, domain=-1:1] {gauss(0,1)} \closedcycle;
+      \addplot [very thick,blue!50!black] {gauss(0,1)};
+      \node[below] at (0,0.15) {$\approx 66 \%$}; 
+    \end{axis}
+    \end{tikzpicture}
+    \hspace{0.2cm}
+    \begin{tikzpicture}
+    \begin{axis}[
+      no markers, domain=-3:3, samples=100,
+      axis lines*=left, xlabel=$x$, ylabel=$y$,
+      height=3.5cm, width = 5cm,
+      xtick={-3,-2,-1,0,1,2,3}, ytick=\empty,
+      enlargelimits=false, clip=false, axis on top,
+      grid = major
+      ]
+      \addplot [fill=blue!20, draw=none, domain=-2:2] {gauss(0,1)} \closedcycle;
+      \addplot [very thick,blue!50!black] {gauss(0,1)};
+      \node[below] at (0,0.15) {$\approx 95 \%$}; 
+    \end{axis}
+    \end{tikzpicture}
+    \hspace{0.2cm}
+    \begin{tikzpicture}
+    \begin{axis}[
+      no markers, domain=-3:3, samples=100,
+      axis lines*=left, xlabel=$x$, ylabel=$y$,
+      height=3.5cm, width = 5cm,
+      xtick={-3,-2,-1,0,1,2,3}, ytick=\empty,
+      enlargelimits=false, clip=false, axis on top,
+      grid = major
+      ]
+      \addplot [fill=blue!20, draw=none, domain=-2.97:2.97] {gauss(0,1)} \closedcycle;
+      \addplot [very thick,blue!50!black] {gauss(0,1)};
+      \node[below] at (0,0.15) {$\approx 99.7 \%$}; 
+    \end{axis}
+    \end{tikzpicture}
+    \hspace{0.2cm}
     \end{frame}
   }
 
