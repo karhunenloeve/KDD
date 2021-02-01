@@ -844,9 +844,18 @@
     \textbf{Displays all of the data.}\\
     A quantile plot allows the user to assess both the overall behaviour and unusual occurrences.\\[0.5cm]
     \textbf{Plots quantile information.}\\
-    For some data point $x_i$, sorted in increasing order, $q_i$ indicates that approximately $q_i \cdot 100 \%$ of the data are below or equal to the value of $x_i$.
-
-    TODO
+    For some data point $x_i$, sorted in increasing order, $q_i$ indicates that approximately $q_i \cdot 100 \%$ of the data are below or equal to the value of $x_i$.\\[0.2cm]
+    \centering
+    \begin{tikzpicture}[
+        declare function={norm(\x)=\x*\x/200;},
+    ]
+    \begin{axis}[
+      ylabel={Unit price in \$},
+      xlabel={q-value},
+    ]
+    \addplot table [x index=0, y index=0, x expr = \coordindex/150, y expr=norm(\coordindex)] {\sorted};
+    \end{axis}
+    \end{tikzpicture}
     \end{frame}
   }
 
@@ -863,8 +872,8 @@
         declare function={norm(\x)=2*\x;},
     ]
     \begin{axis}[
-      xlabel={Branch 2 (unit price in \$)},
-      ylabel={Branch 1 (unit price in \$)},
+      ylabel={Branch 2 (unit price in \$)},
+      xlabel={Branch 1 (unit price in \$)},
     ]
     \addplot [only marks, mark=*] table [x index=0, y index=0, y expr=norm(\coordindex)] {\sorted};
     \draw[black, thick] (0,0) -- (200,200);
