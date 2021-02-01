@@ -91,136 +91,9 @@
 \date{Summer semester 2021}
 % Set additional logo (overwrites FAU seal)
 %\logo{\includegraphics[width=.15\textwidth]{themefau/art/xxx/xxx.pdf}}
-\begin{filecontents}{data.dat}
-  2 0.0629921259843
-  3 0.0236220472441
-  4 0.0314960629921
-  5 0.125984251969
-  6 0.0629921259843
-  7 0.102362204724
-  8 0.110236220472
-  9 0.0551181102362
-  10 0.0629921259843
-  11 0.0314960629921
-  12 0.0236220472441
-  13 0.0314960629921
-  14 0.0629921259843
-  15 0.0551181102362
-  16 0.0393700787402
-  17 0.0472440944882
-  18 0.00787401574803
-  19 0.0393700787402
-  24 0.00787401574803
-  27 0.00787401574803
-  33 0.00787401574803
-\end{filecontents}
-
+\input{data/q.tex}
 \begin{document}
-\pgfplotstableread{
-10.46365192956
-90.22330318663
-15.4712651178
-80.87219994452
-90.92824632322
-80.69935247007
-170.8222081627
-140.3601041144
-220.9047131581
-80.05005282649
-90.650706465
-170.2352199894
-70.76424153088
-10.370245979
-70.12513239519
-20.64730407495
-70.2072208982
-14.7683650153
-14.0063750733
-19.324137585
-20.40858604381
-18.0368674939
-80.02681240716
-80.26418810694
-120.1941169594
-90.62080674537
-30.24961728242
-30.27316960403
-170.9038479307
-70.40481579419
-10.814441695
-80.40741573499
-60.08031313304
-130.1781459953
-100.206134367
-150.0864695726
-90.03013313987
-40.46906993699
-90.27542593922
-110.387166818
-50.34088290758
-70.35790199406
-110.8693581818
-100.8557924873
-130.969617244
-100.6354692297
-30.03046442179
-60.60358722529
-120.2836888554
-80.46665782108
-130.9221860476
-150.1323993544
-70.16507829073
-50.69317421704
-150.4624253296
-160.9138444234
-60.44259653768
-160.4478862876
-30.46926929558
-100.8862152053
-100.4982459647
-130.079580222
-100.8219448481
-120.1887774019
-20.27608579327
-40.21879129366
-80.6626149873
-30.05616084556
-120.2628717929
-30.07385860151
-120.1834370192
-70.86785100457
-220.3039915506
-70.6084726129
-30.38040559575
-40.77264935147
-130.9493967532
-140.1237678197
-60.79956429934
-80.7032357113
-60.08645967617
-90.19491098171
-17.1651582777
-40.7041931405
-30.78091331321
-50.20247821499
-13.8921717364
-60.09560236506
-18.5811121283
-10.3758110312
-80.95955605147
-12.4511725524
-40.67834498484
-11.0234433275
-15.364443589
-80.23928346825
-60.30079928878
-90.95330967273
-12.5692010856
-11.8362767596
-}\datatable
-\pgfplotstablesort{\sorted}{\datatable}
-\pgfplotstablegetrowsof{\datatable}
-\edef\numrows{\pgfplotsretval}
+\input{data/qq.tex}
   % Title
   \maketitle
 
@@ -853,7 +726,7 @@
       ylabel={Unit price in \$},
       xlabel={q-value},
     ]
-    \addplot table [x index=0, y index=0, x expr = \coordindex/100, y expr=norm(\coordindex)] {\sorted};
+    \addplot[color=black, thick] table [x index=0, y index=0, x expr = \coordindex/100, y expr=norm(\coordindex)] {\sorted};
     \end{axis}
     \end{tikzpicture}
     \end{frame}
@@ -884,7 +757,75 @@
 
   { 
     \setbeamertemplate{footline}{}
-    \begin{frame}{References I}
+    \begin{frame}{Scatter plots}
+    Provides a first look at \textbf{bivariate data} to see clusters of points, outliers or similar.\\
+    Each pair of values is treated as a pair of coordinates and plotted as points in the plane.\\[0.5cm]
+    \centering
+    \includegraphics[height=3cm]{img/scatterplot.pdf}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Data profiling}
+    \begin{itemize}
+      \item \textbf{More from the database perspective.}
+      \item \textbf{Derive metadata such as:}
+      \begin{itemize}
+        \item Data types and value patterns.
+        \item Completeness and uniqueness of columns.
+        \item Keys and foreign keys.
+        \item Occasionally functional dependencies and association rules.
+        \item Discovery of inclusion dependencies and conditional functional dependencies.
+      \end{itemize}
+      \item \textbf{Statistics:}
+      \begin{itemize}
+        \item Number of null values and distinct values in a column.
+        \item Data types.
+        \item Most frequent patterns of values.
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Chapter II: Getting to know your data}
+    \begin{itemize}
+      \item Data objects and attribute types.
+      \item Basic statistical descriptions of data.
+      \item \textbf{Data visualization.}
+      \item Measuring data similarity and dissimilarity.
+      \item Summary.
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Data visualization}
+    \textbf{Why visualize data?}
+    \begin{itemize}
+      \item \textbf{Gain insight} into an information space by mapping data into graphical primitives.
+      \item \textbf{Provide qualitative overview} of large data sets.
+      \item \textbf{Search} for patterns, trends, structure, irregularities, relationships among data.
+      \item \textbf{Help find interesting regions and suitable parameters} for further quantitative analysis.
+      \item \textbf{Provide a visual proof} of computer representations derived.
+    \end{itemize}
+    \textbf{Categorization of visualization methods:}
+    \begin{itemize}
+      \item Pixel-oriented.
+      \item Geometric projection.
+      \item Icon-based.
+      \item Hierarchical.
+      \item Visualizing complex data and relations.
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{}
 
     \end{frame}
   }
