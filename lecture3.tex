@@ -21,6 +21,10 @@
 \usepackage{tikz}
 \usepackage{tikz-cd}
 \usepackage{pgfplots}
+\usepackage{filecontents}
+\pgfplotsset{compat=1.10}
+\newcommand{\plots}{0.611201}
+\newcommand{\plotm}{2.19882}
 \pgfplotsset{height=4cm,width=8cm,compat=1.16}
 \pgfmathdeclarefunction{gauss}{2}{%
   \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
@@ -87,7 +91,29 @@
 \date{Summer semester 2021}
 % Set additional logo (overwrites FAU seal)
 %\logo{\includegraphics[width=.15\textwidth]{themefau/art/xxx/xxx.pdf}}
-
+\begin{filecontents}{data.dat}
+  2 0.0629921259843
+  3 0.0236220472441
+  4 0.0314960629921
+  5 0.125984251969
+  6 0.0629921259843
+  7 0.102362204724
+  8 0.110236220472
+  9 0.0551181102362
+  10 0.0629921259843
+  11 0.0314960629921
+  12 0.0236220472441
+  13 0.0314960629921
+  14 0.0629921259843
+  15 0.0551181102362
+  16 0.0393700787402
+  17 0.0472440944882
+  18 0.00787401574803
+  19 0.0393700787402
+  24 0.00787401574803
+  27 0.00787401574803
+  33 0.00787401574803
+\end{filecontents}
 
 \begin{document}
   % Title
@@ -638,6 +664,132 @@
     \end{frame}
   }
 
+{
+  \setbeamertemplate{footline}{}
+  \begin{frame}{Visualization of basic statistical descriptions}
+  \begin{itemize}
+    \item \textbf{Boxplot}: Visualization of five number summary.
+    \item \textbf{Histogram}: $x$-axis are values, $y$-axis represent frequencies.
+    \item \textbf{Quantile plot}: Each value $x_i$ is paired with some $q_i$ indicating that approximately $q_i \cdot 100 \%$ of data are $\leq x_i$.
+    \item \textbf{Quantile-quantile (q-q) plot}: Graphs the quantiles of one univariate distribution against the corresponding quantiles of another.
+    \item \textbf{Scatter plot}: Each pair of values is a pair of coordinates and plotted as points in the plane.
+  \end{itemize}
+  \end{frame}
+}
+
+{
+  \setbeamertemplate{footline}{}
+  \begin{frame}{Histogram analysis}
+  \begin{itemize}
+    \item \textbf{Histogram}: Visualization of tabulated frequencies, shown as bars.
+    \item It shows what proportion of cases fall into each of several categories.
+    \item Differs from a $\textbf{bar chart}$ in that it is the \emph{area} of the bar that denotes the value, not the height as in bar charts, a crucial distinction when the categories are not of uniform width.
+    \item The categories are usually specified as non-overlapping intervals of some variable. The categories (bars) must be adjacent.
+  \end{itemize}\vspace{0.2cm}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+    yticklabel style={/pgf/number format/fixed},
+    scaled y ticks = false,
+    minor y tick num={1},
+    xtick pos=left,
+    legend cell align = left,
+    legend style={draw=none},
+    xlabel = {group size},
+    ylabel = {ratio}
+    ]
+    \addplot[blue,ybar,fill, fill opacity=0.3, bar width = 0.8,] table {data.dat};
+    \addplot[red, line width = 1,domain=1:40,samples=100] {1/(x*sqrt(2*pi)*\plots)*exp(-(ln(x)-\plotm)^2/(2*\plots^2))};
+    \legend{empirical,lognormal fit}
+    \end{axis}
+  \end{tikzpicture}
+  \end{frame}
+}
+
+{
+  \setbeamertemplate{footline}{}
+  \begin{frame}{Histograms often tell more than boxplots}
+  The two histograms shown below may have the same boxplot representation, thus the same values for min, $Q_1$, median, $Q_3$ and for the max. But they have rather different underlying distributions.\\[1cm]
+  \centering
+  \begin{tikzpicture}
+  \begin{axis}[
+      ymin=0, ymax=20,
+      minor y tick num = 3,
+      area style,
+      ]
+  \addplot+[ybar interval,mark=no] plot coordinates {(0, 5) (5, 10) (10, 20) (15,10) (20,5) (25,5)};
+  \end{axis}
+  \end{tikzpicture}
+  \hspace{0.5cm}
+  \begin{tikzpicture}
+  \begin{axis}[
+      ymin=0, ymax=20,
+      minor y tick num = 3,
+      area style,
+      ]
+  \addplot+[ybar interval,mark=no] plot coordinates {(0, 5) (5, 17.5) (10, 5) (15,17.5) (20,5) (25,5)};
+  \end{axis}
+  \end{tikzpicture}
+  \end{frame}
+}
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Quantile plot}
+    \textbf{Displays all of the data.}\\
+    A quantile plot allows the user to assess both the overall behaviour and unusual occurrences.\\[0.5cm]
+    \textbf{Plots quantile information.}\\
+    For some data point $x_i$, sorted in increasing order, $q_i$ indicates that approximately $q_i \cdot 100 \%$ of the data are below or equal to the value of $x_i$.
+
+    TODO
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Quantile-quantile (q-q) plot}
+    \begin{itemize}
+      \item Graphs the quantiles of one univariate distribution against the corresponding quantiles of another.
+      \item View: Is there is a shift in going from one distribution to another?\\
+      Example shows unit price of items sold at Branch $1$ vs. branch $2$ for each quantile.  Unit prices of items sold at branch $1$ tend to be lower than those at branch $2$.
+    \end{itemize}
+    TODO
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{References I}
+
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{References I}
+        \begin{itemize}
+          \item W. Cleveland: Visualizing Data, Hobart Press, 1993.
+          \item T. Dasu and T. Johnson: Exploratory Data Mining and Data Cleaning, John Wiley, 2003.
+          \item U. Fayyad, G. Grinstein, and A. Wierse: Information Visualization in Data Mining and Knowledge Discovery, Morgan Kaufmann, 2001.
+          \item L. Kaufman and P. J. Rousseeuw: Finding Groups in Data: an Introduction to Cluster Analysis, John Wiley \& Sons, 1990.
+          \item H. V. Jagadish et al.: Special Issue on Data Reduction Techniques, Bulletin of the Tech. Committee on Data Eng., 20(4), 1997.
+          \item D. Keim: Information visualization and visual data mining, IEEE Trans. on Visualization and Computer Graphics, 8(1), 2002.
+          \item F. Naumann: Data Profiling Revisited, ACM SIGMOD Record, 32(4), 2013, 40-49
+          \item D. Pyle: Data Preparation for Data Mining, Morgan Kaufmann, 1999.
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{References II}
+        \begin{itemize}
+          \item S.  Santini and R. Jain: Similarity measures, IEEE Trans. on Pattern Analysis and Machine Intelligence, 21(9), 1999.
+          \item E. R. Tufte: The Visual Display of Quantitative Information, 2nd ed., Graphics Press, 2001.
+          \item C. Yu et al.: Visual data mining of multimedia data for social and behavioral studies, Information Visualization, 8(1), 2009.
+        \end{itemize}
+    \end{frame}
+  }
 
   { % Questions?
     \setbeamertemplate{footline}{}
