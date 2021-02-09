@@ -1313,6 +1313,85 @@
 
   { 
     \setbeamertemplate{footline}{}
+    \begin{frame}{Proximity measures for nominal attributes}
+    \begin{itemize}
+      \item Can take two or more states.
+      \begin{itemize}
+        \item E.g. red, yellow, blue or green.
+        \item Generalization of a binary attribute.
+      \end{itemize}
+      \item Values can be the same (distance of $0$) or differen (distance of $1$).
+      \item More options for sets of nominal attributes (variables).
+      \item (1) Method is the simple matching coefficient:
+      \begin{align}
+        \text{SMC} = \frac{\# \text{of matching attributes}}{\# \text{number of attributes}} = \frac{\sum\limits_{i=1}^{n} a_{ii}}{\sum\limits_{i,j=1}^{n}a_{ij}}.
+      \end{align}
+      \item (2) Method is to use a large number of binary attributes:
+      \begin{itemize}
+        \item Creating a new binary attribute for each of the nominal states.
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Proximity measure for binary attributes (I)}
+    \begin{itemize}
+      \item A contingency table for binary data.
+      \begin{itemize}
+        \item Counting matches.
+      \end{itemize}
+      \begin{center}
+        \begin{tabular}{ c | c c c }
+         & $x_0$ & $x_1$ & $\sum$ \\ \hline
+         $y_0$ & $q$ & $r$ & $q+r$\\  
+         $y_1$ & $s$ & $t$ & $s+t$\\
+         $\sum$ & $q+s$ & $r+t$ & $q+r+s+t$   
+        \end{tabular}
+      \end{center}
+      \item Distance measure for symmetrical binary variables:
+      \begin{align}
+        d(x,y) = \frac{r+s}{q+r+s+t}.
+      \end{align}
+      \item Distance measure for asymmetrical binary variables:
+      \begin{align}
+        d(x,y) = \frac{r+s}{q+r+s}.
+      \end{align}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Proximity measure for binary attributes (II)}
+    \begin{itemize}
+      \item A contingency table for binary data.
+      \begin{itemize}
+        \item Counting matches.
+      \end{itemize}
+      \begin{center}
+        \begin{tabular}{ c | c c c }
+         & $x_0$ & $x_1$ & $\sum$ \\ \hline
+         $y_0$ & $q$ & $r$ & $q+r$\\  
+         $y_1$ & $s$ & $t$ & $s+t$\\
+         $\sum$ & $q+s$ & $r+t$ & $q+r+s+t$   
+        \end{tabular}
+      \end{center}
+      \item Jaccard coefficient for asymmetrical binary variables:
+      \begin{align}
+        \text{Jaccard}(x,y) = \frac{q}{q+r+s}.
+      \end{align}
+      \item Jaccard coefficient corresponds to "coherence":
+      \begin{align}
+        d(x,y) = \frac{\sup(x,y)}{\sup(x) + \sup(y) - \sup(x,y)} = \frac{q}{(q+r)+(q+s)-q}.
+      \end{align}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
     \begin{frame}{Chapter 2: Getting to know your data}
     \centering
     \begin{itemize}
