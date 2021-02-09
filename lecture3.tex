@@ -851,7 +851,8 @@
   { 
     \setbeamertemplate{footline}{}
     \begin{frame}{Laying out pixels in circle segments}
-    To save space and show the connections among multiple dimensions, space filling is often done in a circle segment.\\
+    To save space and show the connections among multiple dimensions, \\
+    space filling is often done in a circle segment.\\
     \centering
     \begin{tikzpicture}[scale=0.8]
     \pie[hide number]{17/Dim 1, 17/Dim 2, 17/Dim 3, 17/Dim 4, 17/Dim 5, 16/Dim 6}
@@ -1092,15 +1093,34 @@
     \setbeamertemplate{footline}{}
     \begin{frame}{Icon based visualization}
     \centering
-    
+    \begin{itemize}
+      \item \textbf{Visualization of the data values as features of icons.}
+      \item \textbf{Typical visualization methods:}
+      \begin{itemize}
+        \item Chernoff faces.
+        \item Stick figures.
+      \end{itemize}
+      \item \textbf{General techniques:}
+      \begin{itemize}
+        \item Shape coding:\\
+              \small{Use shape to represent certain information encoding.}
+        \item Color icons:\\
+              \small{Use color icons to encode more information.}
+        \item Tile bars:\\
+              \small{Use small icons to represent the relevant feature vectors in document retrieval.}
+      \end{itemize}
+    \end{itemize}
     \end{frame}
   }
 
   { 
     \setbeamertemplate{footline}{}
     \begin{frame}{Chernoff faces}
+    \textbf{A way to display variables on a two-dimensional surface:}\\
+    E.g. let $x$ be eyebrow slant, $y$ be eye size, $z$ be nose length etc.\\
+    The figure shows faces produced using $10$ characteristics (head eccentricity, eye size, eye spacing, eye eccentricity, pupil size, eyebrow slant, nose size, mouth shape, mouth size, and mouth opening). Each assigned one of $10$ possible values, generated using \href{https://www.wolfram.com/mathematica/}{Mathematica} (S. Dickson).\\[0.5cm]
     \centering
-    
+    \includegraphics[width=4cm]{img/chernoff_faces_construction.pdf}
     \end{frame}
   }
 
