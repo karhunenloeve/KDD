@@ -981,8 +981,7 @@
       \begin{itemize}
           \item Scatter plot and scatter plot matrices.
           \item Landscapes.
-          \item Projection pursuit technique:\\
-                \small{Help users find meaningful projections of multidimensional data.}
+          \item Projection pursuit technique: \emph{Help users find meaningful projections of multidimensional data.}
           \item Prosection views.
           \item Hyperslice.
           \item Parallel coordinates.
@@ -1102,12 +1101,9 @@
       \end{itemize}
       \item \textbf{General techniques:}
       \begin{itemize}
-        \item Shape coding:\\
-              \small{Use shape to represent certain information encoding.}
-        \item Color icons:\\
-              \small{Use color icons to encode more information.}
-        \item Tile bars:\\
-              \small{Use small icons to represent the relevant feature vectors in document retrieval.}
+        \item Shape coding: \emph{Use shape to represent certain information encoding.}
+        \item Color icons: \emph{Use color icons to encode more information.}
+        \item Tile bars: \emph{Use small icons to represent the relevant feature vectors in document retrieval.}
       \end{itemize}
     \end{itemize}
     \end{frame}
@@ -1127,8 +1123,11 @@
   { 
     \setbeamertemplate{footline}{}
     \begin{frame}{Stick figure}
+    A census data figure showing age, income, gender, education etc. \\
+    A $5$-piece stick figure ($1$ body and $4$ limbs w. different angle/length).\\[0.1cm]
     \centering
-    
+    \includegraphics[width=8cm, height=5.2cm]{img/stick_figure.png}\\
+    \tiny{Used by permission of G. Grinstein, University of Massachusettes at Lowell.}
     \end{frame}
   }
 
@@ -1136,13 +1135,22 @@
     \setbeamertemplate{footline}{}
     \begin{frame}{Hierarchical visualization techniques}
     \centering
-    
+    \begin{itemize}
+      \item \textbf{Visualization of the data using a hierarchical partitioning into subspaces.}
+      \item \textbf{Methods:}
+      \begin{itemize}
+        \item Worlds within worlds.
+        \item Tree maps.
+        \item Cone trees.
+        \item Info cube.
+      \end{itemize}
+    \end{itemize}
     \end{frame}
   }
 
   { 
     \setbeamertemplate{footline}{}
-    \begin{frame}{Worlds within worlds}
+    \begin{frame}{Worlds within world}
     \centering
     
     \end{frame}
@@ -1152,7 +1160,23 @@
     \setbeamertemplate{footline}{}
     \begin{frame}{Tree maps}
     \centering
-    
+    \begin{itemize}
+      \item \textbf{Screen filling method:}
+      \begin{itemize}
+        \item Uses a hierarchical partitioning of the screen into regions depending on the attribute values.
+        \item $x$ and $y$-coordinates of the screen partitioned alternately according to the attribute values.
+      \end{itemize}
+    \end{itemize}
+    \begin{tikzpicture}[xscale = 1.35, yscale = 0.77,
+     font=\sffamily,
+    mystyle/.style={draw=white, very thick, text=white, font=\sffamily\bfseries},
+    ]
+    \pie[square,  
+    style={mystyle},
+    color={yellow!80!orange, gray, blue!40, orange}, 
+    text=legend, 
+    ]{68/A, 5/B, 5/C, 22/D}
+    \end{tikzpicture}
     \end{frame}
   }
 
@@ -1160,15 +1184,24 @@
     \setbeamertemplate{footline}{}
     \begin{frame}{Tree map of a file system}
     \centering
-    
+    \vspace{0.5cm}
+    \includegraphics[width=9cm, height=6cm]{img/treemap_filesystem.png}
     \end{frame}
   }
 
   { 
     \setbeamertemplate{footline}{}
     \begin{frame}{Info cubes}
+    \begin{itemize}
+      \item $3$D visualization technique:
+      \begin{itemize}
+        \item Hierarchical information is displayed as nested semi-transparent cubes.
+        \item The outermost cubes correspond to the top level data, while the subnodes or the lower level data are represented as smaller cubes inside the outermost cubes, and so on.
+      \end{itemize}
+    \end{itemize}
+    \vspace{0.2cm}
     \centering
-    
+    \includegraphics[width=4cm,height=4cm]{img/infocube.png}
     \end{frame}
   }
 
@@ -1176,7 +1209,17 @@
     \setbeamertemplate{footline}{}
     \begin{frame}{Three dimensional cone trees}
     \centering
-    
+    \begin{itemize}
+      \item $3$D cone-tree visualization technique:\\
+            works well for up to approx. a thousand nodes.
+      \item Build a $2$D circle tree that arranges its nodes in concentric circles centered on the root node.
+      \item Overlaps can't be avoided projecting onto $2$D.
+      \item G. Robertson, J. Mackinlay, S. Card. "Cone Trees: Animated 3D Visualizations of Hierarchical Information", ACM SIGCHI'91.
+    \end{itemize}
+    \vspace{0.2cm}
+    \includegraphics[width=3cm,height=3cm]{img/threedcone_one.jpg}\hspace{1cm}
+    \includegraphics[width=3cm,height=3cm]{img/threedcone_two.jpg}\\
+    \tiny{Acknowledgement: \href{ttp://nadeausoftware.com/articles/visualization}{http://nadeausoftware.com/articles/visualization}.}
     \end{frame}
   }
 
@@ -1184,7 +1227,15 @@
     \setbeamertemplate{footline}{}
     \begin{frame}{Visualizing complex data and relations}
     \centering
-    
+    \begin{itemize}
+      \item \textbf{Visualizing non-numerical data: text and social networks.}
+      \item \textbf{Tag cloud: visualizing user-generated tags.}
+      \begin{itemize}
+        \item The importance of tag is represented by font size/color.
+        \item Besides text data, there are also methods to visualize relationships, \\ such as visualizing social networks.
+      \end{itemize}
+    \end{itemize}
+    \includegraphics[width=7cm,height=4cm]{img/google_news.png}
     \end{frame}
   }
 
@@ -1198,6 +1249,99 @@
         \item Data visualization.
         \item \textbf{Measuring data similarity and dissimilarity.}
         \item Summary.
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Similarity and dissimilarity}
+    \centering
+    \begin{itemize}
+        \item \textbf{Similarity.}
+        \begin{itemize}
+          \item Numerical measure of how alike two data objects are.
+          \item Value is higher when objects are more alike.
+          \item Often chosen within the range of $[0,1]$.
+        \end{itemize}
+        \item \textbf{Dissimilarity.}
+        \begin{itemize}
+          \item E.g. distance.
+          \item Numerical measure of how different two data objects are.
+          \item Lower when objects are more alike.
+          \item Minimum dissimilarity is often $0$.
+          \item Upper limit varies.
+        \end{itemize}
+        \item \textbf{Proximity.}
+        \begin{itemize}
+          \item Refers to similarity or dissimilarity.
+        \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Data matrices and dissimilarity matrices}
+    \centering
+    \begin{itemize}
+      \item Data matrix:
+      \begin{itemize}
+        \item $n$ data points with dimension $m$. Two mode matrix.\\
+              {$\begin{Bmatrix}
+              x_{11} & x_{12} & \cdots & x_{1m}\\
+              x_{21} & x_{22} & \cdots & x_{2m}\\
+              \vdots & \vdots & \ddots & \vdots\\
+              x_{n1} & x_{n2} & \cdots & x_{nm}
+              \end{Bmatrix}$.}
+      \end{itemize}
+      \item Dissimilarity matrix:
+      \begin{itemize}
+        \item $n$ data points, but registers only the distance. A triangular one mode matrix.\\
+              {$\begin{Bmatrix}
+              0 & 0 & 0 & \cdots & 0\\
+              d(x_{1},x_{2}) & 0 & 0 & \cdots & 0\\
+              d(x_{1},x_{3}) & d(x_{2},x_{3}) & 0 & \cdots & 0\\
+              \vdots & \vdots & \vdots &\ddots & \vdots\\
+              d(x_{1},x_{m}) & d(x_{2},x_{m}) & d(x_{3},x_{m}) & \cdots & 0
+              \end{Bmatrix}$.}
+      \end{itemize}
+    \end{itemize}
+    
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Chapter 2: Getting to know your data}
+    \centering
+    \begin{itemize}
+        \item Data objects and attribute types.
+        \item Basic statistical descriptions of data.
+        \item Data visualization.
+        \item Measuring data similarity and dissimilarity.
+        \item \textbf{Summary.}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Summary}
+    \centering
+    \begin{itemize}
+        \item \textbf{Data attribute types:}\\
+              Nominal, binary, ordinal, interval-scaled or ratio-scaled.
+        \item \textbf{Many types of data sets:}\\
+              E.g. numerical, text, graph, web, image.
+        \item \textbf{Gain insight into the data by:}
+        \begin{itemize}
+          \item Basic statistical data description: \emph{Central tendency, dispersion and graphical display.}
+          \item Data visualization: \emph{Map data onto graphical primitives.}
+          \item Measure data similarity.
+        \end{itemize}
+        \item \textbf{Above steps are the beginning of data preprocessing.}
+        \item \textbf{Many methods have been developed but still an active area of research.}
     \end{itemize}
     \end{frame}
   }
