@@ -1,0 +1,87 @@
+\documentclass[border=10pt]{standalone}
+\usepackage{pgfplotstable}
+% read in data file
+\pgfplotstableread{data/iris.dat}\iris
+% get number of data points
+\pgfplotstablegetrowsof{\iris}
+\pgfmathsetmacro\NumRows{\pgfplotsretval-1}
+
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{compat=1.17}
+\begin{document}
+
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={
+    group name=iris,
+    group size=4 by 1,
+    horizontal sep=2cm
+  },
+  axis y line=left,
+  hide x axis,
+  width=2cm,
+  height=6cm,
+  xmin=0,
+  xmax=0.5,
+  enlarge y limits,
+  every axis plot/.append style={opacity=0}
+]
+
+\nextgroupplot
+
+\pgfplotsinvokeforeach{0,...,\NumRows} % loop over all rows in table
+{
+  % get value in sw column
+  \pgfplotstablegetelem{#1}{sw}\of{\iris}%
+   % add a coordinate at x=0 and that y-value
+  \edef\temp{\noexpand\addplot coordinates {(0,\pgfplotsretval)} coordinate (sl#1);}
+  \temp
+}
+
+\nextgroupplot
+
+\pgfplotsinvokeforeach{0,...,\NumRows}
+{
+  \pgfplotstablegetelem{#1}{sl}\of{\iris}%
+  \edef\temp{\noexpand\addplot coordinates {(0,\pgfplotsretval)} coordinate (sw#1);}
+  \temp
+}
+
+\nextgroupplot
+
+\pgfplotsinvokeforeach{0,...,\NumRows}
+{
+  \pgfplotstablegetelem{#1}{pw}\of{\iris}%
+  \edef\temp{\noexpand\addplot coordinates {(0,\pgfplotsretval)} coordinate (pl#1);}
+  \temp
+}
+
+\nextgroupplot
+
+\pgfplotsinvokeforeach{0,...,\NumRows}
+{
+  \pgfplotstablegetelem{#1}{pl}\of{\iris}%
+  \edef\temp{\noexpand\addplot coordinates {(0,\pgfplotsretval)} coordinate (pw#1);}
+  \temp
+}
+
+\end{groupplot}
+
+% add labels below
+\foreach \i/\txt in {1/SW,2/SL,3/PW,4/PL}
+  \node [below] at (iris c\i r1.south west) {\txt};
+
+
+% draw the lines
+% this dataset has three groups of fifty rows each, hence the start/stop values
+\foreach[
+ evaluate=\j as \START using int(\j*50),
+ evaluate=\j as \STOP using int((\j+1)*50-1),
+  ] \j/\clr in {0/blue,1/red,2/green}
+{
+\foreach \i in {\START,...,\STOP}
+   \draw [color=\clr,opacity=0.5] (sl\i) -- (sw\i) -- (pl\i) -- (pw\i);
+}
+
+\end{tikzpicture}
+\end{document}
