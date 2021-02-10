@@ -1002,7 +1002,53 @@
     \setbeamertemplate{footline}{}
     \begin{frame}{Landscapes}
     \textbf{Visualization of data as perspective landscapes.}\\
-    The data needs to be transformed into a (possibly artifical) two dimensional spatial representation which preserves some characteristics of data.
+    The data needs to be transformed into a (possibly artifical) two dimensional spatial representation which preserves some characteristics of data.\\[0.5cm]
+    \centering
+    \begin{tikzpicture}[yscale=1.75]
+    \begin{axis}[
+        domain=-2:2,
+        domain y=0:2*pi,
+    ]
+
+        \newcommand\expr[2]{exp(-####1^2) * sin(deg(####2))}
+
+        \addplot3[
+            contour gnuplot={
+                % cdata should not be affected by z filter:
+                output point meta=rawz,
+                number=10,
+                labels=false,
+            },
+            samples=41,
+            z filter/.code=\def\pgfmathresult{-1.6},
+        ]
+            {\expr{x}{y}};
+
+        \addplot3[
+            samples=41,
+            samples y=10,
+            domain=0:2*pi,
+            domain y=-2:2,
+            % we want 1d (!) individually colored mesh segments:
+            mesh, patch type=line,
+            x filter/.code=\def\pgfmathresult{-2.5},
+        ] 
+            (y,x,{\expr{y}{x}});
+
+        \addplot3[
+            samples=41,
+            samples y=10,
+            % we want 1d (!) individually colored mesh segments:
+            mesh, patch type=line,
+            y filter/.code=\def\pgfmathresult{8},
+        ] 
+            {\expr{x}{y}};
+
+        \addplot3[surf,samples=25]
+            {\expr{x}{y}};
+
+    \end{axis}
+    \end{tikzpicture}
     \end{frame}
   }
 
@@ -1151,8 +1197,12 @@
   { 
     \setbeamertemplate{footline}{}
     \begin{frame}{Worlds within world}
+    \begin{itemize}
+      \item Assign the function and two most important parameters to innermost world.
+      \item Fix all other parameters at constant values -- draw other (1,2 or 3) dimensional worlds choosing these as the axes.
+    \end{itemize}
     \centering
-    
+    \includegraphics[width=8cm,height=5.2cm]{img/www.jpg}
     \end{frame}
   }
 
@@ -1307,7 +1357,6 @@
               \end{Bmatrix}$.}
       \end{itemize}
     \end{itemize}
-    
     \end{frame}
   }
 
@@ -1344,9 +1393,9 @@
       \end{itemize}
       \begin{center}
         \begin{tabular}{ c | c c c }
-         & $x_0$ & $x_1$ & $\sum$ \\ \hline
-         $y_0$ & $q$ & $r$ & $q+r$\\  
-         $y_1$ & $s$ & $t$ & $s+t$\\
+         & $0$ & $1$ & $\sum$ \\ \hline
+         $0$ & $q$ & $r$ & $q+r$\\  
+         $1$ & $s$ & $t$ & $s+t$\\
          $\sum$ & $q+s$ & $r+t$ & $q+r+s+t$   
         \end{tabular}
       \end{center}
@@ -1372,10 +1421,10 @@
       \end{itemize}
       \begin{center}
         \begin{tabular}{ c | c c c }
-         & $x_0$ & $x_1$ & $\sum$ \\ \hline
-         $y_0$ & $q$ & $r$ & $q+r$\\  
-         $y_1$ & $s$ & $t$ & $s+t$\\
-         $\sum$ & $q+s$ & $r+t$ & $q+r+s+t$   
+         & $0$ & $1$ & $\sum$ \\ \hline
+         $0$ & $t$ & $s$ & $t+s$\\  
+         $1$ & $r$ & $q$ & $r+q$\\
+         $\sum$ & $t+s$ & $s+q$ & $q+r+s+t$   
         \end{tabular}
       \end{center}
       \item Jaccard coefficient for asymmetrical binary variables:
@@ -1387,6 +1436,205 @@
         d(x,y) = \frac{\sup(x,y)}{\sup(x) + \sup(y) - \sup(x,y)} = \frac{q}{(q+r)+(q+s)-q}.
       \end{align}
     \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Dissimilarity between binary variables}
+    \begin{itemize}
+        \item \textbf{Example:}\;
+        \begin{tabular}{| c | c | c | c | c | c | c | c |}
+        \hline
+        Name & Gender & Fever & Cough & Test-$1$ & Test-$2$ & Test-$3$ & Test-$4$\\\hline
+        Bob & M & Y & N & P & N & N & N \\
+        Alice & F & Y & N & P & N & P & N \\
+        Charlie & M & Y & P & N & N & N & N \\\hline
+        \end{tabular}
+        \item Gender is a symmetrical attribute.
+        \item The remaining attributes are asymmetrical binary.
+        \item Let the values $Y$ and $P$ be equal to $1$ and the value of $N$ be $0$, then
+        \begin{align}
+          d(\text{Bob}, \text{Alice}) = \frac{0+1}{2+0+1} \approx 0.33,\\
+          d(\text{Bob}, \text{Charlie}) = \frac{1+1}{1+1+1} \approx 0.67,\\
+          d(\text{Charlie}, \text{Alice}) = \frac{1+2}{1+1+2} = 0.75.
+        \end{align}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Standardizing numerical data}
+    \begin{itemize}
+      \item \textbf{$z$-Score:}
+            \begin{align}
+              z = \frac{x-\mu}{\sigma}.
+            \end{align}
+      \item $x$ is the score to be standardized; $\mu$ ist the population mean; $\sigma$ is the standard deviation.
+      \item The distance between the raw score and the population mean in units of the standard deviation.
+      \item Negative when the raw score is below the mean, positive else.
+      \item \textbf{An alternative way is to compute the average absolute deviation:}
+      \begin{align}
+      \text{MAD}(X = \{x_1,x_2,\ldots,x_n\}) = \frac{1}{n} \sum_{i=1}^{n} \vert x_i - \bar{x} \vert,\\
+      \text{where} \; \bar{x} = \frac{1}{n} \sum_{i=1}^{n}x_i, \; \text{thus} \; z_i = \frac{x_i-\bar{x}}{\sqrt{\frac{1}{n}\sum_{i=1}^{n}(x_i-\bar{x})^2}}.
+      \end{align}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Example: data matrix and dissimilarity matrix}
+
+        \begin{itemize}
+          \item Data matrix: \\[0.1cm]
+        \begin{tabular}{| c | c | c |}
+        \hline
+        Point & Attribute $1$ & Attribute $2$\\\hline
+        $x_1$ & $1$ & $2$\\\hline
+        $x_2$ & $3$ & $5$\\\hline
+        $x_3$ & $2$ & $0$\\\hline
+        $x_4$ & $4$ & $5$\\\hline
+        \end{tabular}\\[0.5cm]
+        \item Dissimilarity matrix (with Euclidean distance): \\[0.1cm]
+        \begin{tabular}{| c | c | c | c | c |}
+        \hline
+         & $x_1$ & $x_2$ & $x_3$ & $x_4$\\\hline
+        $x_1$ & $0$ & & & \\\hline
+        $x_2$ & $3,61$ & $0$ & & \\\hline
+        $x_3$ & $2,24$ & $5,1$ & $0$ & \\\hline
+        $x_4$ & $4,24$ & $1$ & $5,39$ & $0$ \\\hline
+        \end{tabular}\\[0.2cm]
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Distance on numerical data: Minkowski distance}
+    \begin{itemize}
+      \item \textbf{Minkowski distance:} a popular distance measure, given by:
+            \begin{align}
+              d(x,y) = \sqrt[n]{\sum_{i=1}^{n} \vert x_i-y_i \vert^n},
+            \end{align}
+      \item where $x = (x_1,x_2, \ldots, x_n)$ and $y = (y_1,y_2,\ldots,y_n)$ \\ are two $n$-dimensional data objects and $n$ if the order.
+      \item In fact, this distance induces a norm over real vector space, called $L_n$-norm.
+      \item \textbf{Properties:}
+      \begin{itemize}
+          \item $d(x,y) \geq 0$, positive definiteness.
+          \item $d(x,y) = d(y,x)$, symmetry.
+          \item $d(x,y) \leq d(x,z) + d(z,y)$, triangle inequality.
+      \end{itemize}
+      \item A distance satisfying this properties is called \textbf{metric}.
+    \end{itemize}
+    \end{frame}
+  }
+
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Special cases of Minkowski distance}
+    \begin{itemize}
+      \item $n=1$: \textbf{Manhatten} (city block, $L_1$-norm) distance:
+      \begin{itemize}
+        \item E.g. the Hamming distance: the number of bits that differ in two binary vectors, given by
+        \begin{align}
+          d(x,y) = \sum_{i=1}^{n} \vert x_i - y_i \vert.
+        \end{align}
+      \end{itemize}
+      \item $n=2$: \textbf{Euclidean} ($L_2$-norm) distance:
+            \begin{align}
+              d(x,y) = \sqrt{\sum_{i=1}^{n} \vert x_i-y_i \vert^2}.
+            \end{align}
+      \item $n \rightarrow \infty:$ \textbf{supremum} ($L_{\text{max}}$-norm, $L_\infty$-norm) distance:
+      \begin{itemize}
+        \item This is the maximum difference between any component (attribute) of the vectors.
+        \begin{align}
+          d(x,y) = \lim_{n \rightarrow \infty} \left( \sum_{i=1}^{n} \vert x_i - y_i \vert^{n} \right)^{\frac{1}{n}} = \max_i \vert x_i-y_i \vert.
+        \end{align}
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Example: Minkowski, Euclidean and Supremum distance}
+    \centering
+        \begin{tabular}{| c | c | c |}
+        \hline
+        Point & Attribute $1$ & Attribute $2$\\\hline
+        $x_1$ & $1$ & $2$\\\hline
+        $x_2$ & $3$ & $5$\\\hline
+        $x_3$ & $2$ & $0$\\\hline
+        $x_4$ & $4$ & $5$\\\hline
+        \end{tabular}\\[1cm]
+      \textbf{Manhatten ($L_1$):} \hspace{2cm} \textbf{Euclidean ($L_2$):} \hspace{2cm} \textbf{Supremum ($L_\infty$):}\\
+        \begin{tabular}{| c | c | c | c | c |}
+        \hline
+         & $x_1$ & $x_2$ & $x_3$ & $x_4$\\\hline
+        $x_1$ & $0$ & & & \\\hline
+        $x_2$ & $5$ & $0$ & & \\\hline
+        $x_3$ & $3$ & $6$ & $0$ & \\\hline
+        $x_4$ & $6$ & $1$ & $7$ & $0$ \\\hline
+        \end{tabular}\hspace{0.1cm}
+        \begin{tabular}{| c | c | c | c | c |}
+        \hline
+         & $x_1$ & $x_2$ & $x_3$ & $x_4$\\\hline
+        $x_1$ & $0$ & & & \\\hline
+        $x_2$ & $3,61$ & $0$ & & \\\hline
+        $x_3$ & $2,24$ & $5,1$ & $0$ & \\\hline
+        $x_4$ & $4,24$ & $1$ & $5,39$ & $0$ \\\hline
+        \end{tabular}\hspace{0.1cm}
+        \begin{tabular}{| c | c | c | c | c |}
+        \hline
+         & $x_1$ & $x_2$ & $x_3$ & $x_4$\\\hline
+        $x_1$ & $0$ & & & \\\hline
+        $x_2$ & $3$ & $0$ & & \\\hline
+        $x_3$ & $2$ & $5$ & $0$ & \\\hline
+        $x_4$ & $3$ & $1$ & $5$ & $0$ \\\hline
+        \end{tabular}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Ordinal variables}
+    \begin{itemize}
+      \item An ordinal variable can be discrete or continuous.
+      \item Order is important e.g. rank.
+      \item Can be treated like interval-scaled:
+      \begin{itemize}
+        \item Replace $x_i$ by their rank $r_i \in \{1, \ldots, N \}$.
+        \item Map the range of each variable onto $[0,1]$ by replacing $j$-th object in the $i$-th variable by
+        \begin{align}
+        z_{ji} = \frac{r_{ji}}{N-1}.
+        \end{align}
+        \item Compute the dissimilarity using methods for interval-scaled variables.
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Attributes of mixed type}
+    
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Cosine similarity}
+    
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Example: cosine similarity}
+    
     \end{frame}
   }
 

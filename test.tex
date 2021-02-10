@@ -1,0 +1,21 @@
+\documentclass{article}
+\usepackage{pgfplots}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[%
+axis lines = left,
+xlabel = x,
+ylabel = y,
+]
+\addplot[only marks] table [%
+x = x, 
+y = y, 
+col sep = comma]{
+    x, y
+    2,3
+     4,5
+     3, 8
+ };
+\end{axis}
+\end{tikzpicture}
+\end{document}
