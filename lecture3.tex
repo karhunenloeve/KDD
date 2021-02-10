@@ -1606,10 +1606,10 @@
       \item Order is important e.g. rank.
       \item Can be treated like interval-scaled:
       \begin{itemize}
-        \item Replace $x_i$ by their rank $r_i \in \{1, \ldots, N \}$.
-        \item Map the range of each variable onto $[0,1]$ by replacing $j$-th object in the $i$-th variable by
+        \item Replace $x_j$ by their rank $r_j \in \{1, \ldots, N \}$.
+        \item Map the range of each variable onto $[0,1]$ by replacing the $i$-th position of an object by
         \begin{align}
-        z_{ji} = \frac{r_{ji}}{N-1}.
+        z_{i} = \frac{r_{i}-1}{N-1}.
         \end{align}
         \item Compute the dissimilarity using methods for interval-scaled variables.
       \end{itemize}
@@ -1628,9 +1628,14 @@
       \item \textbf{One can use a weighted formula to combine their effects:}
       \begin{itemize}
         \item \begin{align}
-
+          d(x,y) = \frac{\sum_{i=1}^{n} w_{i}d(x_i,y_i)}{\sum_{i=1}^{n} w_i}.
         \end{align}
-        \item t
+        \item If $x_i,y_i$ are binary or nominal, then
+        \begin{align}
+          d(x_i,y_i) = 0 \; \text{if} \; x_i = y_i \; \text{or} \; d(x_i,y_i) = 1 \; \text{otherwise}.
+        \end{align}
+        \item If $x_i,y_i$ are numeric, we use the normalized distance.
+        \item If $x_i,y_i$ are ordinal, we compute their ranks $r^{(x)}_i,r^{(y)}_i$, compute $z_i$ and treat $z_i$ as interval-scaled.
       \end{itemize}
     \end{itemize}
     \end{frame}
@@ -1639,14 +1644,53 @@
   { 
     \setbeamertemplate{footline}{}
     \begin{frame}{Cosine similarity}
-    
+    A document can be represented by thousands of attributes, each recording the frequency of a particular word (such as keywords) or phrase in the document.\\[0.2cm]
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    Document & Team & Coach & Hockey & Baseball & Soccer & Penalty & Score & Win & Loss \\\hline
+    Document1 & $5$ & $0$ & $3$ & $0$ & $2$ & $0$ & $0$ & $2$ & $0$ \\
+    Document2 & $3$ & $0$ & $2$ & $0$ & $1$ & $1$ & $0$ & $1$ & $0$ \\
+    Document3 & $0$ & $7$ & $0$ & $2$ & $1$ & $0$ & $0$ & $3$ & $0$ \\
+    Document4 & $0$ & $1$ & $0$ & $0$ & $1$ & $2$ & $2$ & $0$ & $3$ \\
+    \hline
+    \end{tabular}
+    \begin{itemize}
+      \item Other vector objects: gene features in microarrays and more.
+      \item Applications: information retrieval, biologic taxonomy, gene-feature mapping and many more.
+      \item \textbf{Cosine measure:} Let $x$ and $y$ be two vectors (e.g. term-frequency vectors), then
+      \begin{align}
+        \text{sim}(x,y) = \frac{\sum_{i=1}^{n} x_i \cdot y_i}{\sqrt{\sum_{i=1}^{n}x_i^2}\cdot \sqrt{\sum_{i=1}^{n} y_i^2}}.
+      \end{align}
+    \end{itemize}
     \end{frame}
   }
 
   { 
     \setbeamertemplate{footline}{}
-    \begin{frame}{Example: cosine similarity}
-    
+    \begin{frame}{Example: cosine similarity (I)}
+    \begin{align}
+      \text{sim}(x,y) = \frac{\sum_{i=1}^{n} x_i \cdot y_i}{\sqrt{\sum_{i=1}^{n}x_i^2}\cdot \sqrt{\sum_{i=1}^{n} y_i^2}}.
+    \end{align}
+    Compute the similarity between $x$ and $y$ for $x = (5,0,3,0,2,0,0,2,0), y = (3,0,2,0,1,1,0,1,0).$
+    \begin{align}
+      \sum_{i=1}^{n} x_i \cdot y_i &= 5 \cdot 3 + 0 \cdot 0 + 3 \cdot 2 + 0 \cdot 0 + 2 \cdot 1 + 0 \cdot 1 + 0 \cdot 0 + 2 \cdot 1 + 0 \cdot 0 = 25,\\
+      \sqrt{\sum_{i=1}^{n}x_i^2} &= \sqrt{5^2 + 0^2 + 3^2 + 0^2 + 2^2 + 0^2 + 0^2 + 2^2 + 0^2} \approx 6,48,\\
+      \sqrt{\sum_{i=1}^{n}y_i^2} &= \sqrt{3^2 + 0^2 + 2^2 + 0^2 + 1^2 + 1^2 + 0^2 + 1^2 + 0^2} = 4.\\
+    \end{align}
+    \end{frame}
+  }
+
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Example: cosine similarity (II)}
+    \begin{align}
+      \text{sim}(x,y) = \frac{\sum_{i=1}^{n} x_i \cdot y_i}{\sqrt{\sum_{i=1}^{n}x_i^2}\cdot \sqrt{\sum_{i=1}^{n} y_i^2}}.
+    \end{align}
+    Compute the similarity between $x$ and $y$ for $x = (5,0,3,0,2,0,0,2,0), y = (3,0,2,0,1,1,0,1,0).$
+    \begin{align}
+      \text{sim}(x,y) = \frac{\sum_{i=1}^{n} x_i \cdot y_i}{\sqrt{\sum_{i=1}^{n}x_i^2}\cdot \sqrt{\sum_{i=1}^{n} y_i^2}} \approx \frac{25}{6,48 \cdot 4} \approx 0.96.
+    \end{align}
     \end{frame}
   }
 
