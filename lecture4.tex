@@ -466,7 +466,7 @@ are those whose actual count is very different from the expected count.
 
   { 
     \setbeamertemplate{footline}{}
-    \begin{frame}{Correlation analysis for nominal data (II)}
+    \begin{frame}{$\xi^2$ calculation: an example}
     \centering
     \begin{tabular}{l|c|c|c|}
     & Play chess & Not play chess & Sum (row)\\\hline
@@ -482,6 +482,86 @@ are those whose actual count is very different from the expected count.
       \end{align}
       \item It shows that "like science fiction" and "play chess" are correlated in the group.
     \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Correlation analysis of numerical data}
+    \begin{itemize}
+      \item \textbf{\color{airforceblue}Correlation coefficient:}
+      \begin{itemize}
+        \item Also called Pearson's product-moment coefficient
+        \begin{align}
+          r_{A,B} = \frac{\sum_{i=1}^{N + M} (a_i-\mu_A)(b_i-\mu_B)}{(N+M-1)\sigma_A\sigma_B} = \frac{\sum_{i=1}^{N+M}(a_ib_i)-(N+M)\mu_A\mu_B}{(N+M-1) \sigma_A\sigma_B}.
+        \end{align}
+        where $N = \# A$, $M = \# B$, $\mu_A$ and $\mu_B$ are the means of $A$ and $B$, respectively. $\sigma_A$ and $\sigma_B$ denote the corresponding standard deviations.
+      \end{itemize}
+      \item If $r_{A,B} > 0$, $A$ and $B$ are positively correlated ($A$'s values increase with $B$'s). \\
+      The higher, the stronger the correlation.
+      \item $r_{A,B} = 0$: independent.
+      \item $r_{A,B} < 0$: negatively correlated.
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Visually evaluating correlation}
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.32\textwidth}
+            \centering
+            \begin{tikzpicture}
+            \draw[->, thick] (-1.7,0)--(1.7,0) node[right]{$x$};
+            \draw[->, thick] (0,-1.7)--(0,1.7) node[above]{$y$};
+            \foreach \x in {-1.7,-1.5,...,1.7}{
+                    \pgfmathsetmacro\xcoord{\x+rand/10}
+                    \pgfmathsetmacro\ycoord{\x+rand/2}
+                    \pgfmathsetmacro\xcoord{\xcoord < -1.7 ? -1.7 : \xcoord}
+                    \pgfmathsetmacro\xcoord{\xcoord > 1.7 ? 1.7 : \xcoord}
+                    \pgfmathsetmacro\ycoord{\ycoord < -1.7 ? -1.7 : \ycoord}
+                    \pgfmathsetmacro\ycoord{\ycoord > 1.7 ? 1.7 : \ycoord}
+                    \node[circle,draw,fill=black,scale=0.3] at (\xcoord,\ycoord) {};
+                }
+            \end{tikzpicture}
+            \caption{a) Positive correlation.}
+        \end{minipage}\hfill
+        \begin{minipage}{0.32\textwidth}
+            \centering
+            \begin{tikzpicture}
+            \draw[->, thick] (-1.7,0)--(1.7,0) node[right]{$x$};
+            \draw[->, thick] (0,-1.7)--(0,1.7) node[above]{$y$};
+            \foreach \x in {-1.7,-1.5,...,1.7}{
+                    \pgfmathsetmacro\xcoord{\x+rand/10}
+                    \pgfmathsetmacro\ycoord{rand*2}
+                    \pgfmathsetmacro\xcoord{\xcoord < -1.7 ? -1.7 : \xcoord}
+                    \pgfmathsetmacro\xcoord{\xcoord > 1.7 ? 1.7 : \xcoord}
+                    \pgfmathsetmacro\ycoord{\ycoord < -1.7 ? -1.7 : \ycoord}
+                    \pgfmathsetmacro\ycoord{\ycoord > 1.7 ? 1.7 : \ycoord}
+                    \node[circle,draw,fill=black,scale=0.3] at (\xcoord,\ycoord) {};
+                }
+            \end{tikzpicture}
+            \caption{b) Uncorrelated/no correlation.}
+        \end{minipage}\hfill
+        \begin{minipage}{0.32\textwidth}
+            \centering
+            \begin{tikzpicture}
+            \draw[->, thick] (-1.7,0)--(1.7,0) node[right]{$x$};
+            \draw[->, thick] (0,-1.7)--(0,1.7) node[above]{$y$};
+            \foreach \x in {-1.7,-1.5,...,1.7}{
+                    \pgfmathsetmacro\xcoord{\x+rand/10}
+                    \pgfmathsetmacro\ycoord{-\x+rand/2}
+                    \pgfmathsetmacro\xcoord{\xcoord < -1.7 ? -1.7 : \xcoord}
+                    \pgfmathsetmacro\xcoord{\xcoord > 1.7 ? 1.7 : \xcoord}
+                    \pgfmathsetmacro\ycoord{\ycoord < -1.7 ? -1.7 : \ycoord}
+                    \pgfmathsetmacro\ycoord{\ycoord > 1.7 ? 1.7 : \ycoord}
+                    \node[circle,draw,fill=black,scale=0.3] at (\xcoord,\ycoord) {};
+                }
+            \end{tikzpicture}
+            \caption{c) Negative correlation.}
+        \end{minipage}\hfill
+    \end{figure} 
     \end{frame}
   }
 
