@@ -1,0 +1,393 @@
+\ifx\pdfminorversion\undefined\else\pdfminorversion=4\fi
+\documentclass[aspectratio=169,t]{beamer}
+%\documentclass[aspectratio=169,t,handout]{beamer}
+
+% English version FAU Logo
+\usepackage[english]{babel}
+% German version FAU Logo
+%\usepackage[ngerman]{babel}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{fontawesome}
+\usepackage{academicons}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{calc}
+\usepackage{xcolor,colortbl}
+\usepackage{euler}
+\usepackage{amsfonts}
+\usepackage{ifthen}
+\usepackage{tikz}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{pgfplots,pgfplotstable,pgf-pie}
+\usepackage{filecontents}
+\newcommand{\plots}{0.611201}
+\newcommand{\plotm}{2.19882}
+\pgfplotsset{height=4cm,width=8cm,compat=1.17}
+\pgfmathdeclarefunction{gauss}{2}{%
+  \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
+}
+
+\tikzset{
+    vertex/.style = {
+        circle,
+        fill            = black,
+        outer sep = 2pt,
+        inner sep = 1pt,
+    }
+}
+\usetikzlibrary{matrix,mindmap}
+\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,fit,positioning,shapes.symbols,chains,intersections,snakes}
+\tikzset{level 1/.append style={sibling angle=50,level distance = 165mm}}
+\tikzset{level 2/.append style={sibling angle=20,level distance = 45mm}}
+\tikzset{every node/.append style={scale=1}}
+% read in data file
+\pgfplotstableread{data/iris.dat}\iris
+% get number of data points
+\pgfplotstablegetrowsof{\iris}
+\pgfmathsetmacro\NumRows{\pgfplotsretval-1}
+\definecolor{azure}{rgb}{0.0, 0.5, 1.0}
+\definecolor{bloody}{RGB}{170, 0, 0}
+\definecolor{sky}{RGB}{0, 170, 212}
+\definecolor{piss}{RGB}{255, 255, 0}
+
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{compat=1.14}
+\newcommand{\tikzmark}[1]{\tikz[remember picture] \node[coordinate] (#1) {#1};}
+% Options:
+%  - inst:      Institute
+%                 med:      MedFak FAU theme
+%                 nat:      NatFak FAU theme
+%                 phil:     PhilFak FAU theme
+%                 rw:       RWFak FAU theme
+%                 rw-jura:  RWFak FB Jura FAU theme
+%                 rw-wiso:  RWFak FB WISO FAU theme
+%                 tf:       TechFak FAU theme
+%  - image:     Cover image on title page
+%  - plain:     Plain title page
+%  - longtitle: Title page layout for long title
+\usetheme[%
+  image,%
+  longtitle,%
+  tf
+]{fau}
+
+% Enable semi-transparent animation preview
+\setbeamercovered{transparent}
+
+
+\lstset{%
+  language=Python,
+  tabsize=2,
+  basicstyle=\tt,
+  keywordstyle=\color{blue},
+  commentstyle=\color{green!50!black},
+  stringstyle=\color{red},
+  numbers=left,
+  numbersep=0.5em,
+  xleftmargin=1em,
+  numberstyle=\tt
+}
+
+
+% Title, authors, and date
+\title[KDD]{Classification of Sensor Time Series}
+\subtitle{Pilot Study Milestone}
+\author[L.~Melodia]{Luciano Melodia, Christian Sauerhammer, Richard Lenz}
+% English version
+\institute[Department]{Evolutionary Data Management, Friedrich-Alexander University Erlangen-Nürnberg}
+% German version
+%\institute[Lehrstuhl]{Lehrstuhl, Friedrich-Alexander-Universit\"at Erlangen-N\"urnberg}
+\date{Summer semester 2021}
+% Set additional logo (overwrites FAU seal)
+%\logo{\includegraphics[width=.15\textwidth]{themefau/art/xxx/xxx.pdf}}
+\begin{document}
+  % Title
+  \maketitle
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Our Agenda for Today}
+    This is our agenda for this meeting:
+        \begin{itemize}
+            \item Project overview.
+            \item Current state of the project.
+            \item Requirements that have arisen.
+            \item Proposal for further course.
+            \item Presentation of the classification tool.
+            \item Experiments to be conducted.
+            \item Other.
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Project Overview}
+    \begin{table}
+    \centering
+    \begin{tabular}{|c||c|c|c|c|c|c|c|c|c|c|c|c|}
+       \hline
+       Year & \multicolumn{4}{c|}{1. Year} & \multicolumn{4}{c|}{2. Year} & \multicolumn{4}{c|}{3. Year}\\
+       \hline
+       Quartal & 1 & 2 & 3 & 4 & 1 & 2 & 3 & 4 & 1 & 2 & 3 & 4\\
+       \hline
+       Process analysis & \cellcolor{azure} & \cellcolor{azure} &&&&&&&&&&\\
+       Literature analysis &\cellcolor{azure}&\cellcolor{azure}&\cellcolor{azure}&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{gray!20}&\\
+       Market analysis &\cellcolor{azure}&\cellcolor{azure}&\cellcolor{azure}&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{gray!20}&\\
+       Pilot study &&&&\cellcolor{azure}&\cellcolor{azure}&&&&&&&\\
+       Evaluation &&&&&\cellcolor{azure}&\cellcolor{azure!50}&&&&&&\\
+       Conception of the tool &&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{azure!50}&\cellcolor{azure!50}&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{gray!20}&\\
+       Prototype implementation &&&&&&&&\cellcolor{gray!20}&\cellcolor{azure!50}&\cellcolor{azure!50}&\cellcolor{azure!50}&\\
+       Documentation &&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{gray!20}&\cellcolor{azure!50}&\cellcolor{azure!50}&\cellcolor{azure!50}\\
+       \hline
+       Milestones & \multicolumn{2}{c|}{M1} & M2/M3 & \multicolumn{2}{c|}{M4} & \multicolumn{1}{c|}{M5} & \multicolumn{2}{c|}{M6} & \multicolumn{3}{c|}{M7} & M8\\
+       \hline
+    \end{tabular}
+    \end{table}
+    \end{frame}
+  }
+
+\section{Current State of the Project}
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Current State of the Project (I)}
+    \textbf{Findings:}
+    \begin{itemize}[noitemsep]
+      \item A method for interpolation of arbitrary multivariate time series.
+      \item A corresponding stop criterion when the interpolation should be stopped.
+      \item Hypothesis test for deciding the quality of the interpolation.
+    \end{itemize}
+    \textbf{\faGithub} \ \href{https://github.com/karhunenloeve/SIML}{https://github.com/karhunenloeve/SIML} \\
+    \textbf{\faFilePdfO} \ \href{https://arxiv.org/abs/1911.02922}{https://arxiv.org/abs/1911.02922}\\[0.5cm]
+
+    \textbf{Abstract:} In this study the Voronoi interpolation is used to interpolate a set of points drawn from a topological space with higher homology groups on its filtration. The technique is based on Voronoi tessellation, which induces a natural dual map to the Delaunay triangulation. Advantage is taken from this fact calculating the persistent homology on it after each iteration to capture the changing topology of the data. The boundary points are identified as critical. The Bottleneck and Wasserstein distance serve as a measure of quality between the original point set and the interpolation. If the norm of two distances exceeds a heuristically determined threshold, the algorithm terminates. We give the theoretical basis for this approach and justify its validity with numerical experiments.
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Current State of the Project (II)}
+    \textbf{Findings:}
+    \begin{itemize}[noitemsep]
+      \item A method to determine the width of neural networks.
+      \item Theoretical bridge to an exact solution for a special case.
+      \item Special case coincides with periodic or quasiperiodic time series.
+    \end{itemize}
+
+    \faGithub \; \href{https://github.com/karhunenloeve/NTOPL}{https://github.com/karhunenloeve/NTOPL} \\
+    \faFilePdfO \; \href{https://arxiv.org/abs/2004.02881}{https://arxiv.org/abs/2004.02881}\\[0.5cm]
+
+    \textbf{Abstract:} In this paper we present an approach to determine the smallest possible number of neurons in a layer of a neural network in such a way that the topology of the input space can be learned sufficiently well. We introduce a general procedure based on persistent homology to investigate topological invariants of the manifold on which we suspect the data set. We specify the required dimensions precisely, assuming that there is a smooth manifold on or near which the data are located. Furthermore, we require that this space is connected and has a commutative group structure in the mathematical sense. We use the representatives of the k-dimensional homology groups from the persistence landscape to determine an integer dimension for this decomposition.
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Current State of the Project (III)}
+    \textbf{Summary:}
+    \begin{itemize}
+      \item We learned how to augment existing data for the problem of not having enough for some sensor readings. The natural neighbors method has been shown to work for arbitrary time series. We also found a solution for when to stop interpolation so as not to significantly change the original distribution of the data, or to do so, if one wishes.
+      \item We have built a theoretical bridge to topological data analytics and have shown that we can estimate the embedding dimension of neural networks for time series very well. This helps us to achieve a lower number of parameters in training without sacrificing the quality of the classifier.
+      \item 
+    \end{itemize}
+    \end{frame}
+  }
+
+\section{Presentation of the Classification Tool\\
+\small{by Christian Sauerhammer}}
+
+\section{Experiments to be conducted}
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Experiments to be conducted}
+    \begin{itemize}
+      \item \href{https://ieeexplore.ieee.org/document/7508408/}{Long Short-Term Memory (LSTM)} networks still state of the art for time series.
+      \item Combination of theory of \href{https://arxiv.org/pdf/1806.03751.pdf}{$\mathcal{C}^k$-differentiable} neural architectures with LSTM, this reduces drastically parameter size.
+      \begin{itemize}
+          \item How low can we go in parameters?
+          \item What is an appropriate $k$?
+          \item How can we determine this by our previous work?
+          \item \textbf{Reward:} Time, energy and thus cost savings for training.
+      \end{itemize}
+    \end{itemize}
+    \faGithub \; \href{https://github.com/karhunenloeve/TwirlFlake}{https://github.com/karhunenloeve/TwirlFlake} \\
+
+    \end{frame}
+  }
+
+\section{Requirements}
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Hardware}
+    \textbf{Hardware:} Two \texttt{NVIDIA Quadro RTX 4000} with $8$ GB of GDDR6, $36$ computation units, $288$ NVIDIA-Tensor units and $2.304$ parallel $\texttt{CUDA}$ computation units. \textbf{Price:} $\approx 900$€.\\
+    A better option would be: Single \texttt{NVIDIA Quadro RTX 8000} with $48$ GB of GDDR6, $72$ computation units, $576$ NVIDIA-Tensor units and $4.608$ parallel $\texttt{CUDA}$ computation units. Less latency than many separated \texttt{RTX 4000} graphic cards. \textbf{Price:} $\approx 5.600$€.
+    \\[0.2cm]
+    \textbf{Time constraints:} After augmentation we have a dataset of about $7.2$GB with more then $300.000$ single files. We optimized the current graphic cards together with \textbf{Ubuntu 20.04}, \textbf{CUDA 11.0}, \textbf{Cudnn 8.4} and \textbf{Tensorflow 2.4}. This software is mandatory, no alternatives. Software is not in newest version, but in this configuration compatible. Neural networks have been reduced to about $10^7$-Parameters. Currently one neural network run takes about \textbf{$7$ days}.\\[0.2cm]
+    \faGithub \ Installation guide: \href{https://gist.github.com/karhunenloeve/223dcc4a193b7fd33669f9e4326d289b}{https://gist.github.com/karhunenloeve/223dcc4a193b7fd33669f9e4326d289b}\\[0.2cm]
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Requirements}
+    \textbf{Problem:} We have almost completely exhausted our current hardware. In total, we compare $23$ neural architectures with each other. Assuming an average of $5$ days per run and ten runs per architecture to give an expected value for the results, we need about $575$ days of pure computation time.\\[0.2cm]
+
+    \textbf{Hardware:} We need about $18$ more \texttt{NVIDIA Quadro RTX 4000} for a total pure computation time of $29$ days to conduct the experiments.\\
+    Currently Cuda ist the most powerful language for parallel computations on graphic cards and requires \textbf{NVIDIA} graphic cards.\\[0.2cm]
+
+    \textbf{Questions:}
+    \begin{itemize}
+      \item Is computational power available at Siemens AG?
+      \item Could you set up an Amazon AWS Account for this task?
+      \item Should we set up a small computation cluster ourselfs?
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Costs for Amazons Service}
+    \centering
+    \begin{tabular}{|l|c|c|c|c|c|}
+    \hline
+    \textbf{Name} & \textbf{vCPU} & \textbf{ECU} & \textbf{Memory} & \textbf{Inst. Storage} & \textbf{Costs} \\\hline
+    \texttt{p3.2xlarge} & $8$ & $31$ & $61$ GiB & EBS Only & $\$3.823$ per h\\
+    \texttt{p3.8xlarge} & $32$ & $97$ & $244$ GiB & EBS Only & $\$15.292$ per h\\
+    \texttt{p3.16xlarge} & $64$ & $201$ & $488$ GiB & EBS Only & $\$30.584$ per h\\
+    \texttt{p2.xlarge} & $4$ & $16$ & $61$ GiB & EBS Only & $\$1.326$ per h\\
+    \texttt{p2.8xlarge} & $32$ & $97$ & $488$ GiB & EBS Only & $\$10.608$ per h\\
+    \texttt{p2.16xlarge} & $64$ & $201$ & $732$ GiB & EBS Only & $\$21.216$ per h\\
+    \texttt{g3.4xlarge} & $16$ & $58$ & $122$ GiB & EBS Only & $\$1.425$ per h\\
+    \texttt{g3.8xlarge} & $32$ & $97$ & $244$ GiB & EBS Only & $\$2.85$ per h\\
+    \texttt{g3.16xlarge} & $64$ & $201$ & $488$ GiB & EBS Only & $\$5.70$ per h\\
+    \hline
+    \end{tabular}
+    \vspace{0.5cm}
+    \begin{itemize}
+      \item \textbf{Graphic cards}: in \texttt{p2}: \texttt{NVIDIA Tesla K80}, in \texttt{p3}: \texttt{NVIDIA Tesla V100}.
+      \item \textbf{CPU:} Intel Xeon E5.
+      \item \textbf{Source:} \href{https://aws.amazon.com/ec2/pricing/on-demand/}{https://aws.amazon.com/ec2/pricing/on-demand/}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Other Options}
+    \begin{itemize}
+      \item \textbf{Google Cloud:} \href{https://cloud.google.com/products/ai/}{https://cloud.google.com/products/ai/}
+      \begin{itemize}
+        \item Hard to configure and the total bill is tough to estimate.
+        \item Easy to use interface for setup.
+        \item $\$300$ initial credit.
+      \end{itemize}
+      \item \textbf{AWS EC2:} \href{https://aws.amazon.com/ec2/?ec2-whats-new.sort-by=item.additionalFields.postDateTime&ec2-whats-new.sort-order=desc}{https://aws.amazon.com/ec2/}
+      \begin{itemize}
+        \item Hard to configure and the total bill is tough to estimate.
+        \item Hard to use interface for setup.
+        \item Scalable, secure and reliable.
+      \end{itemize}
+      \item \textbf{Paperspace:} \href{https://www.paperspace.com/}{https://www.paperspace.com/}
+      \begin{itemize}
+        \item A bit more pricy than Google Cloud or AWS.
+        \item Takes security seriously.
+        \item Uses own servers and also third party servers.
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+\section{Proposal for further Course}
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Changes in the project}
+    \textbf{I will leave the project and the chair as of 07/31.}\\
+    My contract with the Department of Computer Science 6 expires on this date. I have declined a contract extension. I will go to Augsburg to study theoretical mathematics. However, I will continue to supervise graduation theses and will be happy to provide support in their context.\\[0.2cm]
+
+    \textbf{Christian Sauerhammer is vacant as successor.}\\
+    Mr. Sauerhammer is currently writing his master thesis under my supervision and is comparing several neural network architectures for the classification of sensor signals. Furthermore, he has also designed a graphical user interface which is a prototype that can be used for the classification of sensor time series.
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Hurdles of the Past}
+    \textbf{We should consider these hurdles for the project:}\\
+    \begin{itemize}
+      \item Constraints over one year of available resources due to CORONA pandemic.
+      \item Delay of the evaluation of the study due to necessary hardware procurement.
+      \item Delay due to change of project staff.
+    \end{itemize}
+
+    \textbf{Summary:} We are currently on schedule, the design of the study has been completed. However, at this point I recommend the expansion of this phase of the project. Due to higher influences and unforeseen circumstances, we had to work with the funds available to us. Nevertheless, the results so far are quite promising. The classification of time series data is by no means treated research terrain. We have already expanded the state of the art and have the opportunity to achieve unprecedented accuracy.\\[0.2cm]
+    \textbf{I therefore recommend that the $M4/M5$ project phase be extended to $6$ quarters.}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Problem: Schema Inference}
+    \begin{itemize}
+      \item \textbf{Schema inference seems to be infeasible by the state of the art. Why is that?}
+      \begin{itemize}
+        \item No theory if there are invariants characterizing a valid schema.
+        \item Invariants are numbers, that do not change if we exchange a valid schema by another one.
+        \item \href{http://math.mit.edu/~dspivak/informatics/SD.pdf}{Simplicial databases} are most promising approach.
+        \item We need to establish suitable invariants.
+        \item We need to establish algorithms to compute them efficiently.
+        \item We need to set up benchmark datasets.
+      \end{itemize}
+      \item \textbf{We identify two strictly different tasks:}
+      \begin{itemize}
+        \item Find invariants for samples from one sensor as a fingerprint.
+        \begin{itemize}
+            \item This will guarantee an unsupervised way to find other related sources.
+            \item Investigating dependencies of invariants one can establish dependencies of signals.
+        \end{itemize}
+        \item Connect this information to create a suitable database schema. How do invariants from data relate to invariants from database schemas? Are they the same?
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+\section{Other}
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Other}
+    \textbf{Student:} Noah Becker, fifth semester Computer Science Bachelor. \\
+    \textbf{Employment:} Currently for $5$ hours a week at our chair and $15$ hours at Siemens Energy AG.\\[0.5cm]
+    \textbf{Mr. Becker's duties to date have been:}
+    \begin{itemize}[noitemsep]
+      \item Set up and design of the front end for the classification application.
+      \item Implementation of the interfaces for file upload.
+      \item Implementation of a small library for file format conversion.
+    \end{itemize}
+    Can we employ Mr. Becker at Siemens and make him \\
+    responsible for our project for half of his working time?\\[0.5cm]
+    Mr. Becker's department has already given its consent to the project.\\
+    Your agreement was also obtained at the penultimate milestone meeting.
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}{}
+    \begin{frame}[c]
+      \begin{center}
+        Thank you for your attention.\\
+        {\bf Any questions?}\\[0.5cm]
+        Drop me a line: \\ 
+        \faSendO \ \texttt{luciano.melodia@fau.de}.
+      \end{center}
+    \end{frame}
+  }
+\end{document}
+
