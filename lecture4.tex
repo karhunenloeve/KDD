@@ -344,6 +344,147 @@
     \end{frame}
   }
 
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Chapter IV: Preprocessing}
+        \begin{itemize}
+            \item Data preprocessing: an overview.
+            \begin{itemize}
+              \item Data quality.
+              \item Major tasks in data preprocessing.
+            \end{itemize}
+            \item Data cleaning.
+            \item \textbf{Data integration.}
+            \item Data reduction.
+            \item Data transformation and data discretization.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Data integration}
+    \begin{itemize}
+       \item \textbf{Data integration:}
+       \begin{itemize}
+        \item Combine data from multiple sources into a coherend store.
+       \end{itemize}
+       \item \textbf{Schema integration:}
+       \begin{itemize}
+        \item E.g. \texttt{A.cust-id} $\equiv$ \texttt{B.cust-\#}.
+        \item Integrate metadata from different sources.
+       \end{itemize}
+       \item \textbf{Entity-identification problem:}
+       \begin{itemize}
+        \item Identify the same real-world entities from multiple data sources.
+        \item E.g. Bill Clinton = William Clinton.
+       \end{itemize}
+       \item \textbf{Detecting and resolving {\color{airforceblue}data-value conflicts}:}
+       \begin{itemize}
+        \item For the same real world entity, attribute values from different sources are different.
+        \item Possible reasons:
+        \begin{itemize}
+          \item Different representations (coding).
+          \item Different scales, e.g. metric vs. British units.
+        \end{itemize}
+       \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Handling redundancy in data integration}
+    \begin{itemize}
+      \item \textbf{Redundant data often occur when integrating multiple databases.}
+      \begin{itemize}
+        \item \textbf{Object (entity) identification:} \\
+              The same attribute or object may have different names in different databases.
+        \item \textbf{Derivable data:}\\
+              One attribute may be a "derived" attribute in another table. E.g. annual revenue.
+      \end{itemize}
+      \item \textbf{Redundant attributes:}
+      \begin{itemize}
+        \item Can be detected by \textbf{\color{airforceblue}correlation analysis} and \textbf{\color{airforceblue}covariance analysis}.
+      \end{itemize}
+      \item \textbf{Careful integration of the data from multiple sources:}
+      \begin{itemize}
+        \item Helps to reduce\/avoid redundancies and inconsistencies and improve mining speed and quality.
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Correlation analysis for nominal data (I)}
+      \begin{itemize}
+        \item \textbf{Two attributes:}
+        \begin{itemize}
+          \item $A$ has $n$ distinct values: $A := \{a_1, a_2, \ldots, a_n\}$.
+          \item $B$ has $m$ distinct values: $B := \{b_1, b_2, \ldots, b_m\}$.
+        \end{itemize}
+        \item \textbf{\color{airforceblue}Contingency table:}
+        \begin{itemize}
+          \item Columns: the $n$ values of $A$.
+          \item Rows: the $m$ values of $B$.
+          \item Cells: counts of records with \\
+          $A' = \{ a_i \in A \; : \; a_i = a_k \; \text{for} \; a_k \in A\}$ and \\
+          $B' = \{ b_j \in B \; : \; b_j = b_l \; \text{for} \; b_l \in B\}$.
+        \end{itemize}
+        \item \textbf{Expected count in cell $(i,j)$:}
+        \begin{align}
+          e_{ij} = \frac{\#A' \cdot \#B'}{\#A + \#B},
+        \end{align}
+        \item where $\#A + \#B$ is the total number of records.
+      \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Correlation analysis for nominal data (II)}
+      \begin{itemize}
+        \item \textbf{\color{airforceblue}$\chi^2$-test:}
+        \begin{align}
+          \chi^2 = \sum_{i=1}^{N} \frac{(x_i-\hat{x}_i)^2}{\hat{x}_i}.
+        \end{align}
+        \item Summing over all cells of the contingency table.
+        \item No correlation (i.e. independence of attributes) yields $\chi^2$ value of zero.
+        \item The larger the $\chi^2$ value, the more likely the variables are related.
+        \item The cells that contribute the most to the $\chi^2$ value
+are those whose actual count is very different from the expected count.
+      \end{itemize}
+      \begin{itemize}
+        \item \textbf{Correlation does not imply causality!}
+        \item E.g. $\#$ of hospitals and $\#$ of car-thefts in a city are correlated.
+        \item Both are causally linked to the third variable: population.
+      \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Correlation analysis for nominal data (II)}
+    \centering
+    \begin{tabular}{l|c|c|c|}
+    & Play chess & Not play chess & Sum (row)\\\hline
+    Like Science fiction & $250 (90)$ & $200 (360)$ & $450$ \\\hline
+    Not like science fiction & $50 (210$ & $1000 (840)$ & $1050$\\\hline
+    Sum (column) & $300$ & $1200$ & $1500$\\\hline
+    \end{tabular}
+    \begin{itemize}
+      \item Numbers in parenthesis are expected counts calculated based on the data distribution in the two categories.
+      \item $\chi^2$ calculation:
+      \begin{align}
+      \chi^2 = \frac{(250-90)^2}{90} + \frac{(50-210)^2}{210} + \frac{(200-360)^2}{360} + \frac{(1000-840)^2}{840} = 507.93.
+      \end{align}
+      \item It shows that "like science fiction" and "play chess" are correlated in the group.
+    \end{itemize}
+    \end{frame}
+  }
+
 
   { % Questions?
     \setbeamertemplate{footline}{}
