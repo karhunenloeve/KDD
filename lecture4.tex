@@ -368,7 +368,7 @@
     \begin{itemize}
        \item \textbf{Data integration:}
        \begin{itemize}
-        \item Combine data from multiple sources into a coherend store.
+        \item Combine data from multiple sources into a coherent store.
        \end{itemize}
        \item \textbf{Schema integration:}
        \begin{itemize}
@@ -895,9 +895,55 @@ are those whose actual count is very different from the expected count.
 
   {
     \setbeamertemplate{footline}{}
+    \begin{frame}{Normalization}
+      \begin{itemize}
+        \item \textbf{Min-max normalization (to some interval $[\text{min},\text{max}]$:}
+        \begin{align}
+          a_{\text{new}} = \frac{a - \text{min}_A}{\text{max}_A-\min_{A}} (\max - \min) + \min.
+        \end{align}
+        Example: let income range from $\$12.000$ to $\$98.000$ normalized to $[0,1]$.\\
+        Then $\$73.600$ is mapped to $\frac{73.600-12.000}{98.000-12.000} (1-0) + 0 = 0.716$.
+        \item \textbf{Z-score normalization:}
+        \begin{align}
+          x_{\text{new}} := z = \frac{a-\mu_{A}}{\sigma_A}, \; \text{with $\mu$ being the mean and $\sigma$ the standard deviation.}
+        \end{align}
+        Example: let $\mu = 54.000$ and $\sigma = 16.000$. Then $\frac{73.000-54.000}{16.000} = 1.225$.
+        \item \textbf{Normalization by decimal scaling:}
+        \begin{align}
+        a_{\text{new}} = \frac{a}{10^k}, \; \text{where $k$ is the smallest integer such that} \; \max(\vert a_{\text{new}} \vert) < 1.
+        \end{align}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Discretization}
+    \begin{itemize}
+      \item \textbf{Three types of attributes:}
+      \begin{itemize}
+        \item Nominal -- values from an unordered set, e.g. color, profession.
+        \item Ordinal -- values from an ordered set, e.g. military or academic rank.
+        \item Numerical -- numbers, e.g. integer or real numbers.
+      \end{itemize}
+      \item \textbf{Divide the value range of a continuous attribute into intervals:}
+      \begin{itemize}
+        \item \textbf{Interval labels} can then be used to replace actual data values.
+        \item Reduce data size by discretization.
+        \item Supervised vs. unsupervised.
+        \item Split (top-down) vs. merge (bottom-up).
+        \item Discretization can be performed recursively on an attribute.
+        \item Prepare for further analysis, e.g. classification.
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
     \begin{frame}{Data-discretization Methods}
     \begin{itemize}
-      \item \textbf{Typical methods::}
+      \item \textbf{Typical methods:}
       \begin{itemize}
         \item All the methods can be applied recursively.
         \item \textbf{Binning:}
