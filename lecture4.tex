@@ -893,6 +893,104 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Data-discretization Methods}
+    \begin{itemize}
+      \item \textbf{Typical methods::}
+      \begin{itemize}
+        \item All the methods can be applied recursively.
+        \item \textbf{Binning:}
+              \begin{itemize}
+                \item Unsupervised, top-down split.
+              \end{itemize}
+        \item \textbf{Histogram analysis:}
+              \begin{itemize}
+                \item Unsupervised, top-down split.
+              \end{itemize}
+        \item \textbf{Clustering analysis:}
+              \begin{itemize}
+                \item Unsupervised, top-down split or bottom-up merge.
+              \end{itemize}
+        \item \textbf{Decision-tree analysis:}
+              \begin{itemize}
+                \item Supervised, top-down split.
+              \end{itemize}
+        \item \textbf{Correlation (e.g., $\chi^2$) analysis:}
+              \begin{itemize}
+                \item Unsupervised, bottom-up merge.
+              \end{itemize}
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Simple discretization: binning}
+    \begin{itemize}
+      \item \textbf{Equal-width (distance) partitioning:}
+      \begin{itemize}
+        \item Divides the range into $N$ intervals of equal size: uniform grid.
+        \item If $A$ and $B$ are the lowest and highest values of the attribute, the width of intervals will be: $W = \frac{(B - A)}{N}$.
+        \item The most straightforward, but outliers may dominate presentation.
+        \item Skewed data is not handled well.
+      \end{itemize}
+      \item \textbf{Equal-depth (frequency) partitioning:}
+      \begin{itemize}
+        \item Divides the range into $N$ intervals, each containing approximately same number of samples.
+        \item Good data scaling.
+        \item Managing categorical attributes can be tricky.
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Binning methods for data smoothing}
+    \begin{itemize}
+      \item \textbf{Sorted data for price (in dollars):} \\
+            $4, 8, 9, 15, 21, 21, 24, 25, 26, 28, 29, 34$.
+      \item \textbf{Partition into equal-frequency (equal-depth) bins:}\\
+            Bin $1$: $4, 8, 9, 15$,\\
+            Bin $2$: $21, 21, 24, 25$,\\
+            Bin $3$: $26, 28, 29, 34$.
+      \item \textbf{Smoothing by bin means:}
+            Bin $1$: $9, 9, 9, 9$,\\
+            Bin $2$: $23, 23, 23, 23$,\\
+            Bin $3$: $29, 29, 29, 29$.\\
+      \item \textbf{Smoothing by bin boundaries:}
+            Bin $1$: $4, 4, 4, 15$,\\
+            Bin $2$: $21, 21, 25, 25$,\\
+            Bin $3$: $26, 26, 26, 34$.\\
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Discretization without using class labels (binning vs. clustering)}
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.32\textwidth}
+            \includegraphics[width=5cm]{img/binningvsclustering2.png}
+            \caption{a) Equal interval width (binning).}
+        \end{minipage}
+        \begin{minipage}{0.32\textwidth}
+            \centering
+            \includegraphics[width=5cm]{img/binningvsclustering3.png}
+            \caption{b) Equal frequency (binning).}
+        \end{minipage}
+        \begin{minipage}{0.32\textwidth}
+            \centering
+            \includegraphics[width=5cm]{img/binningvsclustering4.png}
+            \caption{c) K-means clustering.}
+        \end{minipage}\hfill
+    \end{figure} 
+    \end{frame}
+  }
+
   { 
     \setbeamertemplate{footline}{}
     \begin{frame}{Discretization by classification \& correlation analysis}
