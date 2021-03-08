@@ -893,6 +893,140 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Discretization by classification \& correlation analysis}
+        \begin{itemize}
+            \item \textbf{Classification:}
+            \begin{itemize}
+              \item E.g. decision-tree analysis.
+              \item Supervised: Class labels given for training set e.g. cancerous vs. benign.
+              \item Using \textbf{entropy} to determine split point (discretization point).
+              \item Top-down, recursive split.
+              \item Details will be covered in Chapter 6.
+            \end{itemize}
+            \item \textbf{Correlation analysis:}
+            \begin{itemize}
+              \item E.g. $\chi^2$-merge: $\chi^2$-based discretization.
+              \item Supervised: use class information.
+              \item Bottom-up merge: find the best neighboring intervals (those having similar distributions of classes, i.e., low $\chi^2$ values) to merge.
+              \item Merge performed recursively, until a predefined stopping condition.
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Concept-hierarchy generation}
+        \begin{itemize}
+            \item \textbf{Concept hierarchy:}
+            \begin{itemize}
+              \item Organizes concepts (i.e. attribute values) hierarchically.
+              \item Usually associated with each dimension in a data warehouse.
+              \item Facilitates \textbf{drilling and rolling} in data warehouses to view data at multiple granularity.
+            \end{itemize}
+            \item \textbf{Concept-hierarchy formation:}
+            \begin{itemize}
+              \item Recursively reduce the data by collecting and replacing \textbf{low-level concepts} (such as numerical values for age) by \textbf{higher-level concepts} (such as youth, adult, or senior).
+              \item Can be explicitly specified by domain experts and/or data-warehouse designers.
+              \item Can be automatically formed for both numerical and nominal data.
+              \item For numerical data, use discretization methods shown.
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Concept-hierarchy generation for nominal data}
+        \begin{itemize}
+            \item \textbf{Specification of a partial/total ordering of attributes explicitly at the schema level by users or experts.}
+            \begin{itemize}
+              \item $\#(\text{streets}) < \#(\text{city}) < \#(\text{state}) < \#(\text{country})$.
+            \end{itemize}
+            \item \textbf{Specification of a hierarchy for a set of values by explicit data grouping.}
+            \begin{itemize}
+              \item $\#(\{"Urbana", "Champaign", "Chicago"\}) < \#(\text{Illinois})$.
+            \end{itemize}
+            \item \textbf{Specification of only a partial set of attributes.}
+            \begin{itemize}
+              \item Only $\#(\text{street}) < \#(\text{city})$, not others.
+            \end{itemize}
+            \item \textbf{Automatic generation of hierarchies (or attribute levels) by the analysis of the number of distinct values.}
+            \begin{itemize}
+              \item E.g. for a set of attributes: $\{\text{street}, \text{city}, \text{state}, \text{country}\}$.
+              \item See on the next slides.
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Automatic concept-hierarchy generation}
+        \begin{itemize}
+            \item \textbf{Some hierarchies can be automatically generated based on the analysis of the number of distinct values per attribute.}
+            \begin{itemize}
+              \item The attribute with the most distinct values is placed at the lowest level of the hierarchy.
+              \item Exceptions, e.g. weekday, month, quarter, year.
+            \end{itemize}
+            \item Example: 
+            \begin{align}
+            \#(\text{streets} &= 674.339 > \#(\text{city}) =  3567,\\
+            \#(\text{city}) &=  3567 > \#(\text{province or state}) =  356,\\
+            \#(\text{province or state}) &=  356 > \#(\text{country}) = 15.
+            \end{align}
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Chapter IV: Preprocessing}
+        \begin{itemize}
+            \item Data preprocessing: an overview.
+            \begin{itemize}
+              \item Data quality.
+              \item Major tasks in data preprocessing.
+            \end{itemize}
+            \item Data cleaning.
+            \item Data integration.
+            \item Data reduction.
+            \item Data transformation and data discretization.
+            \item \textbf{Summary.}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Summary}
+      \begin{itemize}
+        \item \textbf{Data quality:} Accuracy, completeness, consistency, timeliness, believability, interpretability.
+        \item \textbf{Data cleaning:} E.g. missing/noisy values, outliers.
+        \item \textbf{Data integraiom from multiple sources:}
+        \begin{itemize}
+          \item Entity identification problem.
+          \item Remove redundancies.
+          \item Detect inconsistencies.
+        \end{itemize}
+        \item \textbf{Data reduction:}
+        \begin{itemize}
+          \item Dimensionality reduction.
+          \item Numerosity reduction.
+          \item Data compression.
+        \end{itemize}
+        \item \textbf{Data transformation and data discretization:}
+        \begin{itemize}
+          \item Normalization.
+          \item Concept-hierarchy generation.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
 
   {
     \setbeamertemplate{footline}{}
