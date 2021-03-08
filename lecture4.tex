@@ -802,13 +802,6 @@ are those whose actual count is very different from the expected count.
 
   {
     \setbeamertemplate{footline}{}
-    \begin{frame}{Haar wavelet coefficients}
-
-    \end{frame}
-  }
-
-  {
-    \setbeamertemplate{footline}{}
     \begin{frame}{Why wavelet transform?}
     \begin{itemize}
       \item \textbf{Use hat-shaped filters:}
@@ -843,6 +836,25 @@ are those whose actual count is very different from the expected count.
     The goal of the principal component analysis (PCA) is the identification \\
     of $n$ \textbf{normed orthogonal vectors} $\{x_i \in \mathbb{R}^m \; \vert \; i = 1,2, \ldots,n \}$ \\
     within the input space, which \textbf{represent most of the variance} of the data.
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Principal component analysis (2)}
+    \begin{itemize}
+    \item Consider sample vectors $u_1, u_2, \ldots, u_n \in \mathbb{R}^m$ centered at zero and a complete orthonormal system $\{x_i \in \mathbb{R}^m \; \vert \; i = 1, 2, \ldots n\}$, such that:
+    \begin{align}
+      \langle x \rangle &= \int x p(x) d^m x = 0,\\
+      \vert\vert u \vert\vert &= 1,\\
+      \langle x^{T}u \rangle &= 0,
+    \end{align}
+    where the Euclidean norm of the vector is given by
+    \begin{align}
+      \vert\vert u_i \vert\vert = \left(\sum_{i=1}^{m} u_i^2\right)^\frac{1}{2}.
+    \end{align}
+      \item \textbf{Goal:} find $u^*$ such that $\langle (x^{T}u^*)^2 \rangle$, the variance of the projections of $x$ onto $u^*$ becomes maximal according to the probability distribution $p(x)$.
+    \end{itemize}
     \end{frame}
   }
 
