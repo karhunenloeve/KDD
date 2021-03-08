@@ -841,7 +841,7 @@ are those whose actual count is very different from the expected count.
 
   {
     \setbeamertemplate{footline}{}
-    \begin{frame}{Principal component analysis (2)}
+    \begin{frame}{Principal component analysis (II)}
     \begin{itemize}
     \item Consider sample vectors $u_1, u_2, \ldots, u_n \in \mathbb{R}^m$ centered at zero and a complete orthonormal system $\{x_i \in \mathbb{R}^m \; \vert \; i = 1, 2, \ldots n\}$, such that:
     \begin{align}
@@ -890,6 +890,46 @@ are those whose actual count is very different from the expected count.
     \setbeamertemplate{footline}{}
     \begin{frame}{Principal component analysis (VII)}
 
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Chapter IV: Preprocessing}
+        \begin{itemize}
+            \item Data preprocessing: an overview.
+            \begin{itemize}
+              \item Data quality.
+              \item Major tasks in data preprocessing.
+            \end{itemize}
+            \item Data cleaning.
+            \item Data integration.
+            \item Data reduction.
+            \item \textbf{Data transformation and data discretization.}
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+ {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Data transformations}
+    \begin{itemize}
+      \item Functions applied to a finite set of samples.
+      \item \textbf{Methods:}
+      \begin{itemize}
+        \item Smoothing: Remove noise from data.
+        \item Attribute/feature construction: New attributes constructed from the given ones.
+        \item Aggregation: Summarization, data-cube construction.
+        \item Normalization: Scaled to fall within a smaller, specified range.
+        \begin{itemize}
+          \item Min-max normalization
+          \item Z-score normalization.
+          \item Normalization by decimal scaling.
+        \end{itemize}
+        \item Discretization: concept-hierarchy climbing.
+      \end{itemize}
+    \end{itemize}
     \end{frame}
   }
 
