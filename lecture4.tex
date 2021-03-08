@@ -42,7 +42,7 @@
     }
 }
 \usetikzlibrary{matrix,mindmap}
-\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,fit,positioning,shapes.symbols,chains,intersections,snakes}
+\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,fit,positioning,shapes.symbols,chains,intersections,snakes,positioning}
 \tikzset{level 1/.append style={sibling angle=50,level distance = 165mm}}
 \tikzset{level 2/.append style={sibling angle=20,level distance = 45mm}}
 \tikzset{every node/.append style={scale=1}}
@@ -575,7 +575,7 @@ are those whose actual count is very different from the expected count.
             \end{align}
       \item \textbf{Pearson's correlation coefficient:}\\
             \begin{align}
-              r = \frac{n \sum_{i=1}^{n}a_ib_i - \sum_{i=1}^{n}a_i \sum_{i=1}^{n}b_i}{\sqrt{\left(n \sum_{i=1}^{n} a^2 - \left(\sum_{i=1}^{n} a_i\right)^2\right) \left(n \sum_{i=1}^{n}b^2 - \left(\sum_{i=1}^{n}b_i\right)^2\right)}},
+              r = \frac{n \sum_{i=1}^{n}a_ib_i - \sum_{i=1}^{n}a_i \sum_{i=1}^{n}b_i}{\sqrt{\left(n \left(\sum_{i=1}^{n} a^2\right) - \left(\sum_{i=1}^{n} a_i\right)^2\right) \left(n \left(\sum_{i=1}^{n}b^2\right) - \left(\sum_{i=1}^{n}b_i\right)^2\right)}},
             \end{align}
             where $n$ is the number of tuples.
     \end{itemize}
@@ -758,11 +758,93 @@ are those whose actual count is very different from the expected count.
     \setbeamertemplate{footline}{}
     \begin{frame}{Wavelet transformation}
     \begin{itemize}
-      \item \textbf{Discrete wavelet transform:}
+      \item \textbf{Discrete wavelet transform:}\\
+            Transforms a vector $X$ into a different vector $X'$ of wavelet coefficients with the same length.
+      \item \textbf{Compressed approximation:}\\
+            Store only a small fraction of the strongest of the wavelet coefficients.
+      \item \textbf{Similar to discrete fourier transform, but better lossy compression, localized in space.}
+      \item \textbf{Method:}
+      \begin{itemize}
+        \item The length of the vector must be an integer power of $2$ (padding with $0$'s if necessary).
+        \item Each transform has two functions: smoothing and difference.
+        \item Applied to pairs of data, resulting in two sets of data with half the length.
+        \item The two functions are applied recursively until reaching the desired length.
+      \end{itemize}
     \end{itemize}
     \end{frame}
   }
 
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Wavelet decomposition}
+    \begin{itemize}
+      \item \textbf{Example:}
+      \begin{align}
+        X &= (2,2,0,2,3,5,4,4), \text{can be transformed to}\\
+        X' &= (2.75,-1.25,0.5,0,0,-1,-1,0).
+      \end{align}
+      \item \textbf{Compression:}\\
+            Many small detail coefficients can be replaced by $0$'s, \\
+            and only the significant coefficients are retained.
+    \end{itemize}
+    \vspace{0.2cm}
+    \centering
+    \begin{tabular}{|c|c|c|}
+      \hline
+      \text{Resolution} & \text{Averages} & \text{Detail coefficients}\\\hline
+      $8$ & $(2,2,0,2,3,5,4,4)$ & - \\\hline
+      $4$ & $(2,1,4,4)$ & $(0,-1,-1,0)$ \\\hline
+      $2$ & $(1 \frac{1}{2},4)$ & $(\frac{1}{2},0)$ \\\hline
+      $1$ & $(2 \frac{3}{4})$ & $(1 \frac{1}{4})$\\\hline
+    \end{tabular}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Haar wavelet coefficients}
+
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Why wavelet transform?}
+    \begin{itemize}
+      \item \textbf{Use hat-shaped filters:}
+      \begin{itemize}
+        \item Emphasize region where points cluster.
+        \item Suppress weaker information in their boundaries.
+      \end{itemize}
+      \item \textbf{Effective removal of outliers:}
+      \begin{itemize}
+        \item Insensitive to noise, insensitive to input order.
+      \end{itemize}
+      \item \textbf{Multi-resolution:}test
+      \begin{itemize}
+        \item Detect arbitrary shaped clusters at different scales.
+      \end{itemize}
+      \item \textbf{Efficient:} Complexity $\mathcal{O}(N)$.
+    \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Principal component analysis (I)}
+    \begin{itemize}
+      \item Principal component analysis is a method of summarizing \\
+      the properties of a set of multivariate data samples.
+      \item It is a \textbf{linear transformation} method that is often used \\ for data analysis or data compression.
+      \item Principal component analysis is often also called \textbf{Karhunen-Loeve transformation}.
+      \item PCA is equivalent to maximization of the information \\ at the output of a neural network with linear neurons.
+    \end{itemize}
+    \vspace{0.5cm}
+    The goal of the principal component analysis (PCA) is the identification \\
+    of $n$ \textbf{normed orthogonal vectors} $\{x_i \in \mathbb{R}^m \; \vert \; i = 1,2, \ldots,n \}$ \\
+    within the input space, which \textbf{represent most of the variance} of the data.
+    \end{frame}
+  }
 
   { % Questions?
     \setbeamertemplate{footline}{}
