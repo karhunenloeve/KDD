@@ -565,6 +565,204 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Covariance of numerical data (I)}
+    \begin{itemize}
+      \item \textbf{\color{airforceblue}Covariance} \textbf{is similar to correlation:}\\
+            \begin{align}
+              \text{Cov}(A,B) = \frac{\sum_{i=1}^{n}(a_i-\overline{A})(b_i-\overline{B})}{n}
+            \end{align}
+      \item \textbf{Pearson's correlation coefficient:}\\
+            \begin{align}
+              r = \frac{n \sum_{i=1}^{n}a_ib_i - \sum_{i=1}^{n}a_i \sum_{i=1}^{n}b_i}{\sqrt{\left(n \sum_{i=1}^{n} a^2 - \left(\sum_{i=1}^{n} a_i\right)^2\right) \left(n \sum_{i=1}^{n}b^2 - \left(\sum_{i=1}^{n}b_i\right)^2\right)}},
+            \end{align}
+            where $n$ is the number of tuples.
+    \end{itemize}
+    \end{frame}
+  }
+
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Covariance of numerical data (II)}
+    \begin{itemize}
+      \item \textbf{Positive covariance:}\\
+            If $\text{Cov}(A,B) > 0$, then $A$ and $B$ tend to be either both larger or both smaller than their expected values.
+      \item \textbf{Negative covariance:}\\
+            If $\text{Cov}(A,B) < 0$, then if $A$ is larger than its expected value, $B$ is likely to be smaller than its expected value and vice versa.
+      \item \textbf{Independence:}
+      \begin{itemize}
+        \item $\text{Cov}(A,B) = 0$.
+        \item \textbf{\color{airforceblue}But the converse is not true:} Some pairs of random variables may have a covariance of $0$ but are not independent. Only under some additional assumptions (e.g., the data follow multivariate normal distributions) does a covariance of $0$ imply independence.
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Covariance: an example (I)}
+    \begin{itemize}
+      \item \textbf{Can be simplified in computation as:}
+            \begin{align}
+              \text{Cov}(A,B) &= E(A - E(A))(B-E(B))\\
+                              &= E(AB-AE(B)-E(A)B+E(A)E(B))\\
+                              &= E(AB)-E(A)E(B)-E(A)E(B)+E(A)E(B)\\
+                              &= E(AB)-E(A)E(B).
+            \end{align}
+    \end{itemize}
+    \end{frame}
+  }
+
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Covariance: an example (II)}
+    \begin{itemize}
+      \item Suppose two stocks $A$ and $B$ have the following values within some time:\\
+      $(2,5), (3,8), (5,10), (4,11), (6,14).$
+      \item If the stocks are affected by the same industry trends, will their prices rise or fall together?
+      \begin{align}
+        E(A) &= \frac{2+3+5+4+6}{5} = \frac{20}{5} = 4.\\
+        E(B) &= \frac{5+8+10+11+14}{5} = \frac{48}{5} = 9.6.\\
+        \text{Cov}(A,B) &= \frac{2\cdot5 + 3\cdot 8 + 5 \cdot 10 + 4 \cdot 11 + 6 \cdot 14}{5} - 4\cdot 9.6 = 4.
+      \end{align}
+      \item Thus, $A$ and $B$ rise together since $\text{Cov}(A,B) > 0$.
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Chapter IV: Preprocessing}
+        \begin{itemize}
+            \item Data preprocessing: an overview.
+            \begin{itemize}
+              \item Data quality.
+              \item Major tasks in data preprocessing.
+            \end{itemize}
+            \item Data cleaning.
+            \item Data integration.
+            \item \textbf{Data reduction.}
+            \item Data transformation and data discretization.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Data reduction I: dimensionality reduction}
+        \begin{itemize}
+            \item \textbf{Curse of dimensionality:}
+            \begin{itemize}
+              \item When dimensionality increases data becomes increasingly sparse.
+              \item Density and distance between points, which are critical to clustering and outlier analysis become less meaningful.
+              \item The possible combinations of subspaces will grow exponentially.
+            \end{itemize}
+            \item \textbf{Dimensionality reduction:}
+            \begin{itemize}
+              \item Avoid the curse of dimensionality.
+              \item Help eliminate irrelevant features and reduce noise.
+              \item Reduce time and space required in data mining.
+              \item Allow easier visualization.
+            \end{itemize}
+            \item \textbf{Dimensionality-reduction techniques:}
+            \begin{itemize}
+              \item Wavelet transforms.
+              \item Principal component analysis.
+              \item Supervised and nonlinear techniques (e.g. feature selection).
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Data reduction strategies}
+        \begin{itemize}
+            \item Obtain a reduced representation of the data set that is much smaller in volume but yet produces the same (or almost the same)  results.
+            \item \textbf{Why data reduction?}\\
+            \begin{itemize}
+              \item A database/data warehouse may store terabytes of data.
+              \item Complex data analysis may take a very long time to run on the complete data set.
+            \end{itemize}
+            \item \textbf{Data reduction strategies:}
+            \begin{itemize}
+              \item Dimensionality reduction, i.e. remove unimportant attributes.
+              \begin{itemize}
+                \item Wavelet transforms.
+                \item Principal component analysis.
+                \item Attribute subset selection or attribute creation.
+              \end{itemize}
+              \item Numerosity reduction:
+              \begin{itemize}
+                \item Regression and log-linear models.
+                \item Histograms, clustering and sampling.
+                \item Data cube aggregation.
+              \end{itemize}
+              \item Data compression.
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Mapping data to a new space}
+    \begin{itemize}
+      \item \textbf{Fourier transform}.
+      \item \textbf{Wavelet transform.}
+
+    \begin{figure}
+      \centering
+      \begin{minipage}[b]{0.30\textwidth}
+        \includegraphics[width=5cm]{img/twosinewaves.png}
+        \caption{Two sine waves.}
+      \end{minipage}\hfill
+      \begin{minipage}[b]{0.30\textwidth}
+        \includegraphics[width=5cm]{img/twosinewaveswithnoise.png}
+        \caption{Two sine waves with noise.}
+      \end{minipage}\hfill
+      \begin{minipage}[b]{0.30\textwidth}
+        \includegraphics[width=5cm]{img/frequencies.png}
+        \caption{Frequencies.}
+      \end{minipage}
+    \end{figure}
+    \end{itemize}
+    \end{frame}
+  }
+
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{What is wavelet transform?}
+    \begin{minipage}[b]{0.55\textwidth}
+      \begin{itemize}
+        \item \textbf{Decomposes a signal into different frequency subbands.}\\
+              Applicable to $n$-dimensional signals.
+        \item Data transformed to preserve relative distance between objects at different levels of resolution.
+        \item Data transformed to preserve relative distance between objects at different levels of resolution.
+        \item Allow natural clusters to become more distinguishable.
+        \item Used for image compression.
+      \end{itemize}
+    \end{minipage}\hspace{1cm}
+    \begin{minipage}[b]{0.30\textwidth}
+      \includegraphics[width=5cm]{img/wavelettransform.png}
+    \end{minipage}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Wavelet transformation}
+    \begin{itemize}
+      \item \textbf{Discrete wavelet transform:}
+    \end{itemize}
+    \end{frame}
+  }
+
 
   { % Questions?
     \setbeamertemplate{footline}{}
