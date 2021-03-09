@@ -13,7 +13,7 @@ Please note, that this lecture is an informal overview rather then a formal intr
 2. [Introduction](https://karhunenloeve.github.io/KDD/lecture2.pdf).
 3. [Data](https://karhunenloeve.github.io/KDD/lecture3.pdf).
 4. [Preprocessing](https://karhunenloeve.github.io/KDD/lecture4.pdf).
-5. OLAP.
+5. [OLAP](https://karhunenloeve.github.io/KDD/lecture5.pdf).
 6. Frequent patterns.
 7. Classification.
 8. Cluster analysis.
