@@ -964,6 +964,62 @@ are those whose actual count is very different from the expected count.
 
   { 
     \setbeamertemplate{footline}{}
+    \begin{frame}{}
+
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Types of sampling}
+        \begin{itemize}
+            \item \textbf{Simple random sampling.}
+            \begin{itemize}
+              \item There is an equal probability of selecting any particular item.
+            \end{itemize}
+            \item \textbf{Sampling without repetition.}
+            \begin{itemize}
+              \item Once an object is selected, it is removed from the population.
+            \end{itemize}
+            \item \textbf{Sampling with repetition.}
+            \begin{itemize}
+              \item A selected object is not removed from the population.
+            \end{itemize}
+            \item \textbf{Stratified sampling:}
+            \begin{itemize}
+              \item Partition the data set and draw samples from each partition: Proportionally, i.e. approximately the same percentage of the data.
+              \item Used in conjunction with skewed data.
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Data-cube aggregation}
+        \begin{itemize}
+            \item \textbf{The lowest level of a data cube (base cuboid).}
+            \begin{itemize}
+              \item The aggregated data for an \textbf{individual entity of interest}.
+              \item E.g. a customer in a phone-calling data warehouse.
+              \item Number of calls per hour, day, or week.
+            \end{itemize}
+            \item \textbf{Multiple levels of aggregation in data cubes.}
+            \begin{itemize}
+              \item Further reduce the size of data to deal with.
+            \end{itemize}
+            \item \textbf{Reference appropriate levels.}
+            \begin{itemize}
+              \item Use the smallest representation which is enough to solve the task.
+            \end{itemize}
+            \item \textbf{Queries regarding aggregated information should be answered using the data cube, if possible.}
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
     \begin{frame}{Data reduction (III): data compression}
         \begin{itemize}
             \item \textbf{String compression.}
