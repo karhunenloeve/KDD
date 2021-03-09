@@ -964,8 +964,229 @@ are those whose actual count is very different from the expected count.
 
   { 
     \setbeamertemplate{footline}{}
-    \begin{frame}{}
+    \begin{frame}{Attribute-subset selection}
+    \begin{itemize}
+      \item \textbf{Another way to reduce dimensionality of data.}
+      \item\textbf{\color{airforceblue}Redundant attributes:}
+      \begin{itemize}
+        \item Duplicate much or all of the information contained in other attributes.
+        \begin{itemize}
+          \item E.g. purchase price of a product and the amount of sales tax paid.
+        \end{itemize}
+      \end{itemize}
+      \item \textbf{\color{airforceblue}Irrelevant attributes:}
+      \begin{itemize}
+        \item contain no information that is useful for the data-mining task at hand.
+        \begin{itemize}
+          \item E.g. students' ID is often irrelevant to the task of predicting students' GPA.
+        \end{itemize}
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
 
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Heuristic search in attribute selection}
+    \begin{itemize}
+      \item \textbf{There are $2^d$ possible attribute combinations of $d$ attributes.}
+      \item\textbf{\color{airforceblue}Typical heuristic attribute-selection methods:}
+      \begin{itemize}
+        \item Best single attribute under the attribute-independence assumption: \\ choose by significance tests (e.g. t-test, see Chapter 6).
+        \item Best step-wise feature selection:
+        \begin{itemize}
+          \item The best single attribute is picked first.
+          \item Then next best attribute condition to the first \ldots
+        \end{itemize}
+      \end{itemize}
+      \item \textbf{\color{airforceblue}Step-wise attribute elimination:}
+      \begin{itemize}
+        \item Repeatedly eliminate the worst attribute.
+      \end{itemize}
+      \item Best combined attribute selection and elimination.
+      \item Optimal branch and bound:
+      \begin{itemize}
+        \item Use attribute elimination and backtracking.
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Attribute creation (feature generation)}
+    \begin{itemize}
+      \item \textbf{Create new attributes (features) that can capture the important information in a data set more effectively than the original ones.}
+      \item \textbf{Three general methodologies:}
+      \begin{itemize}
+        \item Attribute extraction.
+        \begin{itemize}
+          \item Domain-specific.
+        \end{itemize}
+      \end{itemize}
+      \item Mapping data to new space (see: data reduction).
+      \begin{itemize}
+        \item E.g. Fourier transformation, wavelet transformation, manifold approaches (not covered).
+      \end{itemize}
+      \item Attribute construction:
+      \begin{itemize}
+        \item Combining features (see: discriminative frequent patterns in Chapter 5).
+        \item Data discretization.
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Data reduction (II): numerosity reduction}
+    \begin{itemize}
+      \item \textbf{Reduce data volume by choosing alternative, {\color{airforceblue}smaller} forms of data representation.}
+      \item \textbf{{\color{airforceblue}Parametric} methods (e.g., regression):}
+      \begin{itemize}
+        \item Assume the data fits some \textbf{{\color{airforceblue}model}} (e.g. a function).
+        \item Estimate model parameters.
+        \item Store only the parameters.
+        \item Discard the data (except possible outliers):
+        \begin{itemize}
+          \item Ex. log-linear models-obtain value at a point in $m$-dimensional space as the product of appropriate marginal subspaces .
+        \end{itemize}
+      \end{itemize}
+      \item \textbf{{\color{airforceblue}Non-parametric} methods:}
+      \begin{itemize}
+        \item Do not assume models.
+        \item Major families: histograms, clustering, sampling, \ldots
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Parametric data reduction: regression and log-linear models}
+    \begin{itemize}
+      \item \textbf{Linear regression:}
+      \begin{itemize}
+        \item Data modeled to fit a \textbf{{\color{airforceblue}straight line}}.
+        \item Often uses the \textbf{{\color{airforceblue}least-square method}} to fit the line.
+      \end{itemize}
+      \item \textbf{Multiple regression:}
+      \begin{itemize}
+        \item Allows a response random variable $Y$ to be modeled as a linear function of a multidimensional feature vector $(x_1, x_2,\ldots, x_n)$.
+      \end{itemize}
+      \item \textbf{Log-linear model:}
+      \begin{itemize}
+        \item Approximates discrete multidimensional probability distributions.
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Regression analysis}
+    \begin{itemize}
+      \item A collective name for techniques for the modeling and analysis of numerical data consisting \\ of values of a \textbf{{\color{airforceblue}dependent variable}} (also called response variable or measurement) and of one or more \textbf{{\color{airforceblue}independent variables}} (aka. explanatory variables or predictors).
+      \item The parameters are estimated so as to give a best fit of the data.
+      \item The \textbf{{\color{airforceblue}best fit}} is evaluated by using the \textbf{{\color{airforceblue}least-squares method}}, but other criteria have also been used.
+      \item Used for prediction (including forecasting of time-series data), inference, hypothesis testing, and modeling of causal relationships.
+    \end{itemize}
+    \pgfmathsetseed{1138} % set the random seed
+    \pgfplotstableset{ % Define the equations for x and y
+        create on use/x/.style={create col/expr={42+2*\pgfplotstablerow}},
+        create on use/y/.style={create col/expr={(0.6*\thisrow{x}+130)+5*rand}}
+    }
+    % create a new table with 30 rows and columns x and y:
+    \pgfplotstablenew[columns={x,y}]{30}\loadedtable
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    xlabel=Weight (kg), % label x axis
+    ylabel=Height (cm), % label y axis
+    axis lines=left, %set the position of the axes
+    xmin=40, xmax=105, % set the min and max values of the x-axis
+    ymin=150, ymax=200, % set the min and max values of the y-axis
+    clip=false
+    ]
+
+    \addplot [only marks] table {\loadedtable};
+    \addplot [no markers, thick, red] table [y={create col/linear regression={y=y}}] {\loadedtable} node [anchor=west] {$\pgfmathprintnumber[precision=2, fixed zerofill]{\pgfplotstableregressiona} \cdot \mathrm{Weight} + \pgfmathprintnumber[precision=1]{\pgfplotstableregressionb}$};
+    \end{axis}
+
+    \end{tikzpicture}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Regression analysis and log-linear models}
+    \begin{itemize}
+      \item \textbf{Linear regression: $y = wx + b$}.
+      \begin{itemize}
+        \item Two regression coefficients, $w$ and $b$, \\
+              specify the line and are to be estimated by using the data at hand.
+        \item Using the least-squares criterion to the known values of $y_1,y_2, \ldots, x_1,x_2,\ldots$
+      \end{itemize}
+      \item \textbf{Multiple regression: $y = w_1 x_1 + w_2 x_2 + \ldots + w_n x_n + b$}.
+      \begin{itemize}
+        \item Many nonlinear functions can be transformed into the above.
+      \end{itemize}
+      \item \textbf{Log-linear models:}
+      \begin{itemize}
+        \item Approximate discrete multidimensional probability distributions.
+        \item Estimate the probability of each point (tuple) in a multi-dimensional space for a set of discretized attributes, based on a smaller subset of dimensional combinations.
+        \item Useful also for dimensionality reduction and data smoothing.
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Histogram analysis}
+    \begin{itemize}
+      \item \textbf{Divide data into buckets and store average (sum) or each bucket.}
+      \item \textbf{Partitioning rules:}
+      \begin{itemize}
+        \item Equal-width: equal bucket range.
+        \item Equal-frequency (or equal-depth).
+      \end{itemize}
+    \end{itemize}
+    \includegraphics[width=10cm]{img/histogram.png}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Clustering}
+    \begin{itemize}
+      \item \textbf{Partition data set into clusters based on similarity and store cluster representation (e.g., centroid and diameter) only.}
+      \begin{itemize}
+        \item Can be very effective if data points are close to each other under a certain norm and choice of space.
+        \item Can have hierarchical clustering and be stored in multidimensional index-tree structures.
+        \item There are many choices of clustering algorithms.
+        \item Cluster analysis will be studied in depth in Chapter 7.
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Sampling}
+    \begin{itemize}
+      \item \textbf{Obtain a small sample $x$ to represent the whole data set $X$.}
+      \item \textbf{Allow a mining algorithm to run in complexity \\ that is potentially sub-linear to the size of the data.}
+      \item \textbf{Key principle: Choose a {\color{airforceblue}representative} subset of the data.}
+      \begin{itemize}
+        \item Simple random sampling may have very poor performance in the presence of skew.
+        \item Develop adaptive sampling methods, e.g. stratified sampling.
+      \end{itemize}
+      \item \textbf{Note: Sampling may not reduce database I/Os.}
+      \begin{itemize}
+        \item One page at a time.
+      \end{itemize}
+    \end{itemize}
     \end{frame}
   }
 
