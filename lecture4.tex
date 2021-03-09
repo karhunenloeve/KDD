@@ -894,7 +894,7 @@ are those whose actual count is very different from the expected count.
     \end{align}
     The above equation yields the eigenvalue problem, which solution is given by
     \begin{align}
-    w_i = a \cdot c_i, \; (i=1,\ldots,n), \; a \in \mathbb{R},
+    w_i = a \cdot c_i, \; i=1,2,\ldots,n, \; a \in \mathbb{R},
     \end{align}
     i.e. they are parallel to some eigenvector $c_i$ of the correlation matrix $\mathbf{C} = \langle xx^T \rangle$.
     \end{frame}
@@ -923,15 +923,42 @@ are those whose actual count is very different from the expected count.
 
   {
     \setbeamertemplate{footline}{}
-    \begin{frame}{Principal component analysis (VI)}
-
+    \begin{frame}{Principal component analysis: principal components (VI)}
+    \begin{itemize}
+      \item The first principal component corresponds to the eigenvector of the correlation matrix with the largest eigenvalue.
+      \item The \textbf{\color{airforceblue}principal components of the data} $x$ are given by the projection of the sample vector $x$ onto the feature vectors $u_i$, such that:
+      \begin{align}
+        x^Tu_i, \; i = 1, 2, \ldots, m.
+      \end{align}
+      \item The $k$th component $x^Tu_k$ is along the direction of the eigenvector $u_k$ pointet to the $k$th biggest eigenvalue $\lambda_k$ of the covariance matrix:
+      \begin{align}
+        \text{Cov}(x) = \langle (x-\mu) (x-\mu)^T \rangle, \; \text{with} \; \mu = \langle x \rangle.
+      \end{align}
+      \item For centered data, which means if $\mu_k = 0$ then $\forall k$ it holds that the covariance matrix corresponds to the correlation matrix
+      \begin{align}
+        \mathbf{C} = \langle xx^T \rangle.
+      \end{align}
+    \end{itemize}
     \end{frame}
   }
 
   {
     \setbeamertemplate{footline}{}
-    \begin{frame}{Principal component analysis (VII)}
+    \begin{frame}{Principal component analysis: principal components (VII)}
+    Consider the variance of the $k$th component along a direction with unit vector $u_k$:
+    \begin{align}
+      \sigma_{u_k}^2 &= \langle (x^Tu_k)^2 \rangle\\
+                     &= \langle u_k^T xx^T u_k \rangle\\
+                     &= u_k^T \mathbf{C} u_k\\
+                     &= \sum_{\alpha = 1}^{l}\lambda_{\alpha}u_{k\alpha}^2.
+    \end{align}
+    $u_{k\alpha}$ is the component of $u_k$ along the eigenvector $c_\alpha$ of the matrix $\mathbf{C}$ to the eigenvalue $\lambda_\alpha$.
 
+    Consider, that
+    \begin{align}
+      \sigma_{u_k}^{2} = \lambda_k, \quad \text{if} \; u_k \vert \vert c_k.
+    \end{align}
+    The eigenvalues of the covariance matrix correspond to the variance of the feature vector along the principal component $u_i$.
     \end{frame}
   }
 
