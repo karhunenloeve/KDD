@@ -25,6 +25,7 @@
 \usepackage{tikz}
 \usepackage{tikz}
 \usepackage{tikz-cd}
+\usepackage{verbatim}
 \usepackage{pgfplots,pgfplotstable,pgf-pie}
 \usepackage{filecontents}
 \newcommand{\plots}{0.611201}
@@ -263,6 +264,21 @@
         \end{itemize}
       \end{itemize}
       \item \textbf{Note: There are more and more systems which perform OLAP\\ analysis directly on relational databases.}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Attribute-oriented induction: an example}
+    \begin{itemize}
+      \item \textbf{Example:} Describe general characteristics of graduate students in a University database.
+      \item \textbf{Step 1:} Fetch relevant set of data using an SQL statement, e.g.\\[0.1cm]
+      \texttt{SELECT name, gender, major, birth\_place, birth\_date, residence, phone\#, gpa)}\\
+      \texttt{FROM student}\\
+      \texttt{WHERE student\_status IN {"Msc", "MBA", "PhD"}\;}\\[0.1cm]
+      \item \textbf{Step 2:} Perform attribute-oriented induction.
+      \item \textbf{Step 3:} Present results in generalized-relation, cross-tab, or rule forms.
     \end{itemize}
     \end{frame}
   }
