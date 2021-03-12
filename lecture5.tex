@@ -270,13 +270,59 @@
 
   { 
     \setbeamertemplate{footline}{}
+    \begin{frame}{}
+
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Data generalization}
+    \begin{itemize}
+      \item \textbf{Summarize data:}
+      \begin{itemize}
+        \item \textbf{By replacing relatively low-level values} \\
+        e.g. numerical values for the attribute \texttt{age} \\
+        \textbf{with higher-level concepts}\\
+        e.g. \texttt{young}, \texttt{middle-aged} and \texttt{senior}.
+        \item \textbf{By reducing the number of dimensions}\\
+              e.g. removing \texttt{birth\_date} and \texttt{telephone\_number} \\ when summarizing the behavior of a group of students.
+        \item Describe concepts in concise and succinct terms at generalized (rather than low) levels of abstractions:
+        \begin{itemize}
+          \item Facilitates users in examining the general behavior of the data.
+          \item Makes dimensions of a data cube easier to grasp.
+        \end{itemize}
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Attribute-oriented induction}
+    \begin{itemize}
+      \item \textbf{Proposed in 1989} (KDD'89 workshop).
+      \item \textbf{Not confined to categorical data nor to particular measures.}
+      \item \textbf{How is it done?}
+      \begin{itemize}
+        \item Collect the \textbf{\color{airforceblue}task-relevant data} (initial relation) using a relational database query.
+        \item Perform \textbf{\color{airforceblue}generalization} by attribute removal or attribute generalization.
+        \item Apply \textbf{\color{airforceblue}aggregation} by merging identical, generalized tuples and \\ accumulating their respective counts.
+        \item Interaction with users for knowledge presentation.
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
     \begin{frame}{Attribute-oriented induction: an example}
     \begin{itemize}
       \item \textbf{Example:} Describe general characteristics of graduate students in a University database.
       \item \textbf{Step 1:} Fetch relevant set of data using an SQL statement, e.g.\\[0.1cm]
       \texttt{SELECT name, gender, major, birth\_place, birth\_date, residence, phone\#, gpa)}\\
       \texttt{FROM student}\\
-      \texttt{WHERE student\_status IN {"Msc", "MBA", "PhD"}\;}\\[0.1cm]
+      \texttt{WHERE student\_status IN {"Msc", "MBA", "PhD"};}\\[0.1cm]
       \item \textbf{Step 2:} Perform attribute-oriented induction.
       \item \textbf{Step 3:} Present results in generalized-relation, cross-tab, or rule forms.
     \end{itemize}
