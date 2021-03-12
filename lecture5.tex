@@ -21,6 +21,7 @@
 \usepackage{calc}
 \usepackage{ifthen}
 \usepackage{xcolor}
+\usepackage{tabularx}
 \usepackage{tikz}
 \usepackage{tikz}
 \usepackage{tikz-cd}
@@ -129,9 +130,140 @@
               \item A \textbf{\color{airforceblue}decision-support} database that is \textbf{\color{airforceblue}maintained separately} from the organization's operational database.
               \item Supports information processing by providing a solid platform of \textbf{\color{airforceblue}consolidated, historical data} for analysis.
             \end{itemize}
-            \item \textbf{Famous: "A data warehouse is a {\color{airforceblue}subject-oriented, integrated, time-variant, and nonvolatile} collection of data in support of management's decision-making process." -- W. H. Inmon.}
+            \item \textbf{Famous:} \\
+            \emph{A data warehouse is a {\color{airforceblue}subject-oriented, integrated, time-variant, and nonvolatile} collection of data in support of management's decision-making process.} \\
+            -- W. H. Inmon.
             \item \textbf{\color{airforceblue}Data warehousing:} The process of constructing and using data warehouses.
         \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Data warehouse -- subject-oriented}
+        \begin{itemize}
+            \item \textbf{Organized around major subjects.}
+            \begin{itemize}
+              \item Such as customer, product, sales.
+            \end{itemize}
+            \item \textbf{Focusing on the modeling and analysis of data for {\color{airforceblue}decision makers}.}
+            \begin{itemize}
+              \item Not on daily operations or transaction processing.
+            \end{itemize}
+            \item \textbf{Provide a simple and concise view around particular subject issues.}
+            \begin{itemize}
+              \item By excluding data that are not useful in the decision-support process.
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Data warehouse -- integrated}
+        \begin{itemize}
+            \item \textbf{Constructed by {\color{airforceblue}integrating multiple heterogeneous data sources}.}
+            \begin{itemize}
+              \item Relational databases, flat files, online transaction records, \ldots
+            \end{itemize}
+            \item \textbf{Data-cleaning and data-integration techniques are applied.}
+            \begin{itemize}
+              \item Ensure consistency in naming conventions, encoding structures, attribute measures, etc. among different data sources.
+              \item E.g., hotel price: currency, tax, breakfast covered, etc.
+              \item When data is moved to the warehouse, it is converted.
+              \item ETL -- Extraction, Transformation, Loading, see below.
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Data warehouse -- time variant}
+        \begin{itemize}
+            \item \textbf{The {\color{airforceblue}time horizon} for a data warehouse is {\color{airforceblue}significantly longer} than that of operational systems.}
+            \begin{itemize}
+              \item Operational database: current-value data.
+            \end{itemize}
+            \item Data warehouse: provide information from a historical perspective, e.g. past $5-10$ years.
+            \item \textbf{Every key structure in the data warehouse contains \\
+            an element of time, explicitly or implicitly.}
+            \item The key of operational data may or may not contain a "time element."
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Data warehouse -- nonvolatile}
+        \begin{itemize}
+            \item \textbf{A {\color{airforceblue}physically separate} store of data.}
+            \begin{itemize}
+              \item Transformed from the operational environment.
+              \item By {\color{airforceblue}copying}.
+            \end{itemize}
+            \item \textbf{No operational update of data:}
+            \begin{itemize}
+              \item Hence, does not require transaction processing, \\
+              i.e. no logging, recovery, concurrency control, etc.
+              \item Requires only three operations:
+              \begin{itemize}
+                \item Initial loading of data.
+                \item Refresh (update, often periodically, e.g. over night).
+                \item Access of data.
+              \end{itemize}
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{OLTP vs. OLAP}
+      \begin{tabularx}{\textwidth}{|l|X|X|}
+      & \textbf{OLTP} & \textbf{OLAP} \\\hline
+      \textbf{users} & clerk, IT professional & knowledge worker \\
+      \textbf{function} & day-to-day operations & decision support \\
+      \textbf{DB design} & application-oriented & decision support \\
+      \textbf{data} & current, up-to-date; detailed, flat relational; isolated & historical; summarized, multidimensional, integrated, consolidated \\
+      \textbf{usage} & repetitive & ad-hoc \\
+      \textbf{access} & read/write; index/hash on primary key & lots of scans \\
+      \textbf{unit of work} & short, simple transaction & complex query \\
+      \textbf{$\#$-records accessed} & $~ 10$ & $~ 10^6$ \\
+      \textbf{$\#$-users} & $~ 1000$ & $~ 100$ \\
+      \textbf{DB size} & $~ 100$ MB to GB & $~ 100$ GB to TB \\
+      \textbf{quantification} & transaction throughput & query throughput, response \\
+      \end{tabularx}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Why a separate data warehouse?}
+    \begin{itemize}
+      \item \textbf{High performance for both systems:}
+      \begin{itemize}
+        \item \textbf{\color{airforceblue}DBMS}: tuned for OLTP; Access methods, indexing concurreny control, recovery.
+        \item \textbf{\color{airforceblue}Warehouse}: tuned for OLAP; Complex OLAP queries, multidimensional view, consolidation.
+      \end{itemize}
+      \item \textbf{Different functions and different data:}
+      \begin{itemize}
+        \item Missing data:
+        \begin{itemize}
+          \item Decision support (DS) requires \textbf{\color{airforceblue}historical data} \\ which operational DBs do not typically maintain.
+        \end{itemize}
+        \item Data consolidation:
+        \begin{itemize}
+          \item DS requires \textbf{\color{airforceblue}consolidation} (aggregation, summarization) \\
+          of data from heterogeneous sources.
+        \end{itemize}
+        \item Data quality:
+        \begin{itemize}
+          \item Different sources typically use inconsistent data representations, \\ codes and formats which have to be reconciled.
+        \end{itemize}
+      \end{itemize}
+      \item \textbf{Note: There are more and more systems which perform OLAP\\ analysis directly on relational databases.}
+    \end{itemize}
     \end{frame}
   }
 
