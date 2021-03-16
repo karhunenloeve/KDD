@@ -274,7 +274,178 @@
 
     \end{frame}
   }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Three data-warehouse models}
+    \begin{itemize}
+      \item \textbf{\color{airforceblue}Enterprise Warehouse:}
+      \begin{itemize}
+        \item Collects all of the information about subjects spanning the entire organization.
+      \end{itemize}
+      \item \textbf{\color{airforceblue}Data mart:}
+      \begin{itemize}
+        \item A \textbf{\color{airforceblue}subset} of corporate-wide data that is of value to a \textbf{\color{airforceblue}specific group of users.}
+        \item Its scope is confined to specific, selected groups, such as marketing data mart.
+        \item Independent vs. dependent (directly from warehouse) data mart.
+      \end{itemize}
+      \item \textbf{\color{airforceblue}Virtual warehouse:}
+       \begin{itemize}
+        \item A set of \textbf{\color{airforceblue}views} over operational databases.
+        \item Only some of the possible summary views may be materialized.
+      \end{itemize}
+   \end{itemize}
+    \end{frame}
+  }
   
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Extraction, transformation, and loading (ETL)}
+    \begin{itemize}
+      \item \textbf{\color{airforceblue}Extraction:}
+      \begin{itemize}
+        \item Get data from multiple, heterogeneous, and external sources.
+      \end{itemize}
+      \item \textbf{\color{airforceblue}Cleaning:}
+      \begin{itemize}
+        \item Detect errors in the data and rectify them if possible.
+      \end{itemize}
+      \item \textbf{\color{airforceblue}Transformation:}
+      \begin{itemize}
+        \item Convert data from legacy or host format to warehouse format.
+      \end{itemize}
+      \item \textbf{\color{airforceblue}Loading:}
+      \begin{itemize}
+        \item Sort, summarize, consolidate, compute views, check integrity, and build indexes and partitions.
+      \end{itemize}
+      \item \textbf{\color{airforceblue}Refresh:}
+      \begin{itemize}
+        \item Propagate only the updates from the data sources to the warehouse.
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Metadata repository}
+    \begin{itemize}
+      \item \textbf{Metadata: the data defining data-warehouse objects.}
+      \item \textbf{Description of the {\color{airforceblue}structure} of the data warehouse:}
+      \begin{itemize}
+        \item Schema, view, dimensions, hierarchies, derived-data definition, data-mart locations and contents.
+      \end{itemize}
+      \item \textbf{{\color{airforceblue}Operational} metadata:}
+      \begin{itemize}
+        \item \textbf{\color{airforceblue}Data lineage} (history of migrated data and transformation path).
+        \item Currency of data (active, archived, or purged).
+        \item Monitoring information (warehouse-usage statistics, error reports, audit trails).
+      \end{itemize}
+      \item \textbf{{\color{airforceblue}Algorithms} used for summarization.}
+      \item \textbf{{\color{airforceblue}Mapping} from operational environment to data warehouse.}
+      \item \textbf{Data related to system performance:}
+      \begin{itemize}
+        \item Warehouse schema, view and derived-data definitions.
+      \end{itemize}
+      \item \textbf{Business data:}
+      \begin{itemize}
+        \item Business terms and definitions, ownership of data, charging policies.
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Chapter IV: Data warehousing and online analytical processing}
+        \begin{itemize}
+            \item Data warehouse: basic concepts.
+            \item \textbf{Data-warehouse modeling: data cube and OLAP.}
+            \item Data-warehouse design and usage.
+            \item Data-warehouse Implementation.
+            \item Data generalization by attribute-oriented induction.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{From tables and spreadsheets to data cubes}
+        \begin{itemize}
+            \item Data warehouse: basic concepts.
+            \begin{itemize}
+              \item Based on a \textbf{\color{airforceblue}multidimensional data model} which views data in the form of a \textbf{data cube}.
+            \end{itemize}
+            \item \textbf{Data cube.}
+            \begin{itemize}
+              \item Allows data (here: sales) to be modeled and viewed in multiple dimensions.
+              \begin{itemize}
+                \item \textbf{Dimension tables:} such as: \texttt{item (item\_name, brand, type)},\\
+                or: \texttt{time (day, week, month, quarter, year)}.
+                \item \textbf{Fact table:} Contains \textbf{measures} (such as \texttt{dollars\_sold}) and references (\texttt{foreign keys}) to each of the related dimension tables.
+              \end{itemize}
+            \end{itemize}
+            \item \textbf{$n$-dimensional base cube.}
+            \begin{itemize}
+              \item Called a base cuboid in data-warehousing literature.
+            \end{itemize}
+            \item \textbf{Top most $0$-dimensional cuboid.}
+            \begin{itemize}
+              \item Holds the highest-level of summarization.
+              \item Called the apex cuboid.
+            \end{itemize}
+            \item \textbf{Lattice of cuboids.} (Forms a data cube)
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Cube: a lattice of cuboids}
+    \begin{tikzpicture}
+      \node[draw, circle, fill=black, label=below:{all}] at (2,6) {};
+      \draw (2,6) -- (-0.5,4.5);
+      \draw (2,6) -- (1,4.5);
+      \draw (2,6) -- (2.5,4.5);
+      \draw (2,6) -- (4,4.5);
+
+      \node[draw, circle, fill=black, label=below:{time}] at (-0.5,4.5) {};
+      \node[draw, circle, fill=black, label=below:{item}] at (1,4.5) {};
+      \node[draw, circle, fill=black, label=below:{location}] at (2.5,4.5) {};
+      \node[draw, circle, fill=black, label=below:{supplier}] at (4,4.5) {};
+      \draw (-0.5,4.5) -- (-2,3);
+      \draw (-0.5,4.5) -- (-0.5,3);
+      \draw (-0.5,4.5) -- (1,3);
+      \draw (1,4.5) -- (-2,3);
+      \draw (1,4.5) -- (2.5,3);
+      \draw (1,4.5) -- (4,3);
+      \draw (2.5,4.5) -- (-0.5,3);
+      \draw (2.5,4.5) -- (2.5,3);
+      \draw (2.5,4.5) -- (5.5,3);
+      \draw (4,4.5) -- (1,3);
+      \draw (4,4.5) -- (4,3);
+      \draw (4,4.5) -- (5.5,3);
+
+
+      \node[draw, circle, fill=black, label=below:{time,item}] at (-2,3) {};
+      \node[draw, circle, fill=black] at (-0.5,3) {};
+      \node[draw, circle, fill=black, label=below:{time,supplier}] at (1,3) {};
+      \node[draw, circle, fill=black] at (2.5,3) {};
+      \node[draw, circle, fill=black, label=below:{item,supplier}] at (4,3) {};
+      \node[draw, circle, fill=black] at (5.5,3) {};
+
+
+      \node[draw, circle, fill=black] at (-0.5,1.5) {};
+      \node[draw, circle, fill=black, label=below:{time,item,supplier}] at (1,1.5) {};
+      \node[draw, circle, fill=black] at (2.5,1.5) {};
+      \node[draw, circle, fill=black, label=below:{time,location,supplier}] at (4,1.5) {};
+
+      \node[draw, circle, fill=black, label=below:{time,item,location,supplier}] at (2,0)  {};
+    \end{tikzpicture}
+    \end{frame}
+  }
+
   { 
     \setbeamertemplate{footline}{}
     \begin{frame}{Chapter IV: Data warehousing and online analytical processing}
