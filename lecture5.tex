@@ -43,8 +43,7 @@
         inner sep = 1pt,
     }
 }
-\usetikzlibrary{matrix,mindmap}
-\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,fit,positioning,shapes.symbols,chains,intersections,snakes,positioning}
+\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,fit,positioning,shapes.symbols,chains,intersections,snakes,positioning,matrix,mindmap,shapes.multipart,shapes,calc}
 \tikzset{level 1/.append style={sibling angle=50,level distance = 165mm}}
 \tikzset{level 2/.append style={sibling angle=20,level distance = 45mm}}
 \tikzset{every node/.append style={scale=1}}
@@ -463,6 +462,89 @@
       \node[label=below:{$2$-dimensional cuboid}] at (9,3)  {};
       \node[label=below:{$3$-dimensional cuboid}] at (9,1.5)  {};
       \node[label=below:{$4$-dimensional (base) cuboid}] at (9,0)  {};
+    \end{tikzpicture}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Conceptual modeling of data warehouses}
+        \begin{itemize}
+            \item \textbf{Star schema:}.
+            \begin{itemize}
+                \item A fact table in the middle connected to a set of dimension tables.
+            \end{itemize}
+            \item \textbf{Snowflake schema:}.
+            \begin{itemize}
+                \item A refinement of the star schema where some dimensional hierarchy \\
+                 is \textbf{normalized} into a set of smaller dimension tables,\\
+                forming a shape similar to a snowflake.
+            \end{itemize}
+            \item \textbf{Fact constellations:}.
+            \begin{itemize}
+                \item Multiple fact tables sharing dimension tables, \\
+                viewed as a collection of stars, therefore called \\
+                \textbf{galaxy schema} or fact constellation.
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Example of star schema}
+    \tikzset{basic/.style={
+            draw,
+            rectangle split,
+            rectangle split parts=2,
+            rectangle split part fill={blue!20,white},
+            minimum width=2.5cm,
+            text width=2cm,
+            align=left,
+            font=\itshape
+        },
+        Diamond/.style={ diamond, 
+                         draw, 
+                            shape aspect=2, 
+                            inner sep = 2pt,
+                            text centered,
+                            fill=blue!10!white,
+                            font=\itshape
+                          }}
+    \begin{tikzpicture}
+    \node[basic, rectangle split part fill={green!20,white}] at (2,2) (time) {time
+    \nodepart{second}
+    \underline{time\_key}\\
+    day\\
+    day\_of\_week\\
+    month\\
+    quarter\\
+    year};
+
+    \node[basic] at (2,-2) (branch) {branch
+    \nodepart{second}
+    \underline{branch\_key}\\
+    branch\_name\\
+    branch\_type};
+
+    \node[basic, rectangle split part fill={orange!20,white}] at (12,2) (item) {item
+    \nodepart{second}
+    \underline{item\_key}\\
+    item\_name\\
+    brand\\
+    type\\
+    supplier\_type};
+
+    \node[basic, rectangle split part fill={yellow!20,white}] at (12,-1.5) (location) {location
+    \nodepart{second}
+    \underline{location\_key}\\
+    street\\
+    city\\
+    province\\
+    country};
+
+    \node[] at (7,3) {Sales fact table:}
+    %\draw[->] ([yshift=-13pt]$(time.east)$) -- ([yshift=1pt]$(department.west)$);
     \end{tikzpicture}
     \end{frame}
   }
