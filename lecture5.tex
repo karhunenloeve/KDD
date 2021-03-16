@@ -566,6 +566,92 @@
 
   { 
     \setbeamertemplate{footline}{}
+    \begin{frame}{Example of snowflake schema}
+    \tikzset{basic/.style={
+            draw,
+            rectangle split,
+            rectangle split parts=2,
+            rectangle split part fill={blue!20,white},
+            minimum width=2.5cm,
+            text width=2cm,
+            align=left,
+            font=\itshape
+        },
+        Diamond/.style={ diamond, 
+                         draw, 
+                            shape aspect=2, 
+                            inner sep = 2pt,
+                            text centered,
+                            fill=blue!10!white,
+                            font=\itshape
+                          }}
+    \begin{tikzpicture}
+    \node[basic, rectangle split part fill={green!20,white}] at (2,2) (time) {time
+    \nodepart{second}
+    \underline{time\_key}\\
+    day\\
+    day\_of\_week\\
+    month\\
+    quarter\\
+    year};
+
+    \node[basic] at (2,-2) (branch) {branch
+    \nodepart{second}
+    \underline{branch\_key}\\
+    branch\_name\\
+    branch\_type};
+
+    \node[basic, rectangle split part fill={orange!20,white}] at (10,2) (item) {item
+    \nodepart{second}
+    \underline{item\_key}\\
+    item\_name\\
+    brand\\
+    type\\
+    supplier\_key};
+
+    \node[basic, rectangle split part fill={orange!20,white}] at (13,2) (supplier) {supplier
+    \nodepart{second}
+    \underline{supplier\_key}\\
+    supplier\_type};
+
+    \node[basic, rectangle split part fill={yellow!20,white}] at (10,-1.5) (location) {location
+    \nodepart{second}
+    \underline{location\_key}\\
+    street\\
+    city\_key};
+
+    \node[basic, rectangle split part fill={yellow!20,white}] at (13,-1.5) (city) {city
+    \nodepart{second}
+    \underline{city\_key}\\
+    city\\
+    province\\
+    country};
+
+    \node[] at (6,3) {Sales fact table:};
+    \node[fill=green!20, minimum width = 3cm, minimum height=0.5cm, align=right] at (6,2.5) (a) {time\_key};
+    \node[fill=orange!20, minimum width = 3cm, minimum height=0.5cm, align=right] at (6,2) (b) {item\_key};
+    \node[fill=blue!20, minimum width = 3cm, minimum height=0.5cm, align=right] at (6,1.5) (c) {branch\_key};
+    \node[fill=yellow!20, minimum width = 3cm, minimum height=0.5cm, align=right] at (6,1) (d) {location\_key};
+    \node[fill=red!20, minimum width = 3cm, minimum height=0.5cm, align=right] at (6,0.5) (units) {units\_sold};
+    \node[fill=red!20, minimum width = 3cm, minimum height=0.5cm, align=right] at (6,0) (dollars) {dollars\_sold};
+    \node[fill=red!20, minimum width = 3cm, minimum height=0.5cm, align=right] at (6,-0.5) (sales) {avg\_sales};
+    \draw[->, dashed] (a) -- (time) ;
+    \draw[->, dashed] (b) -- (item) ;
+    \draw[->, dashed] (c) -- (branch) ;
+    \draw[->, dashed] (d) -- (location) ;
+    \draw[->, dashed] (10,-2) -- (city) ;
+    \draw[->, dashed] (11,1) -- (supplier) ;
+
+    \node[fill=red!20, minimum width = 3cm, minimum height=0.5cm, align=right] at (5,-1.5) (e) {Measures};
+    \draw[-] (e) -- (units) ;
+    \draw[-] (e) -- (dollars) ;
+    \draw[-] (e) -- (sales) ;
+    \end{tikzpicture}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
     \begin{frame}{Chapter IV: Data warehousing and online analytical processing}
         \begin{itemize}
             \item Data warehouse: basic concepts.
