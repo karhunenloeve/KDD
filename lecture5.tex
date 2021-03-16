@@ -859,6 +859,32 @@
     \end{frame}
   }
 
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Aggregation type}
+        \begin{itemize}
+            \item \textbf{Sales volume as a function of product, month, and region.}
+            \begin{itemize}
+              \item Dimensions: \texttt{Product, Location, Time.}
+              \item Hierarchical summarization paths.
+            \end{itemize}
+        \end{itemize}
+        \vspace{0.5cm}
+        \hspace{0.5cm}
+        \begin{tikzpicture}[scale=0.6]
+        \foreach \x in{0,...,4}
+        {   \draw (0,\x ,4) -- (4,\x ,4);
+            \draw (\x ,0,4) -- (\x ,4,4);
+            \draw (4,\x ,4) -- (4,\x ,0);
+            \draw (\x ,4,4) -- (\x ,4,0);
+            \draw (4,0,\x ) -- (4,4,\x );
+            \draw (0,4,\x ) -- (4,4,\x );
+        }
+        \end{tikzpicture}
+    \end{frame}
+  }
+
+
 
   { 
     \setbeamertemplate{footline}{}
