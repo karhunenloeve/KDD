@@ -809,6 +809,59 @@
 
   { 
     \setbeamertemplate{footline}{}
+    \begin{frame}{Data-cube measures: three categories}
+        \begin{itemize}
+            \item \textbf{Distributive:}
+            \begin{itemize}
+              \item If the result derived by applying the function to the $n$ aggregate values obtained for $n$ partitions of the dataset is the same as that derived by applying the function on all the data without partitioning.\\
+              E.g. \texttt{COUNT, SUM, MIN, MAX}.
+            \end{itemize}
+            \item \textbf{Functional:}
+            \begin{itemize}
+              \item If it can be computed by an algebraic function with $M$ arguments, each of which is obtained by applying a distributive aggregate function.\\
+              E.g. \texttt{AVG, MIN$_N$, STD}.
+            \end{itemize}
+            \item \textbf{Holistic:}
+            \begin{itemize}
+              \item If there is no constant bound on the storage size needed to describe a subaggregate.\\
+              E.g. \texttt{MEDIAN, MODE, RANK}.
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Aggregation type}
+        \begin{itemize}
+            \item \textbf{Non-trivial property.}
+            \begin{itemize}
+              \item Next to name and value range.
+            \end{itemize}
+            \item \textbf{Defines the set of aggregation operations that can be executed on a measure (a fact).}
+            \item \textbf{\color{airforceblue}FLOW:}
+            \begin{itemize}
+              \item Any aggregation.
+              \item E.g. sales turnover.
+            \end{itemize}
+            \item \textbf{\color{airforceblue}STOCK:}
+            \begin{itemize}
+              \item No temporal aggregation.
+              \item E.g. stock, inventory.
+            \end{itemize}
+            \item \textbf{\color{airforceblue}VPU (Value per Unit:}
+            \begin{itemize}
+              \item No summarization.
+              \item E.g. price, tax, in general factors.
+            \end{itemize}
+            \item \textbf{(Always applicable: \texttt{MIN}, \texttt{MAX} and \texttt{AVG}).}
+        \end{itemize}
+    \end{frame}
+  }
+
+
+  { 
+    \setbeamertemplate{footline}{}
     \begin{frame}{Chapter IV: Data warehousing and online analytical processing}
         \begin{itemize}
             \item Data warehouse: basic concepts.
