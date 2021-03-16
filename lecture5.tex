@@ -543,8 +543,23 @@
     province\\
     country};
 
-    \node[] at (7,3) {Sales fact table:}
-    %\draw[->] ([yshift=-13pt]$(time.east)$) -- ([yshift=1pt]$(department.west)$);
+    \node[] at (7,3) {Sales fact table:};
+    \node[fill=green!20, minimum width = 3cm, minimum height=0.5cm, align=right] at (7,2.5) (a) {time\_key};
+    \node[fill=orange!20, minimum width = 3cm, minimum height=0.5cm, align=right] at (7,2) (b) {item\_key};
+    \node[fill=blue!20, minimum width = 3cm, minimum height=0.5cm, align=right] at (7,1.5) (c) {branch\_key};
+    \node[fill=yellow!20, minimum width = 3cm, minimum height=0.5cm, align=right] at (7,1) (d) {location\_key};
+    \node[fill=red!20, minimum width = 3cm, minimum height=0.5cm, align=right] at (7,0.5) (units) {units\_sold};
+    \node[fill=red!20, minimum width = 3cm, minimum height=0.5cm, align=right] at (7,0) (dollars) {dollars\_sold};
+    \node[fill=red!20, minimum width = 3cm, minimum height=0.5cm, align=right] at (7,-0.5) (sales) {avg\_sales};
+    \draw[->, dashed] (a) -- (time) ;
+    \draw[->, dashed] (b) -- (item) ;
+    \draw[->, dashed] (c) -- (branch) ;
+    \draw[->, dashed] (d) -- (location) ;
+
+    \node[fill=red!20, minimum width = 3cm, minimum height=0.5cm, align=right] at (5,-1.5) (e) {Measures};
+    \draw[-] (e) -- (units) ;
+    \draw[-] (e) -- (dollars) ;
+    \draw[-] (e) -- (sales) ;
     \end{tikzpicture}
     \end{frame}
   }
