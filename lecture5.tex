@@ -749,6 +749,66 @@
 
   { 
     \setbeamertemplate{footline}{}
+    \begin{frame}{A concept hierarchy: dimension (location)}
+    \begin{tikzpicture}
+      \node at (2,6) (all) {all};
+
+      \node at (-0.5,4.5) (europe) {Europe};
+      \node at (2,4.5) (dot1) {$\cdots$};
+      \node at (4.5,4.5) (america) {North\_America};
+
+      \node at (-2,3) (germany) {Germany};
+      \node at (-0.5,3) (dots2) {$\cdots$};
+      \node at (1,3) (spain) {Spain};
+      \node at (4,3) (canada) {Canada};
+      \node at (5.5,3) (dots3) {$\cdots$};
+      \node at (7,3) (mexico) {Mexico};
+
+      \node at (-2,1.5) (frankfurt) {Frankfurt};
+      \node at (-0.5,1.5) (dots4) {$\cdots$};
+      \node at (3,1.5) (vancouver) {Vancouver};
+      \node at (4.5,1.5) (dots5) {$\cdots$};
+      \node at (6,1.5) (toronto) {Toronto};
+      \node at (2,0) (lchan) {L. Chan};
+      \node at (3.5,0) (dots6) {$\cdots$};
+      \node at (5,0) (mwind) {M. Wind};
+
+      \draw (all) -- (europe);
+      \draw (all) -- (america);
+      \draw (europe) -- (germany);
+      \draw (europe) -- (spain);
+      \draw (america) -- (canada);
+      \draw (america) -- (mexico);
+      \draw (germany) -- (frankfurt);
+      \draw (germany) -- (dots4);
+      \draw (spain) -- (0.5,2.5);
+      \draw (spain) -- (1.5,2.5);
+      \draw (mexico) -- (6.5,2.5);
+      \draw (mexico) -- (7.5,2.5);
+      \draw (frankfurt) -- (-2.5,1);
+      \draw (frankfurt) -- (-1.5,1);
+      \draw (toronto) -- (5.5,1);
+      \draw (toronto) -- (6.5,1);
+      \draw (canada) -- (vancouver);
+      \draw (canada) -- (toronto);
+      \draw (vancouver) -- (lchan);
+      \draw (vancouver) -- (mwind);
+
+      \node at (9,6) (all2) {all};
+      \node at (9,4.5) (region2)  {region};
+      \node at (9,3) (country2) {country};
+      \node at (9,1.5) (city2) {city};
+      \node at (9,0) (office2) {office};
+      \draw (all2) -- (region2);
+      \draw (region2) -- (country2);
+      \draw (country2) -- (city2);
+      \draw (city2) -- (office2);
+    \end{tikzpicture}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
     \begin{frame}{Chapter IV: Data warehousing and online analytical processing}
         \begin{itemize}
             \item Data warehouse: basic concepts.
