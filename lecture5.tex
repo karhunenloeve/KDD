@@ -880,6 +880,28 @@
             \draw (4,0,\x ) -- (4,4,\x );
             \draw (0,4,\x ) -- (4,4,\x );
         }
+
+        \node at (0.2,-2) {\texttt{Region}};
+        \node[rotate=45] at (3.5,-1) {\texttt{Product}};
+        \node[rotate=90] at (-2,0.5) {\texttt{Month}};
+
+        \node at (8,1.5) (industry) {\texttt{Industry}};
+        \node at (8,0) (category) {\texttt{Category}};
+        \node at (8,-1.5) (product) {\texttt{Product}};
+        \draw (industry) -- (category) -- (product);
+
+        \node at (11,3) (region) {\texttt{Region}};
+        \node at (11,1.5) (country) {\texttt{Country}};
+        \node at (11,0) (city) {\texttt{City}};
+        \node at (11,-1.5) (office) {\texttt{Office}};
+        \draw (region) -- (country) -- (city) -- (office);
+
+        \node at (16,3) (year) {\texttt{Year}};
+        \node at (15,1.5) (quarter) {\texttt{Quarter}};
+        \node at (14,0) (month) {\texttt{Month}};
+        \node at (16,0) (week) {\texttt{Week}};
+        \node at (15,-1.5) (day) {\texttt{Day}}; 
+        \draw (year) -- (quarter) -- (month) -- (day) -- (week) -- (year);       
         \end{tikzpicture}
     \end{frame}
   }
