@@ -299,13 +299,6 @@
 
   { 
     \setbeamertemplate{footline}{}
-    \begin{frame}{}
-
-    \end{frame}
-  }
-
-  { 
-    \setbeamertemplate{footline}{}
     \begin{frame}{Three data-warehouse models}
     \begin{itemize}
       \item \textbf{\color{airforceblue}Enterprise Warehouse:}
@@ -1227,6 +1220,89 @@
             \item Data warehouse: basic concepts.
             \item Data-warehouse modeling: data cube and OLAP.
             \item Data-warehouse design and usage.
+            \item \textbf{Data-warehouse Implementation.}
+            \item Data generalization by attribute-oriented induction.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Efficient data-cube computation}
+        \begin{itemize}
+            \item \textbf{Data cube can be viewed as a lattice of cuboids.}
+            \item The bottom-most cuboid is the base cuboid.
+            \item The top-most cuboid (apex) contains only one cell.
+            \item How many cuboids in an $n$-dimensional cube with $L_i$ levels associated with dimension $i$?
+            \begin{align}
+            T = \prod_{i=1}^{n} (L_i +1).
+            \end{align}
+            \item \textbf{{\color{airforceblue}Materialization} of data cube.}
+            \begin{itemize}
+              \item Materialize each (cuboid) (full materialization), none (no materialization), or some (partial materialization).
+              \item Selection of cuboids to materialize based on size, sharing, access frequency, etc.
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{The "compute cube" operator}
+      \begin{columns}
+        \begin{column}{0.6\textwidth}
+          \vspace{-5.1cm}
+          \begin{itemize}
+            \item \textbf{Cube definition and computation in DMQL:} \\
+                  \texttt{DEFINE CUBE sales [item, city, year]:}\\
+                  \texttt{SUM (sales$\_$in$\_$dollars);}\\
+                  \texttt{COMPUTE CUBE sales;}
+            \item \textbf{Transform it into an SQL-like language:}\\
+            with a new operator \texttt{CUBE BY} (introduced by Gray et al. \'96).\\
+            \texttt{SELECT item, city, year, SUM (amount)}\\
+            \texttt{FROM sales}\\
+            \texttt{CUBE BY item, city, year;}
+            \item \textbf{Need to compute the following \texttt{Group by}s:}\\
+            \texttt{(date, product, customer),}\\
+            \texttt{(date, product), (date, customer),}\\
+            \texttt{(product, customer),}\\
+            \texttt{(date), (product), (customer)}\\
+            \texttt{()}
+          \end{itemize}
+        \end{column}
+        \begin{column}{0.3\textwidth}  %%<--- here
+        \begin{tikzpicture}
+        \node at (0,0) (a) {()};
+        \node at (0,-1.5) (b) {(item)};
+        \node at (-1.5,-1.5) (c) {(city)};
+        \node at (1.5,-1.5) (d) {(year)};
+        \node at (0,-3) (e) {(city,item)};
+        \node at (-1.5,-3) (f) {(city,year)};
+        \node at (1.5,-3) (g) {(item,year)};
+        \node at (0,-4) (h) {(city,item,year)};
+        \draw (a) -- (c) -- (f) -- (h);
+        \draw (h) -- (g) -- (d) -- (a);
+        \draw (h) -- (e);
+        \draw (e) -- (c);
+        \draw (e) -- (d);
+        \draw (f) -- (b);
+        \draw (g) -- (b);
+        \draw (b) -- (a);
+        \end{tikzpicture}
+        \end{column}
+      \end{columns}
+    \end{frame}
+  }
+
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Chapter IV: Data warehousing and online analytical processing}
+        \begin{itemize}
+            \item Data warehouse: basic concepts.
+            \item Data-warehouse modeling: data cube and OLAP.
+            \item Data-warehouse design and usage.
             \item Data-warehouse Implementation.
             \item \textbf{Data generalization by attribute-oriented induction.}
             \item Summary.
@@ -1526,6 +1602,7 @@
       \item E. F. Codd, S. B. Codd, and C. T. Salley: Beyond decision support. Computer World, 27, July 1993.
       \item J. Gray, et al. Data cube: A relational aggregation operator generalizing group-by, cross-tab and sub-totals. Data Mining and Knowledge Discovery, 1:29-54, 1997.
       \item A. Gupta and I. S. Mumick.  Materialized Views: Techniques, Implementations, and Applications. MIT Press, 1999.
+      \item J. Han:  Towards on-line analytical mining in large databases. ACM SIGMOD Record, 27:97-107, 1998.
     \end{itemize}
     \end{frame}
   }
@@ -1534,7 +1611,6 @@
     \setbeamertemplate{footline}{}
     \begin{frame}{References (II)}
     \begin{itemize}
-      \item J. Han:  Towards on-line analytical mining in large databases. ACM SIGMOD Record, 27:97-107, 1998.
       \item V. Harinarayan, A. Rajaraman, and J. D. Ullman: Implementing data cubes efficiently. SIGMOD'96.
       \item J. Hellerstein, P. Haas, and H. Wang: Online aggregation. SIGMOD'97.
       \item C. Imhoff, N. Galemmo, and J. G. Geiger: Mastering Data Warehouse Design: Relational and Dimensional Techniques. John Wiley, 2003.
