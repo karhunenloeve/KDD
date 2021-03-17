@@ -66,6 +66,26 @@
     }
 }
 
+\tikzset{basic/.style={
+        draw,
+        rectangle split,
+        rectangle split parts=2,
+        rectangle split part fill={blue!20,white},
+        minimum width=2.5cm,
+        text width=2cm,
+        align=left,
+        font=\itshape
+    },
+    Diamond/.style={ diamond, 
+                      draw, 
+                      shape aspect=2, 
+                      inner sep = 2pt,
+                      text centered,
+                      fill=blue!10!white,
+                      font=\itshape
+                    }}
+
+
 \tikzset{level 1/.append style={sibling angle=50,level distance = 165mm}}
 \tikzset{level 2/.append style={sibling angle=20,level distance = 45mm}}
 \tikzset{every node/.append style={scale=1}}
@@ -142,9 +162,9 @@
     \begin{frame}{Chapter IV: Data warehousing and online analytical processing}
         \begin{itemize}
             \item \textbf{Data warehouse: basic concepts.}
-            \item Data-warehouse modeling: data cube and OLAP.
-            \item Data-warehouse design and usage.
-            \item Data-warehouse Implementation.
+            \item Data warehouse modeling: data cube and OLAP.
+            \item Data warehouse design and usage.
+            \item Data warehouse Implementation.
             \item Data generalization by attribute-oriented induction.
             \item Summary.
         \end{itemize}
@@ -299,7 +319,7 @@
 
   { 
     \setbeamertemplate{footline}{}
-    \begin{frame}{Three data-warehouse models}
+    \begin{frame}{Three Data warehouse models}
     \begin{itemize}
       \item \textbf{\color{airforceblue}Enterprise Warehouse:}
       \begin{itemize}
@@ -352,7 +372,7 @@
     \setbeamertemplate{footline}{}
     \begin{frame}{Metadata repository}
     \begin{itemize}
-      \item \textbf{Metadata: the data defining data-warehouse objects.}
+      \item \textbf{Metadata: the data defining Data warehouse objects.}
       \item \textbf{Description of the {\color{airforceblue}structure} of the data warehouse:}
       \begin{itemize}
         \item Schema, view, dimensions, hierarchies, derived-data definition, data-mart locations and contents.
@@ -382,9 +402,9 @@
     \begin{frame}{Chapter IV: Data warehousing and online analytical processing}
         \begin{itemize}
             \item Data warehouse: basic concepts.
-            \item \textbf{Data-warehouse modeling: data cube and OLAP.}
-            \item Data-warehouse design and usage.
-            \item Data-warehouse Implementation.
+            \item \textbf{Data warehouse modeling: data cube and OLAP.}
+            \item Data warehouse design and usage.
+            \item Data warehouse Implementation.
             \item Data generalization by attribute-oriented induction.
             \item Summary.
         \end{itemize}
@@ -410,7 +430,7 @@
             \end{itemize}
             \item \textbf{$n$-dimensional base cube.}
             \begin{itemize}
-              \item Called a base cuboid in data-warehousing literature.
+              \item Called a base cuboid in Data warehousing literature.
             \end{itemize}
             \item \textbf{Top most $0$-dimensional cuboid.}
             \begin{itemize}
@@ -516,24 +536,6 @@
   { 
     \setbeamertemplate{footline}{}
     \begin{frame}{Example of star schema}
-    \tikzset{basic/.style={
-            draw,
-            rectangle split,
-            rectangle split parts=2,
-            rectangle split part fill={blue!20,white},
-            minimum width=2.5cm,
-            text width=2cm,
-            align=left,
-            font=\itshape
-        },
-        Diamond/.style={ diamond, 
-                         draw, 
-                            shape aspect=2, 
-                            inner sep = 2pt,
-                            text centered,
-                            fill=blue!10!white,
-                            font=\itshape
-                          }}
     \begin{tikzpicture}
     \node[basic, rectangle split part fill={green!20,white}] at (2,2) (time) {time
     \nodepart{second}
@@ -590,24 +592,6 @@
   { 
     \setbeamertemplate{footline}{}
     \begin{frame}{Example of snowflake schema}
-    \tikzset{basic/.style={
-            draw,
-            rectangle split,
-            rectangle split parts=2,
-            rectangle split part fill={blue!20,white},
-            minimum width=2.5cm,
-            text width=2cm,
-            align=left,
-            font=\itshape
-        },
-        Diamond/.style={ diamond, 
-                         draw, 
-                            shape aspect=2, 
-                            inner sep = 2pt,
-                            text centered,
-                            fill=blue!10!white,
-                            font=\itshape
-                          }}
     \begin{tikzpicture}
     \node[basic, rectangle split part fill={green!20,white}] at (2,2) (time) {time
     \nodepart{second}
@@ -1063,9 +1047,9 @@
     \begin{frame}{Chapter IV: Data warehousing and online analytical processing}
         \begin{itemize}
             \item Data warehouse: basic concepts.
-            \item Data-warehouse modeling: data cube and OLAP.
-            \item \textbf{Data-warehouse design and usage.}
-            \item Data-warehouse Implementation.
+            \item Data warehouse modeling: data cube and OLAP.
+            \item \textbf{Data warehouse design and usage.}
+            \item Data warehouse Implementation.
             \item Data generalization by attribute-oriented induction.
             \item Summary.
         \end{itemize}
@@ -1086,7 +1070,7 @@
               \begin{itemize}
                 \item Exposes the information being captured, stored, and managed by operational systems.
               \end{itemize}
-              \item \textbf{\color{airforceblue}Data-warehouse view:}
+              \item \textbf{\color{airforceblue}Data warehouse view:}
               \begin{itemize}
                 \item Consists of fact tables and dimension tables.
               \end{itemize}
@@ -1101,7 +1085,7 @@
 
   { 
     \setbeamertemplate{footline}{}
-    \begin{frame}{Data-warehouse design process}
+    \begin{frame}{Data warehouse design process}
         \begin{itemize}
             \item \textbf{Top-down, bottom-up approaches or a combination of both:}
             \begin{itemize}
@@ -1113,7 +1097,7 @@
               \item \textbf{\color{airforceblue}Waterfall:} structured and systematic analysis at each step before proceeding to the next.
               \item \textbf{\color{airforceblue}Spiral:} rapid generation of increasingly functional systems, short turn-around time, quick turn-around.
             \end{itemize}
-            \item \textbf{Typical data-warehouse design process:}
+            \item \textbf{Typical Data warehouse design process:}
             \begin{itemize}
               \item Choose a \textbf{\color{airforceblue}business process} to model, e.g., orders, invoices, etc.
               \item Choose a \textbf{\color{airforceblue}grain} (atomic level of data) of the business process.
@@ -1126,7 +1110,7 @@
 
   { 
     \setbeamertemplate{footline}{}
-    \begin{frame}{Data-warehouse development: a recommended approach}
+    \begin{frame}{Data warehouse development: a recommended approach}
     \centering
     \begin{tikzpicture}[>=latex']
         \tikzset{block/.style= {draw, rectangle, align=center,minimum width=2cm,minimum height=1cm},
@@ -1166,9 +1150,9 @@
 
   { 
     \setbeamertemplate{footline}{}
-    \begin{frame}{Data-warehouse usage}
+    \begin{frame}{Data warehouse usage}
         \begin{itemize}
-            \item \textbf{Three kinds of data-warehouse applications.}
+            \item \textbf{Three kinds of Data warehouse applications.}
             \begin{itemize}
               \item \textbf{\color{airforceblue}Information processing.}
               \begin{itemize}
@@ -1218,9 +1202,9 @@
     \begin{frame}{Chapter IV: Data warehousing and online analytical processing}
         \begin{itemize}
             \item Data warehouse: basic concepts.
-            \item Data-warehouse modeling: data cube and OLAP.
-            \item Data-warehouse design and usage.
-            \item \textbf{Data-warehouse Implementation.}
+            \item Data warehouse modeling: data cube and OLAP.
+            \item Data warehouse design and usage.
+            \item \textbf{Data warehouse Implementation.}
             \item Data generalization by attribute-oriented induction.
             \item Summary.
         \end{itemize}
@@ -1295,15 +1279,189 @@
     \end{frame}
   }
 
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Indexing OLAP data: bitmap index}
+        \begin{itemize}
+            \item \textbf{Index on a particular column.}
+            \item \textbf{Each value in the column has a bit vector: bit-op is fast.}
+            \item \textbf{Length of bit vector: $\#$ of records in base table.}
+            \item \textbf{$i$-th bit set, if $i$-th row of base table has value of bit vector.}
+            \item \textbf{Not suitable for high-cardinality domains:}
+            \begin{itemize}
+              \item A bit compression technique called Word-Aligned Hybrid (WAH) makes it work for high-cardinality domain as well [Wu et al., TODS'06].
+            \end{itemize}
+        \end{itemize}
+    \centering
+      \textbf{Base table} \hspace{2.5cm} \textbf{Index on region} \hspace{2.5cm} \textbf{Index on type}\\
+        \begin{tabular}{| c | c | c |}
+        \hline
+        \textbf{Cust} & \textbf{Region} & \textbf{Type}\\\hline
+        $C1$ & Asia & Retail\\\hline
+        $C2$ & Europe & Dealer\\\hline
+        $C3$ & Asia & Dealer\\\hline
+        $C4$ & America & Retail\\\hline
+        $C5$ & Europe & Dealer\\\hline
+        \end{tabular}\hspace{0.1cm}
+        \begin{tabular}{| c | c | c | c |}
+        \hline
+        \textbf{RecID} & \textbf{Asia} & \textbf{Europe} & \textbf{America}\\\hline
+        1 & 1 & 0 & 0 \\\hline
+        2 & 0 & 1 & 0 \\\hline
+        3 & 1 & 0 & 0 \\\hline
+        4 & 0 & 0 & 1 \\\hline
+        5 & 0 & 1 & 0 \\\hline        
+        \end{tabular}\hspace{0.1cm}
+        \begin{tabular}{| c | c | c |}
+        \hline
+        \textbf{RecID} & \textbf{Retail} & \textbf{Dealer}\\\hline
+        $1$ & 1 & 0\\\hline
+        $2$ & 0 & 1\\\hline
+        $3$ & 0 & 1\\\hline
+        $4$ & 1 & 0\\\hline
+        $5$ & 0 & 1\\\hline
+        \end{tabular}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Indexing OLAP data: join indices}
+        \begin{itemize}
+            \item \textbf{Join index:}
+            \begin{align}
+            \text{JI}(\texttt{R-id}, \texttt{S-id}) \quad \text{where} \quad \text{R}(\texttt{R-id}, \ldots) \bowtie  \text{S}(\texttt{S-id}, \ldots).
+            \end{align}
+            \item \textbf{Traditional indices map the values to a list of record ids.}
+            \begin{itemize}
+              \item Materializes rel. join in JI file and speeds up relational join.
+            \end{itemize}
+            \item \textbf{In data warehouses, join index relates the values of the dimensions of a star schema to rows in the fact table.}
+            \begin{itemize}
+              \item E.g. fact table: Sales and two dimensions location and item.
+              \begin{itemize}
+                \item A join index on location maintains for each distinct location a list of \texttt{R-ids} of the tuples recording the Sales in that location.
+              \end{itemize}
+              \item Join indices can span multiple dimensions.
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Indexing OLAP data: join indices (example)}
+      \centering
+      \begin{tikzpicture}
+      \node[basic, rectangle split part fill={red!20,white}] at (2,2) (sales) {sales
+      \nodepart{second}
+       ~\\
+       ~\\
+       ~\\
+      T57\\
+       ~\\
+       ~\\
+      T238
+       ~\\
+       ~\\
+      T249
+       ~\\
+       ~\\
+       ~\\
+       T884\\
+       ~};
+
+      \node[basic, rectangle split part fill={green!20,white}] at (-2,1) (location) {location
+      \nodepart{second}
+       ~\\
+       ~\\
+       ~\\
+      Main street\\
+       ~\\
+       ~\\
+       ~};
+
+      \node[basic, rectangle split part fill={yellow!20,white}] at (6,1) (item) {item
+      \nodepart{second}
+       ~\\
+       ~\\
+       ~\\
+      Sony-TV\\
+       ~\\
+       ~\\
+       ~};
+
+       \draw (-1,0.8) -- (1,1);
+       \draw (-1,0.8) -- (1,1.9);
+       \draw (-1,0.8) -- (1,2.9);
+
+       \draw (5,1) -- (1.5,2.9);
+       \draw (5,1) -- (1.8,1.9);
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Efficient processing of OLAP queries}
+    \begin{itemize}
+      \item \textbf{Determine which operations should be performed on the available cuboids.}
+      \begin{itemize}
+        \item Transform drill, roll, etc. into corresponding SQL and/or OLAP operations.\\
+              E.g. \texttt{dice} $=$ \texttt{selection} $+$ \texttt{projection}.
+      \end{itemize}
+      \item \textbf{Determine which materialized cuboid(s) should be selected for OLAP operation.}
+      \begin{itemize}
+        \item Let the query to be processed be on \texttt{\{brand, province\_or\_state\}} with the condition \texttt{"year = 2004"}, and there are $4$ materialized cuboids available:
+        \begin{itemize}
+          \item[1)] \texttt{{year, item\_name, city}}
+          \item[2)] \texttt{{year, brand, country}}
+          \item[3)] \texttt{{year, brand, province\_or\_state}}
+          \item[4)] \texttt{{item\_name, province\_or\_state} where year $=$ 2004}
+        \end{itemize}
+        \item Which should be selected to process the query?
+      \end{itemize}
+      \item \textbf{Explore indexing structures and compressed vs. dense-array structures in MOLAP.}
+    \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{OLAP server architectures}
+    \begin{itemize}
+      \item \textbf{Relational OLAP (ROLAP).}
+      \begin{itemize}
+        \item Use relational or extended-relational DBMS to store and manage warehouse data and OLAP middleware.
+        \item Include optimization of DBMS backend, implementation of aggregation navigation logic, and additional tools and services.
+        \item Greater scalability.
+      \end{itemize}
+      \item \textbf{Multidimensional OLAP (MOLAP).}
+      \begin{itemize}
+        \item Sparse array-based multidimensional storage engine.
+        \item Fast indexing to pre-computed summarized data.
+      \end{itemize}
+      \item \textbf{Hybrid OLAP (HOLAP) (e.g., Microsoft SQL-Server).}
+      \begin{itemize}
+        \item Flexibility, e.g., low level: relational, high-level: array.
+      \end{itemize}
+      \item \textbf{Specialized SQL servers (e.g., Redbricks).}
+      \begin{itemize}
+        \item Specialized support for SQL queries over star/snowflake schemas.
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
 
   { 
     \setbeamertemplate{footline}{}
     \begin{frame}{Chapter IV: Data warehousing and online analytical processing}
         \begin{itemize}
             \item Data warehouse: basic concepts.
-            \item Data-warehouse modeling: data cube and OLAP.
-            \item Data-warehouse design and usage.
-            \item Data-warehouse Implementation.
+            \item Data warehouse modeling: data cube and OLAP.
+            \item Data warehouse design and usage.
+            \item Data warehouse Implementation.
             \item \textbf{Data generalization by attribute-oriented induction.}
             \item Summary.
         \end{itemize}
@@ -1553,9 +1711,9 @@
     \begin{frame}{Chapter IV: Data warehousing and online analytical processing}
         \begin{itemize}
             \item Data warehouse: basic concepts.
-            \item Data-warehouse modeling: data cube and OLAP.
-            \item Data-warehouse design and usage.
-            \item Data-warehouse Implementation.
+            \item Data warehouse modeling: data cube and OLAP.
+            \item Data warehouse design and usage.
+            \item Data warehouse Implementation.
             \item Data generalization by attribute-oriented induction.
             \item \textbf{Summary.}
         \end{itemize}
@@ -1572,7 +1730,7 @@
         \item Star schema, snowflake schema, fact constellations.
         \item OLAP operations: drilling, rolling, slicing, dicing and pivoting.
       \end{itemize}
-      \item \textbf{Data-warehouse architecture, design, and usage.}
+      \item \textbf{Data warehouse architecture, design, and usage.}
       \begin{itemize}
         \item Multi-tiered architecture.
         \item Business-analysis design framework.
