@@ -1252,14 +1252,14 @@
     \begin{frame}{The "compute cube" operator}
       \begin{columns}
         \begin{column}{0.6\textwidth}
-          \vspace{-5cm}
+          \vspace{-4.8cm}
           \begin{itemize}
             \item \textbf{Cube definition and computation in DMQL:} \\
                   \texttt{DEFINE CUBE sales [item, city, year]:}\\
                   \texttt{SUM (sales$\_$in$\_$dollars);}\\
                   \texttt{COMPUTE CUBE sales;}
             \item \textbf{Transform it into an SQL-like language:}\\
-            with a new operator \texttt{CUBE BY} (introduced by Gray et al. \'96).\\
+            with a new operator \texttt{CUBE BY} (Gray et al. \'96).\\
             \texttt{SELECT item, city, year, SUM (amount)}\\
             \texttt{FROM sales}\\
             \texttt{CUBE BY item, city, year;}
