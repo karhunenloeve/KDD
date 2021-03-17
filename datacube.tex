@@ -1,0 +1,88 @@
+\documentclass[tikz]{standalone}
+\usetikzlibrary{matrix,paths.ortho,calc,positioning-plus}
+\newcommand*\rd{{% random date
+  \pgfmathrandominteger\m{0}{11}\ifcase\m Jan\or Feb\or Mar\or Apr\or May\or
+    Jun\or Jul\or Aug\or Sep\or Oct\or Nov\or Dec\fi
+    -\pgfmathprint{random(31)}-\pgfmathprint{random(100)}}}
+\newcommand*\rn{\pgfmathprint{random(100,9999)}}
+\tikzset{if/.code n args=3{\pgfmathparse{#1}\ifnum\pgfmathresult=0 
+  \pgfkeysalso{#3}\else\pgfkeysalso{#2}\fi}}
+\tikzset{local cs/.style n args=4{shift={(#1)}, x=($(#2)-(#1)$), xslant={#3}, yscale={#4}}}
+
+\begin{document}\sffamily
+\begin{tikzpicture}[
+  tight matrix/.style={
+    matrix of nodes, inner sep=+0pt, outer sep=+0pt,
+    every cell/.append style={
+      every node/.append style={
+        outer sep=+0pt,
+        inner xsep=+.1em,
+        inner ysep=+.3333em, % default (overwritten by matrix inner sep)
+        align=center,
+        text depth=+0pt, % depth("y"),
+        text height=height("M"),
+        text width=width("MMM-00-00"), % possibly other approaches
+      }}},
+  desc/.style={/utils/exec=\scriptsize}, % font key is not perfect
+  continent/.style={
+    desc, align=center, anchor=east},
+  hemi/.style={desc, align=center, text width=width("Hemisphere")},
+  route/.style={desc},
+  Route/.style={font=\bfseries},
+]
+
+% The matrix
+\matrix[tight matrix, draw] (m) {
+  190       & 215       & 160       & 240 \\
+  Feb-17-99 & Apr-22-99 & Sep-07-99 & Dec-01-99 \\
+  \rn & \rn & \rn & \rn \\
+  \rd & \rd & \rd & \rd \\
+  \rn & \rn & \rn & \rn \\
+  \rd & \rd & \rd & \rd \\
+  \rn & \rn & \rn & \rn \\
+  \rd & \rd & \rd & \rd \\
+  \rn & \rn & \rn & \rn \\
+  \rd & \rd & \rd & \rd \\
+  \rn & \rn & \rn & \rn \\
+  \rd & \rd & \rd & \rd \\
+};
+
+% The 3D
+\tikzset{my cs/.style={local cs={m.north west}{m.north east}{1}{2}}}
+\begin{scope}[my cs]
+  \draw (0,0) |- (1,1) -- (right:1)
+    (m.south east) -- ++ (up:1) -- (1,1);
+
+% The lines
+\foreach \c in {1,2,3}
+  \draw (m-12-\c.south east) -- (m-1-\c.north east) -- ++ (up:1);
+\foreach \c in {1,...,12}
+  \draw[if={isodd(\c)}{densely dashed}{}]
+    (m-\c-1.south west) -- (m-\c-4.south east) -- ++(up:1);
+\foreach \c in {1,...,7}
+  \draw[if={isodd(\c)}{densely dashed}{}]
+    (up:\c/8) coordinate (tl-\c) -- ++ (right:1) -- ([shift=(up:\c/8)]m.south east);
+\end{scope}
+
+% The Descriptions
+\foreach \st/\lt[count=\c from 0, evaluate={\d=int(2*\c+1)}]
+  in {af/Africa, as/Asia, au/Australia, eu/Europe, na/North\\America, sa/South\\America}
+    \node[continent] (\st) at (m-\d-1.south west) {\lt};
+\node[hemi, left=of |(af)(eu)] (eh) {Eastern\\Hemisphere}
+  (eh) \foreach \co in {af, as, au, eu}{ edge[-|-, hvvh/distance=.3cm] (\co)};
+\node[hemi] at (eh|-m-11-1.north) (wh) {Western\\Hemisphere}
+  (wh) \foreach \co in {na, sa}{         edge[-|-, hvvh/distance=.3cm] (\co)};
+
+\begin{scope}[node distance=.25cm, hvvh/distance=.2cm, my cs]
+\foreach \st[count=\c from 0, evaluate={\d=int(2*\c+1)}] in {air, sea, road, rail}
+  \node[continent, left=of tl-\d](\st){\st};
+
+\node[route, left=of |(sea)(air)] (ng) {non-ground}
+  (ng) \foreach \co in {sea, air}{  edge[-|-] (\co)};
+\node[route, left=of |(rail)(road)] (g) {ground}
+  (g) \foreach \co in {rail, road}{ edge[-|-] (\co)};
+\node[Route, left=of |(g)(ng)] (R) {Route}
+  (R) \foreach \co in {g, ng}{      edge[-|-] (\co)};
+\end{scope}
+\end{tikzpicture}
+\end{document}

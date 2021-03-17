@@ -43,19 +43,49 @@
         inner sep = 1pt,
     }
 }
-\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,fit,positioning,shapes.symbols,chains,intersections,snakes,positioning,matrix,mindmap,shapes.multipart,shapes,calc}
+
+\tikzset{
+    mynode/.style={
+        draw,
+        thick,
+        anchor=south west,
+        minimum width=2cm,
+        minimum height=1.3cm,
+        align=center, 
+        inner sep=0.2cm,
+        outer sep=0,
+        rectangle split, 
+        rectangle split parts=2,
+        rectangle split draw splits=false},
+    reverseclip/.style={
+        insert path={(current page.north east) --
+            (current page.south east) --
+            (current page.south west) --
+            (current page.north west) --
+            (current page.north east)}
+    }
+}
+
 \tikzset{level 1/.append style={sibling angle=50,level distance = 165mm}}
 \tikzset{level 2/.append style={sibling angle=20,level distance = 45mm}}
 \tikzset{every node/.append style={scale=1}}
+
+\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,fit,positioning,shapes.symbols,chains,intersections,snakes,positioning,matrix,mindmap,shapes.multipart,shapes,calc}
+
 % read in data file
+
+
+\newcommand{\MaxNumberX}{3}
+\newcommand{\MaxNumberY}{5}
+\newcommand{\tikzmark}[1]{\tikz[remember picture] \node[coordinate] (#1) {#1};}
+
 \pgfplotstableread{data/iris.dat}\iris
-% get number of data points
 \pgfplotstablegetrowsof{\iris}
+\pgfplotsset{compat=1.14}
 \pgfmathsetmacro\NumRows{\pgfplotsretval-1}
 \definecolor{airforceblue}{rgb}{0.36, 0.54, 0.66}
+
 \usepgfplotslibrary{groupplots}
-\pgfplotsset{compat=1.14}
-\newcommand{\tikzmark}[1]{\tikz[remember picture] \node[coordinate] (#1) {#1};}
 % Options:
 %  - inst:      Institute
 %                 med:      MedFak FAU theme
@@ -906,6 +936,13 @@
     \end{frame}
   }
 
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Data cube sample}
+    \centering
+    \includegraphics[width=10cm,height=6cm]{datacube.pdf}
+    \end{frame}
+  }
 
 
   { 
