@@ -1,0 +1,218 @@
+\ifx\pdfminorversion\undefined\else\pdfminorversion=4\fi
+\documentclass[aspectratio=169,t]{beamer}
+%\documentclass[aspectratio=169,t,handout]{beamer}
+
+% English version FAU Logo
+\usepackage[english]{babel}
+% German version FAU Logo
+%\usepackage[ngerman]{babel}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{fontawesome}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{verbatim}
+\usepackage{pgfplots,pgfplotstable,pgf-pie}
+\usepackage{filecontents}
+\newcommand{\plots}{0.611201}
+\newcommand{\plotm}{2.19882}
+\pgfplotsset{height=4cm,width=8cm,compat=1.17}
+\pgfmathdeclarefunction{gauss}{2}{%
+  \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
+}
+
+\tikzset{
+    vertex/.style = {
+        circle,
+        fill            = black,
+        outer sep = 2pt,
+        inner sep = 1pt,
+    }
+}
+
+\tikzset{
+    mynode/.style={
+        draw,
+        thick,
+        anchor=south west,
+        minimum width=2cm,
+        minimum height=1.3cm,
+        align=center, 
+        inner sep=0.2cm,
+        outer sep=0,
+        rectangle split, 
+        rectangle split parts=2,
+        rectangle split draw splits=false},
+    reverseclip/.style={
+        insert path={(current page.north east) --
+            (current page.south east) --
+            (current page.south west) --
+            (current page.north west) --
+            (current page.north east)}
+    }
+}
+
+\tikzset{basic/.style={
+        draw,
+        rectangle split,
+        rectangle split parts=2,
+        rectangle split part fill={blue!20,white},
+        minimum width=2.5cm,
+        text width=2cm,
+        align=left,
+        font=\itshape
+    },
+    Diamond/.style={ diamond, 
+                      draw, 
+                      shape aspect=2, 
+                      inner sep = 2pt,
+                      text centered,
+                      fill=blue!10!white,
+                      font=\itshape
+                    }}
+
+
+\tikzset{level 1/.append style={sibling angle=50,level distance = 165mm}}
+\tikzset{level 2/.append style={sibling angle=20,level distance = 45mm}}
+\tikzset{every node/.append style={scale=1}}
+
+\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,fit,positioning,shapes.symbols,chains,intersections,snakes,positioning,matrix,mindmap,shapes.multipart,shapes,calc,shapes.geometric}
+
+% read in data file
+
+
+\newcommand{\MaxNumberX}{3}
+\newcommand{\MaxNumberY}{5}
+\newcommand{\tikzmark}[1]{\tikz[remember picture] \node[coordinate] (#1) {#1};}
+
+\pgfplotstableread{data/iris.dat}\iris
+\pgfplotstablegetrowsof{\iris}
+\pgfplotsset{compat=1.14}
+\pgfmathsetmacro\NumRows{\pgfplotsretval-1}
+\definecolor{airforceblue}{rgb}{0.36, 0.54, 0.66}
+
+\usepgfplotslibrary{groupplots}
+% Options:
+%  - inst:      Institute
+%                 med:      MedFak FAU theme
+%                 nat:      NatFak FAU theme
+%                 phil:     PhilFak FAU theme
+%                 rw:       RWFak FAU theme
+%                 rw-jura:  RWFak FB Jura FAU theme
+%                 rw-wiso:  RWFak FB WISO FAU theme
+%                 tf:       TechFak FAU theme
+%  - image:     Cover image on title page
+%  - plain:     Plain title page
+%  - longtitle: Title page layout for long title
+\usetheme[%
+  image,%
+  longtitle,%
+  tf
+]{fau}
+
+% Enable semi-transparent animation preview
+\setbeamercovered{transparent}
+
+
+\lstset{%
+  language=Python,
+  tabsize=2,
+  basicstyle=\tt,
+  keywordstyle=\color{blue},
+  commentstyle=\color{green!50!black},
+  stringstyle=\color{red},
+  numbers=left,
+  numbersep=0.5em,
+  xleftmargin=1em,
+  numberstyle=\tt
+}
+
+
+% Title, authors, and date
+\title[KDD]{Chapter IV: OLAP}
+\subtitle{Knowledge Discovery in Databases}
+\author[L.~Melodia]{Luciano Melodia M.A.}
+% English version
+\institute[Department]{Evolutionary Data Management, Friedrich-Alexander University Erlangen-Nürnberg}
+% German version
+%\institute[Lehrstuhl]{Lehrstuhl, Friedrich-Alexander-Universit\"at Erlangen-N\"urnberg}
+\date{Summer semester 2021}
+% Set additional logo (overwrites FAU seal)
+%\logo{\includegraphics[width=.15\textwidth]{themefau/art/xxx/xxx.pdf}}
+\begin{document}
+  % Title
+  \maketitle
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Chapter IV: Data warehousing and online analytical processing}
+        \begin{itemize}
+            \item \textbf{Data warehouse: basic concepts.}
+            \item Data warehouse modeling: data cube and OLAP.
+            \item Data warehouse design and usage.
+            \item Data warehouse Implementation.
+            \item Data generalization by attribute-oriented induction.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{References (I)}
+    \begin{itemize}
+      \item S. Agarwal, R. Agrawal, P. M. Deshpande, A. Gupta, J. F. Naughton, R. Ramakrishnan, and S. Sarawagi: On the computation of multidimensional aggregates. VLDB'96.
+      \item D. Agrawal, A. E. Abbadi, A. Singh, and T. Yurek: Efficient view maintenance in data warehouses. SIGMOD'97.
+      \item R. Agrawal, A. Gupta, and S. Sarawagi: Modeling multidimensional databases.  ICDE'97.
+      \item {\color{airforceblue}S. Chaudhuri and U. Dayal: An overview of data warehousing and OLAP technology. ACM SIGMOD Record, 26:65-74, 1997-}
+      \item E. F. Codd, S. B. Codd, and C. T. Salley: Beyond decision support. Computer World, 27, July 1993.
+      \item J. Gray, et al. Data cube: A relational aggregation operator generalizing group-by, cross-tab and sub-totals. Data Mining and Knowledge Discovery, 1:29-54, 1997.
+      \item A. Gupta and I. S. Mumick.  Materialized Views: Techniques, Implementations, and Applications. MIT Press, 1999.
+      \item J. Han:  Towards on-line analytical mining in large databases. ACM SIGMOD Record, 27:97-107, 1998.
+    \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{References (II)}
+    \begin{itemize}
+      \item V. Harinarayan, A. Rajaraman, and J. D. Ullman: Implementing data cubes efficiently. SIGMOD'96.
+      \item J. Hellerstein, P. Haas, and H. Wang: Online aggregation. SIGMOD'97.
+      \item C. Imhoff, N. Galemmo, and J. G. Geiger: Mastering Data Warehouse Design: Relational and Dimensional Techniques. John Wiley, 2003.
+      \item W. H. Inmon: Building the Data Warehouse. John Wiley, 1996.
+      \item R. Kimball and M. Ross: The Data Warehouse Toolkit: The Complete Guide to Dimensional Modeling. 2ed. John Wiley, 2002.
+      \item P. O’Neil and G. Graefe: Multi-table joins through bitmapped join indices. ACM SIGMOD Record, 24:8–11, Sept. 1995.
+      \item P. O'Neil and D. Quass: Improved query performance with variant indexes. SIGMOD'97.
+      \item Microsoft. OLEDB for OLAP programmer's reference version 1.0. In \href{http://www.microsoft.com/data/oledb/olap}{http://www.microsoft.com/data/oledb/olap}, 1998.
+    \end{itemize}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}{}
+    \begin{frame}[c]
+      \begin{center}
+        Thank you for your attention.\\
+        {\bf Any questions about the fourth chapter?}\\[0.5cm]
+        Ask them now, or again, drop me a line: \\ 
+        \faSendO \ \texttt{luciano.melodia@fau.de}.
+      \end{center}
+    \end{frame}
+  }
+\end{document}
+

@@ -5,7 +5,7 @@
 COMPILER := pdflatex
 BIBTEXER := biber
 
-SLIDES     = lecture5
+SLIDES     = lecture6
 HANDOUT    = handout
 REFERENCES = body/references.bib
 #FONTS      = Myriad Minion
