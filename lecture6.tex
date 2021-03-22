@@ -514,6 +514,169 @@
     \end{frame}
   }
 
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{A priori algorithm - an example}
+    \centering
+    \begin{tikzpicture}
+    \path (0,1) coordinate (A) node[above, inner sep=0] {
+      \begin{tabular}{ | c | c |}
+        \hline
+        \textbf{TID} & \textbf{Items} \\\hline
+        10 & A,C,D \\\hline
+        20 & B,C,E \\\hline
+        30 & A,B,C,E \\\hline
+        40 & B,E \\\hline
+      \end{tabular}
+      };
+    \path (4,1) coordinate (A) node[above, inner sep=0] {
+      \begin{tabular}{ | c | c |}
+        \hline
+        \textbf{Itemset} & \textbf{sup} \\\hline
+        $\{A\}$ & 2 \\\hline
+        $\{B\}$ & 3 \\\hline
+        $\{C\}$ & 3 \\\hline
+        $\{D\}$ & 1 \\\hline
+        $\{E\}$ & 3 \\\hline
+      \end{tabular}
+      };
+    \path (8,1) coordinate (A) node[above, inner sep=0] {
+      \begin{tabular}{ | c | c |}
+        \hline
+        \textbf{Itemset} & \textbf{sup} \\\hline
+        $\{A\}$ & 2 \\\hline
+        $\{B\}$ & 3 \\\hline
+        $\{C\}$ & 3 \\\hline
+        $\{E\}$ & 3 \\\hline
+      \end{tabular}
+      };
+    \path (11.5,1) coordinate (A) node[above, inner sep=0] {
+      \begin{tabular}{ | c |}
+        \hline
+        \textbf{Itemset} \\\hline
+        $\{A,B\}$ \\\hline
+        $\{A,C\}$ \\\hline
+        $\{A,E\}$ \\\hline
+        $\{B,C\}$ \\\hline
+        $\{B,E\}$ \\\hline
+        $\{C,E\}$ \\\hline
+      \end{tabular}
+      };
+    \path (11.5,-2.5) coordinate (A) node[above, inner sep=0] {
+      \begin{tabular}{ | c | c |}
+        \hline
+        \textbf{Itemset} & \textbf{sup} \\\hline
+        $\{A,B\}$ & 1 \\\hline
+        $\{A,C\}$ & 2 \\\hline
+        $\{A,E\}$ & 1 \\\hline
+        $\{B,C\}$ & 2 \\\hline
+        $\{B,E\}$ & 3 \\\hline
+        $\{C,E\}$ & 2 \\\hline
+      \end{tabular}
+      };
+    \path (8,-2.5) coordinate (A) node[above, inner sep=0] {
+      \begin{tabular}{ | c | c |}
+        \hline
+        \textbf{Itemset} & \textbf{sup} \\\hline
+        $\{A,C\}$ & 2 \\\hline
+        $\{B,C\}$ & 2 \\\hline
+        $\{B,E\}$ & 3 \\\hline
+        $\{C,E\}$ & 2 \\\hline
+      \end{tabular}
+      };
+    \path (4,-2.5) coordinate (A) node[above, inner sep=0] {
+      \begin{tabular}{ | c |}
+        \hline
+        \textbf{Itemset} \\\hline
+        $\{B,C,E\}$ \\\hline
+      \end{tabular}
+      };
+    \path (0,-2.5) coordinate (A) node[above, inner sep=0] {
+      \begin{tabular}{ | c | c |}
+        \hline
+        \textbf{Itemset} & \textbf{sup} \\\hline
+        $\{B,C,E\}$ & 2 \\\hline
+      \end{tabular}
+      };
+
+    \draw[->] (1.25,2) -- (2.7,2);
+    \draw[->] (5.25,2) -- (6.7,2);
+    \draw[->] (9.25,2) -- (10.7,2);
+    \draw[->] (10.5,0.2) to [out=150,in=30] (8.5,-0.2);
+    \draw[->] (11.5,1) -- (11.5,0.6);
+    \draw[->] (6.7,-2) -- (5,-2);
+    \draw[->] (3,-2) -- (1.5,-2);
+    \node at (-0.1,3.5) (db) {Database TBD};
+    \node at (1.9,2.3) (s1) {$1^{\text{st}}$ scan};
+    \node at (2.2,-1.7) (s1) {$3^{\text{rd}}$ scan};
+    \node at (12.5,0.8) (s1) {$2^{\text{nd}}$ scan};
+    \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{A priori algorithm (pseudo code)}
+    $C_k$: candidate itemsets of size $k$\\
+    $L_k$: frequent itemsets of size $k$\\[0.5cm]
+
+    $L_1 = \{\text{frequent items}\}$;\\[0.5cm]
+    \textbf{for} $(k=1; L_k \neq \emptyset; k\texttt{++})$ \textbf{do begin}\\
+    \hspace{1cm} $C_{k+1} = \text{candidates generated from } L_k;$\\
+    \hspace{1cm} \textbf{for each} transaction $t$ in database \textbf{do}\\
+    \hspace{2cm} increment the count of all candidates in $C_{k+1}$ that are contained in $t$;\\[0.1cm]
+    \hspace{1cm}$L_{k+1} = \text{candidates in } C_{k+1} \text{ with min\_sup};$\\
+    \textbf{end;}\\[0.1cm]
+    \textbf{return} $\bigcup_k L_k$;
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Implementation of a priori}
+    \begin{itemize}
+      \item \textbf{\color{airforceblue}How to generate candidates?}
+      \begin{itemize}
+        \item Step 1: self-joining $L_k$ (or joining $L_k$ with $L_1$).
+        \item Step 2: pruning.
+      \end{itemize}
+      \item \textbf{Example of candidate generation:}
+      \begin{itemize}
+        \item $L_3 = \{abc, abd, acd, ace, bcd\}$.
+        \item Self-joining: $L_3 \bowtie L_3$:
+        \begin{itemize}
+          \item $abcd$ from $abc$ and $abd$.
+          \item $acde$ from $acd$ and $ace$.
+        \end{itemize}
+        \item \textbf{Pruning:}
+        \begin{itemize}
+          \item $acde$ is removed because $ade$ is not in $L_3$.
+        \end{itemize}
+        \item $C_4 = \{abcd\}$.
+      \end{itemize}
+    \end{itemize}    
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Implementation of a priori}
+    \begin{itemize}
+      \item \textbf{Why is counting supports of candidates a problem?}
+      \begin{itemize}
+        \item The total number of candidates can be huge.
+        \item One transaction may contain many candidates.
+      \end{itemize}
+      \item \textbf{Method:}
+      \begin{itemize}
+        \item Candidate itemsets are stored in a \textbf{hash tree}.
+        \item Leaf node of hash tree contains a list of itemsets and counts.
+        \item Interior node contains a hash table.
+        \item Subset function: finds all the candidates contained in a transaction.
+      \end{itemize}
+    \end{itemize}    
+    \end{frame}
+  }
 
   {
     \setbeamertemplate{footline}{}
