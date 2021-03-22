@@ -143,7 +143,7 @@
 
 
 % Title, authors, and date
-\title[KDD]{Chapter IV: OLAP}
+\title[KDD]{Chapter V: Mining frequent patterns, associations and correlations}
 \subtitle{Knowledge Discovery in Databases}
 \author[L.~Melodia]{Luciano Melodia M.A.}
 % English version
@@ -159,46 +159,295 @@
 
   { 
     \setbeamertemplate{footline}{}
-    \begin{frame}{Chapter IV: Data warehousing and online analytical processing}
+    \begin{frame}{Chapter V: Mining frequent patterns, associations and correlations}
         \begin{itemize}
-            \item \textbf{Data warehouse: basic concepts.}
-            \item Data warehouse modeling: data cube and OLAP.
-            \item Data warehouse design and usage.
-            \item Data warehouse Implementation.
-            \item Data generalization by attribute-oriented induction.
+            \item \textbf{Basic Concepts.}
+            \item Scalable frequent-itemset-mining methods.
+            \begin{itemize}
+              \item Apriori: a candidate-generation-and-test approach.
+              \item Improving the efficiency of apriori.
+              \item FPGrowth:  a frequent-pattern-growth approach.
+              \item ECLAT: frequent-pattern mining with vertical data format.
+              \item Mining closed itemsets and max-itemsets.
+            \end{itemize}
+            \item Generating association rules from frequent itemsets.
+            \item Which patterns are interesting? Pattern-evaluation methods.
             \item Summary.
         \end{itemize}
     \end{frame}
   }
 
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{What is frequent-pattern analysis?}
+        \begin{itemize}
+            \item \textbf{Frequent pattern:}
+            \begin{itemize}
+              \item A pattern (a set of items, subsequences, substructures, etc.) that occurs frequently in a dataset.
+              \item A pattern (a set of items, subsequences, substructures, etc.) that occurs frequently in a dataset.
+            \end{itemize}
+            \item \textbf{Motivation: Finding inherent regularities in data:}
+            \begin{itemize}
+              \item What products are often purchased together? Beer and diapers?!
+              \item What are the subsequent purchases after buying a PC?
+              \item FPGrowth: a frequent-pattern-growth approach.
+              \begin{itemize}
+                \item "Who bought this has often also bought $\ldots$"
+              \end{itemize}
+              \item What kinds of DNA are sensitive to this new drug?
+              \item Can we automatically classify Web documents?
+            \end{itemize}
+            \item \textbf{Applications:}
+            \begin{itemize}
+              \item Basket-data analysis, cross-marketing, catalog design, sale-campaign analysis, Web-log (click-stream) analysis, and DNA-sequence analysis.
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Why is frequent-pattern mining important?}
+        \begin{itemize}
+            \item \textbf{A frequent pattern is an intrinsic and important property of a dataset.}
+            \item \textbf{Foundation for many essential data-mining tasks:}
+            \begin{itemize}
+              \item Association, correlation, and causality analysis.
+              \item Sequential, structural (e.g., sub-graph) patterns.
+              \item Pattern analysis in spatiotemporal, multimedia, time-series, and stream data.
+              \item Classification: discriminative, frequent-pattern analysis.
+              \item Cluster analysis: frequent-pattern-based clustering.
+              \item Data warehousing: iceberg cube and cube gradient.
+              \item Semantic data compression: fascicles (Jagadish, Madar, and Ng, VLDB'99).
+              \item Broad applications.
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{An example}
+        \begin{itemize}
+            \item \textbf{From: Martin Lindstrom: Brandwashed. Random House, 2011:}
+            \item \begin{quote}
+            It is by crunching these numbers that the data-mining industry has uncovered some even more surprising factoids:
+
+            Did you know, for example, that at Walmart a shopper who buys a Barbie doll is 60 percent more likely to purchase one of three types of candy bars? Or that toothpaste is most often bought alongside canned tuna? Or that a customer who buys a lot of meat is likely to spend more money in a health-food store than a non-meat-eater? Or what about the data revealed to one Canadian grocery chain that customers who bought coconuts also tended to buy prepaid calling cards? At first, no one in store management could figure out what was going on. What could coconuts possibly have to do with calling cards?
+
+            Finally it occurred to them that the store served a huge population of shoppers from the Caribbean islands and Asia, both of whose cuisines use coconuts in their cooking. Now it made perfect sense that these Caribbean and Asian shoppers were buying prepaid calling cards to check in with their extended families back home.
+            \end{quote}
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{An example}
+        \begin{columns}
+          \begin{column}{0.4\textwidth}
+          \begin{tabular}{|c|c|}
+          \hline
+          \textbf{TID} & \textbf{Items bought}\\\hline
+          10 & Beer, Nuts, Diapers \\\hline
+          20 & Beer, Coffee, Diapers \\\hline
+          30 & Beer, Diapers, Eggs \\\hline
+          40 & Nuts, Eggs, Milk \\\hline
+          50 & Nuts, Coffee, Diapers, Eggs, Milk\\\hline
+          \end{tabular}
+          \begin{tikzpicture}[fill=gray]
+          % left hand
+          \scope
+          \clip (-2,-2) rectangle (2,2)
+                (1,0) circle (1);
+          \fill (0,0) circle (1);
+          \endscope
+          % right hand
+          \scope
+          \clip (-2,-2) rectangle (2,2)
+                (0,0) circle (1);
+          \fill (1,0) circle (1);
+          \endscope
+          % outline
+          \draw (0,0) circle (1) (0,1) (1,0) circle (1) (1,1);
+          \node[label=below:{Customer buys beer}] at (-1,-1) {};
+          \node[label=below:{Customer buys diapers}] at (2.5,1.7) {};
+          \node[label=below:{Customer buys both}] at (-1,1.7) {};
+          \draw (-1,-1) -- (-0.5,-0.5);
+          \draw (2,1.2) -- (1.2,0.5);
+          \draw (-1,1.2) -- (0.5,0.5);
+          \end{tikzpicture}
+          \end{column}
+          \begin{column}{0.5\textwidth}
+          \vspace{-2cm}
+          \begin{itemize}
+            \item \textbf{Itemset:}
+            \begin{itemize}
+              \item A set of one or more items.
+              \item $k$-itemset $X = \{x_1, x_2, \ldots, x_k\}$.
+            \end{itemize}
+            \item \textbf{(Absolute) Support, or support count of $X$:}
+            \begin{itemize}
+              \item Frequency or occurrence of $X$.
+            \end{itemize}
+            \item (Relative) Support $s$:
+            \begin{itemize}
+              \item The fraction of the transactions that contain $X$.
+              \item I.e. the \textbf{probability} that a transaction contains $X$.
+            \end{itemize}
+            \item \textbf{An itemset $X$ is frequent, if $X$'s support is no less than a \texttt{min\_sup} threshold.}
+          \end{itemize}
+          \end{column}
+        \end{columns}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{An example}
+        \begin{columns}
+          \begin{column}{0.4\textwidth}
+          \begin{tabular}{|c|c|}
+          \hline
+          \textbf{TID} & \textbf{Items bought}\\\hline
+          10 & Beer, Nuts, Diapers \\\hline
+          20 & Beer, Coffee, Diapers \\\hline
+          30 & Beer, Diapers, Eggs \\\hline
+          40 & Nuts, Eggs, Milk \\\hline
+          50 & Nuts, Coffee, Diapers, Eggs, Milk\\\hline
+          \end{tabular}
+          \begin{tikzpicture}[fill=gray]
+          % left hand
+          \scope
+          \clip (-2,-2) rectangle (2,2)
+                (1,0) circle (1);
+          \fill (0,0) circle (1);
+          \endscope
+          % right hand
+          \scope
+          \clip (-2,-2) rectangle (2,2)
+                (0,0) circle (1);
+          \fill (1,0) circle (1);
+          \endscope
+          % outline
+          \draw (0,0) circle (1) (0,1) (1,0) circle (1) (1,1);
+          \node[label=below:{Customer buys beer}] at (-1,-1) {};
+          \node[label=below:{Customer buys diapers}] at (2.5,1.7) {};
+          \node[label=below:{Customer buys both}] at (-1,1.7) {};
+          \draw (-1,-1) -- (-0.5,-0.5);
+          \draw (2,1.2) -- (1.2,0.5);
+          \draw (-1,1.2) -- (0.5,0.5);
+          \end{tikzpicture}
+          \end{column}
+          \begin{column}{0.5\textwidth}
+          \vspace{-2cm}
+          \begin{itemize}
+            \item \textbf{Find all the rules $X \rightarrow Y$ with minimum support and confidence.}
+            \begin{itemize}
+              \item \textbf{Support} $s$: probability that a transaction contains $X \cup Y$.
+              \item \textbf{Confidence} $c$: conditional probability that a transaction having $X$ also contains $Y$.
+            \end{itemize}
+            \item \textbf{Example:}
+            \begin{itemize}
+              \item Let $\text{min\_sup} = 50\%$ and $\text{min\_conf} = 50\%$.
+              \item Frequent itemsets:
+              \begin{itemize}
+                \item Beer: $3$, Nuts: $3$,
+                \item Diapers: $4$, Eggs: $3$,
+                \item $\{\text{Beer, Diapers}\}$: $3$.
+              \end{itemize}
+              \item \textbf{Association rules:}
+              \begin{itemize}
+                \item Beer $\rightarrow$ Diapers ($60\%$, $100\%$).
+                \item Diapers $\rightarrow$ Beer ($60\%$, $75\%$).
+              \end{itemize}
+            \end{itemize}
+          \end{itemize}
+          \end{column}
+        \end{columns}
+    \end{frame}
+  }
+
   {
     \setbeamertemplate{footline}{}
-    \begin{frame}{References (I)}
+    \begin{frame}{References: Basic concepts of frequent-pattern mining}
     \begin{itemize}
-      \item S. Agarwal, R. Agrawal, P. M. Deshpande, A. Gupta, J. F. Naughton, R. Ramakrishnan, and S. Sarawagi: On the computation of multidimensional aggregates. VLDB'96.
-      \item D. Agrawal, A. E. Abbadi, A. Singh, and T. Yurek: Efficient view maintenance in data warehouses. SIGMOD'97.
-      \item R. Agrawal, A. Gupta, and S. Sarawagi: Modeling multidimensional databases.  ICDE'97.
-      \item {\color{airforceblue}S. Chaudhuri and U. Dayal: An overview of data warehousing and OLAP technology. ACM SIGMOD Record, 26:65-74, 1997-}
-      \item E. F. Codd, S. B. Codd, and C. T. Salley: Beyond decision support. Computer World, 27, July 1993.
-      \item J. Gray, et al. Data cube: A relational aggregation operator generalizing group-by, cross-tab and sub-totals. Data Mining and Knowledge Discovery, 1:29-54, 1997.
-      \item A. Gupta and I. S. Mumick.  Materialized Views: Techniques, Implementations, and Applications. MIT Press, 1999.
-      \item J. Han:  Towards on-line analytical mining in large databases. ACM SIGMOD Record, 27:97-107, 1998.
+      \item (Association Rules)
+      \begin{itemize}
+        \item R. Agrawal, T. Imielinski, and A. Swami: Mining association rules between sets of items in large databases. SIGMOD'93.
+      \end{itemize}
+      \item (Max-Itemset)
+      \begin{itemize}
+        \item (Max-Itemset) R. J. Bayardo: Efficiently mining long patterns from databases. SIGMOD'98.
+      \end{itemize}
+      \item (Closed Itemsets)
+      \begin{itemize}
+        \item N. Pasquier, Y. Bastide, R. Taouil, and L. Lakhal: Discovering frequent closed itemsets for association rules. ICDT'99.
+      \end{itemize}
+      \item (Sequential Pattern)
+      \begin{itemize}
+        \item R. Agrawal and R. Srikant: Mining sequential patterns. ICDE'95.
+      \end{itemize}
     \end{itemize}
     \end{frame}
   }
 
   {
     \setbeamertemplate{footline}{}
-    \begin{frame}{References (II)}
+    \begin{frame}{References: Apriori and its improvements}
     \begin{itemize}
-      \item V. Harinarayan, A. Rajaraman, and J. D. Ullman: Implementing data cubes efficiently. SIGMOD'96.
-      \item J. Hellerstein, P. Haas, and H. Wang: Online aggregation. SIGMOD'97.
-      \item C. Imhoff, N. Galemmo, and J. G. Geiger: Mastering Data Warehouse Design: Relational and Dimensional Techniques. John Wiley, 2003.
-      \item W. H. Inmon: Building the Data Warehouse. John Wiley, 1996.
-      \item R. Kimball and M. Ross: The Data Warehouse Toolkit: The Complete Guide to Dimensional Modeling. 2ed. John Wiley, 2002.
-      \item P. O’Neil and G. Graefe: Multi-table joins through bitmapped join indices. ACM SIGMOD Record, 24:8–11, Sept. 1995.
-      \item P. O'Neil and D. Quass: Improved query performance with variant indexes. SIGMOD'97.
-      \item Microsoft. OLEDB for OLAP programmer's reference version 1.0. In \href{http://www.microsoft.com/data/oledb/olap}{http://www.microsoft.com/data/oledb/olap}, 1998.
+      \item R. Agrawal and R. Srikant: Fast algorithms for mining association rules. VLDB'94.
+      \item H. Mannila, H. Toivonen, and A. I. Verkamo: Efficient algorithms for discovering association rules. KDD'94.
+      \item A. Savasere, E. Omiecinski, and S. Navathe: An efficient algorithm for mining association rules in large databases. VLDB'95.
+      \item J. S. Park, M. S. Chen, and P. S. Yu: An effective hash-based algorithm for mining association rules. SIGMOD'95.
+      \item H. Toivonen: Sampling large databases for association rules. VLDB'96.
+      \item S. Brin, R. Motwani, J. D. Ullman, and S. Tsur: Dynamic itemset counting and implication rules for market basket analysis. SIGMOD'97.
+      \item S. Sarawagi, S. Thomas, and R. Agrawal: Integrating association rule mining with relational database systems: alternatives and implications. SIGMOD'98.
+    \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{References: Depth-first, projection-based FP mining}
+    \begin{itemize}
+      \item R. Agarwal, C. Aggarwal, and V. V. V. Prasad: A tree projection algorithm for generation of frequent itemsets. J. Parallel and Distributed Computing, 2002.
+      \item G. Grahne and J. Zhu: Efficiently Using Prefix-Trees in Mining Frequent Itemsets. FIMI'03.
+      \item B. Goethals and M. Zaki: An introduction to workshop on frequent itemset mining implementations. FIMI'03.
+      \item J. Han, J. Pei, and Y. Yin: Mining frequent patterns without candidate generation. SIGMOD'00.
+      \item J. Liu, Y. Pan, K. Wang, and J. Han: Mining frequent itemsets by opportunistic projection. KDD'02.
+      \item J. Han, J. Wang, Y. Lu, and P. Tzvetkov: Mining top-$k$ frequent closed patterns without minimum support. ICDM'02.
+      \item J. Wang, J. Han, and J. Pei.  CLOSET+: Searching for the best strategies for mining frequent closed itemsets. KDD'03.
+    \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{References: Vertical format and row enumeration methods}
+    \begin{itemize}
+      \item M. J. Zaki, S. Parthasarathy, M. Ogihara, and W. Li: Parallel algorithm for discovery of association rules. DAMI'97.
+      \item M. J. Zaki and C. J. Hsiao. CHARM: An efficient algorithm for closed itemset mining. SDM'02.
+      \item C. Bucila, J. Gehrke, D. Kifer, and W. White. DualMiner: A dual-pruning algorithm for itemsets with constraints. KDD'02.
+      \item F. Pan, G. Cong, A. K. H. Tung, J. Yang, and M. Zaki. CARPENTER: Finding closed patterns in long biological datasets. KDD'03.
+      \item H. Liu, J. Han, D. Xin, and Z. Shao: Mining interesting patterns from very high dimensional data: a top-down row enumeration approach. SDM'06.
+    \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{References: Mining correlations and interesting rules}
+    \begin{itemize}
+      \item S. Brin, R. Motwani, and C. Silverstein: Beyond market basket: generalizing association rules to correlations. SIGMOD'.
+      \item M. Klemettinen, H. Mannila, P. Ronkainen, H. Toivonen, and A. I. Verkamo: Finding interesting rules from large sets of discovered association rules.  CIKM'94.
+      \item R. J. Hilderman and H. J. Hamilton: Knowledge Discovery and Measures of Interest. Kluwer Academic, 2001.
+      \item C. Silverstein, S. Brin, R. Motwani, and J. Ullman: Scalable techniques for mining causal structures. VLDB'98.
+      \item P.-N. Tan, V. Kumar, and J. Srivastava: Selecting the right interestingness measure for association patterns. KDD'02.
+      \item E. Omiecinski: Alternative interest measures for mining associations. TKDE'03.
+      \item T. Wu, Y. Chen and J. Han: Association mining in large databases: a re-examination of its measures. PKDD'07.
+      \item T. Wu, Y. Chen, and J. Han: Re-examination of interestingness measures in pattern mining: a unified framework. Data Mining and Knowledge Discovery, 21(3):371-397, 2010.
     \end{itemize}
     \end{frame}
   }
@@ -208,7 +457,7 @@
     \begin{frame}[c]
       \begin{center}
         Thank you for your attention.\\
-        {\bf Any questions about the fourth chapter?}\\[0.5cm]
+        {\bf Any questions about the fifth chapter?}\\[0.5cm]
         Ask them now, or again, drop me a line: \\ 
         \faSendO \ \texttt{luciano.melodia@fau.de}.
       \end{center}
