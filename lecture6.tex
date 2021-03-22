@@ -475,6 +475,48 @@
 
   {
     \setbeamertemplate{footline}{}
+    \begin{frame}{The downward-closure property and scalable mining methods}
+    \begin{itemize}
+      \item \textbf{The downward-closure property of frequent patterns:}
+      \begin{itemize}
+        \item \textbf{\color{airforceblue}Any subset of a frequent itemset must also be frequent.}
+        \begin{itemize}
+          \item If $\{\text{Beer, Diapers, Nuts}\}$ is frequent, so is $\{\text{Beer, Diapers}\}$.
+          \item I.e. every transaction having $\{\text{Beer, Diapers, Nuts}\}$ also contains $\{\text{Beer, Diapers}\}$.
+        \end{itemize}
+      \end{itemize}
+      \item \textbf{Scalable mining methods: three major approaches.}
+      \begin{itemize}
+        \item A priori (Agrawal \& Srikant, VLDB'94).
+        \item Frequent-pattern growth (FPgrowth) (Han, Pei \& Yin, SIGMOD'00).
+        \item Vertical-data-format approach (CHARM) (Zaki \& Hsiao, SDM'02).
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{A priori: a candidate generation \& test approach}
+    \begin{itemize}
+      \item \textbf{A priori pruning principle:}
+      \begin{itemize}
+        \item \textbf{\color{airforceblue}If there is any itemset which is infrequent, \\ its supersets should not be generated/tested!} \\ (Agrawal \& Srikant, VLDB'94; Mannila et al., KDD'94)
+      \end{itemize}
+      \item \textbf{Method:}
+      \begin{itemize}
+        \item Initially, scan DB once to get frequent $1$-itemsets.
+        \item Generate length-$(k+1)$ candidate itemsets from length-$k$ frequent itemsets.
+        \item Test the candidates against DB, discard those that are infrequent.
+        \item Terminate when no further candidate or frequent itemset can be generated.
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+
+  {
+    \setbeamertemplate{footline}{}
     \begin{frame}{References: Basic concepts of frequent-pattern mining}
     \begin{itemize}
       \item (Association Rules)
