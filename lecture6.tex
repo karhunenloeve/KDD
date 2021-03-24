@@ -841,7 +841,7 @@
           \end{itemize}
           \item Frequent $1$-itemset: $a,b,d,e$.
           \item $ab$ is not a candidate $2$-itemset, if the sum of count of $\{ab, ad, ae\}$ is below support threshold.
-          \item (Park, Chen & Yu, SIGMOD'95)
+          \item (Park, Chen \& Yu, SIGMOD'95)
         \end{itemize}
       \end{itemize}
       \end{column}
@@ -872,9 +872,162 @@
           \item $\text{min\_sup}_i = \text{min\_sup}[\%] \cdot \vert \text{DB}_i \vert$.
         \end{itemize}
         \item Scan 2: consolidate global frequent patterns.\\
-              (Savasere, Omiecinski & Navathe, VLDB'95)
+              (Savasere, Omiecinski \& Navathe, VLDB'95)
+      \end{itemize}
+      \vspace{0.5cm}
+    \end{itemize}
+    \centering
+    \begin{tikzpicture}[square/.style={regular polygon,regular polygon sides=4}]
+    \node at (0,0) [square, draw, fill=gray, minimum size=2cm] {};
+    \node at (3,0) [square, draw, fill=gray, minimum size=2cm] {};
+    \node at (8,0) [square, draw, fill=gray, minimum size=2cm] {};
+    \node at (5.5,0) {$\hdots$};
+    \node at (0,0) {DB$_1$};
+    \node at (0,-1.5) {$\sup_1(i) < \sigma \text{DB}_1$};
+    \node at (3,-1.5) {$\sup_2(i) < \sigma \text{DB}_2$};
+    \node at (8,-1.5) {$\sup_k(i) < \sigma \text{DB}_k$};
+    \node at (10.5,-0.5) {$\sup(i) < \sigma \text{DB}$};
+    \node at (3,0) {DB$_2$};
+    \node at (8,0) {DB$_k$};
+    \node at (4.5,0) {+};
+    \node at (6.5,0) {+};
+    \node at (1.5,0) {+};
+    \node at (10,0) {= DB};
+    \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Sampling for frequent patterns}
+    \begin{itemize}
+      \item \textbf{Select a sample of original database,\\
+       mine frequent patterns within sample using a priori.}
+      \item \textbf{Scan database once to verify frequent itemsets found in sample,\\
+       only {\color{airforceblue}borders} of closure of frequent patterns are checked.}
+      \begin{itemize}
+        \item Example: check $abcd$ instead of $ab, ac, \ldots,$ etc.
+      \end{itemize}
+      \item \textbf{Scan database again to find missed frequent patterns.}\\
+      (Toivonen, VLDB'96)
+    \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Dynamic itemset counting: reduce number of scans}
+    \begin{itemize}
+      \item \textbf{Adding candidate itemsets at different points during a scan.}
+      \begin{itemize}
+        \item DB partitioned into blocks marked by \textbf{\color{airforceblue}start points}.
+        \item New candidate itemsets can be added at any start point during a scan.
+        \begin{itemize}
+            \item E.g. if $A$ and $B$ are already found to be frequent, \\
+            $AB$ are also counted from that starting point on.
+        \end{itemize}
+        \item Uses the count-so-far as the lower bound of the actual count.
+        \item If count-so-far passes minimum support, itemset is added to frequent-itemset collection.
+        \item Can then be used to generate even longer candidates.
       \end{itemize}
     \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Dynamic itemset counting: reduce number of scans (II)}
+    \begin{columns}
+    \begin{column}{0.5\textwidth}
+    \centering
+    \begin{tikzpicture}
+    \node at (0,0) (abcd) {ABCD};
+    \node[draw] at (-1.5,-1) (abc) {ABC};
+    \node at (-0.5,-1) (abd) {ABD};
+    \node at (0.5,-1) (acd) {ACD};
+    \node[draw, dashed, color=red] at (1.5,-1) (bcd) {BCD};
+
+    \node[draw] at (-2,-2) (ab) {AB};
+    \node[draw] at (-1,-2) (ac) {AC};
+    \node[draw] at (0,-2) (bc) {BC};
+    \node[draw, dashed, color=red] at (1,-2) (ad) {AD};
+    \node[draw] at (2,-2) (bd) {BD};
+    \node[draw] at (3,-2) (cd) {CD};
+
+    \node[draw] at (-1.5,-3) (a) {A};
+    \node[draw] at (-0.5,-3) (b) {B};
+    \node[draw] at (0.5,-3) (c) {C};
+    \node[draw] at (1.5,-3) (d) {D};
+    \node[draw] at (0,-4) (0) {$\{\}$};
+    \node at (0,-5) {\color{red}Itemset lattice};
+    \node at (0,-6) {(Brin, Motwani, Ullman \& Tsur, SIGMOD'97)};
+
+    \draw[->] (0)-- (a);
+    \draw[->] (0)-- (b);
+    \draw[->] (0)-- (c);
+    \draw[->] (0)-- (d);
+    \draw[->] (a)-- (ab);
+    \draw[->] (a)-- (ac);
+    \draw[->] (a)-- (ad);
+    \draw[->] (b)-- (ab);
+    \draw[->] (b)-- (ac);
+    \draw[->] (b)-- (bd);
+    \draw[->] (c)-- (ac);
+    \draw[->] (c)-- (bc);
+    \draw[->] (c)-- (cd);
+    \draw[->] (d)-- (ad);
+    \draw[->] (d)-- (bd);
+    \draw[->] (d)-- (cd);
+
+    \draw[->] (ab)-- (abc);
+    \draw[->] (ab)-- (abd);
+    \draw[->] (ac)-- (abc);
+    \draw[->] (ac)-- (acd);
+    \draw[->] (bc)-- (abc);
+    \draw[->] (bc)-- (bcd);
+    \draw[->] (ad)-- (abd);
+    \draw[->] (ad)-- (acd);
+    \draw[->] (bd)-- (abd);
+    \draw[->] (bd)-- (bcd);
+    \draw[->] (cd)-- (acd);
+    \draw[->] (cd)-- (bcd);
+
+    \draw[->] (abc)-- (abcd);
+    \draw[->] (abd)-- (abcd);
+    \draw[->] (acd)-- (abcd);
+    \draw[->] (bcd)-- (abcd);
+    \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+    \vspace{-6.5cm}
+    \begin{itemize}
+      \item Once both $A$ and $D$ are determined frequent,\\
+      the counting of $AD$ begins.
+      \item Once length-$2$ subsets of $BCD$ are determined frequent, the counting of $BCD$ begins.
+    \end{itemize}
+    \begin{tikzpicture}
+    \node[draw, fill=gray, text width = 7cm] {\color{white}Transactions};
+    \draw[->, color=airforceblue] (-3,-0.8) -- (3,-0.8);
+    \draw[->, color=airforceblue] (-3,-1.3) -- (3,-1.3);
+    \draw[->, color=airforceblue] (-3,-1.8) -- (3,-1.8);
+    \draw[->, color=red] (-3,-2.3) -- (3,-2.3);
+    \draw[color=red] (-2,-2.8) -- (3,-2.8);
+    \draw[color=red] (0,-3.3) -- (3,-3.3);
+    \draw[->, color=red] (-3,-3.8) -- (-1.5,-3.8);
+    \draw[->, color=red] (-3,-4.3) -- (0.5,-4.3);
+    \node at (0, -0.5) {\color{airforceblue}1-itemsets};
+    \node at (0, -1.1) {\color{airforceblue}2-itemsets};
+    \node at (0, -2.1) {\color{red}1-itemsets};
+    \node at (0, -2.6) {\color{red}2-itemsets};
+    \node at (0.8, -3.1) {\color{red}3-itemsets};
+    \node at (0, -1.6) {\color{airforceblue}$\ldots$};
+    \draw[dashed, color=red] (3,-2.8) -- (-3,-3.8);
+    \draw[dashed, color=red] (3,-3.3) -- (-3,-4.3);
+    \node at (-3.5, -3.1) {\color{red}DIC:};
+    \node at (-3.5, -1.1) {\color{airforceblue}A priori:};
+    \end{tikzpicture}
+    \end{column}
+    \end{columns}
     \end{frame}
   }
 
