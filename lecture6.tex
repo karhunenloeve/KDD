@@ -1031,6 +1031,186 @@
     \end{frame}
   }
 
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Chapter V: Mining frequent patterns, associations and correlations}
+        \begin{itemize}
+            \item Basic Concepts.
+            \item Scalable frequent-itemset-mining methods.
+            \begin{itemize}
+              \item Apriori: a candidate-generation-and-test approach.
+              \item Improving the efficiency of apriori.
+              \item \textbf{FPGrowth:  a frequent-pattern-growth approach.}
+              \item ECLAT: frequent-pattern mining with vertical data format.
+              \item Mining closed itemsets and max-itemsets.
+            \end{itemize}
+            \item Generating association rules from frequent itemsets.
+            \item Which patterns are interesting? Pattern-evaluation methods.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+ { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Pattern-growth approach: mining frequent patterns without candidate generation}
+        \begin{itemize}
+            \item \textbf{Bottlenecks of the a priori approach.}
+            \begin{itemize}
+                \item Breadth-first (i.e., level-wise) search.
+                \item Candidate generation and test.
+                \begin{itemize}
+                    \item Often generates a huge number of candidates.
+                \end{itemize}
+            \end{itemize}
+            \item \textbf{The FPGrowth Approach.} (Han, Pei \& Yin, SIGMOD'00)
+            \begin{itemize}
+                \item Depth-first search.
+                \item Avoid explicit candidate generation.
+            \end{itemize}
+            \item \textbf{Major philosophy: Grow long patterns from short ones using local frequent items only.}
+            \begin{itemize}
+                \item $abc$ is a frequent pattern.
+                \item Get all transactions having $abc$, i.e. restrict DB on $abc$: $DB|_{abc}$.
+                \item $d$ is a local frequent item in $DB|_{abc \rightarrow abcd}$ is a frequent pattern.
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Construct FP-tree from a transaction database}
+    \centering
+    \begin{tabular}{|c|c|c|}
+    \hline
+    \underline{TID} & \underline{Items bought} & \underline{(ordered) frequent items} \\\hline
+    100 & $\{f,a,c,d,g,i,m,p\}$ & $\{f,c,a,m,p\}$ \\\hline
+    200 & $\{a,b,c,f,l,m,p\}$ & $\{f,c,a,b,m\}$ \\\hline
+    300 & $\{b,f,h,j,o,w\}$ & $\{f,b\}$ \\\hline
+    400 & $\{b,c,k,s,p\}$ & $\{c,b,p\}$ \\\hline
+    500 & $\{a,f,c,e,l,p,m,n\}$ & $\{f,c,a,m,p\}$ \\\hline
+    \end{tabular}
+    \vspace{0.2cm}
+    \begin{columns}
+    \begin{column}{0.5\textwidth}
+    \vspace{-3.5cm}
+    \begin{itemize}
+      \item[1.] Scan DB once, find frequent $1$-itemsets (single-item patterns).
+      \item[2.] Sort frequent items in frequency-descending order, creating the \textbf{f-list}.
+      \item[3.] Scan DB again, construct \textbf{FP-tree}.
+    \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+    \centering
+    \begin{tikzpicture}
+    \node[draw, fill=airforceblue] at (0,0) (0) {\color{white}$\{\}$};
+    \node[draw, fill=airforceblue] at (-1,-0.7) (f4) {\color{white}$f:4$};
+    \node[draw, fill=airforceblue] at (-1.5,-1.4) (c3) {\color{white}$c:3$};
+    \node[draw, fill=airforceblue] at (-1.5,-2.1) (a3) {\color{white}$a:3$};
+    \node[draw, fill=airforceblue] at (-2,-2.7) (m2) {\color{white}$m:2$};
+    \node[draw, fill=airforceblue] at (-2,-3.3) (p2) {\color{white}$p:2$};
+    \node[draw, fill=airforceblue] at (-1,-2.7) (b12) {\color{white}$b:1$};
+    \node[draw, fill=airforceblue] at (-1,-3.3) (m1) {\color{white}$m:1$};
+
+    \node[draw, fill=airforceblue] at (-0.5,-1.4) (b1) {\color{white}$b:1$};
+    \node[draw, fill=airforceblue] at (1,-0.7) (c1) {\color{white}$c:1$};
+    \node[draw, fill=airforceblue] at (1,-1.4) (b13) {\color{white}$b:1$};
+    \node[draw, fill=airforceblue] at (1,-2.1) (p1) {\color{white}$p:1$};
+    \draw (0) -- (f4) -- (c3) -- (a3) -- (m2) -- (p2);
+    \draw (0) -- (c1);
+    \draw (f4) -- (b1);
+    \draw (a3) -- (b12) -- (m1);
+    \draw (c1) -- (b13) -- (p1);
+    \node at (2,0) (0) {\color{airforceblue}$\text{min\_sup}=3$};
+    \node at (2,-3) (0) {\textbf{\color{airforceblue}F-list} = f-c-a-b-m-p};
+    \end{tikzpicture}
+    \end{column}
+    \end{columns}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Partition itemsets and databases}
+    \begin{itemize}
+      \item \textbf{Frequent itemsets can be partitioned into subsets according to f-list.}
+      \begin{itemize}
+        \item F-list = f-c-a-b-m-p.
+        \item Patterns containing p.
+        \begin{itemize}
+          \item The least-frequent item (at the end of the f-list, suffix).
+        \end{itemize}
+        \item Patterns having m but not p.
+        \item $\vdots$
+        \item Patterns having c but not a nor b, m, p.
+        \item Pattern f.
+      \end{itemize}
+      \item \textbf{This processing order guarantees completeness and non-redundancy.}
+    \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Find itemsets having item $p$ from $p$'s conditional pattern base}
+    \begin{itemize}
+      \item \textbf{Starting at the frequent-item header table in the FP-tree.}
+      \item \textbf{Traverse the FP-tree by following the link of frequent item $p$.}
+      \item \textbf{Accumulate all transformed {\color{airforceblue}prefix paths} of item $p$ to form $p$'s {\color{red}conditional pattern base}.}
+    \end{itemize}
+    \vspace{0.2cm}
+    \begin{tikzpicture}
+    \node[draw, fill=airforceblue] at (0,0) (0) {\color{white}$\{\}$};
+    \node[draw, fill=airforceblue] at (-1,-0.7) (f4) {\color{white}$f:4$};
+    \node[draw, fill=airforceblue] at (-1.5,-1.4) (c3) {\color{white}$c:3$};
+    \node[draw, fill=airforceblue] at (-1.5,-2.1) (a3) {\color{white}$a:3$};
+    \node[draw, fill=airforceblue] at (-2,-2.7) (m2) {\color{white}$m:2$};
+    \node[draw, fill=airforceblue] at (-2,-3.3) (p2) {\color{white}$p:2$};
+    \node[draw, fill=airforceblue] at (-1,-2.7) (b12) {\color{white}$b:1$};
+    \node[draw, fill=airforceblue] at (-1,-3.3) (m1) {\color{white}$m:1$};
+
+    \node[draw, fill=airforceblue] at (-0.5,-1.4) (b1) {\color{white}$b:1$};
+    \node[draw, fill=airforceblue] at (1,-0.7) (c1) {\color{white}$c:1$};
+    \node[draw, fill=airforceblue] at (1,-1.4) (b13) {\color{white}$b:1$};
+    \node[draw, fill=airforceblue] at (1,-2.1) (p1) {\color{white}$p:1$};
+    \draw (0) -- (f4) -- (c3) -- (a3) -- (m2) -- (p2);
+    \draw (0) -- (c1);
+    \draw (f4) -- (b1);
+    \draw (a3) -- (b12) -- (m1);
+    \draw (c1) -- (b13) -- (p1);
+    \node at (2,0) (0) {\color{airforceblue}$\text{min\_sup}=3$};
+    \node at (2,-3) (0) {\textbf{\color{airforceblue}F-list} = f-c-a-b-m-p};
+    \node at (5.5,0.5) (0) {\textbf{Header table:}};
+    \node at (10,0.5) (0) {\textbf{Conditional pattern bases:}};
+    \node at (5.5,-1.5) (0) {
+    \begin{tabular}{|c|c|}
+    \hline
+    \textbf{item} & \textbf{Frequency} \\\hline
+    f & 4 \\
+    c & 4 \\
+    a & 3 \\
+    b & 3 \\
+    m & 3 \\
+    p & 3 \\\hline
+    \end{tabular}
+    };
+    \node at (10,-1.5) (0) {
+    \begin{tabular}{|c|c|}
+    \hline
+    \textbf{item} & \textbf{pattern base} \\\hline
+    c & f:3 \\
+    a & fc:3 \\
+    b & fca:1, f:2, c:1 \\
+    m & fca:3, fcab:1 \\
+    p & fcam:2, cb:1 \\
+    \hline
+    \end{tabular}
+    };
+    \end{tikzpicture}
+
+    \end{frame}
+  }
 
   {
     \setbeamertemplate{footline}{}
