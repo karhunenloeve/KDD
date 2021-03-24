@@ -759,7 +759,28 @@
   {
     \setbeamertemplate{footline}{}
     \begin{frame}{Candidate generation: an SQL implementation}
-
+    \begin{itemize}
+      \item \textbf{SQL implementation of candidate generation.}
+      \begin{itemize}
+        \item Suppose the items in $L_{k-1}$ are listed in order.
+        \begin{itemize}
+          \item[1.] Self-joining $L_{k-1}$.\\
+                \texttt{INSERT INTO} $C_k$\\
+                \hspace{1cm} (\texttt{SELECT p.item$_1$, p.item$_2$, $\ldots$, p.item$_{k-1}$, q.item$_{k-1}$}\\
+                \hspace{1.1cm} \texttt{FROM $L_{k-1} p, L_{k-1} q$}\\
+                \hspace{1.1cm} \texttt{WHERE p.item$_1$ = q.item$_1$, $\ldots$, p.item$_{k-2}$ = q.item$_{k-2}$, \\
+                \hspace{2.05cm} p.item$_{k-1}$ $<$ q.item$_{k-1}$});
+          \item[2.] Pruning.\\
+                \hspace{1cm} \textbf{forall} itemsets $c$ in $C_k$ \textbf{do} \\
+                \hspace{2cm} \textbf{forall} $(k-1)$-subsets $s$ of $c$ \textbf{do}\\
+                \hspace{3cm} \textbf{if} ($s$ is not in $L_{k-1}$) \textbf{then} \texttt{DELETE} $c$ \texttt{FROM} $C_k$;
+        \end{itemize}
+        \item \textbf{Use object-relational extensions like UDFs, BLOBs, and table functions for efficient implementation.}
+        \begin{itemize}
+          \item (Sarawagi, Thomas \& Agrawal, SIGMOD'98)
+        \end{itemize}
+      \end{itemize}
+    \end{itemize}
     \end{frame}
   }
 
@@ -782,6 +803,81 @@
         \end{itemize}
     \end{frame}
   }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Further improvement of the a priori method}
+        \begin{itemize}
+            \item \textbf{Major computational challenges.}
+              \begin{itemize}
+                \item Multiple scans of transaction database.
+                \item Huge number of candidates.
+                \item Tedious workload of support counting for candidates.
+              \end{itemize}
+            \item \textbf{Improving a priori: general ideas.}
+              \begin{itemize}
+              \item Reduce passes of transaction-database scans.
+              \item Shrink number of candidates.
+              \item Facilitate support counting of candidates.
+              \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  { 
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Hashing: reduce the number of candidates}
+    \begin{columns}
+      \begin{column}{0.6\textwidth}
+      \begin{itemize}
+        \item \textbf{A $k$-itemset whose corresponding hashing-bucket count is below the threshold cannot be frequent.}
+        \begin{itemize}
+          \item Candidates: $a,b,c,d,e$.
+          \item While scanning DB for frequent $1$-itemsets, create hash entries for $2$-itemsets:
+          \begin{itemize}
+            \item $\{ab,ad,ae\}$
+            \item $\{bd,be,de\}$
+            \item $\ldots$
+          \end{itemize}
+          \item Frequent $1$-itemset: $a,b,d,e$.
+          \item $ab$ is not a candidate $2$-itemset, if the sum of count of $\{ab, ad, ae\}$ is below support threshold.
+          \item (Park, Chen & Yu, SIGMOD'95)
+        \end{itemize}
+      \end{itemize}
+      \end{column}
+      \begin{column}{0.3\textwidth}
+      \centering
+      \textbf{Hash table:}\\
+      \begin{tabular}{| c | c |}
+      \hline
+      count & itemsets \\\hline
+      35 & $\{ab,ad,ae\}$\\\hline
+      88 & $\{bd,be,de\}$\\\hline
+      $\vdots$ & $\vdots$\\\hline
+      102 & $\{yz,qs,wt\}$\\\hline
+      \end{tabular}
+      \end{column}
+    \end{columns}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Partition: scan database only twice}
+    \begin{itemize}
+      \item \textbf{Any itemset that is potentially frequent in DB must be frequent in at least one of the partitions of DB.}
+      \begin{itemize}
+        \item Scan 1: partition database and find local frequent patterns:
+        \begin{itemize}
+          \item $\text{min\_sup}_i = \text{min\_sup}[\%] \cdot \vert \text{DB}_i \vert$.
+        \end{itemize}
+        \item Scan 2: consolidate global frequent patterns.\\
+              (Savasere, Omiecinski & Navathe, VLDB'95)
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
 
   {
     \setbeamertemplate{footline}{}
