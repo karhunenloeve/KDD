@@ -1,5 +1,5 @@
 \ifx\pdfminorversion\undefined\else\pdfminorversion=4\fi
-\documentclass[aspectratio=169,t]{beamer}
+\documentclass[aspectratio=169,t,xcolor=dvipsnames]{beamer}
 %\documentclass[aspectratio=169,t,handout]{beamer}
 
 % English version FAU Logo
@@ -1208,7 +1208,92 @@
     \end{tabular}
     };
     \end{tikzpicture}
+    \end{frame}
+  }
 
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{$p$'s conditional pattern base}
+    \centering
+    \begin{tikzpicture}
+    \node[draw, fill=airforceblue] at (0,0) (0) {\color{white}$\{\}$};
+    \node[draw, fill=ForestGreen] at (-1,-0.7) (f2) {\color{white}$f:2$};
+    \node[draw, fill=ForestGreen] at (-1.5,-1.4) (c2) {\color{white}$c:2$};
+    \node[draw, fill=ForestGreen] at (-1.5,-2.1) (a2) {\color{white}$a:2$};
+    \node[draw, fill=ForestGreen] at (-2,-2.7) (m2) {\color{white}$m:2$};
+    \node[draw, fill=red] at (-2,-3.3) (p2) {\color{white}$p:2$};
+    \node[draw, fill=airforceblue] at (-1,-2.7) (b12) {\color{white}$b:1$};
+    \node[draw, fill=airforceblue] at (-1,-3.3) (m1) {\color{white}$m:1$};
+
+    \node[draw, fill=airforceblue] at (-0.5,-1.4) (b1) {\color{white}$b:1$};
+    \node[draw, fill=ForestGreen] at (1,-0.7) (c1) {\color{white}$c:1$};
+    \node[draw, fill=ForestGreen] at (1,-1.4) (b13) {\color{white}$b:1$};
+    \node[draw, fill=red] at (1,-2.1) (p1) {\color{white}$p:1$};
+    \draw (0) -- (f4) -- (c3) -- (a3) -- (m2) -- (p2);
+    \draw (0) -- (c1);
+    \draw (f4) -- (b1);
+    \draw (a3) -- (b12) -- (m1);
+    \draw (c1) -- (b13) -- (p1);
+    \node at (5.5,0.5) (0) {\textbf{Header table:}};
+    \node at (5.5,-1.5) (0) {
+    \begin{tabular}{|c|c|}
+    \hline
+    \textbf{item} & \textbf{Frequency} \\\hline
+    f & 4 \\
+    c & 4 \\
+    a & 3 \\
+    b & 3 \\
+    m & 3 \\
+    \textbf{\color{red}p} & \textbf{\color{red}3} \\\hline
+    \end{tabular}
+    };
+    \end{tikzpicture}\\[0.2cm]
+    Hence, $p$'s conditional pattern base is\\
+    fcam:2, cb:1\\
+    both below min\_sup.
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{$m$'s conditional pattern base}
+    \centering
+    \begin{tikzpicture}
+    \node[draw, fill=airforceblue] at (0,0) (0) {\color{white}$\{\}$};
+    \node[draw, fill=ForestGreen] at (-1,-0.7) (f2) {\color{white}$f:3$};
+    \node[draw, fill=ForestGreen] at (-1.5,-1.4) (c2) {\color{white}$c:3$};
+    \node[draw, fill=ForestGreen] at (-1.5,-2.1) (a2) {\color{white}$a:3$};
+    \node[draw, fill=red] at (-2,-2.7) (m2) {\color{white}$m:2$};
+    \node[draw, fill=airforceblue] at (-2,-3.3) (p2) {\color{white}$p:2$};
+    \node[draw, fill=ForestGreen] at (-1,-2.7) (b12) {\color{white}$b:1$};
+    \node[draw, fill=red] at (-1,-3.3) (m1) {\color{white}$m:1$};
+
+    \node[draw, fill=airforceblue] at (-0.5,-1.4) (b1) {\color{white}$b:1$};
+    \node[draw, fill=airforceblue] at (1,-0.7) (c1) {\color{white}$c:1$};
+    \node[draw, fill=airforceblue] at (1,-1.4) (b13) {\color{white}$b:1$};
+    \node[draw, fill=airforceblue] at (1,-2.1) (p1) {\color{white}$p:1$};
+    \draw (0) -- (f4) -- (c3) -- (a3) -- (m2) -- (p2);
+    \draw (0) -- (c1);
+    \draw (f4) -- (b1);
+    \draw (a3) -- (b12) -- (m1);
+    \draw (c1) -- (b13) -- (p1);
+    \node at (5.5,0.5) (0) {\textbf{Header table:}};
+    \node at (5.5,-1.5) (0) {
+    \begin{tabular}{|c|c|}
+    \hline
+    \textbf{item} & \textbf{Frequency} \\\hline
+    f & 4 \\
+    c & 4 \\
+    a & 3 \\
+    b & 3 \\
+    \textbf{\color{red}m} & \textbf{\color{red}3} \\
+    p & 3 \\\hline
+    \end{tabular}
+    };
+    \end{tikzpicture}\\[0.2cm]
+    Hence, $m$'s conditional pattern base is\\
+    fca:3, fcab:1\\
+    {\color{ForestGreen}fca has min\_sup.}
     \end{frame}
   }
 
