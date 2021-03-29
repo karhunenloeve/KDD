@@ -1925,7 +1925,106 @@
     \end{frame}
   }
 
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{MaxMiner: mining max-itemsets}
+      \begin{columns}
+        \begin{column}{0.6\textwidth}
+        \begin{itemize}
+            \item \textbf{1st scan: find frequent items.}
+            \begin{itemize}
+              \item A, B, C, D, E
+            \end{itemize}
+            \item \textbf{2nd scan: find support for:}
+            \begin{itemize}
+              \item AB, AC, AD, AE, \textbf{ABCDE}
+              \item BC, BD, BE, \textbf{BCDE}
+              \item CD, CE, \textbf{CDE}, DE
+            \end{itemize}
+            \item \textbf{Potential max-itemsets: ABCDE, BCDE, CDE.}
+            \item \textbf{Since BCDE is a max-itemset, no need to check BCD, BDE, CDE in later scan.} (Bayardo, SIGMOD'98)
+        \end{itemize}
+      \end{column}
+      \begin{column}{0.3\textwidth}
+        \begin{tabular}{|c|c|}
+          \hline
+          TID & Items \\\hline
+          10 & A,B,C,D,E \\\hline
+          20 & B,C,D,E \\\hline
+          30 & A,C,D,F \\\hline
+        \end{tabular}
+      \end{column}
+      \end{columns}
+    \end{frame}
+  }
 
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Chapter V: Mining frequent patterns, associations and correlations}
+        \begin{itemize}
+            \item Basic Concepts.
+            \item Scalable frequent-itemset-mining methods.
+            \begin{itemize}
+              \item Apriori: a candidate-generation-and-test approach.
+              \item Improving the efficiency of apriori.
+              \item FPGrowth:  a frequent-pattern-growth approach.
+              \item ECLAT: frequent-pattern mining with vertical data format.
+              \item Mining closed itemsets and max-itemsets.
+            \end{itemize}
+            \item \textbf{Generating association rules from frequent itemsets.}
+            \item Which patterns are interesting? Pattern-evaluation methods.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Generating association rules from frequent itemsets}
+        \begin{itemize}
+            \item \textbf{Once frequent itemsets from transactions in database $D$ found:}
+            \begin{itemize}
+              \item Generate strong association rules from them,\\
+                    Where "strong" = satisfying both minimum support and minimum confidence.
+                    \begin{align}
+                      \text{confidence}(A \rightarrow B) &= P(B|A)\\
+                      &= \frac{\text{support}(A \rightarrow B)}{\text{support}(A)}\\
+                      &= \frac{\text{support\_count}(A \rightarrow B)}{\text{support\_count}(A)}
+                    \end{align}
+            \end{itemize}
+            \item \textbf{For each frequent itemset $l$:}
+            \begin{itemize}
+              \item Generate all \textbf{nonempty subsets} of $l$.
+            \end{itemize}
+            \item \textbf{For every $s$ in $l$:}
+            \begin{itemize}
+              \item Output the rule $s \rightarrow (l - s)$, if
+              \item min\_sup is satisfied, because only frequent itemsets used.
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Visualization of association rules: plane graph}
+    \includegraphics[width=0.6\textwidth]{img/assoc_rules1.jpg}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Visualization of association rules: rule graph}
+    \includegraphics[width=0.6\textwidth]{img/assoc_rules2.jpg}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Visualization of association rules: SGI/MineSet 3.0}
+    \includegraphics[width=0.6\textwidth]{img/assoc_rules3.png}
+    \end{frame}
+  }
   {
     \setbeamertemplate{footline}{}
     \begin{frame}{References: Basic concepts of frequent-pattern mining}
