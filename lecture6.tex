@@ -343,7 +343,7 @@
           \begin{column}{0.5\textwidth}
           \vspace{-2cm}
           \begin{itemize}
-            \item \textbf{Find all the rules $X \rightarrow Y$ with minimum support and confidence.}
+            \item \textbf{Find all the rules $X \implies Y$ with minimum support and confidence.}
             \begin{itemize}
               \item \textbf{Support} $s$: probability that a transaction contains $X \cup Y$.
               \item \textbf{Confidence} $c$: conditional probability that a transaction having $X$ also contains $Y$.
@@ -359,8 +359,8 @@
               \end{itemize}
               \item \textbf{Association rules:}
               \begin{itemize}
-                \item Beer $\rightarrow$ Diapers ($60\%$, $100\%$).
-                \item Diapers $\rightarrow$ Beer ($60\%$, $75\%$).
+                \item Beer $\implies$ Diapers ($60\%$, $100\%$).
+                \item Diapers $\implies$ Beer ($60\%$, $75\%$).
               \end{itemize}
             \end{itemize}
           \end{itemize}
@@ -373,7 +373,7 @@
     \setbeamertemplate{footline}{}
     \begin{frame}{Basic concepts: association rules (2)}
     \begin{itemize}
-      \item \textbf{Implication of the form $A \rightarrow B$:}
+      \item \textbf{Implication of the form $A \implies B$:}
       \begin{itemize}
         \item where $A \neq \emptyset$, $B \neq \emptyset$ and $A \cap B = \emptyset$.
       \end{itemize}
@@ -381,8 +381,8 @@
       \begin{itemize}
         \item Satisfies both $\text{min\_sup}$ and $\text{min\_conf}$
         \begin{align}
-        \text{support}(A \rightarrow B) &= P(A \cup B),\\
-        \text{confidence}(A \rightarrow B) &= P(B | A)\\
+        \text{support}(A \implies B) &= P(A \cup B),\\
+        \text{confidence}(A \implies B) &= P(B | A)\\
         &= \frac{\text{support}(A \cup B)}{\text{support}(A)}\\
         &= \frac{\text{support\_count}(A\cup B)}{\text{support\_count}(A)}.
         \end{align}
@@ -1072,7 +1072,7 @@
             \begin{itemize}
                 \item $abc$ is a frequent pattern.
                 \item Get all transactions having $abc$, i.e. restrict DB on $abc$: $DB|_{abc}$.
-                \item $d$ is a local frequent item in $DB|_{abc \rightarrow abcd}$ is a frequent pattern.
+                \item $d$ is a local frequent item in $DB|_{abc \implies abcd}$ is a frequent pattern.
             \end{itemize}
         \end{itemize}
     \end{frame}
@@ -1825,7 +1825,7 @@
             \item \textbf{Deriving frequent itemsets based on vertical intersections.}
             \begin{itemize}
               \item $t(X) = t(Y): X$ and $Y$ always happen together.
-              \item $t(X) \rightarrow t(Y):$ transaction having $X$ always has $Y$.
+              \item $t(X) \implies t(Y):$ transaction having $X$ always has $Y$.
             \end{itemize}
             \item \textbf{Using diffset to accelerate mining.}
             \begin{itemize}
@@ -1876,7 +1876,7 @@
             \end{itemize}
             \item \textbf{Find closed itemsets recursively.}
             \begin{itemize}
-              \item Every transaction having d also has $cfa \rightarrow cfad$ is a closed itemset.
+              \item Every transaction having d also has $cfa \implies cfad$ is a closed itemset.
               \item (Pei, Han \& Mao, DMKD'00)
             \end{itemize}
         \end{itemize}
@@ -1987,9 +1987,9 @@
               \item Generate strong association rules from them,\\
                     Where "strong" = satisfying both minimum support and minimum confidence.
                     \begin{align}
-                      \text{confidence}(A \rightarrow B) &= P(B|A)\\
-                      &= \frac{\text{support}(A \rightarrow B)}{\text{support}(A)}\\
-                      &= \frac{\text{support\_count}(A \rightarrow B)}{\text{support\_count}(A)}
+                      \text{confidence}(A \implies B) &= P(B|A)\\
+                      &= \frac{\text{support}(A \implies B)}{\text{support}(A)}\\
+                      &= \frac{\text{support\_count}(A \implies B)}{\text{support\_count}(A)}
                     \end{align}
             \end{itemize}
             \item \textbf{For each frequent itemset $l$:}
@@ -1998,7 +1998,7 @@
             \end{itemize}
             \item \textbf{For every $s$ in $l$:}
             \begin{itemize}
-              \item Output the rule $s \rightarrow (l - s)$, if
+              \item Output the rule $s \implies (l - s)$, if
               \item min\_sup is satisfied, because only frequent itemsets used.
             \end{itemize}
         \end{itemize}
@@ -2104,11 +2104,11 @@
     \setbeamertemplate{footline}{}
     \begin{frame}{Interestingness measure: correlation (lift)}
         \begin{itemize}
-          \item \textbf{(play) basketball $\rightarrow$ (eat) cereal ($40\%$, $66.7\%$)  misleading:}
+          \item \textbf{(play) basketball $\implies$ (eat) cereal ($40\%$, $66.7\%$)  misleading:}
           \begin{itemize}
             \item The overall $\%$ of students eating cereal is $75\% > 66.7\%$.
           \end{itemize}
-          \item \textbf{basketball $\rightarrow$ no cereal ($20\%$, $33.3\%$)  more accurate:}
+          \item \textbf{basketball $\implies$ no cereal ($20\%$, $33.3\%$)  more accurate:}
           \begin{itemize}
             \item Although with lower support and confidence.
           \end{itemize}
@@ -2141,6 +2141,50 @@
           \end{tabular}}
         \end{column}
       \end{columns}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Are lift and $\chi^2$ good measures of correlation?}
+      \begin{itemize}
+        \item Support and confidence are not good to indicate correlation.
+        \item Over 20 interestingness measures have been proposed. (Tan, Kumar \& Sritastava, KDD'02)
+        \item Which are good ones?
+      \end{itemize}
+      \vspace{0.2cm}
+      \centering
+      \resizebox{12cm}{!}{%
+      \begin{tabular}{|c|l|l|l|}
+        \hline
+        \textbf{symbol} & \textbf{name} & \textbf{range} & \textbf{formula} \\
+        $\psi$ & $\psi$-coefficient & $[-1,1]$ & $\frac{P(A,B)-P(A)P(B)}{\sqrt{P(A)P(B)(1-P(A))(1-P(B))}}$\\
+        $Q$ & Yule's $Q$ & $[-1,1]$ & $\frac{P(A,B)P(\neg A, \neg B)-P(A,\neg B)P(\neg A,B)}{P(A,B)P(\neg A,\neg B) + P(A, \neg B) P(\neg A ,B)}$\\
+        $Y$ & Yule's $Y$ & $[-1,1]$ & $\frac{\sqrt{P(A,B)P(\neg A, \neq B)}-\sqrt{P(A,\neg B)P(\neg A,B)}}{\sqrt{P(A,B)P(\neg A,\neg B)} + \sqrt{P(A, \neg B) P(\neg A ,B)}}$\\
+        $k$ & Cohen's $k$ & $[-1,1]$ & $\frac{P(A,B)+P(\neg A, \neg B)-P(A)P(B)-P(\neg A)P(\neg B)}{1-P(A)P(B)-P(\neg A)P(\neg B)}$ \\
+        $PS$ & Patetsky-Shapiro's & $[-0.25,0.25]$ & $P(A,B)-P(A)P(B)$ \\
+        $F$ & Certainty factor & $[-1,1]$ & $\max(\frac{P(B|A)-P(B)}{1-P(B)},\frac{P(A|B)-P(A)}{1-P(A)})$ \\
+        $AV$ & added value & $[-0.5,1]$ & $\max(P(B|A)-P(B),P(A|B)-P(A))$ \\
+        $K$ & Klosgen's Q & $[-0.33,0.38]$ & $\sqrt{P(A,B)}\max(P(B|A)-P(B),P(A|B)-P(A))$ \\\hline
+      \end{tabular}
+      }
+    \end{frame}
+  }
+
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Are lift and $\chi^2$ good measures of correlation?}
+      \centering
+      \resizebox{12cm}{!}{%
+      \begin{tabular}{|c|l|l|l|}
+        \hline
+        \textbf{symbol} & \textbf{name} & \textbf{range} & \textbf{formula} \\
+        $g$ & Goodman-kruskal's & $[0,1]$ & $\frac{\sum_j \max_k P(A_j,B_k) + \sum_k \max_j P(A_j,B_k)-\max_j P(A_j) - \max_k P(B_k)}{2 - \max_j P(A_j) - \max_k P(B_k)}$\\
+        $M$ & Mutual information & $[0,1]$ & $\frac{\sum_i \sum_j P(A_i,B_j) \log \frac{P(A_i,B_j)}{P(A_i)P(B_j)}}{\min(-\sum_i P(A_i) \log P(A_i)\log P(A_i),-\sum_i P(B_i)\log P(B_i) \log P(B_i))}$ \\
+        $J$ & J-Measure & $[0,1]$ & 
+      \end{tabular}
+      }
     \end{frame}
   }
 
