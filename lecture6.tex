@@ -2102,6 +2102,50 @@
 
   {
     \setbeamertemplate{footline}{}
+    \begin{frame}{Interestingness measure: correlation (lift)}
+        \begin{itemize}
+          \item \textbf{(play) basketball $\rightarrow$ (eat) cereal ($40\%$, $66.7\%$)  misleading:}
+          \begin{itemize}
+            \item The overall $\%$ of students eating cereal is $75\% > 66.7\%$.
+          \end{itemize}
+          \item \textbf{basketball $\rightarrow$ no cereal ($20\%$, $33.3\%$)  more accurate:}
+          \begin{itemize}
+            \item Although with lower support and confidence.
+          \end{itemize}
+          \item \textbf{Reason: negative correlation.}
+          \begin{itemize}
+            \item Choice of one item decreases likelihood of choosing the other.
+          \end{itemize}
+          \item \textbf{Measure of dependent/correlated events: lift.}
+          \begin{itemize}
+            \item value $1$: independence; value $< 1$: negatively correlated.
+          \end{itemize}
+        \end{itemize}
+      \begin{columns}
+        \begin{column}{0.6\textwidth}
+          \vspace{-1cm}
+          \begin{align}
+            \text{lift}(A,B) &= \frac{P(A \cup B)}{P(A) P(B)}.\\
+            \text{lift}(B,C) &= \frac{2000/5000}{3000/5000 \cdot 3750 / 5000} = 0.89,\\
+            \text{lift}(B,\neg C) &= \frac{1000 / 5000}{3000 / 5000 \cdot 1250 / 5000} =1.33.
+          \end{align}
+        \end{column}
+          \begin{column}{0.3\textwidth}
+          \resizebox{\textwidth}{!}{%
+          \begin{tabular}{|c|c|c|c|}
+            \hline
+            & basketball & no basketball & sum (row)\\\hline
+            cereal & 2000 & 1750 & 3750 \\\hline
+            no cereal & 1000 & 250 & 1250 \\\hline
+            sum (col.) & 3000 & 2000 & 5000 \\\hline
+          \end{tabular}}
+        \end{column}
+      \end{columns}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
     \begin{frame}{References: Basic concepts of frequent-pattern mining}
     \begin{itemize}
       \item (Association Rules)
