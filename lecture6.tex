@@ -1712,6 +1712,222 @@
 
   {
     \setbeamertemplate{footline}{}
+    \begin{frame}{Advantages of the pattern-growth approach}
+    \begin{itemize}
+      \item \textbf{Divide-and-conquer:}
+      \begin{itemize}
+        \item Decompose both the mining task and DB according \\
+         to the frequent patterns obtained so far.
+        \item Leading to focused search of smaller databases.
+      \end{itemize}
+      \item \textbf{Other factors:}
+      \begin{itemize}
+        \item No candidate generation, no candidate test.
+        \item Compressed database: FP-tree structure.
+        \item No repeated scan of entire database.
+        \item Basic ops: counting local frequent items and building sub FP-tree,\\
+        no pattern search and matching.
+      \end{itemize}
+      \item \textbf{A good open-source implementation and refinement of FP-growth:}
+      \begin{itemize}
+        \item FPGrowth+ (Grahne \& Zhu, FIMI'03)
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Further improvements of mining methods}
+    \begin{itemize}
+      \item \textbf{AFOPT} (Liu et al., KDD'03)
+      \begin{itemize}
+        \item A "push-right" method for mining condensed frequent-pattern (CFP) tree.
+      \end{itemize}
+      \item \textbf{Carpenter} (Pan et al., KDD'03)
+      \begin{itemize}
+        \item Mine datasets with small rows but numerous columns.
+        \item Construct a row-enumeration tree for efficient mining.
+      \end{itemize}
+      \item \textbf{FPgrowth+} (Grahne \& Zhu, FIMI'03)
+      \begin{itemize}
+        \item Efficiently using prefix-trees in mining frequent itemsets.
+      \end{itemize}
+      \item \textbf{TD-Close} (Liu et al., SDM'06)
+    \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Extension of pattern-growth mining methodology }
+    \begin{itemize}
+      \item \textbf{Mining closed frequent itemsets and max-patterns.}
+      \begin{itemize}
+        \item CLOSET (DMKD'00), FPclose, and FPMax (Grahne \& Zhu, FIMI'03)
+      \end{itemize}
+      \item \textbf{Mining sequential patterns.}
+      \begin{itemize}
+        \item PrefixSpan (ICDE'01), CloSpan (SDM'03), BIDE (ICDE'04)
+      \end{itemize}
+      \item \textbf{Mining graph patterns.}
+      \begin{itemize}
+        \item gSpan (ICDM'02), CloseGraph (KDD'03)
+      \end{itemize}
+      \item \textbf{Constraint-based mining of frequent patterns.}
+      \begin{itemize}
+        \item Convertible constraints (ICDE'01), gPrune (PAKDD'03)
+      \end{itemize}
+      \item \textbf{Computing iceberg data cubes with complex measures.}
+      \begin{itemize}
+        \item H-tree, H-cubing, and Star-cubing (SIGMOD'01, VLDB'03)
+      \end{itemize}
+      \item \textbf{Pattern-growth-based clustering.}
+      \begin{itemize}
+        \item MaPle (Pei et al., ICDM'03)
+      \end{itemize}
+      \item \textbf{Pattern-growth-based classification.}
+      \begin{itemize}
+        \item Mining frequent and discriminative patterns (Cheng et al., ICDE'07)
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Chapter V: Mining frequent patterns, associations and correlations}
+        \begin{itemize}
+            \item Basic Concepts.
+            \item Scalable frequent-itemset-mining methods.
+            \begin{itemize}
+              \item Apriori: a candidate-generation-and-test approach.
+              \item Improving the efficiency of apriori.
+              \item FPGrowth:  a frequent-pattern-growth approach.
+              \item \textbf{ECLAT: frequent-pattern mining with vertical data format.}
+              \item Mining closed itemsets and max-itemsets.
+            \end{itemize}
+            \item Generating association rules from frequent itemsets.
+            \item Which patterns are interesting? Pattern-evaluation methods.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{ECLAT: mining by exploring vertical data format}
+        \begin{itemize}
+            \item \textbf{Vertical format: $t(AB) = \{T_{11},T_{25},\ldots\}$}
+            \begin{itemize}
+              \item Tid-list: list of transaction ids containing an itemset.
+            \end{itemize}
+            \item \textbf{Deriving frequent itemsets based on vertical intersections.}
+            \begin{itemize}
+              \item $t(X) = t(Y): X$ and $Y$ always happen together.
+              \item $t(X) \rightarrow t(Y):$ transaction having $X$ always has $Y$.
+            \end{itemize}
+            \item \textbf{Using diffset to accelerate mining.}
+            \begin{itemize}
+              \item Only keep track of differences of tids.
+              \item $t(X) = \{T_1,T_2,T_3\}$, $t(XY) = \{T_1,T_3\}$.
+              \item Diffset $(XY,X) = \{T_2\}$.
+            \end{itemize}
+            \item \textbf{ECLAT} (Zaki et al., KDD'97)
+            \item \textbf{Mining closed itemsets using vertical format: CHARM} (Zaki \& Hsiao, SDM'02)
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Chapter V: Mining frequent patterns, associations and correlations}
+        \begin{itemize}
+            \item Basic Concepts.
+            \item Scalable frequent-itemset-mining methods.
+            \begin{itemize}
+              \item Apriori: a candidate-generation-and-test approach.
+              \item Improving the efficiency of apriori.
+              \item FPGrowth:  a frequent-pattern-growth approach.
+              \item ECLAT: frequent-pattern mining with vertical data format.
+              \item \textbf{Mining closed itemsets and max-itemsets.}
+            \end{itemize}
+            \item Generating association rules from frequent itemsets.
+            \item Which patterns are interesting? Pattern-evaluation methods.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Mining closed itemsets: CLOSET}
+      \begin{columns}
+        \begin{column}{0.6\textwidth}
+        \begin{itemize}
+            \item \textbf{Flist: list of all frequent items \\ in support-ascending order.}
+            \begin{itemize}
+              \item Flist: d-a-f-e-c.
+            \end{itemize}
+            \item \textbf{Divide search space.}
+            \begin{itemize}
+              \item Itemsets having d.
+              \item Itemsets having d but not a, etc.
+            \end{itemize}
+            \item \textbf{Find closed itemsets recursively.}
+            \begin{itemize}
+              \item Every transaction having d also has $cfa \rightarrow cfad$ is a closed itemset.
+              \item (Pei, Han \& Mao, DMKD'00)
+            \end{itemize}
+        \end{itemize}
+      \end{column}
+      \begin{column}{0.3\textwidth}
+        $\text{min\_sup} =2$ \\[0.2cm]
+        \begin{tabular}{|c|c|}
+          \hline
+          TID & Items \\\hline
+          10 & a,c,d,e,f \\\hline
+          20 & a,b,e \\\hline
+          30 & c,e,f \\\hline
+          40 & a,c,d,f \\\hline
+          50 & c,e,f \\\hline
+        \end{tabular}
+      \end{column}
+      \end{columns}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Mining closed itemsets: CLOSET}
+        \begin{itemize}
+            \item \textbf{Itemset merging:.}
+            \begin{itemize}
+              \item If $Y$ appears in each occurrence of $X$, then $Y$ is merged with $X$.
+            \end{itemize}
+            \item \textbf{Sub-itemset pruning:}
+            \begin{itemize}
+              \item If $X \subset Y$ and $\text{sup}(X) = \text{sup}(Y),$ $X$ and all of $X$'s\\
+              descendants in the set enumeration tree can be pruned.
+            \end{itemize}
+            \item \textbf{Hybrid tree projection:}
+            \begin{itemize}
+              \item Bottom-up physical tree projection.
+              \item Top-down pseudo tree projection.
+            \end{itemize}
+            \item \textbf{Item skipping:}
+            \begin{itemize}
+              \item If a local frequent item has the same support in several header tables at different levels, \\
+              one can prune it from the header table at higher levels.
+            \end{itemize}
+            \item \textbf{Efficient subset checking.}
+        \end{itemize}
+    \end{frame}
+  }
+
+
+  {
+    \setbeamertemplate{footline}{}
     \begin{frame}{References: Basic concepts of frequent-pattern mining}
     \begin{itemize}
       \item (Association Rules)
