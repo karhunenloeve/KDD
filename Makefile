@@ -5,7 +5,7 @@
 COMPILER := pdflatex
 BIBTEXER := biber
 
-SLIDES     = lecture6
+SLIDES     = lecture7
 HANDOUT    = handout
 REFERENCES = body/references.bib
 #FONTS      = Myriad Minion
@@ -123,4 +123,3 @@ clean:
 
 distclean: clean
 	rm -f *.pdf figures/$(SLIDES)-figure[0-9]*.* figures/$(HANDOUT)-figure[0-9]*.*
-
