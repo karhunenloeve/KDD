@@ -2193,13 +2193,85 @@
         $\alpha$ & all\_confidence & $[0,1]$ & $\frac{P(A,B)}{\max(P(A),P(B))}$ \\
         $o$ & odds ratio & $[0,\infty)$ & $\frac{P(A,B)P(\neg A, \neg B)}{P(\neg A,B) P(A,\neg B)}$ \\
         $V$ & conviction & $[0.5,\infty)$ & $\max(\frac{P(A)P(\neg B)}{P(A,\neg B)},\frac{P(B)P(\neg A)}{P(B,\neg A)})$ \\
-        $\lambda$ & lift & [0, \infty) & $\frac{P(A,B)}{P(A)P(B)}$ \\
+        $\lambda$ & lift & $[0, \infty)$ & $\frac{P(A,B)}{P(A)P(B)}$ \\
         $S$ & collective strength & $[0,\infty)$ & $\frac{P(A,B) + P(\neg A, \neg B)}{P(A)P(B) + P(\neg A) P(\neg B)} \cdot \frac{1-P(A)P(B)-P(\neg A) P(\neg B)}{1-P(A,B)-P(\neg A, \neg B)}$ \\
         $\chi^2$ & $\chi^2$ & $[0,\infty)$ & $\sum_i \frac{(P(A_i)-E_i)^2}{E_i}$ \\\hline
       \end{tabular}
       }
     \end{frame}
   }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Null-invariant measures}
+    \begin{itemize}
+      \item \textbf{\color{airforceblue}Null-transaction:}
+      \begin{itemize}
+        \item A transaction that does not contain any of the itemsets being examined.
+        \item Can outweigh the number of individual itemsets.
+      \end{itemize}
+      \item \textbf{\color{airforceblue}A measure is null-invariant,}
+      \begin{itemize}
+        \item if its value is free from the influence of null-transactions.
+        \item Lift and $\chi^2$ are not null-invariant.
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Null-invariant measures (II)}
+      \centering
+      \begin{tabular}{|c|l|l|c|c|c|c|c|c|c|c|}
+        \hline
+        \textbf{Symbol} & \textbf{Measure} & \textbf{Range} & \textbf{O1} & \textbf{O2} & \textbf{O3} & \textbf{O3'} & \textbf{O4} \\\hline
+        $\varphi$ & $\varphi$-coefficient & $[-1,1]$ & Y & N & Y & Y & N \\
+        $\lambda$ & Goodman-Kruskal's & $[0,1]$ & Y & N & N* & Y & N \\
+        $\alpha$ & odds ratio & $[0,\infty)$ & Y & Y & Y* & Y & N \\
+        $Q$ & Yule's $Q$ & $[-1,1]$ & Y & Y & Y & Y & N \\
+        $Y$ & Yule's $Y$ & $[-1,1]$ & Y & Y & Y & Y & N \\
+        $\kappa$ & Cohen's & $[-1,1]$ & Y & N & N & Y & N \\
+        $M$ & Mutual information & $[0,1]$ & N** & N & N* & Y & N \\
+        $J$ & $J$-Measure & $[0,1]$ & N** & N & N & N & N \\
+        $G$ & Gini index & $[0,1]$ & N** & N & N* & Y & N \\
+        $s$ & Support & $[0,1]$ & Y & N & N & N & N \\
+        {\color{red}$c$} & {\color{red}Confidence} & {\color{red}$[0,1]$} & {\color{red}N**} & {\color{red}N} & {\color{red}N} & {\color{red}Y} & {\color{red}N} \\
+        $L$ & Laplace & $[0,1]$ & N** & N & N & Y & N \\
+        $V$ & Conviction & $[0.5,\infty)$ & N** & N & N & Y & N \\
+        $I$ & Interest & $[0,\infty)$ & Y & N & N & N & N \\
+        {\color{red}$\cos$} & {\color{red}Cosine} & {\color{red}$[0,1]$} & {\color{red}Y} & {\color{red}N} & {\color{red}N} & {\color{red}N} & {\color{red}Y} \\\hline
+      \end{tabular}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Null-invariant measures (III)}
+      \centering
+      \resizebox{\textwidth}{!}{%
+      \begin{tabular}{|c|l|l|c|c|c|c|c|}
+        \hline
+        \textbf{Symbol} & \textbf{Measure} & \textbf{Range} & \textbf{O1} & \textbf{O2} & \textbf{O3} & \textbf{O3'} & \textbf{O4} \\\hline
+        $PS$ & Piatetsky-Shapiro's & $[-0.25,0.25]$ & Y & N & Y & Y & N \\
+        $F$ & Certainty factor & $[-1,1]$  & N** & N & N & Y & N \\
+        $AV$ & Added value & $[-0.5,1]$  & N** & N & N & N & N \\
+        $S$ & Collective strength & $[0,\infty]$  & Y & N & Y* & Y & N \\
+        {\color{red}$\theta$} & {\color{red}Jaccard} & {\color{red}$[0,1]$} & {\color{red}Y} & {\color{red}N} & {\color{red}N} & {\color{red}N} & {\color{red}Y} \\
+        $K$ & Klosgen's & $[(\frac{2}{\sqrt{3}}-1)^{\frac{1}{2}}[2-\sqrt{3}-\frac{1}{\sqrt{3}}],\frac{2}{3\sqrt{3}}]$ & N** & N & N & N & N \\\hline
+      \end{tabular}}
+    \begin{itemize}
+      \item O1: Symmetry under variable permutation.
+      \item O2: Row and column scaling invariance.
+      \item O3: Antisymmetry under row or column permutation.
+      \item O4: Null invariance.
+      \item Y*: Yef if measure is normalized.
+      \item N*: Symmetry under row or column permutation.
+      \item N**: No unless the measure is symmetrized by taking $\max(M(A,B),M(B,A))$.
+    \end{itemize}
+    \end{frame}
+  }
+
 
   {
     \setbeamertemplate{footline}{}
