@@ -15,7 +15,7 @@ Please note, that this lecture is an informal overview rather then a formal intr
 4. [Preprocessing](https://karhunenloeve.github.io/KDD/lecture4.pdf).
 5. [OLAP](https://karhunenloeve.github.io/KDD/lecture5.pdf).
 6. [Frequent patterns](https://karhunenloeve.github.io/KDD/lecture6.pdf).
-7. Classification.
+7. [Classification](https://karhunenloeve.github.io/KDD/lecture7.pdf).
 8. Cluster analysis.
 9. Outlier detection.
 
