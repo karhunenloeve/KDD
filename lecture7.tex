@@ -535,6 +535,57 @@
     \end{frame}
   }
 
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Partitioning in the example}
+      \centering
+      \begin{tikzpicture}
+        \node[draw, fill=blue!20] at (0,0) (r) {age?};
+        \node[draw, fill=yellow!20] at (-2,-1) (a) {$\leq 30$};
+        \node[draw, fill=yellow!20] at (0,-1) (b) {$31\ldots40$};
+        \node[draw, fill=yellow!20] at (2,-1) (c) {$>40$};
+        \draw (r)--(a);
+        \draw (r)--(b);
+        \draw (r)--(c);
+        \node at (-4,-3) (t1) {
+        \begin{tabular}{|l|l|l|l|}
+          \hline
+          \cellcolor{blue!20}income & \cellcolor{blue!20}student & \cellcolor{blue!20}credit\_rating & \cellcolor{brown!20}buys\_computer \\\hline
+          \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & n\cellcolor{red!20}o \\\hline
+          \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+          \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{red!20}no \\\hline
+          \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+          \cellcolor{yellow!20}medium & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+        \end{tabular}
+        };
+        \node at (-2.5,-5.2) (t3) {
+        \begin{tabular}{|l|l|l|l|}
+          \hline
+          \cellcolor{blue!20}income & \cellcolor{blue!20}student & \cellcolor{blue!20}credit\_rating & \cellcolor{brown!20}buys\_computer \\\hline
+          \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+          \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+          \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+          \cellcolor{yellow!20}high & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+        \end{tabular}
+        };
+        \node at (2.8,-3.8) (t2) {
+        \begin{tabular}{|l|l|l|l|}
+          \hline
+          \cellcolor{blue!20}income & \cellcolor{blue!20}student & \cellcolor{blue!20}credit\_rating & \cellcolor{brown!20}buys\_computer \\\hline
+          \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+          \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+          \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+          \cellcolor{yellow!20}medium & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+          \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+        \end{tabular}
+        };
+        \draw (a)--(t1);
+        \draw (c)--(t2);
+        \draw (b)--(t3);
+      \end{tikzpicture}
+    \end{frame}
+  }
+
   { % Questions?
     \setbeamertemplate{footline}{}
     \begin{frame}[c]
