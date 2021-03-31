@@ -432,6 +432,37 @@
     \end{frame}
   }
 
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Algorithm for decision-tree induction}
+        \begin{itemize}
+            \item \textbf{Basic algorithm (a greedy algorithm):}
+            \begin{itemize}
+              \item Tree is constructed in a \textbf{\color{airforceblue}top-down recursive divide-and-conquer manner.}
+              \item Attributes are categorical.
+              \begin{itemize}
+                \item If not: discretize in advance.
+              \end{itemize}
+              \item At start, all the training examples are at the root.
+              \item Examples are \textbf{\color{airforceblue}partitioned recursively} based on selected attributes.
+              \item Test attributes are selected on the basis of a heuristic or statistical measure.
+              \begin{itemize}
+                \item E.g. information gain -- see on the next slide.
+              \end{itemize}
+            \end{itemize}
+            \item \textbf{Conditions for stopping partitioning:}
+            \begin{itemize}
+              \item All samples for a given node belong to the same class.
+              \item There are no remaining attributes for further partitioning.
+              \begin{itemize}
+                \item Majority voting is employed for classifying the leaf.
+              \end{itemize}
+              \item There are no samples left (i.e. partition for particular value is empty).
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
   { % Questions?
     \setbeamertemplate{footline}{}
     \begin{frame}[c]
