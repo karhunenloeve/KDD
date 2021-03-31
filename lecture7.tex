@@ -303,8 +303,45 @@
   {
     \setbeamertemplate{footline}{}
     \begin{frame}{Process (II): using the model in prediction}
+      \begin{tikzpicture}
+        \draw [thick](-1.5,3.15) -- (-1.5,4.65);
+        \draw [thick](1.5,3.15) -- (1.5,4.65);
+        \draw [thick](-1.5,3.15) arc (180:360:1.5 and 0.5);
+        \draw [thick](-1.5,4.65) arc (180:360:1.5 and 0.5);
+        \draw [thick](1.5,4.65) arc (-1.5:180:1.5 and 0.5);
+        \draw [thick, ->] (2,4.7) -- (5.5,4.7);
+        \draw [thick, ->] (7.5,4.2) -- (7.5,3.8);
+        \draw [thick] (6.05,1.5) -- (5.9,0.2);
+        \draw [thick] (8.95,1.5) -- (9.1,0.2);
+        \node[text width = 3cm, align=center] at (0.05,3.7) {Training};
+        \node[text width = 3cm, align=center] at (0.05,3.3) {data};
 
+        \node[text width = 3cm, align=center] at (7.6,2.2) {Unseen};
+        \node[text width = 3cm, align=center] at (7.6,1.8) {data};
 
+        \node at (0,0.4){
+        \begin{tabular}{|l|l|c|c|}
+          \hline
+          \cellcolor{blue!20}\textbf{\uppercase{name}} & \cellcolor{blue!20}\textbf{\uppercase{rank}} & \cellcolor{blue!20}\textbf{\uppercase{years}} & \cellcolor{brown!20}\textbf{\uppercase{tenured}} \\\hline
+          Tom & Assistant Prof & 2 & no \\\hline
+          \cellcolor{green!20}Merlisa & \cellcolor{green!20}Associate Prof & \cellcolor{green!20}7 & \cellcolor{green!20}no \\\hline
+          George & Professor & 5 & yes \\\hline
+          Joseph & Assistant Prof & 7 & yes \\\hline
+        \end{tabular}
+        };
+        \node[fill=orange!50, text width = 3cm, align=center] at (7.5,5) {Classification};
+        \node[fill=orange!50, text width = 3cm, align=center] at (7.5,4.6) {algorithms};
+        \node[fill=green!20, text width = 3cm, align=center] at (7.5,0) {(Jeff, Professor,4)};
+        \draw [thick] (6.05,1.5) -- (5.9,0.2);
+        \draw [thick] (8.95,1.5) -- (9.1,0.2);
+        \draw [thick](6,1.65) -- (6,3.15);
+        \draw [thick](9,1.65) -- (9,3.15);
+        \draw [thick](6,1.65) arc (180:360:1.5 and 0.5);
+        \draw [thick](6,3.15) arc (180:360:1.5 and 0.5);
+        \draw [thick](9,3.15) arc (-1.5:180:1.5 and 0.5);
+        \draw [thick] (-3.7,1.5) -- (-1.5,3);
+        \draw [thick] (1.5,3) -- (3.7,1.5);
+      \end{tikzpicture}
     \end{frame}
   }
 
