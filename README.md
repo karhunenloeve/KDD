@@ -9,13 +9,13 @@ The following topics are covered in this lecture:
 Please note, that this lecture is an informal overview rather then a formal introduction into the topic.
 
 # Lecture slides
-1. [Prologue](https://karhunenloeve.github.io/KDD/lecture1.pdf).
-2. [Introduction](https://karhunenloeve.github.io/KDD/lecture2.pdf).
-3. [Data](https://karhunenloeve.github.io/KDD/lecture3.pdf).
-4. [Preprocessing](https://karhunenloeve.github.io/KDD/lecture4.pdf).
-5. [OLAP](https://karhunenloeve.github.io/KDD/lecture5.pdf).
-6. [Frequent patterns](https://karhunenloeve.github.io/KDD/lecture6.pdf).
-7. [Classification](https://karhunenloeve.github.io/KDD/lecture7.pdf).
+1. [Prologue](https://karhunenloeve.github.io/KDD/pdf/lecture1.pdf).
+2. [Introduction](https://karhunenloeve.github.io/KDD/pdf/lecture2.pdf).
+3. [Data](https://karhunenloeve.github.io/KDD/pdf/lecture3.pdf).
+4. [Preprocessing](https://karhunenloeve.github.io/KDD/pdf/lecture4.pdf).
+5. [OLAP](https://karhunenloeve.github.io/KDD/pdf/lecture5.pdf).
+6. [Frequent patterns](https://karhunenloeve.github.io/KDD/pdf/lecture6.pdf).
+7. [Classification](https://karhunenloeve.github.io/KDD/pdf/lecture7.pdf).
 8. Cluster analysis.
 9. Outlier detection.
 

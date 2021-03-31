@@ -281,3 +281,4 @@ LatexIndent
 LatexIndent/*
 defaultSettings.yaml
 latexindent.pl
+*.pdf
