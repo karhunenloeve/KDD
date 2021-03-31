@@ -269,7 +269,6 @@
         \node[fill=orange!50, text width = 3cm, align=center] at (7.5,5) {Classification};
         \node[fill=orange!50, text width = 3cm, align=center] at (7.5,4.6) {algorithms};
 
-
         \node[fill=green!20, text width = 3cm, align=left] at (7.5,0) {\texttt{if RANK =}'Professor'};
         \node[fill=green!20, text width = 3cm, align=left] at (7.5,-0.4) {\texttt{or YEARS >}6};
         \node[fill=green!20, text width = 3cm, align=left] at (7.5,-0.8) {\texttt{then TENURED =}'yes'};
@@ -366,13 +365,47 @@
     \setbeamertemplate{footline}{}
     \begin{frame}{Decision-tree induction: an example}
       \begin{columns}
-        \begin{column}{0.35\textwidth}
+        \begin{column}{0.4\textwidth}
+          \vspace{-3cm}
           \begin{itemize}
             \item \textbf{Training dataset: buys\_computer.}
             \begin{itemize}
               \item The dataset follows an example of Quinlan's ID3 (playing tennis).
             \end{itemize}
-            \item \textbf{Resulting tree:}
+            \item \textbf{Resulting tree:}\\[0.1cm]
+            \centering
+            \begin{tikzpicture}
+              \node[draw, fill=blue!20] at (0,0) (a) {age?};
+              \node[fill=yellow!20] at (-1.5,-0.7) (b) {<=30};
+              \node[fill=yellow!20] at (0,-0.7) (c) {$31\ldots40$};
+              \node[fill=yellow!20] at (1.5,-0.7) (d) {$>40$};
+              \node[draw, fill=blue!20] at (-1.5,-1.4) (e) {student?};
+              \node[fill=yellow!20] at (-2,-2.1) (eno1) {no};
+              \node[fill=yellow!20] at (-1,-2.1) (eyes1) {yes};
+              \node[fill=green!20] at (-2,-2.8) (eno2) {no};
+              \node[fill=green!20] at (-1,-2.8) (eyes2) {yes};
+              \node[draw, fill=blue!20] at (1.5,-1.4) (g) {credit rating?};
+              \node[fill=yellow!20] at (2,-2.1) (gf) {fair};
+              \node[fill=yellow!20] at (1,-2.1) (gex) {excellent};
+              \node[fill=orange!20] at (1,-2.8) (gno) {no};
+              \node[fill=green!20] at (2,-2.8) (gyes) {yes};
+              \node[fill=green!20] at (0,-1.4) (f) {yes};
+
+              \draw (a)--(b);
+              \draw (a)--(c);
+              \draw (a)--(d);
+              \draw (b)--(e);
+              \draw (c)--(f);
+              \draw (d)--(g);
+              \draw (e)--(eno1);
+              \draw (e)--(eyes1);
+              \draw (eno1)--(eno2);
+              \draw (eyes1)--(eyes2);
+              \draw (g)--(gex);
+              \draw (g)--(gf);
+              \draw (gex)--(gno);
+              \draw (gf)--(gyes);
+            \end{tikzpicture}
           \end{itemize}
         \end{column}
         \begin{column}{0.6\textwidth}
