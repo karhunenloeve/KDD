@@ -173,6 +173,84 @@
     \end{frame}
   }
 
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Supervised vs. unsupervised learning}
+        \begin{itemize}
+            \item \textbf{\color{airforceblue}Supervised learning (classification).}
+            \begin{itemize}
+              \item Supervision:
+              \begin{itemize}
+                \item The \textbf{training data} (observations, measurements, etc.) are accompanied by \textbf{labels} indicating the \textbf{class} of the observations.
+                \item New data is classified based on a \textbf{model} created from the training data.
+              \end{itemize}
+            \end{itemize}
+            \item \textbf{\color{airforceblue}Unsupervised learning (clustering).}
+            \begin{itemize}
+              \item The class labels of training data are unknown.
+              \begin{itemize}
+                \item Or rather, there are no training data.
+              \end{itemize}
+            \end{itemize}
+            \begin{itemize}
+              \item Given a set of measurements, observations, etc., \\ the goal is to find classes or clusters in the data.
+              \begin{itemize}
+                \item See next chapter.
+              \end{itemize}
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Prediction problems: classification vs. numerical prediction}
+        \begin{itemize}
+            \item \textbf{Classification:}
+            \begin{itemize}
+              \item Predicts \textbf{\color{airforceblue}categorical class labels} (discrete, nominal).
+              \item Constructs a model based on the training set and the values (class labels) in a classifying attribute and uses it in classifying new data.
+            \end{itemize}
+            \item \textbf{Numerical prediction:}
+            \begin{itemize}
+              \item Models \textbf{\color{airforceblue}continuous-valued functions}.
+              \item I.e. predicts missing or unknown (future) values.
+            \end{itemize}
+            \item \textbf{Typical applications of classification:}
+            \begin{itemize}
+              \item Credit/loan approval: Will it be paid back?
+              \item Medical diagnosis: Is a tumor cancerous or benign?
+              \item Fraud detection: Is a transaction fraudulent or not?
+              \item Web-page categorization: Which category is it?
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Classification -- a two-step process}
+        \begin{itemize}
+            \item \textbf{Model construction: describing a set of predetermined classes:}
+            \begin{itemize}
+              \item Each tuple/sample is assumed to belong to a predefined class, as determined by the \textbf{\color{airforceblue}class-label attribute}.
+              \item The set of tuples used for model construction is the \textbf{\color{airforceblue}training set}.
+              \item The \textbf{\color{airforceblue}model} is represented as classification rules, decision trees, or mathematical formulae.
+            \end{itemize}
+            \item \textbf{Model usage, for classifying future or unknown objects:}
+            \begin{itemize}
+              \item Estimate \textbf{\color{airforceblue}accuracy} of the model:
+              \begin{itemize}
+                \item The known label of \textbf{test samples} is compared with the result from the model.
+                \item \textbf{Accuracy rate} is the percentage of test-set samples that are correctly classified by the model.
+                \item Test set is independent of training set (otherwise overfitting).
+              \end{itemize}
+              \item If the accuracy is acceptable, \textbf{\color{airforceblue}use the model} to classify data tuples whose class labels are not known.
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
   { % Questions?
     \setbeamertemplate{footline}{}
     \begin{frame}[c]
