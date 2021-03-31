@@ -1,5 +1,5 @@
 \ifx\pdfminorversion\undefined\else\pdfminorversion=4\fi
-\documentclass[aspectratio=169,t,xcolor=dvipsnames]{beamer}
+\documentclass[aspectratio=169,t,table]{beamer}
 %\documentclass[aspectratio=169,t,handout]{beamer}
 
 % English version FAU Logo
@@ -13,6 +13,7 @@
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{url}
+\usepackage{xcolor}
 \usepackage{enumitem}
 \usepackage{hyperref}
 \usepackage{fontawesome}
@@ -21,9 +22,6 @@
 \usepackage{calc}
 \usepackage{ifthen}
 \usepackage{xcolor}
-\usepackage{tabularx}
-\usepackage{makecell}
-\usepackage{tikz}
 \usepackage{tikz}
 \usepackage{tikz-cd}
 \usepackage{verbatim}
@@ -248,6 +246,57 @@
               \item If the accuracy is acceptable, \textbf{\color{airforceblue}use the model} to classify data tuples whose class labels are not known.
             \end{itemize}
         \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Classification -- a two-step process}
+      \begin{tikzpicture}
+        \node at (0,0) {
+        \begin{tabular}{|l|l|c|c|}
+          \hline
+          \cellcolor{blue!25}\textbf{\uppercase{name}} & \cellcolor{blue!25}\textbf{\uppercase{rank}} & \cellcolor{blue!25}\textbf{\uppercase{years}} & \cellcolor{brown!25}\textbf{\uppercase{tenured}} \\\hline
+          \cellcolor{yellow!25}Mike & \cellcolor{yellow!25}Assistant Prof & \cellcolor{yellow!25}3 & \cellcolor{red!15}no \\\hline
+          \cellcolor{yellow!25}Mary & \cellcolor{yellow!25}Assistant Prof & \cellcolor{yellow!25}7 & \cellcolor{green!15}yes \\\hline
+          \cellcolor{yellow!25}Bill & \cellcolor{yellow!25}Professor & \cellcolor{yellow!25}2 & \cellcolor{green!15}yes \\\hline
+          \cellcolor{yellow!25}Jim & \cellcolor{yellow!25}Associate Prof & \cellcolor{yellow!25}7 & \cellcolor{green!15}yes \\\hline
+          \cellcolor{yellow!25}Dave & \cellcolor{yellow!25}Assistant Prof & \cellcolor{yellow!25}6 & \cellcolor{red!15}no \\\hline
+          \cellcolor{yellow!25}Anne & \cellcolor{yellow!25}Associate Prof & \cellcolor{yellow!25}3 & \cellcolor{red!15}no \\\hline
+        \end{tabular}
+        };
+        \node[fill=orange!50, text width = 3cm, align=center] at (7.5,5) {Classification};
+        \node[fill=orange!50, text width = 3cm, align=center] at (7.5,4.6) {algorithms};
+
+
+        \node[fill=green!20, text width = 3cm, align=left] at (7.5,0) {\texttt{if RANK =}'Professor'};
+        \node[fill=green!20, text width = 3cm, align=left] at (7.5,-0.4) {\texttt{or YEARS >}6};
+        \node[fill=green!20, text width = 3cm, align=left] at (7.5,-0.8) {\texttt{then TENURED =}'yes'};
+
+        \node[text width = 3cm, align=center] at (0.05,3.7) {Training};
+        \node[text width = 3cm, align=center] at (0.05,3.3) {data};
+
+        \node[text width = 3cm, align=center] at (7.6,2.2) {Classifier};
+        \node[text width = 3cm, align=center] at (7.6,1.8) {(model)};
+
+        \draw [thick](-1.5,3.15) -- (-1.5,4.65);
+        \draw [thick](1.5,3.15) -- (1.5,4.65);
+        \draw [thick](-1.5,3.15) arc (180:360:1.5 and 0.5);
+        \draw [thick](-1.5,4.65) arc (180:360:1.5 and 0.5);
+        \draw [thick](1.5,4.65) arc (-1.5:180:1.5 and 0.5);
+        \draw [thick, ->] (2,4.7) -- (5.5,4.7);
+        \draw [thick, ->] (7.5,4.2) -- (7.5,3.8);
+        \draw [thick] (6.05,1.5) -- (5.9,0.2);
+        \draw [thick] (8.95,1.5) -- (9.1,0.2);
+
+        \draw [thick](6,1.65) -- (6,3.15);
+        \draw [thick](9,1.65) -- (9,3.15);
+        \draw [thick](6,1.65) arc (180:360:1.5 and 0.5);
+        \draw [thick](6,3.15) arc (180:360:1.5 and 0.5);
+        \draw [thick](9,3.15) arc (-1.5:180:1.5 and 0.5);
+        \draw [thick] (-3.7,1.5) -- (-1.5,3);
+        \draw [thick] (1.5,3) -- (3.7,1.5);
+      \end{tikzpicture}
     \end{frame}
   }
 
