@@ -252,6 +252,7 @@
   {
     \setbeamertemplate{footline}{}
     \begin{frame}{Classification -- a two-step process}
+      \centering
       \begin{tikzpicture}
         \node at (0,0) {
         \begin{tabular}{|l|l|c|c|}
@@ -303,6 +304,7 @@
   {
     \setbeamertemplate{footline}{}
     \begin{frame}{Process (II): using the model in prediction}
+      \centering
       \begin{tikzpicture}
         \draw [thick](-1.5,3.15) -- (-1.5,4.65);
         \draw [thick](1.5,3.15) -- (1.5,4.65);
@@ -357,6 +359,43 @@
             \item Techniques to improve classification accuracy: ensemble methods.
             \item Summary.
         \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Decision-tree induction: an example}
+      \begin{columns}
+        \begin{column}{0.35\textwidth}
+          \begin{itemize}
+            \item \textbf{Training dataset: buys\_computer.}
+            \begin{itemize}
+              \item The dataset follows an example of Quinlan's ID3 (playing tennis).
+            \end{itemize}
+            \item \textbf{Resulting tree:}
+          \end{itemize}
+        \end{column}
+        \begin{column}{0.6\textwidth}
+          \begin{tabular}{|l|l|c|c|c|}
+            \hline
+            \cellcolor{blue!20}age & \cellcolor{blue!20}income & \cellcolor{blue!20}student & \cellcolor{blue!20}credit\_rating & \cellcolor{blue!20}buys\_coputer \\\hline
+            \cellcolor{yellow!20}$<=30$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$<=30$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$<=30$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$<=30$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$<=30$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+          \end{tabular}
+        \end{column}
+      \end{columns}
     \end{frame}
   }
 
