@@ -412,17 +412,17 @@
           \begin{tabular}{|l|l|c|c|c|}
             \hline
             \cellcolor{blue!20}age & \cellcolor{blue!20}income & \cellcolor{blue!20}student & \cellcolor{blue!20}credit\_rating & \cellcolor{blue!20}buys\_coputer \\\hline
-            \cellcolor{yellow!20}$<=30$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{red!20}no \\\hline
-            \cellcolor{yellow!20}$<=30$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$\leq 30$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$\leq 30$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
             \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
             \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
             \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
             \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
             \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
-            \cellcolor{yellow!20}$<=30$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{red!20}no \\\hline
-            \cellcolor{yellow!20}$<=30$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$\leq 30$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$\leq 30$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
             \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
-            \cellcolor{yellow!20}$<=30$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$\leq 30$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
             \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
             \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
             \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
@@ -460,6 +460,78 @@
               \item There are no samples left (i.e. partition for particular value is empty).
             \end{itemize}
         \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Attribute-selection measure: information gain (ID3/C4.5)}
+
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Attribute selection: information gain}
+      \begin{columns}
+        \begin{column}{0.45\textwidth}
+          \begin{itemize}
+            \item \textbf{Class P: buys\_computer = "yes"}
+            \item \textbf{Class N: buys\_computer = "no"}
+            \begin{align*}
+              \resizebox{7cm}{!}{%
+                $\text{Info}(D) = I(9,5) = - \frac{9}{14}\log_2(\frac{9}{14})-\frac{5}{14} \log_2(\frac{5}{14}) = 0.94$
+              }
+            \end{align*}
+          \end{itemize}
+          \centering
+          \begin{tabular}{|l|l|l|l|}
+            \hline
+            \cellcolor{blue!20}age & \cellcolor{blue!20}p & \cellcolor{blue!20}n & \cellcolor{blue!20}$l(p,n)$ \\\hline
+            \cellcolor{yellow!20}$\leq 30$ & 2 & 3 & 0.971 \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & 4 & 0 & 0 \\\hline
+            \cellcolor{yellow!20}$>40$ & 3 & 2 & 0.971 \\\hline
+          \end{tabular}\\[0.2cm]
+        \begin{itemize}
+          \item \textbf{Similarly,}
+          \begin{itemize}
+            \item $\text{Gain}(\texttt{income}) = 0.029$,
+            \item $\text{Gain}(\texttt{student}) = 0.151$,
+            \item $\text{Gain}(\texttt{credit\_rating}) = 0.048$.
+          \end{itemize}
+        \end{itemize}
+        \end{column}
+        \begin{column}{0.45\textwidth}
+          \vspace{-1.3cm}
+          \begin{align*}
+            \resizebox{7cm}{!}{%
+              $\text{Info}_{\texttt{age}}(D) = \frac{5}{14}I(2,3) + \frac{4}{14} I(4,0) + \frac{5}{14} I(3,2) = 0.694$.
+            }
+          \end{align*}
+          $\frac{5}{14} I(2,3)$ means "$\texttt{age} \leq 30$" has $5$ out of $14$ samples, with $2$ yes'es and $3$ no's. Hence,
+          \begin{align*}
+              \text{Gain}(\texttt{age}) = \text{Info}(D)-\text{Info}_{\texttt{age}}(D) = 0.246.
+          \end{align*}
+          \resizebox{\columnwidth}{!}{%
+          \begin{tabular}{|l|l|c|l|c|}
+            \hline
+            \cellcolor{blue!20}age & \cellcolor{blue!20}income & \cellcolor{blue!20}student & \cellcolor{blue!20}credit\_rating & \cellcolor{brown!20}buys\_computer \\\hline
+            \cellcolor{yellow!20}$\leq30$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$\leq30$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$\leq30$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$\leq30$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+          \end{tabular}}
+        \end{column}
+      \end{columns}
     \end{frame}
   }
 
