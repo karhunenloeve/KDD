@@ -1382,6 +1382,51 @@
     \end{frame}
   }
 
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Using \uppercase{if-then} rules for classification}
+      \begin{itemize}
+        \item \textbf{Represent the knowledge in the form of {\color{airforceblue}IF-THEN rules}.}
+        \begin{itemize}
+          \item E.g. if \texttt{age} $\leq 30$ AND \textt{student} = "yes" THEN buys\_computer = "yes".
+          \item Readable.
+        \end{itemize}
+        \item \textbf{Rule {\color{airforceblue}antecedent/precondition} vs. rule {\color{airforceblue}consequent}}.
+        \item \textbf{Assessment of a rule R: coverage and accuracy.}
+        \begin{itemize}
+          \item $n_{\text{covers}} = \#$ of tuples covered by $R$ (antecedent if true).
+          \item $n_{\text{correct}} = \#$ of tuples correctly classified by $R$.
+          \item $\text{coverage}(R) = \frac{n_{\text{covers}}}{|D|}$ with $D$ training data set.
+          \item $\text{accuracy}(R) = \frac{n_{\text{correct}}}{n_{\text{covers}}}$.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Using \uppercase{if-then} rules for classification (II)}
+      \begin{itemize}
+        \item \textbf{If more than one rule are triggered, need {\color{airforceblue}conflict resolution}.}
+        \begin{itemize}
+          \item \textbf{\color{airforceblue}Size ordering:}
+          \begin{itemize}
+            \item Assign the highest priority to the triggered rule that has the "toughest" requirement \\ (i.e., the most attribute tests).
+          \end{itemize}
+          \item \textbf{\color{airforceblue}Class-based ordering:}
+          \begin{itemize}
+            \item Decreasing order of prevalence or misclassification cost per class.
+          \end{itemize}
+        \item \textbf{\color{airforceblue}Rule-based ordering} (decision list):
+        \begin{itemize}
+          \item Rules are organized into one long priority list,\\
+          according to some measure of rule quality, or by experts.
+        \end{itemize}
+      \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
   { % Questions?
     \setbeamertemplate{footline}{}
     \begin{frame}[c]
