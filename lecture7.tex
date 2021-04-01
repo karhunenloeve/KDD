@@ -1019,6 +1019,70 @@
     \end{frame}
   }
 
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{BOAT (Bootstrapped optimistic algorithm for tree construction)}
+      \begin{itemize}
+        \item \textbf{Use a statistical technique called bootstrapping to create several smaller samples (subsets), each fitting in memory.}
+        \begin{itemize}
+          \item See on the subsequent slides.
+        \end{itemize}
+        \item \textbf{Each subset is used to create a tree, resulting in several trees.}
+        \item \textbf{These trees are examined and used to construct a new tree T'.}
+        \begin{itemize}
+          \item It turns out that T' is very close to the tree that would be generated \\
+          using the whole data set together.
+        \end{itemize}
+        \item \textbf{Advantages:}
+        \begin{itemize}
+          \item Requires only two scans of DB.
+          \item An incremental algorithm:
+          \begin{itemize}
+            \item Take insertions and deletions of training data and update the decision tree.
+          \end{itemize}
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Presentation of classification results}
+      \centering
+      \includegraphics[height=0.9\textheight]{img/classification1.jpeg}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Visualization of a decision tree in SGI/MineSet 3.0}
+      \centering
+      \includegraphics[height=0.9\textheight]{img/classification2.jpeg}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Interactive visual mining by perception-based classification (PBC)}
+      \centering
+      \includegraphics[height=0.9\textheight]{img/classification3.jpeg}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Chapter VI: Classification}
+        \begin{itemize}
+            \item Classification: basic concepts.
+            \item Decision-tree induction.
+            \item \textbf{Bayes classification methods.}
+            \item Rule-based classification.
+            \item Model evaluation and selection.
+            \item Techniques to improve classification accuracy: ensemble methods.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
 
   { % Questions?
     \setbeamertemplate{footline}{}
