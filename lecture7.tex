@@ -1226,8 +1226,8 @@
           \begin{itemize}
             \item \textbf{Classes:}
             \begin{itemize}
-              \item $C_1$: buys\_computer = yes.
-              \item $C_2$: buys\_computer = no.
+              \item $C_1$: \texttt{buys\_computer} = "yes".
+              \item $C_2$: \texttt{buys\_computer} = "no".
             \end{itemize}
             \item \textbf{Data sample:}
             \begin{itemize}
@@ -1259,6 +1259,50 @@
           \end{tabular}}
         \end{column}
       \end{columns}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Naïve Bayesian classifier: an example}
+      \begin{itemize}
+        \item $P(C_i)$:
+        \begin{itemize}
+          \item $P(\texttt{buys\_computer} = "yes") = \frac{9}{14} = 0.643$.
+          \item $P(\texttt{buys\_computer} = "no") = \frac{5}{14} = 0.357$.
+        \end{itemize}
+        \item $X = (\texttt{age} \leq 30 , \texttt{income} = "medium", \texttt{student} = "yes", \texttt{credit\_rating} = "fair")$.
+        \item \textbf{Compute $P(X|C_i)$ for each class:}
+        \begin{itemize}
+          \item $P(\texttt{age} \leq 30 | \texttt{buys\_computer} = "yes") = \frac{2}{9} = 0.222$.
+          \item $P(\texttt{age} \leq 30 | \texttt{buys\_computer} = "no") = \frac{3}{5} = 0.6$.
+          \item $P(\texttt{income} = "medium" | \texttt{buys\_computer} = "yes") = \frac{4}{9} = 0.444$.
+          \item $P(\texttt{income} = "medium" | \texttt{buys\_computer} = "no") = \frac{2}{5} = 0.4$.
+          \item $P(\texttt{student} = "yes" | \texttt{buys\_computer} = "yes") = \frac{6}{9} = 0.667$.
+          \item $P(\texttt{student} = "yes" | \texttt{buys\_computer} = "no") = \frac{1}{5} = 0.2$.
+          \item $P(\texttt{credit\_rating} = "fair" | \texttt{buys\_computer} = "yes") = \frac{6}{9} = 0.667$.
+          \item $P(\texttt{credit\_rating} = "fair" | \texttt{buys\_computer} = "no") = \frac{2}{5} = 0.4$.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Naïve Bayesian classifier: an example (II)}
+      \begin{itemize}
+        \item $P(C_i)$:
+        \begin{itemize}
+          \item $P(X | \texttt{buys\_computer} = "yes") = 0.222 \cdot 0.444 \cdot 0.667 \cdot 0.667 = 0.044$.
+          \item $P(X | \texttt{buys\_computer} = "no") = 0.6 \cdot 0.4 \cdot 0.2 \cdot 0.4 = 0.019$.
+        \end{itemize}
+        \item $P(X | C_i) \cdot P(C_i)$:
+        \begin{itemize}
+          \item $P(X | \texttt{buys\_computer} = "yes") \cdot  P(\texttt{buys\_computer} = "yes") = 0.028$.
+          \item $P(X | \texttt{buys\_computer} = "no") \cdot  P(\texttt{buys\_computer} = "no") = 0.007$.
+        \end{itemize}
+        \item \textbf{Therefore, $X$ belongs to class $C_1$ (\texttt{buys\_computer} = "yes")}.
+      \end{itemize}
     \end{frame}
   }
 
