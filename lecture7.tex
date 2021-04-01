@@ -466,7 +466,24 @@
   {
     \setbeamertemplate{footline}{}
     \begin{frame}{Attribute-selection measure: information gain (ID3/C4.5)}
-
+      \begin{itemize}
+        \item \textbf{Select the attribute with the highest information gain.}
+        \begin{itemize}
+          \item Let $p_i$ be the probability that an arbitrary tuple in $D$ belings to class $C_i$,\\ estimated by $\frac{|C_i|}{|D|}$, such that $1 \leq i \leq m$.
+          \item \textbf{Expected information} (entropy)needed to classify a tuple in $D$:
+          \begin{align}
+            \text{Info}(D) = -\sum_{i=1}^{m}p_i \log_2(p_i).
+          \end{align}
+          \item \textbf{Information} needed (after using attribute $A$ to split $D$ into $v$ partitions) to classify $D$:
+          \begin{align}
+            \text{Info}_A(D) = \sum_{j=1}^v \left( \frac{|D_j|}{|D|} \text{Info}(D_j) \right).
+          \end{align}
+          \item \textbf{Information gained} by branching on $A$:
+          \begin{align}
+            \text{Gain}(A)=\text{Info}(D)-\text{Info}_A(D).
+          \end{align}
+        \end{itemize}
+      \end{itemize}
     \end{frame}
   }
 
@@ -585,6 +602,231 @@
       \end{tikzpicture}
     \end{frame}
   }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Computing information gain for continuous-valued attributes}
+      \begin{itemize}
+        \item \textbf{Let attribute A be a continuous-valued attribute.}
+        \item \textbf{Must determine the best split point for A.}
+        \begin{itemize}
+          \item Sort the values of A in increasing order.
+          \item Typically, the midpoint between each pair of adjacent values \\ is considered as a possible split point.
+          \begin{itemize}
+            \item $\frac{a_i+a_{i+1}}{2}$ is the midpoint between the values of $a_i$ and $a_{i+1}$.
+          \end{itemize}
+          \item The point with the minimum expected information requirement for $A$ \\ is selected as the split point for $A$.
+        \end{itemize}
+        \item \textbf{Split:}
+        \begin{itemize}
+          \item $D_1$ is the set of tuples in $D$ satisfying $A \leq$ split point,\\
+                and $D_2$ is the set of tuples in $D$ satisfying $A >$ split point.
+        \end{itemize}
+        \item \textbf{So to say: Discretization as you go along.}
+        \begin{itemize}
+          \item For this particular purpose.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Gain ratio for attribute selection (C4.5)}
+      \begin{itemize}
+        \item \textbf{Information-gain measure is biased towards attributes with a large number of values.}
+        \item \textbf{C4.5 (a successor of ID3) uses gain ratio to overcome the problem (normalization to information gain):}
+        \begin{align}
+          \text{SplitInfo}_A(D) = - \sum_{j=1}^{v} \frac{|D_j|}{|D|} \log_2\left( \frac{|D_j|}{|D|} \right),\\
+          \text{GainRatio}(A) = \frac{\text{Gain}(A)}{\text{SplitInfo}_A(D)}.
+        \end{align}
+        \item Example:
+        \begin{align}
+          \text{SplitInfo}_{\texttt{income}}(D) &= -\frac{4}{14} \log_2 \left( \frac{4}{14} \right) - \frac{6}{14} \log_2 \left( \frac{6}{14} \right) - \frac{4}{14} \log_2 \left( \frac{4}{14} \right) = 1.557,\\
+          \text{GainRatio}(\texttt{income}) &= \frac{0.029}{1.557} = 0.019.
+        \end{align}
+        \item The attribute with the maximum gain ratio is selected as the splitting attribute.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Gini index}
+      \begin{itemize}
+        \item \textbf{Corrado Gini (1884 -- 1965).}
+        \begin{itemize}
+          \item Italian statistician and sociologist.
+        \end{itemize}
+        \item \textbf{Also called Gini coefficient.}
+        \item \textbf{Measures statistical dispersion.}
+        \begin{itemize}
+          \item Zero expresses perfect equality where all values are the same.
+          \item One expresses maximal inequality among values.
+        \end{itemize}
+        \item \textbf{Based on the Lorenz curve.}
+        \begin{itemize}
+          \item Plots the proportion of the total sum of values ($y$-axis) that is cumulatively assigned to the bottom $x\%$ of the population.
+          \item Line at $45$ degrees thus represents perfect equality of value distribution.
+        \end{itemize}
+        \item \textbf{Gini coefficient then is $\ldots$}
+        \begin{itemize}
+          \item $\ldots$ the ratio of the area that lies between the line of equality and the Lorenz curve over the total area under the line of equality.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Gini index (II)}
+      \centering
+      Example: Distribution of incomes.\\[0.5cm]
+      \begin{tikzpicture}
+      \begin{axis}[
+          xmin=0, xmax=100,
+          ymin=0, ymax=100,
+          minor tick num = 4,
+          grid,
+          ylabel = cumulative income (in \%),
+          xlabel = cumulative population (in \%),
+          legend style={legend pos=north west},
+          ]
+      \addplot plot
+          coordinates {(0,0) (25,20) (50,15) (75,30) (100,100)};
+      \addplot plot
+          coordinates {(0,0) (25,10) (50,45) (75,40) (100,100)};
+      \addplot plot [thin]
+          coordinates {(0,0) (100,100)};
+      \legend{$L(1)$,$L(2)$}
+      \end{axis}
+    \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Gini index (CART, IBM IntelligentMiner)}
+      \begin{itemize}
+        \item \textbf{If a dataset D contains examples from n classes, Gini index gini(D) is defined as:}
+        \begin{itemize}
+          \text{gini}(D) = 1-\sum_{j=1}^{n} p_j^2,
+        \end{itemize}
+        where $p_j$ is the relative frequency of class $j$ in $D$.
+        \item \textbf{If a dataset $D$ is split on $A$ into two subsets $D_1$ and $D_2$, the Gini index $\text{gini}(D)$ is defined as}
+        \begin{align}
+          \text{gini}_A(D) = \frac{|D_1|}{|D|}\text{gini}(D_1)+\frac{|D_2|}{|D|}\text{gini}(D_2).
+        \end{align}
+        \item \textbf{Reduction in impurity:}
+        \begin{align}
+          \Delta \text{gini}_A(A) = \text{gini}(D)-\text{gini}_A(D).
+        \end{align}
+        \item \textbf{The attribute $A$ provides the smallest $\text{gini}_A(D)$ (or the largest reduction in impurity) \\ is chosen to split the node.}
+        \begin{itemize}
+          \item Need to enumerate all the possible splitting points for each attribute.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Computation of Gini index}
+      \begin{itemize}
+        \item \textbf{Example:}
+        \begin{itemize}
+          \item $D$ has $9$ tuples in $\text{buys\_computer} =$ "yes" and 5 in "no", thus
+          \begin{align}
+            \text{gini}(D) = 1 - \left( \frac{9}{14} \right)^2 - \left( \frac{5}{14} \right) = 0.459.
+          \end{align}
+        \end{itemize}
+        \item Suppose the attribute $\texttt{income}$ partitions $D$ \\ into $10$ in $D_1:\{\texttt{low,medium}\}$ and $4$ in $D_2: \{\texttt{high}\}$:
+        \begin{align}
+          &\text{gini}(D\vert_{D[\texttt{income}]="medium", "low"}) \\
+          &= \left( \frac{10}{14} \right) \text{gini}(D_1) + \frac{4}{14} \text{gini}(D_2)\\
+          &=\frac{10}{14} \left(1-\left( \frac{7}{10} \right)^2 - \left( \frac{3}{10} \right)^2 \right) + \frac{4}{14} \left( 1-\left( \frac{2}{4} \right)^2 - \left( \frac{2}{4} \right)^2 \right) =\\
+          &= 0.443 = \text{gini}(D\vert_{D[\texttt{income}]="high"}).
+        \end{align}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Computation of Gini index (II)}
+      \begin{itemize}
+        \item \textbf{Example (cont.):}
+        \begin{itemize}
+          \item $\text{gini}(D\vert_{D[\texttt{income}]="low", "high"}) = 0.458$,\\
+                $\text{gini}(D\vert_{D[\texttt{income}]="medium", "high"}) = 0.450.$
+          \item Thus, splot on the \{"low","medium"\} and \{"high"\}, since it has the lowest gini index.
+        \end{itemize}
+        \item \textbf{All attributes are assumed continuous-valued.}
+        \item \textbf{May need other tools, e.g. clustering, to get the possible split values.}
+        \item \textbf{Can be modified for categorical attributes.}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Computation of Gini index (II)}
+      \begin{itemize}
+        \item \textbf{The three measures, in general, return good results, but}
+        \begin{itemize}
+          \item \textbf{\color{airforceblue}Information gain:}
+          \begin{itemize}
+            \item Biased towards multi-valued attributes.
+          \end{itemize}
+          \item \textbf{\color{airforceblue}Gain ratio:}
+          \begin{itemize}
+            \item Tends to prefer unbalanced splits in which one partition is much smaller than the others.
+          \end{itemize}
+          \item \textbf{\color{airforceblue}Gini index:}
+          \begin{itemize}
+            \item Biased to multi-valued attributes.
+            \item Has difficulty when number of classes is large.
+            \item Tends to favor tests that result in equal-sized partitions and purity in both partitions.
+          \end{itemize}
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Other attribute-selection measures}
+      \begin{itemize}
+        \item \textbf{CHAID:}
+        \begin{itemize}
+          \item A popular decision-tree algorithm, measure based on $\chi^2$ test for independence.
+        \end{itemize}
+        \item \textbf{C-SEP:}
+        \begin{itemize}
+          \item Performs better than information gain and Gini index in certain cases.
+        \end{itemize}
+        \item \textbf{G-statistic:}
+        \begin{itemize}
+          \item Has a close approximation to $\chi^2$ distribution.
+        \end{itemize}
+        \item \textbf{MDL (Minimal Description Length) principle:}
+        \begin{itemize}
+          \item I.e. the simplest solution is preferred.
+          \item The best tree is the one that requires the fewest number of bits to both (1) encode the tree and (2) encode the exceptions to the tree.
+        \end{itemize}
+        \item \textbf{Multivariate splits:}
+        \begin{itemize}
+          \item Partitioning based on multiple variable combinations.
+          \item CART: finds multivariate splits based on a linear combination of attributes.
+        \end{itemize}
+        \item \textbf{Which attribute-selection measure is the best?}
+        \begin{itemize}
+          \item Most give good results, none is significantly superior to others.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
 
   { % Questions?
     \setbeamertemplate{footline}{}
