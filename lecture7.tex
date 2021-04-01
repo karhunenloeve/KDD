@@ -1219,7 +1219,7 @@
 
   {
     \setbeamertemplate{footline}{}
-    \begin{frame}{Naïve Bayesian classifier: training dataset}
+    \begin{frame}{Naïve Bayesian cellcolormake dataset}
       \begin{columns}
         \begin{column}{0.4\textwidth}
           \vspace{-2cm}
@@ -1303,6 +1303,82 @@
         \end{itemize}
         \item \textbf{Therefore, $X$ belongs to class $C_1$ (\texttt{buys\_computer} = "yes")}.
       \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Avoiding the zero-probability problem}
+      \begin{itemize}
+        \item \textbf{Naïve Bayesian prediction requires each conditional probability to be non-zero.}
+        \begin{itemize}
+          \item Otherwise, the predicted probability will be zero.
+          \begin{align}
+            \resizebox{4cm}{!}{
+            $P(X|C_i) = \prod_{k=1}^{n} P(x_k|C_i).$}
+          \end{align}
+        \end{itemize}
+        \item \textbf{Example:}
+        \begin{itemize}
+          \item Suppose a dataset with $1000$ tuples, \texttt{income} = "low" $(0)$, \texttt{income} = "medium" $(990)$, and \texttt{income} = "high" $(10)$.
+        \end{itemize}
+        \item \textbf{Use {\color{airforceblue}Laplacian correction} (or Laplacian estimator):}
+        \begin{itemize}
+          \item Add $1$ to each case:
+          \begin{itemize}
+            \item $P(\texttt{income} = "low") = \frac{1}{1003}$.
+            \item $P(\texttt{income} = "medium") = \frac{991}{1003}$.
+            \item $P(\texttt{income} = "high") = \frac{11}{1003}$.
+          \end{itemize}
+          \item The "corrected" probability estimates are close to their "uncorrected" counterparts.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Naïve Bayesian classifier: comments}
+      \begin{itemize}
+        \item \textbf{Advantages:}
+        \begin{itemize}
+          \item Easy to implement.
+          \item Good results obtained in most of the cases.
+        \end{itemize}
+        \item \textbf{Disadvantages:}
+        \begin{itemize}
+          \item Assumption: class conditional independence, therefore loss of accuracy.
+          \item Practically, \textbf{dependencies} exist among variables.
+          \begin{itemize}
+            \item E.g. hospital patients:
+            \begin{itemize}
+              \item Profile: age, family history, etc.
+              \item Symptoms: fever, cough, etc.
+              \item Disease: lung cancer, diabetes, etc.
+            \end{itemize}
+            \item Cannot be modeled by naïve Bayesian classifier.
+          \end{itemize}
+        \end{itemize}
+      \item \textbf{How to deal with these dependencies?}
+      \begin{itemize}
+        \item Bayesian belief networks (see textbook).
+      \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Chapter VI: Classification}
+        \begin{itemize}
+            \item Classification: basic concepts.
+            \item Decision-tree induction.
+            \item Bayes classification methods.
+            \item \textbf{Rule-based classification.}
+            \item Model evaluation and selection.
+            \item Techniques to improve classification accuracy: ensemble methods.
+            \item Summary.
+        \end{itemize}
     \end{frame}
   }
 
