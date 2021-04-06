@@ -1946,6 +1946,108 @@
     \end{frame}
   }
 
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Estimating confidence intervals: statistical significance}
+      \begin{itemize}
+        \item \textbf{Are $M_1$ \& $M_2$ {\color{airforceblue} significantly different}?}
+        \begin{itemize}
+          \item Compute $t$. Select significance level (e.g. sig = $5\%$).
+          \item Consult table for $t$-distribution:
+          \begin{itemize}
+            \item Find $t$ value corresponding to $k-1$ degrees of freedom (here, $9$).
+          \end{itemize}
+          \item $t$-distribution is symmetrical:
+          \begin{itemize}
+            \item Typically upper $\%$ points of distribution shown \\
+                  $\implies$ look up value for confidence limit $z = \frac{\text{sig}}{2}$ (here, $0.025$).
+          \end{itemize}
+          \item If $t > z$ or $t < -z$, then $t$ value lies in rejection region:
+                \begin{itemize}
+                  \item \textbf{Reject null hypothesis} that mean error rates of $M_1$ \& $M_2$ are equal.
+                  \item Conclude: \textbf{statistically significant difference} between $M_1$ \& $M_2$.
+                \end{itemize}
+          \item Otherwise, conclude that any difference is chance.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Model selection: ROC curves}
+      \begin{columns}
+        \begin{column}{0.6\textwidth}
+          \begin{itemize}
+            \item \textbf{ROC (Receiver Operating Characteristics) curves:}
+            \begin{itemize}
+              \item For visual comparison of classification models.
+              \item Originated from signal-detection theory.
+              \item Shows the trade-off between the true-positive rate and the false-positive rate.
+            \end{itemize}
+            \item \textbf{The area under the ROC curve is a {\color{airforceblue}measure of the accuracy} of the model.}
+            \item \textbf{{\color{airforceblue}Rank the test tuples} in decreasing order:}
+            \begin{itemize}
+              \item The one that is most likely to belong to the positive class appears at the top of the list.
+            \end{itemize}
+            \item \textbf{The closer to the diagonal line (i.e. the closer the area is to $0.5$), the less accurate is the model.}
+          \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+
+        \end{column}
+      \end{columns}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Issues after model selection}
+      \begin{itemize}
+        \item \textbf{Accuracy.}
+        \begin{itemize}
+          \item Classifier accuracy: predicting class label.
+        \end{itemize}
+        \item \textbf{Speed.}
+        \begin{itemize}
+          \item Time to construct the model (training time).
+          \item Time to use the model (classification/prediction time).
+        \end{itemize}
+        \item \textbf{Robustness.}
+        \begin{itemize}
+          \item Handling noise and missing values.
+        \end{itemize}
+        \item \textbf{Scalability.}
+        \begin{itemize}
+          \item Efficiency in disk-resident databases.
+        \end{itemize}
+        \item \textbf{Interpretability.}
+        \begin{itemize}
+          \item Understanding and insight provided by the model.
+        \end{itemize}
+        \item \textbf{Other measures.}
+        \begin{itemize}
+          \item E.g. goodness of rules, such as decision-tree size or compactness of classification rules.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Chapter VI: Classification}
+        \begin{itemize}
+            \item Classification: basic concepts.
+            \item Decision-tree induction.
+            \item Bayes classification methods.
+            \item Rule-based classification.
+            \item Model evaluation and selection.
+            \item \textbf{Techniques to improve classification accuracy: ensemble methods.}
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
   { % Questions?
     \setbeamertemplate{footline}{}
     \begin{frame}[c]
