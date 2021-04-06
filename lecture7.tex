@@ -1583,6 +1583,205 @@
     \end{frame}
   }
 
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Sequential covering algorithm}
+      \begin{itemize}
+        \item \textbf{Start with the most general rule possible:}
+        \begin{itemize}
+          \item Condition = empty.
+        \end{itemize}
+        \item \textbf{Add new attributes by adopting a greedy depth-first strategy.}
+        \begin{itemize}
+          \item Pick the one that improves the rule quality most.
+          \item Current rule $R$: IF condition THEN class = c.
+          \item New rule $R'$: IF condition' THEN class = c,
+          \item $pos/neg$ are $\#$ of positive/negative tuples covered by $R$.
+        \end{itemize}
+        \item \textbf{Rule-quality measures.}
+        \begin{itemize}
+          \item Must consider both coverage and accuracy.
+          \item \texttt{FOIL\_Gain} (from \texttt{FOIL} – First-Order Inductive Learner):
+          \begin{align}
+            \text{FOIL\_Gain} = \text{pos}' \left( \log_2 \frac{\text{pos}'}{\text{pos}' + \text{neg}'} - \log_2 \frac{\text{pos}}{\text{pos}+\text{neg}} \right).
+          \end{align}
+          \item Favors rules that have high accuracy and cover many positive tuples.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Rule pruning}
+      \begin{itemize}
+        \item \textbf{Danger of {\color{airforceblue}overfitting}.}
+        \item \textbf{Removing a conjunct (attribute test),}
+        \begin{itemize}
+          \item if pruned version of rule has greater quality,\\
+                assessed on an independent set of test tuples (called "pruning set").
+        \end{itemize}
+        \item \textbf{FOIL uses:}
+              \begin{align}
+                \text{FOIL\_Prune}(R) = \frac{\text{pos}-\text{neg}}{\text{pos}+\text{neg}}.
+              \end{align}
+        \item If $\text{FOIL\_Prune}$ is higher for the pruned version of $R$, prune $R$.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Chapter VI: Classification}
+        \begin{itemize}
+            \item Classification: basic concepts.
+            \item Decision-tree induction.
+            \item Bayes classification methods.
+            \item Rule-based classification.
+            \item \textbf{Model evaluation and selection.}
+            \item Techniques to improve classification accuracy: ensemble methods.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Model evaluation and selection}
+        \begin{itemize}
+          \item \textbf{Evaluation metrics:}
+          \begin{itemize}
+            \item How can we measure accuracy?
+            \item Other metrics to consider?
+          \end{itemize}
+          \item \textbf{Use {\color{airforceblue}test} set of class-labeled tuples instead of training set when assessing accuracy.}
+          \item \textbf{Methods for estimating a classifier's accuracy:}
+          \begin{itemize}
+            \item Holdout method, random subsampling.
+            \item Cross-validation.
+            \item Bootstrap.
+          \end{itemize}
+          \item \textbf{Comparing classifiers:}
+          \begin{itemize}
+            \item Confidence intervals.
+            \item Cost-benefit analysis and ROC curves.
+          \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Model evaluation and selection}
+        \begin{itemize}
+          \item \textbf{Confusion Matrix:}\\[0.2cm]
+          \begin{tabular}{|c|c|c|}
+            \hline
+            Actual class/predicted class: & $C_1$ & $\neg C_1$ \\\hline
+            $C_1$ & \textbf{True positives (TP)} & \textbf{True negatives (TN)} \\\hline
+            $\neg C_1$ & \textbf{False positives (FP)} & \textbf{False negatives (FN)} \\\hline
+          \end{tabular}
+          \item \textbf{Example:}\\[0.2cm]
+          \begin{tabular}{|c|c|c|c|}
+            \hline
+            Actual class/predicted class: & buys\_computer = yes & buys\_computer = no & Total \\\hline
+            buys\_computer = yes & \textbf{6954} & \textbf{46} & 7000 \\\hline
+            buys\_computer = no & \textbf{412} & \textbf{2588} & 3000 \\\hline
+            Total & 7366 & 2634 & 10000 \\\hline
+          \end{tabular}
+          \item Given $M$ classes, an entry $C^{(m)}_{ij}$ in an $M \times M$ confusion matrix indicates \# of tuples in class $i$ that were labeled by the classifier as class $j$.
+          \item May have extra rows/columns to provide totals.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Classifier-evaluation metrics: accuracy, error rate, sensitivity and specificity}
+      \begin{columns}
+        \begin{column}{0.5\textwidth}
+          \centering
+          \begin{tabular}{|c|c|c|c|}
+            \hline
+            A/P & C & $\neg$ C & \\\hline
+            C & \textbf{TP} & \textbf{FN} & \textbf{P}\\\hline
+            $\neg$ C & \textbf{FP} & \textbf{TN} & \textbf{N} \\\hline
+            & \textbf{P}' & \textbf{N}' & \textbf{All}\\\hline
+          \end{tabular}
+          \begin{itemize}
+            \item \textbf{Classifier accuracy, or recognition rate:}
+            \begin{itemize}
+              \item Percentage of test set tuples that are correctly classified.
+              \item $\text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{All}}.$
+              \item \textbf{Error rate:}
+                \begin{itemize}
+                  \item $1-\text{accuracy}$, or
+                  \item $\text{Error rate} = \frac{\text{FP}+\text{FN}}{\text{All}}.$
+                \end{itemize}
+            \end{itemize}
+          \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+          \begin{itemize}
+            \item \textbf{Class-imbalance problem:}
+            \begin{itemize}
+              \item One class may be rare e.g. fraud, or HIV-positive.
+              \item Significant majority of the negative class and minority of the positive class
+              \item \textbf{Sensitivity:} True-positive recognition rate. $\text{Sensitivity} = \frac{TP}{P}$.
+              \item \textbf{Specificity:} False-negative recognition rate. $\text{Specificity} = \frac{TN}{N}$.
+            \end{itemize}
+          \end{itemize}
+        \end{column}
+      \end{columns}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Classifier-evaluation metrics: precision, recall, and F-measures}
+      \begin{itemize}
+        \item \textbf{Precision:}
+        \begin{itemize}
+          \item Exactness -- the $\%$ of tuples that are actually positive \\
+          in those that the classifier labeled as positive: $\frac{\text{TP}}{\text{TP} + \text{FP}}$.
+        \end{itemize}
+        \item \textbf{Recall:}
+        \begin{itemize}
+          \item Completeness -- the $\%$ of tuples that the classifier labeled \\
+          as positive in all positive tuples: $\frac{\text{TP}}{\text{TP} + \text{FN}}$.
+          \item Perfect score is $1.0$.
+        \end{itemize}
+        \item \textbf{Inverse relationship between precision and recall.}
+        \item \textbf{F-measure ($F_1$ or $F$-score):}
+        \begin{itemize}
+          \item Gives equal weight to precision and recall: $F = \frac{2\cdot\text{precision}\cdot \text{recall}}{\text{precision} + \text{recall}}$.
+        \end{itemize}
+        \item \textbf{$F_\beta$ weighted measure of precision and recall:}
+        \begin{itemize}
+          \item Assigns $\beta$ times as much weight to recall as to precision: $F_\beta = \frac{(1+\beta)^2 \cdot \text{precision} \cdot \text{recall}}{\beta^2 \cdot \text{precision} + \text{recall}}$.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Classifier-evaluation metrics: precision, recall, and F-measures}
+      \centering
+      \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        Actual class/predicted class & cancer = yes & cancer = no & Total & Recognition ($\%$) \\\hline
+        cancer = yes & \textbf{90} & \textbf{210} & 300 & 30.00 (sensitivity) \\\hline
+        cancer = no & \textbf{140} & \textbf{9560} & 9700 & 98.56 (specificity) \\\hline
+        Total & 230 & 9770 & 10000 & 96.40 (accuracy) \\\hline
+      \end{tabular}\\[0.2cm]
+      \begin{itemize}
+        \item Precision $= \frac{90}{230} = 39.13 \%$.
+        \item Recall $=\frac{90}{300} = 30.00 \%$.
+        \item F-measure = $2 \cdot 0.3913 \cdot \frac{0.3}{0.3913 + 0.3} = 33.96 \%$.
+      \end{itemize}
+    \end{frame}
+  }
 
   { % Questions?
     \setbeamertemplate{footline}{}
