@@ -1843,6 +1843,22 @@
   {
     \setbeamertemplate{footline}{}
     \begin{frame}{Evaluating classifier accuracy: bootstrap}
+      \begin{itemize}
+        \item \textbf{Suppose we have $2$ classifiers, $M_1$ and $M_2$, which one is better?}
+        \item \textbf{Use $10$-fold cross-validation to obtain $\overline{\text{err}}(M_1)$ and $\overline{\text{err}}(M_2)$.}
+        \begin{itemize}
+          \item Recall: error rate is $1-\text{accuracy}(M)$.
+        \end{itemize}
+        \item \textbf{Mean error rates:}
+        \begin{itemize}
+          \item Just estimates of error on the true population of future data cases.
+        \end{itemize}
+        \item \textbf{What if the difference between the $2$ error rates is just attributed to chance?}
+        \begin{itemize}
+          \item Use a test of statistical significance.
+          \item Obtain confidence limits for our error estimates.
+        \end{itemize}
+      \end{itemize}
     \end{frame}
   }
 
