@@ -440,6 +440,124 @@
     \end{frame}
   }
 
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{The $k$-means clustering method}
+        \begin{itemize}
+          \item \textbf{Given $k$, the $k$-means algorithm is implemented in four steps:}
+          \begin{itemize}
+            \item[1.] Partition the database into $k$ non-empty subsets.
+            \begin{itemize}
+              \item E.g. the first $\frac{n}{k}$ objects, then the next $\frac{n}{k}$ objects, $\ldots$
+            \end{itemize}
+            \item[2.] Compute the centroids of the \textbf{clusters} of the current partitioning.
+            \begin{itemize}
+              \item The centroid is the center, i.e. mean point, of the cluster.
+              \item For each attribute (or dimension), calculate the average value.
+            \end{itemize}
+            \item[3.] Assign each object to the cluster with the nearest centroid.
+            \begin{itemize}
+              \item That is, for each object calculate distance to each of the $k$\\
+              centroids and pick the one with the smallest distance.
+            \end{itemize}
+          \item[4.] If any object has changed its cluster, go back to step 2. Otherwise stop.
+          \end{itemize}
+          \item \textbf{Variant:}
+          \begin{itemize}
+            \item Start with arbitrarily chosen $k$ objects as initial centroids in step $1$.
+            \item Continue with step $3$.
+          \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{An example of $k$-means clustering}
+      \begin{tikzpicture}
+        \node [black] at (3,2.5) {\Large\textbullet};
+        \node [black] at (4,3.5) {\Large\textbullet};
+        \node [black] at (2,2.5) {\Large\textbullet};
+        \node [black] at (2.5,3) {\Large\textbullet};
+        \node [black] at (3,1) {\Large\textbullet};
+        \node [black] at (3,1.2) {\Large\textbullet};
+        \node [black] at (1,1) {\Large\textbullet};
+        \node [black] at (1.5,1.5) {\Large\textbullet};
+        \node [black] at (2,2) {\Large\textbullet};
+        \node [black] at (2.5,2.5) {\Large\textbullet};
+        \node [black] at (3,3) {\Large\textbullet};
+        \node [black] at (3.5,3.5) {\Large\textbullet};
+        \node [black] at (4,3.5) {\Large\textbullet};
+        \node [black] at (4,2.3) {\Large\textbullet};
+        \node [black] at (4,2.5) {\Large\textbullet};
+        \node [black] at (2.5,3) {\Large\textbullet};
+        \node [black] at (2.7,0.5) {The initial data set.};
+
+        \node [black] at (7,1) {\Large\textbullet};
+        \node [black] at (7.5,1.5) {\Large\textbullet};
+        \node [black] at (8,2) {\Large\textbullet};
+        \node [red] at (8,2.5) {\Large\textbullet};
+        \node [red] at (8.5,2.5) {\Large\textbullet};
+        \node [black] at (9,1) {\Large\textbullet};
+        \node [black] at (9,1.2) {\Large\textbullet};
+        \node [red] at (9,2.5) {\Large\textbullet};
+        \node [red] at (9,3) {\Large\textbullet};
+        \node [red] at (9.5,3.5) {\Large\textbullet};
+        \node [red] at (10,3.5) {\Large\textbullet};
+        \node [red] at (10,3.5) {\Large\textbullet};
+        \node [black] at (10,2.3) {\Large\textbullet};
+        \node [red] at (10,2.5) {\Large\textbullet};
+
+        \node [black] at (12,1) {\Large\textbullet};
+        \node [black] at (12.5,1.5) {\Large\textbullet};
+        \node [black] at (13,2) {\Large\textbullet};
+        \node [red] at (13,2.5) {\Large\textbullet};
+        \node [red] at (13.5,2.5) {\Large\textbullet};
+        \node [black] at (14,1) {\Large\textbullet};
+        \node [black] at (14,1.2) {\Large\textbullet};
+        \node [red] at (14,2.5) {\Large\textbullet};
+        \node [red] at (14,3) {\Large\textbullet};
+        \node [red] at (14.5,3.5) {\Large\textbullet};
+        \node [red] at (15,3.5) {\Large\textbullet};
+        \node [red] at (15,3.5) {\Large\textbullet};
+        \node [black] at (15,2.3) {\Large\textbullet};
+        \node [red] at (15,2.5) {\Large\textbullet};
+        \node [orange] at (14.25,3.25) {\Huge\textbullet};
+        \node [blue] at (13.41,1.5) {\Huge\textbullet};
+
+        \node [black] at (12,-2.5) {\Large\textbullet};
+        \node [black] at (12.5,-2) {\Large\textbullet};
+        \node [black] at (13,-1.5) {\Large\textbullet};
+        \node [red] at (13,-1) {\Large\textbullet};
+        \node [red] at (13.5,-1) {\Large\textbullet};
+        \node [black] at (14,-2.5) {\Large\textbullet};
+        \node [black] at (14,-2.3) {\Large\textbullet};
+        \node [red] at (14,-1) {\Large\textbullet};
+        \node [red] at (14,-0.5) {\Large\textbullet};
+        \node [red] at (14.5,0) {\Large\textbullet};
+        \node [red] at (15,0) {\Large\textbullet};
+        \node [red] at (15,0) {\Large\textbullet};
+        \node [black] at (15,-1.2) {\Large\textbullet};
+        \node [red] at (15,-1) {\Large\textbullet};
+        \node [orange] at (14.25,-0.25) {\Huge\textbullet};
+        \node [blue] at (13.41,-2) {\Huge\textbullet};
+
+        \draw [->] (13.41,1) -- (13.41,-0.5);
+
+        \draw [->] (5,2) -- (6.5,2);
+        \node [black] at (5.8,3) {Arbitrarily partition};
+        \node [black] at (5.8,2.7) {objects into};
+        \node [black] at (5.8,2.4) {$k$ groups.};
+        \node [black] at (5.8,1.6) {Here $k = 2$.};
+
+        \draw [->] (10.5,2) -- (12,2);
+        \node [black] at (11.3,3) {Calculate};
+        \node [black] at (11.3,2.7) {the cluster};
+        \node [black] at (11.3,2.4) {centroids.};
+      \end{tikzpicture}
+    \end{frame}
+  }
+
   { % Questions?
     \setbeamertemplate{footline}{}
     \begin{frame}[c]
