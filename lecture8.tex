@@ -665,12 +665,12 @@
           \foreach \i in {\yMin,...,\yMax} {
               \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
           }
-          \node[color=airforceblue] at (4,3) {\Huge\textbullet};
-          \node[color=airforceblue] at (3,6) {\Huge\textbullet};
-          \node[color=airforceblue] at (3,8) {\Huge\textbullet};
-          \node[color=airforceblue] at (4,7) {\Huge\textbullet};
-          \node[color=airforceblue] at (4,5) {\Huge\textbullet};
-          \node[color=airforceblue] at (5,5) {\Huge\textbullet};
+          \node[color=orange] at (4,3) {\Huge\textbullet};
+          \node[color=orange] at (3,6) {\Huge\textbullet};
+          \node[color=orange] at (3,8) {\Huge\textbullet};
+          \node[color=orange] at (4,7) {\Huge\textbullet};
+          \node[color=orange] at (4,5) {\Huge\textbullet};
+          \node[color=orange] at (5,5) {\Huge\textbullet};
           \node[color=blue] at (5,1) {\Huge\textbullet};
           \node[color=blue] at (7,3) {\Huge\textbullet};
           \node[color=blue] at (7,4) {\Huge\textbullet};
@@ -684,12 +684,12 @@
           \foreach \i in {\yMin,...,\yMax} {
               \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
           }
-          \node[color=airforceblue] at (4,3) {\Large\textbullet};
-          \node[color=airforceblue] at (3,6) {\Huge\textbullet};
-          \node[color=airforceblue] at (3,8) {\Large\textbullet};
-          \node[color=airforceblue] at (4,7) {\Large\textbullet};
-          \node[color=airforceblue] at (4,5) {\Large\textbullet};
-          \node[color=airforceblue] at (5,5) {\Large\textbullet};
+          \node[color=orange] at (4,3) {\Large\textbullet};
+          \node[color=red] at (3,6) {\Huge\textbullet};
+          \node[color=orange] at (3,8) {\Large\textbullet};
+          \node[color=orange] at (4,7) {\Large\textbullet};
+          \node[color=orange] at (4,5) {\Large\textbullet};
+          \node[color=orange] at (5,5) {\Large\textbullet};
           \node[color=blue] at (5,1) {\Large\textbullet};
           \node[color=blue] at (7,3) {\Huge\textbullet};
           \node[color=blue] at (7,4) {\Large\textbullet};
@@ -697,6 +697,31 @@
       \end{tikzpicture}
     \end{frame}
   }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{The $k$-medoids clustering method}
+      \begin{itemize}
+        \item \textbf{$k$-medoids clustering:}
+        \begin{itemize}
+          \item Find representative objects (medoids) in clusters.
+          \item \textbf{PAM} (Partitioning Around Medoids, Kaufmann \& Rousseeuw, 1987):
+            \begin{itemize}
+              \item Starts from an initial set of $k$ medoids and iteratively replaces one of the medoids \\
+              by one of the non-medoids, if it improves the total distance of the resulting clustering.
+              \item PAM works effectively for small data sets, but does not scale well for large\\
+              data sets (due to the computational complexity).
+            \end{itemize}
+            \end{itemize}
+        \item \textbf{Efficiency improvement on PAM: }
+        \begin{itemize}
+          \item CLARA (Kaufmann \& Rousseeuw, 1990): PAM on samples.
+          \item CLARANS (Ng \& Han, 1994): Randomized re-sampling.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
   { % Questions?
     \setbeamertemplate{footline}{}
     \begin{frame}[c]
