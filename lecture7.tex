@@ -447,7 +447,7 @@
               \item Examples are \textbf{\color{airforceblue}partitioned recursively} based on selected attributes.
               \item Test attributes are selected on the basis of a heuristic or statistical measure.
               \begin{itemize}
-                \item E.g. information gain -- see on the next slide.
+                \item E.g., information gain -- see on the next slide.
               \end{itemize}
             \end{itemize}
             \item \textbf{Conditions for stopping partitioning:}
@@ -763,7 +763,7 @@
           \item Thus, split on the \{"low","medium"\} and \{"high"\}, since it has the lowest gini index.
         \end{itemize}
         \item \textbf{All attributes are assumed continuous-valued.}
-        \item \textbf{May need other tools, e.g. clustering, to get the possible split values.}
+        \item \textbf{May need other tools, E.g., clustering, to get the possible split values.}
         \item \textbf{Can be modified for categorical attributes.}
       \end{itemize}
     \end{frame}
@@ -1125,7 +1125,7 @@
           \item $P(C_i)$:
           \begin{itemize}
             \item \textbf{\color{airforceblue}Prior probability:} the initial probability.
-            \item E.g. $X$ will buy computer, regardless of age, income, $\ldots$
+            \item E.g., $X$ will buy computer, regardless of age, income, $\ldots$
           \end{itemize}
           \item $P(X)$:
           \begin{itemize}
@@ -1134,7 +1134,7 @@
           \item $P(X|C_j)$:
           \begin{itemize}
             \item \textbf{\color{airforceblue}Likelihood:} the probability of observing the sample $X$ given that the hypothesis holds.
-            \item E.g. given that $X$ buys computer, the probability that $X$ is $31\ldots40$, medium income.
+            \item E.g., given that $X$ buys computer, the probability that $X$ is $31\ldots40$, medium income.
           \end{itemize}
         \end{itemize}
     \end{frame}
@@ -1350,7 +1350,7 @@
           \item Assumption: class conditional independence, therefore loss of accuracy.
           \item Practically, \textbf{dependencies} exist among variables.
           \begin{itemize}
-            \item E.g. hospital patients:
+            \item E.g., hospital patients:
             \begin{itemize}
               \item Profile: age, family history, etc.
               \item Symptoms: fever, cough, etc.
@@ -1388,7 +1388,7 @@
       \begin{itemize}
         \item \textbf{Represent the knowledge in the form of {\color{airforceblue}IF-THEN rules}.}
         \begin{itemize}
-          \item E.g. if \texttt{age} $\leq 30$ AND \texttt{student} = "yes" THEN buys\_computer = "yes".
+          \item E.g., if \texttt{age} $\leq 30$ AND \texttt{student} = "yes" THEN buys\_computer = "yes".
           \item Readable.
         \end{itemize}
         \item \textbf{Rule {\color{airforceblue}antecedent/precondition} vs. rule {\color{airforceblue}consequent}}.
@@ -1513,7 +1513,7 @@
         \begin{itemize}
           \item Rules are learned one at a time.
           \item Each time a rule is learned, the tuples covered by the rule are removed.
-          \item The process repeats on the remaining tuples unless termination condition, e.g. when no more training examples left or when the quality of a rule returned is below a user-specified threshold.
+          \item The process repeats on the remaining tuples unless termination condition, E.g., when no more training examples left or when the quality of a rule returned is below a user-specified threshold.
         \end{itemize}
         \item \textbf{Compare with decision-tree induction:}
         \begin{itemize}
@@ -1601,7 +1601,7 @@
         \item \textbf{Rule-quality measures.}
         \begin{itemize}
           \item Must consider both coverage and accuracy.
-          \item \texttt{FOIL\_Gain} (from \texttt{FOIL} – First-Order Inductive Learner):
+          \item \texttt{FOIL\_Gain} (from \texttt{FOIL} - First-Order Inductive Learner):
           \begin{align}
             \text{FOIL\_Gain} = \text{pos}' \left( \log_2 \frac{\text{pos}'}{\text{pos}' + \text{neg}'} - \log_2 \frac{\text{pos}}{\text{pos}+\text{neg}} \right).
           \end{align}
@@ -1725,7 +1725,7 @@
           \begin{itemize}
             \item \textbf{Class-imbalance problem:}
             \begin{itemize}
-              \item One class may be rare e.g. fraud, or HIV-positive.
+              \item One class may be rare E.g., fraud, or HIV-positive.
               \item Significant majority of the negative class and minority of the positive class
               \item \textbf{Sensitivity:} True-positive recognition rate. $\text{Sensitivity} = \frac{TP}{P}$.
               \item \textbf{Specificity:} False-negative recognition rate. $\text{Specificity} = \frac{TN}{N}$.
@@ -1791,8 +1791,8 @@
         \begin{itemize}
           \item Given data is randomly partitioned into two independent sets:
           \begin{itemize}
-            \item \textbf{\color{airforceblue}Training set} (e.g. $2/3$) for model construction.
-            \item \textbf{\color{airforceblue}Test set} (e.g. $1/3$) for accuracy estimation.
+            \item \textbf{\color{airforceblue}Training set} (E.g., $2/3$) for model construction.
+            \item \textbf{\color{airforceblue}Test set} (E.g., $1/3$) for accuracy estimation.
           \end{itemize}
           \item Random sampling: a variation of holdout.
           \begin{itemize}
@@ -1933,7 +1933,7 @@
             \item Symmetrical.
             \item \textbf{\color{airforceblue}Significance level}:
             \begin{itemize}
-              \item E.g. $\text{sig} = 0.05$ or $5\%$ means $M_1$ \& $M_2$ are significantly different for $95\%$ of population.
+              \item E.g., $\text{sig} = 0.05$ or $5\%$ means $M_1$ \& $M_2$ are significantly different for $95\%$ of population.
             \end{itemize}
             \item Confidence limit: $z = \frac{\text{sig}}{2}$.
           \end{itemize}
@@ -1952,7 +1952,7 @@
       \begin{itemize}
         \item \textbf{Are $M_1$ \& $M_2$ {\color{airforceblue} significantly different}?}
         \begin{itemize}
-          \item Compute $t$. Select significance level (e.g. sig = $5\%$).
+          \item Compute $t$. Select significance level (E.g., sig = $5\%$).
           \item Consult table for $t$-distribution:
           \begin{itemize}
             \item Find $t$ value corresponding to $k-1$ degrees of freedom (here, $9$).
@@ -2035,7 +2035,7 @@
         \end{itemize}
         \item \textbf{Other measures.}
         \begin{itemize}
-          \item E.g. goodness of rules, such as decision-tree size or compactness of classification rules.
+          \item E.g., goodness of rules, such as decision-tree size or compactness of classification rules.
         \end{itemize}
       \end{itemize}
     \end{frame}
@@ -2053,6 +2053,462 @@
             \item \textbf{Techniques to improve classification accuracy: ensemble methods.}
             \item Summary.
         \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Ensemble methods: increasing the accuracy}
+      \begin{columns}
+        \begin{column}{0.4\textwidth}
+          \centering
+          \begin{itemize}
+            \item \textbf{{\color{airforceblue}Ensemble} methods:}
+            \begin{itemize}
+              \item Use a combination of models to increase accuracy.
+              \item Combine a series of $k$ learned models, $M_1$, $M_2$, $\ldots$, $M_k$, with the aim of creating an improved model $M^*$.
+            \end{itemize}
+          \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+          \centering
+          \begin{itemize}
+            \item \textbf{Popular ensemble methods:}
+            \begin{itemize}
+              \item Bagging:
+              \begin{itemize}
+                \item Averaging the prediction over a collection of classifiers.
+              \end{itemize}
+              \item Boosting:
+              \begin{itemize}
+                \item Weighted vote with a collection of classifiers.
+              \end{itemize}
+              \item Ensemble:
+              \begin{itemize}
+                \item Combining a set of heterogeneous classifiers.
+              \end{itemize}
+            \end{itemize}
+          \end{itemize}
+        \end{column}
+      \end{columns}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Bagging: boostrap aggregation}
+      \begin{itemize}
+        \item \textbf{Analogy:}
+        \begin{itemize}
+          \item Diagnosis based on multiple doctors' majority vote.
+        \end{itemize}
+        \item \textbf{Training:}
+        \begin{itemize}
+          \item Given a set $D$ of d tuples, at each iteration $i$, a training set $D_i$ of $d$ tuples is sampled with replacement from $D$ (i.e., bootstrap).
+          \item A classifier model $M_i$ is learned for each training set $D_i$.
+        \end{itemize}
+        \item \textbf{Classification: classify an unknown sample $X$.}
+        \begin{itemize}
+          \item Each classifier $M_i$ returns its class prediction.
+          \item The bagged classifier $M^*$ counts the votes and assigns the class with the most votes to $X$.
+        \end{itemize}
+        \item \textbf{Prediction:}
+        \begin{itemize}
+          \item Can be applied to the prediction of continuous values by taking the average value of each prediction for a given test tuple.
+        \end{itemize}
+        \item \textbf{Accuracy:}
+        \begin{itemize}
+          \item Often significantly better than a single classifier derived from $D$.
+          \item For noisy data: not considerably worse, more robust.
+          \item Proved improved accuracy in prediction.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Boosting}
+      \begin{itemize}
+        \item \textbf{Analogy:}
+        \begin{itemize}
+          \item Consult several doctors, based on a combination of weighted diagnoses -- weight assigned based on the previous diagnosis accuracy
+        \end{itemize}
+        \item \textbf{How boosting works:}
+        \begin{itemize}
+          \item Weights are assigned to each training tuple.
+          \item A series of $k$ classifiers is iteratively learned.
+          \item After a classifier $M_i$ is learned, the weights are updated to allow the subsequent classifier, $M_{i+1}$ to pay more attention to the training tuples that were misclassified by $M_i$.
+          \item The final $M^*$ combines the votes of each individual classifier, where the weight of each classifier's vote is a function of its accuracy.
+        \end{itemize}
+        \item \textbf{Boosting algorithm can be extended for numeric prediction.}
+        \begin{itemize}
+          \item Each classifier $M_i$ returns its class prediction.
+          \item The bagged classifier $M^*$ counts the votes and assigns the class with the most votes to $X$.
+        \end{itemize}
+        \item \textbf{Comparing with bagging:}
+        \begin{itemize}
+          \item Can be applied to the prediction of continuous values by taking the average value of each prediction for a given test tuple.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{AdaBoost ("Adaptive Boosting" (Freund and Schapire, 1997))}
+      \begin{itemize}
+        \item \textbf{Given a set of d class-labeled tuples: $(x_1 , y_1), \ldots, (x_d, y_d)$.}
+        \item \textbf{Initially, all the weights of tuples are set the same: $\frac{1}{d}$.}
+        \item \textbf{Generate $k$ classifiers in $k$ rounds. At round $i$,}
+        \begin{itemize}
+          \item Tuples from $D$ are sampled (with replacement) to form a training set $D_i$ of the same size.
+          \item Each tuple's chance of being selected is based on its weight.
+          \item A classification model $M_i$ is derived from $D_i$.
+          \item Its error rate is calculated using $D_i$ as a test set.
+          \item If a tuple is misclassified, its weight is increased, otherwise it is decreased.
+        \end{itemize}
+        \item \textbf{Error rate: $\text{err}(x_j)$ is the misclassification error of tuple $x_j$. Classifier $M_i$ error rate is the sum of the weights of the misclassified tuples:}
+        \begin{align}
+          \text{error}(M_i) = \sum_{j=1}^{d} w_j \cdot \text{err}(x_j).
+        \end{align}
+        \textbf{The weight of classifier $M_i$'s vote is: $\log \frac{1-\text{error}(M_i)}{\text{error}(M_i)}$.}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Random forest (Breiman, 2001)}
+      \begin{itemize}
+        \item \textbf{Random forest:}
+        \begin{itemize}
+          \item Each classifier in the ensemble is a decision-tree classifier and is generated using a random selection of attributes at each node to determine the split.
+          \item During classification, each tree votes and the most popular class is returned.
+        \end{itemize}
+        \item \textbf{Two methods to construct random forests:}
+        \begin{itemize}
+          \item Forest-RI (random input selection):
+          \begin{itemize}
+            \item Randomly select, at each node, F attributes as candidates for the split at the node. The CART methodology is used to grow the trees to maximum size.
+          \end{itemize}
+          \item Creates new attributes (or features) that are a linear combination of the existing attributes (reduces the correlation between individual classifiers).
+        \end{itemize}
+        \item \textbf{Comparable in accuracy to AdaBoost, but more robust to errors and outliers.}
+        \item \textbf{Insensitive to the number of attributes selected for consideration at each split, and faster than bagging or boosting.}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Classification of class-imbalanced data sets}
+      \begin{itemize}
+        \item \textbf{Class-imbalance problem:}
+        \begin{itemize}
+          \item Rare positive example but numerous negative ones.
+          \begin{itemize}
+            \item E.g., medical diagnosis, fraud, oil-spill, fault, etc.
+          \end{itemize}
+          \item Traditional methods assume a balanced distribution of classes and equal error costs: not suitable for class-imbalanced data.
+        \end{itemize}
+        \item \textbf{Typical methods for imbalanced data in 2-class classification:}
+        \begin{itemize}
+          \item \textbf{\color{airforceblue}Oversampling:}
+          \begin{itemize}
+            \item Re-sampling of data from positive class.
+          \end{itemize}
+          \item \textbf{\color{airforceblue}Undersampling:}
+          \begin{itemize}
+            \item Randomly eliminate tuples from negative class.
+          \end{itemize}
+          \item \textbf{\color{airforceblue}Threshold-moving:}
+          \begin{itemize}
+            \item Moves the decision threshold, $t$, so that the rare-class tuples are easier to classify, and hence, less chance of costly false-negative errors
+          \end{itemize}
+          \item \textbf{\color{airforceblue}Ensemble techniques:}
+          \begin{itemize}
+            \item Ensemble multiple classifiers introduced above.
+          \end{itemize}
+        \end{itemize}
+        \item \textbf{Still difficult on multi-class tasks.}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Chapter VI: Classification}
+        \begin{itemize}
+            \item Classification: basic concepts.
+            \item Decision-tree induction.
+            \item Bayes classification methods.
+            \item Rule-based classification.
+            \item Model evaluation and selection.
+            \item Techniques to improve classification accuracy: ensemble methods.
+            \item \textbf{Summary.}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Summary}
+        \begin{itemize}
+          \item \textbf{Classification.}
+          \begin{itemize}
+            \item A form of data analysis that extracts models describing important data classes.
+          \end{itemize}
+          \item \textbf{Effective and scalable methods.}
+          \begin{itemize}
+            \item Developed for decision-tree induction, naive Bayesian classification, rule-based classification, and many other classification methods.
+          \end{itemize}
+          \item \textbf{Evaluation metrics:}
+          \begin{itemize}
+            \item Accuracy, sensitivity, specificity, precision, recall, $F$-measure, and $F_\beta$-measure.
+          \end{itemize}
+          \item \textbf{Stratified $k$-fold cross-validation.}
+          \begin{itemize}
+            \item Recommended for accuracy estimation.
+          \end{itemize}
+          \item \textbf{Significance tests and ROC curves.}
+          \begin{itemize}
+            \item Useful for model selection.
+          \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Summary (II)}
+        \begin{itemize}
+          \item \textbf{Ensemble methods.}
+          \begin{itemize}
+            \item Bagging and boosting can be used to increase overall accuracy by learning and combining a series of individual models.
+          \end{itemize}
+          \item \textbf{Numerous comparisons of the different classification methods.}
+          \begin{itemize}
+            \item Matter remains a research topic.
+            \item No single method has been found to be superior over all others for all data sets.
+            \item Issues such as accuracy, training time, robustness, scalability, and interpretability must be considered and can involve trade-offs, further complicating the quest for an overall superior method.
+          \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Reference: books on classification}
+      \begin{itemize}
+        \item E. Alpaydin: Introduction to Machine Learning. 2$^\text{nd}$ ed., MIT Press, 2011.
+        \item L. Breiman, J. Friedman, R. Olshen, and C. Stone: Classification and Regression Trees. Wadsworth International Group, 1984.
+        \item C. M. Bishop: Pattern Recognition and Machine Learning. Springer, 2006.
+        \item R. O. Duda, P. E. Hart, and D. G. Stork. Pattern Classification. 2$^\text{nd}$ ed., John Wiley, 2001.
+        \item T. Hastie, R. Tibshirani, and J. Friedman: The Elements of Statistical Learning: Data Mining, Inference, and Prediction. Springer-Verlag, 2001.
+        \item H. Liu and H. Motoda (eds.): Feature Extraction, Construction, and Selection: A Data Mining Perspective. Kluwer Academic, 1998.
+        \item T. M. Mitchell: Machine Learning. McGraw Hill, 1997.
+        \item S. Marsland: Machine Learning: An Algorithmic Perspective. Chapman \& Hall/CRC, 2009.
+        \item \color{airforceblue} J. R. Quinlan: C4.5: Programs for Machine Learning. Morgan Kaufmann, 1993.
+        \item J. W. Shavlik and T. G. Dietterich. Readings in Machine Learning. Morgan Kaufmann, 1990.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Reference: books on classification (II)}
+      \begin{itemize}
+        \item P. Tan, M. Steinbach, and V. Kumar: Introduction to Data Mining. Addison Wesley, 2005.
+        \item S. M. Weiss and C. A. Kulikowski: Computer Systems that Learn: Classification and Prediction Methods from Statistics, Neural Nets, Machine Learning, and Expert Systems. Morgan Kaufman, 1991.
+        \item S. M. Weiss and N. Indurkhya: Predictive Data Mining. Morgan Kaufmann, 1997.
+        \item I. H. Witten and E. Frank: Data Mining: Practical Machine Learning Tools and Techniques. 2$^\text{nd}$ ed., Morgan Kaufmann, 2005
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Reference: decision trees}
+      \begin{itemize}
+        \item M. Ankerst, C. Elsen, M. Ester, and H.-P. Kriegel: Visual classification: An interactive approach to decision tree construction. KDD'99.
+        \item C. Apte and S. Weiss: Data mining with decision trees and decision rules. Future Generation Computer Systems 13, 1997.
+        \item C. E. Brodley and P. E. Utgoff: Multivariate decision trees. Machine Learning 19:45-77, 1995.
+        \item P. K. Chan and S. J. Stolfo: Learning arbiter and combiner trees from partitioned data for scaling machine learning. KDD'95.
+        \item U. M. Fayyad: Branching on attribute values in decision tree generation. AAAI'94.
+        \item M. Mehta, R. Agrawal, and J. Rissanen: SLIQ: A fast scalable classifier for data mining. EDBT'96.
+        \item J. Gehrke, R. Ramakrishnan, and V. Ganti: Rainforest: A framework for fast decision tree construction of large datasets. VLDB'98.
+        \item J. Gehrke, V. Gant, R. Ramakrishnan, and W.-Y. Loh: BOAT -- Optimistic Decision Tree Construction. SIGMOD'99
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Reference: decision trees (II)}
+      \begin{itemize}
+        \item S. K. Murthy: Automatic Construction of Decision Trees from Data: A Multi-Disciplinary Survey. Data Mining and Knowledge Discovery 2(4):345-389, 1998.
+        \item J. R. Quinlan: Induction of decision trees. Machine Learning 1:81-106, 1986.
+        \item J. R. Quinlan and R. L. Rivest: Inferring decision trees using the minimum description length principle. Information and Computation 80:227-248, Mar. 1989.
+        \item S. K. Murthy. Automatic construction of decision trees from data: A multi-disciplinary survey. Data Mining and Knowledge Discovery 2:345-389, 1998.
+        \item R. Rastogi and K. Shim: Public: A decision tree classifier that integrates building and pruning. VLDB'98.
+        \item J. Shafer, R. Agrawal, and M. Mehta: SPRINT: A scalable parallel classifier for data mining. VLDB'96.
+        \item Y.-S. Shih: Families of splitting criteria for classification trees. Statistics and Computing 9:309-315, 1999.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Reference: neural networks}
+      \begin{itemize}
+        \item C. M. Bishop: Neural Networks for Pattern Recognition. Oxford University Press, 1995.
+        \item Y. Chauvin and D. Rumelhart: Backpropagation: Theory, Architectures, and Applications. Lawrence Erlbaum, 1995
+        \item J. W. Shavlik, R. J. Mooney, and G. G. Towell: Symbolic and neural learning algorithms: An experimental comparison. Machine Learning 6:111-144, 1991.
+        \item S. Haykin: Neural Networks and Learning Machines. Prentice Hall, Saddle River, NJ, 2008.
+        \item J. Hertz, A. Krogh, and R. G. Palmer: Introduction to the Theory of Neural Computation. Addison Wesley, 1991.
+        \item R. Hecht-Nielsen: Neurocomputing. Addison Wesley, 1990.
+        \item B. D. Ripley: Pattern Recognition and Neural Networks. Cambridge University Press, 1996.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Reference: support vector machines}
+      \begin{itemize}
+        \item C. J. C. Burges: A Tutorial on Support Vector Machines for Pattern Recognition. Data Mining and Knowledge Discovery 2(2):121-168, 1998.
+        \item N. Cristianini and J. Shawe-Taylor: An Introduction to Support Vector Machines and Other Kernel-Based Learning Methods. Cambridge Univ. Press, 2000.
+        \item H. Drucker, C. J. C. Burges, L. Kaufman, A. Smola, and V. N. Vapnik: Support vector regression machines. NIPS, 1997.
+        \item J. C. Platt: Fast training of support vector machines using sequential minimal optimization. In B. Schoelkopf, C. J. C. Burges, and A. Smola (eds.). Advances in Kernel Methods|Support Vector Learning, pages 185-208. MIT Press, 1998.
+        \item B. Schoelkopf, P. L. Bartlett, A. Smola, and R. Williamson: Shrinking the tube: A new support vector regression algorithm. NIPS, 1999.
+        \item H. Yu, J. Yang, and J. Han: Classifying large data sets using SVM with hierarchical clusters. KDD'03.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Reference: pattern-based classification}
+      \begin{itemize}
+        \item H. Cheng, X. Yan, J. Han, and C.-W: Hsu: Discriminative Frequent Pattern Analysis for Effective Classification. ICDE'07.
+        \item H. Cheng, X. Yan, J. Han, and P. S. Yu: Direct Discriminative Pattern Mining for Effective Classification. ICDE'08.
+        \item G. Cong, K.-L. Tan, A. K. H. Tung, and X. Xu: Mining top-k covering rule groups for gene expression data. SIGMOD'05.
+        \item G. Dong and J. Li: Efficient mining of emerging patterns: Discovering trends and differences. KDD'99.
+        \item H. S. Kim, S. Kim, T. Weninger, J. Han, and T. Abdelzaher: NDPMine: Efficiently mining discriminative numerical features for pattern-based classification. ECMLPKDD'10.
+        \item W. Li, J. Han, and J. Pei: CMAR: Accurate and Efficient Classification Based on Multiple Class-Association Rules. ICDM'01.
+        \item B. Liu, W. Hsu, and Y. Ma: Integrating classification and association rule mining. KDD'98.
+        \item J. Wang and G. Karypis: HARMONY: Efficiently mining the best rules for classification. SDM'05.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Reference: rule induction}
+      \begin{itemize}
+        \item P. Clark and T. Niblett: The CN2 induction algorithm. Machine Learning 3:261-283, 1989.
+        \item W. Cohen: Fast effective rule induction. ICML'95
+        \item S. L. Crawford: Extensions to the CART algorithm. Int. J. Man-Machine Studies 31:197-217, Aug. 1989.
+        \item J. R. Quinlan and R. M. Cameron-Jones: FOIL: A midterm report. ECML'93
+        \item P. Smyth and R. M. Goodman: An information theoretic approach to rule induction. IEEE Trans. Knowledge and Data Engineering 4:301-316, 1992.
+        \item X. Yin and J. Han. CPAR: Classification based on predictive association rules. SDM'03.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Reference: $k$-NN \& case-based reasoning}
+      \begin{itemize}
+        \item A. Aamodt and E. Plazas: Case-based reasoning: Foundational issues, methodological variations, and system approaches. AI Comm. 7:39-52, 1994.
+        \item T. Cover and P. Hart: Nearest neighbor pattern classification. IEEE Trans. Information Theory 13:21-27, 1967.
+        \item B. V. Dasarathy. Nearest Neighbor (NN) Norms: NN Pattern Classification Techniques. IEEE Computer Society Press, 1991.
+        \item J. L. Kolodner: Case-Based Reasoning. Morgan Kaufmann, 1993.
+        \item A. Veloso, W. Meira, and M. Zaki: Lazy associative classification. ICDM'06.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Reference: bayesian method \& statistical models}
+      \begin{itemize}
+        \item A. J. Dobson: An Introduction to Generalized Linear Models. Chapman \& Hall, 1990.
+        \item D. Heckerman, D. Geiger, and D. M. Chickering: Learning Bayesian networks: The combination of knowledge and statistical data. Machine Learning, 1995.
+        \item G. Cooper and E. Herskovits: A Bayesian method for the induction of probabilistic networks from data. Machine Learning 9:309-347, 1992.
+        \item A. Darwiche: Bayesian networks. Comm. ACM 53:80-90, 2010.
+        \item A. P. Dempster, N. M. Laird, and D. B. Rubin: Maximum likelihood from incomplete data via the EM algorithm. J. Royal Statistical Society, Series B, 39:1-38, 1977.
+        \item D. Heckerman, D. Geiger, and D. M. Chickering: Learning Bayesian networks: The combination of knowledge and statistical data. Machine Learning 20:197-243, 1995.
+        \item F. V. Jensen: An Introduction to Bayesian Networks. Springer Verlag, 1996.
+        \item D. Koller and N. Friedman: Probabilistic Graphical Models: Principles and Techniques. The MIT Press, 2009.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Reference: bayesian method \& statistical models (II)}
+      \begin{itemize}
+        \item J. Pearl: Probabilistic Reasoning in Intelligent Systems. Morgan Kauffman, 1988.
+        \item S. Russell, J. Binder, D. Koller, and K. Kanazawa: Local learning in probabilistic networks with hidden variables. IJCAI'95.
+        \item V. N. Vapnik: Statistical Learning Theory. John Wiley \& Sons, 1998.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Reference: semi-supervised \& multi-class learning}
+      \begin{itemize}
+        \item O. Chapelle, B. Schoelkopf, and A. Zien: Semi-supervised Learning. MIT Press, 2006.
+        \item T. G. Dietterich and G. Bakiri: Solving multiclass learning problems via error-correcting output codes. J. Articial Intelligence Research 2:263-286, 1995.
+        \item W. Dai, Q. Yang, G. Xue, and Y. Yu: Boosting for transfer learning. ICML'07.
+        \item S. J. Pan and Q. Yang: A survey on transfer learning. IEEE Trans. on Knowledge and Data Engineering 22:1345-1359, 2010.
+        \item B. Settles: Active learning literature survey. CS Tech. Rep. 1648, Univ. Wisconsin-Madison, 2010.
+        \item X. Zhu: Semi-supervised learning literature survey. CS Tech. Rep. 1530, Univ. Wisconsin-Madison, 2005.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Reference: genetic algorithms \& rough/fuzzy sets}
+      \begin{itemize}
+        \item D. Goldberg: Genetic Algorithms in Search, Optimization, and Machine Learning. Addison-Wesley, 1989.
+        \item S. A. Harp, T. Samad, and A. Guha: Designing application-specific neural networks using the genetic algorithm. NIPS, 1990.
+        \item Z. Michalewicz: Genetic Algorithms + Data Structures = Evolution Programs. Springer Verlag, 1992.
+        \item M. Mitchell: An Introduction to Genetic Algorithms. MIT Press, 1996.
+        \item Z. Pawlak: Rough Sets, Theoretical Aspects of Reasoning about Data. Kluwer Academic, 1991.
+        \item S. Pal and A. Skowron (eds.): Fuzzy Sets, Rough Sets and Decision Making Processes. New York, 1998.
+        \item R. R. Yager and L. A. Zadeh: Fuzzy Sets, Neural Networks and Soft Computing. Van Nostrand Reinhold, 1994.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Reference: model evaluation, ensemble methods}
+      \begin{itemize}
+        \item L. Breiman: Bagging predictors. Machine Learning 24:123-140, 1996.
+        \item L. Breiman: Random forests. Machine Learning 45:5-32, 2001.
+        \item C. Elkan: The foundations of cost-sensitive learning. IJCAI'01.
+        \item B. Efron and R. Tibshirani: An Introduction to the Bootstrap. Chapman \& Hall, 1993.
+        \item J. Friedman and E. P. Bogdan: Predictive learning via rule ensembles. Ann. Applied Statistics 2:91 6-954, 2008.
+        \item T.-S. Lim, W.-Y. Loh, and Y.-S. Shih: A comparison of prediction accuracy, complexity, and training time of thirty-three old and new classification algorithms. Machine Learning, 2000.
+        \item J. Magidson: The Chaid approach to segmentation modeling: Chi-squared automatic interaction detection. In R. P. Bagozzi (ed.). Advanced Methods of Marketing Research, Blackwell Business, 1994.
+        \item J. R. Quinlan:. Bagging, boosting, and C4.5. AAAI'96.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Reference: model evaluation, ensemble methods (II)}
+      \begin{itemize}
+        \item G. Seni and J. F. Elder: Ensemble Methods in Data Mining: Improving Accuracy Through Combining Predictions. Morgan and Claypool, 2010.
+        \item Y. Freund and R. E. Schapire: A decision-theoretic generalization of on-line learning and an application to boosting. J. Computer and System Sciences, 1997.
+      \end{itemize}
     \end{frame}
   }
 
