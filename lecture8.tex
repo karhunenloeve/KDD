@@ -1568,7 +1568,7 @@
           \item \textbf{\color{airforceblue}Branching factor $B$}: max \# of children.
           \item \textbf{\color{airforceblue}Threshold $T$}: maximum diameter of sub-clusters stored at leaf nodes.
           \begin{itemize}
-            \item Diameter: average pairwise distance within a cluster, \\
+            \item Diameter $D$: average pairwise distance within a cluster, \\
             reflects the tightness of the cluster around the centroid:
             \begin{align}
               D = \sqrt{\frac{\sum_{i=1}^{n} \sum_{j=1}^{n} (o_i-o_j)^2}{n(n-1)}} = \sqrt{\frac{2nSS - 2LS^2}{n(n-1)}}.
@@ -1576,6 +1576,37 @@
           \end{itemize}
         \end{itemize}
       \end{itemize}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}{}
+    \begin{frame}{CF-Tree structure}
+      \centering
+      \begin{tikzpicture}
+        \node at (0,0.75) {Root:};
+        \node at (0,0) {
+          \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            $CF_1$ & $CF_2$ & $CF_3$ & $\hdots$ & $CF_6$ \\ \hline
+            $\text{child}_1$ & $\text{child}_2$ & $\text{child}_3$ & $\hdots$ & $\text{child}_6$ \\\hline
+          \end{tabular}
+        };
+        \node at (-2,-2) {
+          \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            $CF_1$ & $CF_2$ & $CF_3$ & $\hdots$ & $CF_5$ \\ \hline
+            $\text{child}_1$ & $\text{child}_2$ & $\text{child}_3$ & $\hdots$ & $\text{child}_5$ \\\hline
+          \end{tabular}
+        };
+        \node at (-3,-4) {
+          \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            $CF_1$ & $CF_2$ & $CF_3$ & $\hdots$ & $CF_5$ \\ \hline
+            $\text{child}_1$ & $\text{child}_2$ & $\text{child}_3$ & $\hdots$ & $\text{child}_5$ \\\hline
+          \end{tabular}
+        };
+      \end{tikzpicture}
     \end{frame}
   }
 
