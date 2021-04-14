@@ -1179,6 +1179,90 @@
 
   { % Questions?
     \setbeamertemplate{footline}{}
+    \begin{frame}{AGNES (Agglomerative Nesting)}
+      \begin{itemize}
+        \item \textbf{Introduced in (Kaufmann \& Rousseeuw, 1990)}
+        \item \textbf{Implemented in statistical packages, e.g., S+.}
+        \item \textbf{Use the single-link method.} (see below)
+        \item \textbf{Merge nodes that have the least dissimilarity.}
+        \item \textbf{Go on in a non-descending fashion.}
+        \item \textbf{Eventually all nodes belong to the same cluster.}
+      \end{itemize}
+      \newcommand*{\xMin}{0}%
+      \newcommand*{\xMax}{10}%
+      \newcommand*{\yMin}{0}%
+      \newcommand*{\yMax}{10}%
+      \centering
+      \begin{tikzpicture}[scale=0.23]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (2,6) {\Huge\textbullet};
+          \node[color=orange] at (3,4) {\Huge\textbullet};
+          \node[color=orange] at (3,8) {\Huge\textbullet};
+          \node[color=orange] at (4,5) {\Huge\textbullet};
+          \node[color=orange] at (4,7) {\Huge\textbullet};
+          \node[color=orange] at (6,2) {\Huge\textbullet};
+          \node[color=orange] at (7,2) {\Huge\textbullet};
+          \node[color=orange] at (7,4) {\Huge\textbullet};
+          \node[color=orange] at (8,4) {\Huge\textbullet};
+          \node[color=orange] at (8,5) {\Huge\textbullet};
+          \draw[->] (12,5)--(17,5);
+          \draw[dashed] (3.4,7.5) ellipse (1.5cm and 1.2cm);
+          \draw[dashed] (3.5,4.8) ellipse (1.5cm and 1cm);
+          \draw[dashed] (8,5) ellipse (1cm and 1.5cm);
+      \end{tikzpicture}
+      \begin{tikzpicture}[scale=0.23]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (2,6) {\Huge\textbullet};
+          \node[color=orange] at (3,4) {\Huge\textbullet};
+          \node[color=orange] at (3,8) {\Huge\textbullet};
+          \node[color=orange] at (4,5) {\Huge\textbullet};
+          \node[color=orange] at (4,7) {\Huge\textbullet};
+          \node[color=orange] at (6,2) {\Huge\textbullet};
+          \node[color=orange] at (7,2) {\Huge\textbullet};
+          \node[color=orange] at (7,4) {\Huge\textbullet};
+          \node[color=orange] at (8,4) {\Huge\textbullet};
+          \node[color=orange] at (8,5) {\Huge\textbullet};
+          \draw[->] (12,5)--(17,5);
+          \draw[dashed] (3,7) ellipse (2cm and 1.5cm);
+          \draw[dashed] (3.5,4.8) ellipse (1.5cm and 1cm);
+          \draw[dashed] (7.5,5) ellipse (1.5cm and 1.5cm);
+          \draw[dashed] (6.25,2.5) ellipse (1.5cm and 1cm);
+      \end{tikzpicture}
+      \begin{tikzpicture}[scale=0.23]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (2,6) {\Huge\textbullet};
+          \node[color=orange] at (3,4) {\Huge\textbullet};
+          \node[color=orange] at (3,8) {\Huge\textbullet};
+          \node[color=orange] at (4,5) {\Huge\textbullet};
+          \node[color=orange] at (4,7) {\Huge\textbullet};
+          \node[color=orange] at (6,2) {\Huge\textbullet};
+          \node[color=orange] at (7,2) {\Huge\textbullet};
+          \node[color=orange] at (7,4) {\Huge\textbullet};
+          \node[color=orange] at (8,4) {\Huge\textbullet};
+          \node[color=orange] at (8,5) {\Huge\textbullet};
+          \draw[dashed] (3,6) ellipse (2cm and 3cm);
+          \draw[dashed] (7,4) ellipse (2cm and 3cm);
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}{}
     \begin{frame}[c]
       \begin{center}
         Thank you for your attention.\\
