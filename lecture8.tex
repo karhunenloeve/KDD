@@ -855,6 +855,30 @@
     \end{frame}
   }
 
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{PAM (Partitioning Around Medoids)}
+      \begin{itemize}
+        \item \textbf{Use real objects to represent the clusters.}
+        \item \textbf{Algorithm:}
+        \begin{itemize}
+          \item[1.] Arbitrarily choose $k$ objects as the initial mediods.
+          \item[2.] Repeat.
+          \item[3.] \hspace{0.2cm} Assign each remaining object to the cluster with the nearest mediod $o_i$.
+          \item[4.] \hspace{0.2cm} Randomly select a non-medoid object $o_h$.
+          \item[5.] \hspace{0.2cm} Compute the total cost $\text{TC}_{ih}$ of swapping $o_i$ with $o_h$.
+          \item[6.] \hspace{0.2cm} If $\text{TC}_{ih} < 0$ then swap $o_i$ with $o_h$ to form the new set of $k$ medoids.
+          \item[7.] Until no change.
+        \end{itemize}
+        \item $\text{TC}_{ih} = \sum\limits_{j}C_{jih}$
+        \begin{itemize}
+          \item with $C_{jih}$ as the cost for object $o_j$ if $o_i$ is swapped with $o_h$.
+          \item That is, distance to new medoid minus distance to old medoid.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
   { % Questions?
     \setbeamertemplate{footline}{}
     \begin{frame}[c]
