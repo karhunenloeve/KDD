@@ -879,6 +879,188 @@
     \end{frame}
   }
 
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{PAM Clustering (II)}
+      \begin{itemize}
+        \item \textbf{Case 1:}
+        \begin{itemize}
+          \item $o_j$ currently belongs to medoid $o_i$. If $o_i$ is replaced with $o_h$ as a medoid, and $o_j$ is closest to $o_h$, then $o_j$ is reassigned to $o_h$ (same cluster, different distance).
+          \begin{align}
+            C_{jih} = d(o_j,o_h) - d(o_j,o_i).
+          \end{align}
+        \end{itemize}
+      \end{itemize}
+      \newcommand*{\xMin}{0}%
+      \newcommand*{\xMax}{10}%
+      \newcommand*{\yMin}{0}%
+      \newcommand*{\yMax}{10}%
+      \centering
+      \begin{tikzpicture}[scale=0.3]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \draw[thick] (7,6)--(6,4);
+          \draw[thick] (7,6)--(7,4);
+          \node[color=orange] at (3,4) {\Huge\textbullet};
+          \node[color=orange] at (2,6) {\Huge\textbullet};
+          \node[color=blue] at (3,8) {\Huge\textbullet};
+          \node[color=orange] at (4,7) {\Huge\textbullet};
+          \node[color=orange] at (6,2) {\Huge\textbullet};
+          \node[color=blue] at (6,4) {\Huge\textbullet};
+          \node[color=orange] at (7,3) {\Huge\textbullet};
+          \node[color=orange] at (7,4) {\Huge\textbullet};
+          \node[color=orange] at (7,6) {\Huge\textbullet};
+          \node[color=orange] at (8,5) {\Huge\textbullet};
+          \node at (3,9) {$t$};
+          \node at (7,7) {$j$};
+          \node at (5.4,4.3) {$i$};
+          \node at (7.3,4.7) {$h$};
+          \draw[dashed] (3,6) ellipse (2cm and 3cm);
+          \draw[dashed] (7,4) ellipse (2cm and 3cm);
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{PAM Clustering (III)}
+      \begin{itemize}
+        \item \textbf{Case 2:}
+        \begin{itemize}
+          \item $o_j$ currently belongs to medoid $o_t$, $t \neq j$. If $o_i$ is replaced with $o_h$ as a medoid, and $o_j$ is still closest to $o_t$, then the assignment does not change.
+          \begin{align}
+            C_{jih} = d(o_j,o_h) - d(o_j,o_i) = 0.
+          \end{align}
+        \end{itemize}
+      \end{itemize}
+      \newcommand*{\xMin}{0}%
+      \newcommand*{\xMax}{10}%
+      \newcommand*{\yMin}{0}%
+      \newcommand*{\yMax}{10}%
+      \centering
+      \begin{tikzpicture}[scale=0.3]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          %\draw[thick] (7,6)--(6,4);
+          %\draw[thick] (7,6)--(7,4);
+          \node[color=orange] at (3,4) {\Huge\textbullet};
+          \node[color=orange] at (2,6) {\Huge\textbullet};
+          \node[color=blue] at (3,8) {\Huge\textbullet};
+          \node[color=orange] at (4,7) {\Huge\textbullet};
+          \node[color=orange] at (6,2) {\Huge\textbullet};
+          \node[color=blue] at (6,4) {\Huge\textbullet};
+          \node[color=orange] at (7,3) {\Huge\textbullet};
+          \node[color=orange] at (7,4) {\Huge\textbullet};
+          \node[color=orange] at (4,9) {\Huge\textbullet};
+          \node[color=orange] at (8,5) {\Huge\textbullet};
+          \node at (3,9) {$t$};
+          \node at (4,10) {$j$};
+          \node at (5.4,4.3) {$i$};
+          \node at (7.3,4.7) {$h$};
+          \draw[dashed] (3,7) ellipse (2cm and 4cm);
+          \draw[dashed] (7,4) ellipse (2cm and 3cm);
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{PAM Clustering (IV)}
+      \begin{itemize}
+        \item \textbf{Case 3:}
+        \begin{itemize}
+          \item $o_j$ currently belongs to medoid $o_i$. If $o_i$ is replaced with $o_h$ as a medoid, and $o_j$ is closest to medoid $o_t$ of one of the other clusters, then $o_j$ is reassigned to $o_t$ (new cluster, different distance).
+          \begin{align}
+            C_{jih} = d(o_j,o_t) - d(o_j,o_i).
+          \end{align}
+        \end{itemize}
+      \end{itemize}
+      \newcommand*{\xMin}{0}%
+      \newcommand*{\xMax}{10}%
+      \newcommand*{\yMin}{0}%
+      \newcommand*{\yMax}{10}%
+      \centering
+      \begin{tikzpicture}[scale=0.3]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \draw[thick] (5,6)--(3,8);
+          \draw[thick] (5,6)--(4,5);
+          \node[color=orange] at (2,6) {\Huge\textbullet};
+          \node[color=orange] at (3,6) {\Huge\textbullet};
+          \node[color=orange] at (5,6) {\Huge\textbullet};
+          \node[color=orange] at (3,8) {\Huge\textbullet};
+          \node[color=orange] at (3,4) {\Huge\textbullet};
+          \node[color=blue] at (4,5) {\Huge\textbullet};
+          \node[color=blue] at (7,4) {\Huge\textbullet};
+          \node[color=orange] at (7,3) {\Huge\textbullet};
+          \node[color=orange] at (7,2) {\Huge\textbullet};
+          \node[color=orange] at (8,5) {\Huge\textbullet};
+          \draw[dashed] (3.5,6) ellipse (2cm and 3cm);
+          \draw[dashed] (7,4) ellipse (2cm and 3cm);
+          \node at (2.3,8.7) {$h$};
+          \node at (5,7) {$j$};
+          \node at (3.5,5) {$i$};
+          \node at (6.2,4.3) {$t$};
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{PAM Clustering (V)}
+      \begin{itemize}
+        \item \textbf{Case 4:}
+        \begin{itemize}
+          \item $o_j$ currently belongs to medoid $o_t$, $t \neq j$. If $o_i$ is replaced with $o_h$ as a medoid (from a different cluster!), and $o_j$ is closest to $o_h$, then $o_j$ is reassigned to $o_h$ (new cluster, different distance).
+          \begin{align}
+            C_{jih} = d(o_j,o_t) - d(o_j,o_i).
+          \end{align}
+        \end{itemize}
+      \end{itemize}
+      \newcommand*{\xMin}{0}%
+      \newcommand*{\xMax}{10}%
+      \newcommand*{\yMin}{0}%
+      \newcommand*{\yMax}{10}%
+      \centering
+      \begin{tikzpicture}[scale=0.3]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (2,6) {\Huge\textbullet};
+          \node[color=orange] at (3,8) {\Huge\textbullet};
+          \node[color=orange] at (4,7) {\Huge\textbullet};
+          \node[color=orange] at (3,4) {\Huge\textbullet};
+          \node[color=orange] at (5,1) {\Huge\textbullet};
+          \node[color=orange] at (7,4) {\Huge\textbullet};
+          \node[color=orange] at (8,4) {\Huge\textbullet};
+          \node[color=orange] at (8,5) {\Huge\textbullet};
+          \node[color=blue] at (4,5) {\Huge\textbullet};
+          \node[color=blue] at (7,2) {\Huge\textbullet};
+          \node at (3.3,5.3) {$i$};
+          \node at (6.3,4.3) {$h$};
+          \node at (6.3,2.3) {$t$};
+          \node at (8.5,4) {$j$};
+          \draw[dashed] (3.5,6) ellipse (2cm and 3cm);
+          \draw[dashed] (7,4) ellipse (2cm and 3cm);
+      \end{tikzpicture}
+    \end{frame}
+  }
+
   { % Questions?
     \setbeamertemplate{footline}{}
     \begin{frame}[c]
