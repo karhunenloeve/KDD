@@ -1542,12 +1542,38 @@
     \setbeamertemplate{footline}{}
     \begin{frame}{Clustering feature in BIRCH (II)}
       \begin{itemize}
-        \item \textbf{Clustering Feature CF = (n, LS, SS)}:
+        \item \textbf{Allows to derive many useful statistics of a cluster:}
         \begin{itemize}
-          \item $3$D vector summarizing statistics about clusters.
-          \item $n$: number of data points.
-          \item LS: linear sum of $N$ points $\sum_{i=1}^{n} x_i$.
-          \item SS: sqaure sum of $N$ points $\sum_{i=1}^{n} x_i^2$.
+          \item E.g. centroid: $c_i = \frac{\sum_{i=1}^{n}o_i}{n} = \frac{LS}{n}$.
+        \end{itemize}
+        \item \textbf{Additive:}
+        \begin{itemize}
+          \item For two disjoint clusters $C_1$ and $C_2$ with clustering features $CF_1 = (n_1, LS_1, SS_1)$ and $CF_2 = (n_2, LS_2, SS_2)$, the clustering feature of the cluster that is formed by merging $C_1$ and $C_2$ is simply: $CF_1 + CF_2 = (n_1 + n_2, LS_1 + LS_2, SS_1 + SS_2)$.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}{}
+    \begin{frame}{CF-Tree in BIRCH}
+      \begin{itemize}
+        \item \textbf{Height-balanced tree.}
+        \item \textbf{Stores the clustering features for a hierarchical clustering.}
+        \begin{itemize}
+          \item Non-leaf nodes store sums of the CFs of their children.
+        \end{itemize}
+        \item \textbf{Two parameters:}
+        \begin{itemize}
+          \item \textbf{\color{airforceblue}Branching factor $B$}: max \# of children.
+          \item \textbf{\color{airforceblue}Threshold $T$}: maximum diameter of sub-clusters stored at leaf nodes.
+          \begin{itemize}
+            \item Diameter: average pairwise distance within a cluster, \\
+            reflects the tightness of the cluster around the centroid:
+            \begin{align}
+              D = \sqrt{\frac{\sum_{i=1}^{n} \sum_{j=1}^{n} (o_i-o_j)^2}{n(n-1)}} = \sqrt{\frac{2nSS - 2LS^2}{n(n-1)}}.
+            \end{align}
+          \end{itemize}
         \end{itemize}
       \end{itemize}
     \end{frame}
