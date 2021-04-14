@@ -713,12 +713,145 @@
               data sets (due to the computational complexity).
             \end{itemize}
             \end{itemize}
-        \item \textbf{Efficiency improvement on PAM: }
+        \item \textbf{Efficiency improvement on PAM:}
         \begin{itemize}
           \item CLARA (Kaufmann \& Rousseeuw, 1990): PAM on samples.
           \item CLARANS (Ng \& Han, 1994): Randomized re-sampling.
         \end{itemize}
       \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{PAM: A typical $k$-medoids algorithm}
+      \newcommand*{\xMin}{0}%
+      \newcommand*{\xMax}{10}%
+      \newcommand*{\yMin}{0}%
+      \newcommand*{\yMax}{10}%
+      \centering
+      \begin{tikzpicture}[scale=0.23]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (2,6) {\Large\textbullet};
+          \node[color=orange] at (3,4) {\Large\textbullet};
+          \node[color=orange] at (3,8) {\Large\textbullet};
+          \node[color=orange] at (4,7) {\Large\textbullet};
+          \node[color=orange] at (6,2) {\Large\textbullet};
+          \node[color=orange] at (6,3) {\Large\textbullet};
+          \node[color=orange] at (7,3) {\Large\textbullet};
+          \node[color=orange] at (7,4) {\Large\textbullet};
+          \node[color=orange] at (7,6) {\Large\textbullet};
+          \node[color=orange] at (8,5) {\Large\textbullet};
+          \draw[->] (12,3)--(17,3);
+          \node at (14,8) {\scriptsize Arbitrarily};
+          \node at (14,7) {\scriptsize choose $k$};
+          \node at (14,6) {\scriptsize object as};
+          \node at (14,5) {\scriptsize initial};
+          \node at (14,4) {\scriptsize medoids};
+          \node at (14,2) {\scriptsize for $k=2$};
+      \end{tikzpicture}
+      \begin{tikzpicture}[scale=0.23]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (2,6) {\Large\textbullet};
+          \node[color=orange] at (3,4) {\Large\textbullet};
+          \node[color=blue] at (3,8) {\Large\textbullet};
+          \node[color=orange] at (4,7) {\Large\textbullet};
+          \node[color=orange] at (6,2) {\Large\textbullet};
+          \node[color=blue] at (6,3) {\Large\textbullet};
+          \node[color=orange] at (7,3) {\Large\textbullet};
+          \node[color=orange] at (7,4) {\Large\textbullet};
+          \node[color=orange] at (7,6) {\Large\textbullet};
+          \node[color=orange] at (8,5) {\Large\textbullet};
+          \draw[->] (12,3)--(17,3);
+          \node at (14,8) {\scriptsize Assign};
+          \node at (14,7) {\scriptsize each};
+          \node at (14,6) {\scriptsize remaining};
+          \node at (14,5) {\scriptsize object to};
+          \node at (14,4) {\scriptsize nearest medoid};
+      \end{tikzpicture}
+      \begin{tikzpicture}[scale=0.23]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (2,6) {\Large\textbullet};
+          \node[color=orange] at (3,4) {\Large\textbullet};
+          \node[color=blue] at (3,8) {\Large\textbullet};
+          \node[color=orange] at (4,7) {\Large\textbullet};
+          \node[color=orange] at (6,2) {\Large\textbullet};
+          \node[color=blue] at (6,3) {\Large\textbullet};
+          \node[color=orange] at (7,3) {\Large\textbullet};
+          \node[color=orange] at (7,4) {\Large\textbullet};
+          \node[color=orange] at (7,6) {\Large\textbullet};
+          \node[color=orange] at (8,5) {\Large\textbullet};
+          \draw[dashed] (3,6) ellipse (2cm and 3cm);
+          \draw[dashed] (7,4) ellipse (2cm and 3cm);
+          \draw[->] (12,3) to [out=30,in=30] (12,-1);
+          \node at (7,11) {\scriptsize Total cost = 20};
+          \node at (15,8) {\scriptsize Randomly};
+          \node at (15,7) {\scriptsize select};
+          \node at (15,6) {\scriptsize nonmedoid};
+          \node at (15,5) {\scriptsize object $o_\text{random}$};
+      \end{tikzpicture}\\
+      \hspace{1.2cm}
+      \begin{tikzpicture}[scale=0.23]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (2,6) {\Large\textbullet};
+          \node[color=orange] at (3,4) {\Large\textbullet};
+          \node[color=blue] at (3,8) {\Large\textbullet};
+          \node[color=orange] at (4,7) {\Large\textbullet};
+          \node[color=red] at (6,2) {\Large\textbullet};
+          \node[color=blue] at (6,3) {\Large\textbullet};
+          \node[color=orange] at (7,3) {\Large\textbullet};
+          \node[color=green] at (7,4) {\Large\textbullet};
+          \node[color=orange] at (7,6) {\Large\textbullet};
+          \node[color=orange] at (8,5) {\Large\textbullet};
+          \draw[->] (17,5)--(12,5);
+          \draw[->] (12,6)--(17,10);
+          \node at (15,4) {\scriptsize Compute};
+          \node at (15,3) {\scriptsize total cost of};
+          \node at (15,2) {\scriptsize swapping};
+          \node at (-5,4) {\scriptsize Swapping $o$};
+          \node at (-5,3) {\scriptsize and $o_\text{random}$};
+          \node at (-5,2) {\scriptsize if quality is};
+          \node at (-5,1) {\scriptsize improved};
+          \node at (3.4,11) {\scriptsize Total cost = 26};
+      \end{tikzpicture}
+      \begin{tikzpicture}[scale=0.23]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (2,6) {\Large\textbullet};
+          \node[color=orange] at (3,4) {\Large\textbullet};
+          \node[color=blue] at (3,8) {\Large\textbullet};
+          \node[color=orange] at (4,7) {\Large\textbullet};
+          \node[color=red] at (6,2) {\Large\textbullet};
+          \node[color=blue] at (6,3) {\Large\textbullet};
+          \node[color=orange] at (7,3) {\Large\textbullet};
+          \node[color=orange] at (7,4) {\Large\textbullet};
+          \node[color=orange] at (7,6) {\Large\textbullet};
+          \node[color=orange] at (8,5) {\Large\textbullet};
+      \end{tikzpicture}
     \end{frame}
   }
 
