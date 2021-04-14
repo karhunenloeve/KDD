@@ -1063,6 +1063,122 @@
 
   { % Questions?
     \setbeamertemplate{footline}{}
+    \begin{frame}{CLARA (Clustering Large Applications)}
+      \begin{itemize}
+        \item \textbf{(Kaufmann and Rousseeuw, 1990)}
+        \item \textbf{Built in statistical-analysis packages, such as S+.}
+        \item \textbf{Draws multiple samples of the data set, applies PAM on each sample,\\
+         and gives the best clustering as the output.}
+        \item \textbf{Strength:}
+        \begin{itemize}
+          \item Deals with larger data sets than PAM.
+        \end{itemize}
+        \item \textbf{Weakness:}
+        \begin{itemize}
+          \item Efficiency depends on the sample size.
+          \item A good clustering based on samples will not necessarily represent \\
+          a good clustering of the whole data set if the sample is biased.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}{}
+    \begin{frame}{CLARANS ("Randomized" CLARA)}
+      \begin{itemize}
+        \item \textbf{A Clustering Algorithm based on Randomized Search} (Ng \& Han, 1994)
+        \item \textbf{Samples:}
+        \begin{itemize}
+          \item Drawn dynamically with some randomness in each step of the search.
+        \end{itemize}
+        \item \textbf{Clustering process:}
+        \begin{itemize}
+          \item Can be presented as searching a graph where each node is a potential solution,\\
+          that is, a set of $k$ medoids.
+        \end{itemize}
+        \item \textbf{If local optimum found,}
+        \begin{itemize}
+          \item start with new randomly selected node in search for a new local optimum.
+        \end{itemize}
+        \item \textbf{More efficient and scalable than both PAM and CLARA.}
+        \item \textbf{Focusing techniques and spatial access structures may further improve its performance.} (Ester et al., 1995)
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Chapter VII: Cluster analysis}
+        \begin{itemize}
+            \item Cluster analysis: basic concepts.
+            \item Partitioning methods.
+            \item \textbf{Hierarchical methods.}
+            \item Density-based methods.
+            \item Grid-based methods.
+            \item Evaluation of clustering.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Hierarchical clustering}
+        \begin{itemize}
+            \item \textbf{Does not require the number of clusters $k$ as an input, \\ but needs a termination condition.}
+        \end{itemize}
+        \vspace{0.5cm}
+        \centering
+        \begin{tikzpicture}[->,>=stealth',auto,node distance=3cm,
+  thick,main node/.style={circle,draw}]
+          \draw[thick,->] (0,0)--(10,0);
+          \draw[thick,->] (10,-4)--(0,-4);
+          \draw (1,0)--(1,0.25);
+          \node at (1,0.5) {Step 0};
+          \draw (3,0)--(3,0.25);
+          \node at (3,0.5) {Step 1};
+          \draw (5,0)--(5,0.25);
+          \node at (5,0.5) {Step 2};
+          \draw (7,0)--(7,0.25);
+          \node at (7,0.5) {Step 3};
+          \draw (9,0)--(9,0.25);
+          \node at (9,0.5) {Step 4};
+          \draw (1,-4)--(1,-4.25);
+          \node at (1,-4.5) {Step 0};
+          \draw (3,-4)--(3,-4.25);
+          \node at (3,-4.5) {Step 1};
+          \draw (5,-4)--(5,-4.25);
+          \node at (5,-4.5) {Step 2};
+          \draw (7,-4)--(7,-4.25);
+          \node at (7,-4.5) {Step 3};
+          \draw (9,-4)--(9,-4.25);
+          \node at (9,-4.5) {Step 4};
+          \node[main node] at (1,-0.5) (a) {a};
+          \node[main node] at (1,-1.25) (b) {b};
+          \node[main node] at (1,-2) (c) {c};
+          \node[main node] at (1,-2.75) (d) {d};
+          \node[main node] at (1,-3.5) (e) {e};
+          \node[main node] at (3,-0.8) (ab) {a b};
+          \node[main node] at (5,-3.2) (de) {d e};
+          \node[main node] at (7,-2.5) (cde) {c d e};
+          \node[main node] at (9,-1.5) (abcde) {a b c d e};
+          \draw (a)--(ab);
+          \draw (b)--(ab);
+          \draw (ab)--(abcde);
+          \draw (c)--(cde);
+          \draw (d)--(de);
+          \draw (e)--(de);
+          \draw (de)--(cde);
+          \draw (cde)--(abcde);
+          \node at (11.5,-4) {\textbf{divisive (DIANA)}};
+          \node at (12,0) {\textbf{agglomerative (AGNES)}};
+        \end{tikzpicture}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}{}
     \begin{frame}[c]
       \begin{center}
         Thank you for your attention.\\
