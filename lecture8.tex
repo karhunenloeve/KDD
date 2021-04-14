@@ -1263,6 +1263,40 @@
 
   { % Questions?
     \setbeamertemplate{footline}{}
+    \begin{frame}{Dendrogram: shows how clusters are merged}
+      \begin{itemize}
+        \item Decompose data objects into a several levels of nested partitioning (tree of clusters),\\ called a \textbf{\color{airforceblue}dendrogram}.
+        \item A clustering of the data objects is obtained by \textbf{\color{airforceblue}cutting} the dendrogram at the desired level,\\ then each connected component forms a cluster.
+      \end{itemize}
+      \centering
+      \resizebox{7cm}{!}{%
+      \begin{tikzpicture}[sloped]
+        \node (a) at (-6,0) {a};
+        \node (b) at (-3,0) {b};
+        \node (c) at (-0.5,0) {c};
+        \node (d) at (0.5,0) {d};
+        \node (e) at (2,0) {e};
+        \node (ab) at (-4.5,3) {};
+        \node (cd) at (0,1) {};
+        \node (cde) at (1,2) {};
+        \node (all) at (-1.5,5) {};
+
+        \draw  (a) |- (ab.center);
+        \draw  (b) |- (ab.center);
+        \draw  (c) |- (cd.center);
+        \draw  (d) |- (cd.center);
+        \draw  (e) |- (cde.center);
+        \draw  (cd.center) |- (cde.center);
+        \draw  (ab.center) |- (all.center);
+        \draw  (cde.center) |- (all.center);
+
+        \draw[->,-triangle 60] (-7,0) -- node[above]{distance} (-7,6);
+      \end{tikzpicture}}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}{}
     \begin{frame}[c]
       \begin{center}
         Thank you for your attention.\\
