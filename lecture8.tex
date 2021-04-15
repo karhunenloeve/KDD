@@ -1592,6 +1592,7 @@
             $\text{child}_1$ & $\text{child}_2$ & $\text{child}_3$ & $\hdots$ & $\text{child}_6$ \\\hline
           \end{tabular}
         };
+        \node at (-2,-1.2) {Non-leaf node:};
         \node at (-2,-2) {
           \begin{tabular}{|c|c|c|c|c|}
             \hline
@@ -1599,13 +1600,33 @@
             $\text{child}_1$ & $\text{child}_2$ & $\text{child}_3$ & $\hdots$ & $\text{child}_5$ \\\hline
           \end{tabular}
         };
+        \node at (3,-2) {$\hdots$};
+        \node at (5,-2) {$\hdots$};
+        \node at (-3,-3.5) {Leaf node:};
         \node at (-3,-4) {
-          \begin{tabular}{|c|c|c|c|c|}
+          \begin{tabular}{|c|c|c|c|c|c|}
             \hline
-            $CF_1$ & $CF_2$ & $CF_3$ & $\hdots$ & $CF_5$ \\ \hline
-            $\text{child}_1$ & $\text{child}_2$ & $\text{child}_3$ & $\hdots$ & $\text{child}_5$ \\\hline
+            prev & $CF_1$ & $CF_2$ & $\hdots$ & $CF_6$ & next \\ \hline
           \end{tabular}
         };
+        \node at (4,-3.5) {Leaf node:};
+        \node at (4,-4) {
+          \begin{tabular}{|c|c|c|c|c|c|}
+            \hline
+            prev & $CF_1$ & $CF_2$ & $\hdots$ & $CF_4$ & next \\ \hline
+          \end{tabular}
+        };
+        \draw[thick,->] (-2.2,-0.45)--(-4.3,-1.5);
+        \draw[thick,->] (-1.2,-0.45)--(2.3,-1.5);
+        \draw[thick,->] (0.2,-0.45)--(4.3,-1.5);
+        \draw[thick,->] (-3,-2.45)--(4.6,-3.8);
+        \draw[thick,->] (-4.3,-2.45)--(-5.2,-3.8);
+        \draw[thick,->] (0.1,-3.8)--(0.9,-3.8);
+        \draw[thick,->] (0.9,-4.2)--(0.1,-4.2);
+        \draw[thick,->] (7.1,-3.8)--(7.9,-3.8);
+        \draw[thick,->] (7.9,-4.2)--(7.1,-4.2);
+        \node at (-5,0) {B=7};
+        \node at (-5,-0.5) {T=6};
       \end{tikzpicture}
     \end{frame}
   }
