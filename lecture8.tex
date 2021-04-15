@@ -1633,6 +1633,228 @@
 
   { % Questions?
     \setbeamertemplate{footline}{}
+    \begin{frame}{The BIRCH algorithm}
+      \begin{itemize}
+        \item \textbf{Phase 1:}
+        \begin{itemize}
+          \item \textbf{For each point in the input:}
+          \begin{itemize}
+            \item Find closest leaf-node entry.
+            \item Add point to leaf-node entry and update CF.
+            \item If $entry\_diameter > max\_diameter$, then split leaf node, and possibly parents.
+            \item Information about new point is passed toward the root of the tree.
+          \end{itemize}
+          \item \textbf{Algorithm is $\mathcal{O}(n)$ and incremental.}
+          \item \textbf{Concerns:}
+          \begin{itemize}
+            \item Sensitive to insertion order of data points.
+            \item Since we fix the size of leaf nodes, clusters may not be so natural.
+            \item Clusters tend to be spherical given the radius and diameter measures.
+          \end{itemize}
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}{}
+    \begin{frame}{CHAMELEON: hierarchical clustering using dynamic modeling}
+      \begin{itemize}
+        \item (Karypis, Han \& Kumar, 1999)
+        \begin{itemize}
+          \item \textbf{Measures the similarity based on a dynamic model:}
+          \begin{itemize}
+            \item Two clusters are merged only if the \textbf{interconnectivity} and \textbf{closeness (proximity)} between two clusters are high relative to the internal interconnectivity of the clusters and the closeness of items within the clusters.
+          \end{itemize}
+          \item \textbf{Graph-based, and a two-phase algorithm.}
+          \begin{itemize}
+            \item Use a graph-partitioning algorithm:
+            \begin{itemize}
+              \item Cluster objects into a large number of relatively small sub-clusters.
+            \end{itemize}
+            \item Use an agglomerative hierarchical clustering algorithm:
+            \begin{itemize}
+              \item Find the genuine clusters by repeatedly combining these sub-clusters.
+            \end{itemize}
+          \end{itemize}
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}{}
+    \begin{frame}{Overall framework of CHAMELEON}
+      \begin{tikzpicture}[scale=0.9, node distance = 1cm, auto,font=\footnotesize,
+          force/.style={rectangle, draw, fill=black!10, inner sep=5pt, text width=1.8cm, text badly centered, minimum height=1cm, font=\bfseries\footnotesize\sffamily},
+          info/.style={rectangle, draw, inner sep=5pt, text width=4cm, minimum height=1cm, font=\footnotesize\sffamily}]
+        \node [force, dashed] (a) {\parbox{\linewidth}{\centering Data \\ input.}};
+
+        \node[draw, circle, fill=black, scale=0.4] at (4,0) (g1) {};
+        \node[draw, circle, fill=black, scale=0.4] at (4.3,0.3) (g2) {};
+        \node[draw, circle, fill=black, scale=0.4] at (4.4,-0.2) (g3) {};
+        \node[draw, circle, fill=black, scale=0.4] at (4,-0.4) (g4) {};
+        \draw[color=black] (g1)--(g2)--(g3)--(g4)--(g1);
+        \draw[color=black] (g1)--(g3);
+        \draw[color=black] (g2)--(g4);
+
+        \node[draw, circle, fill=black, scale=0.4] at (5.5,0.5) (y1) {};
+        \node[draw, circle, fill=black, scale=0.4] at (6,0.8) (y2) {};
+        \node[draw, circle, fill=black, scale=0.4] at (6,0.3) (y3) {};
+        \node[draw, circle, fill=black, scale=0.4] at (5.7,0.1) (y4) {};
+        \draw[color=black] (y1)--(y2)--(y3)--(y4)--(y1);
+        \draw[color=black] (y1)--(y3);
+        \draw[color=black] (y2)--(y4);
+
+        \node[draw, circle, fill=black, scale=0.4] at (6.7,-0.7) (sch1) {};
+        \node[draw, circle, fill=black, scale=0.4] at (6.4,-1) (sch2) {};
+        \node[draw, circle, fill=black, scale=0.4] at (6.8,-1.2) (sch3) {};
+        \draw[color=black] (sch1)--(sch2)--(sch3)--(sch1);
+
+        \node[draw, circle, fill=black, scale=0.4] at (3.7,-1) (b1) {};
+        \node[draw, circle, fill=black, scale=0.4] at (3.4,-1.1) (b2) {};
+        \node[draw, circle, fill=black, scale=0.4] at (3.8,-1.3) (b3) {};
+        \draw[color=black] (b1)--(b2)--(b3)--(b1);
+        \draw (g1)--(b2);
+        \draw (g4)--(b3);
+
+        \node[draw, circle, fill=black, scale=0.4] at (5,-0.6) (r1) {};
+        \node[draw, circle, fill=black, scale=0.4] at (5.2,-0.5) (r2) {};
+        \node[draw, circle, fill=black, scale=0.4] at (5.5,-1) (r3) {};
+        \node[draw, circle, fill=black, scale=0.4] at (5.2,-0.9) (r4) {};
+        \node[draw, circle, fill=black, scale=0.4] at (5.3,-1.2) (r5) {};
+        \draw[color=black] (r1)--(r2)--(r3)--(r4)--(r5);
+        \draw[color=black] (r1)--(r3);
+        \draw[color=black] (r1)--(r4);
+        \draw[color=black] (r2)--(r4);
+        \draw[color=black] (r3)--(r5);
+
+        \node[draw, circle, fill=black, scale=0.4] at (4.5,-1.5) (p1) {};
+        \node[draw, circle, fill=black, scale=0.4] at (5,-1.9) (p2) {};
+        \node[draw, circle, fill=black, scale=0.4] at (4.1,-1.9) (p3) {};
+        \node[draw, circle, fill=black, scale=0.4] at (4.9,-2.4) (p4) {};
+        \node[draw, circle, fill=black, scale=0.4] at (4,-2.4) (p5) {};
+        \node[draw, circle, fill=black, scale=0.4] at (4.5,-2.1) (p6) {};
+        \draw[color=black] (p1)--(p2);
+        \draw[color=black] (p1)--(p3);
+        \draw[color=black] (p4)--(p6);
+        \draw[color=black] (p4)--(p5);
+        \draw[color=black] (p5)--(p6);
+        \draw[color=black] (p6)--(p1);
+        \draw[color=black] (p2)--(p3);
+        \draw[color=black] (p2)--(p4);
+        \draw[color=black] (p2)--(p6);
+        \draw[color=black] (p5)--(p3);
+        \draw[color=black] (p3)--(p6);
+        \draw (b3)--(p3);
+        \draw (g4)--(p1);
+        \draw (g2)--(p2);
+        \draw (g2)--(p1);
+        \draw (r1)--(p2);
+        \draw (r5)--(p2);
+        \draw (y1)--(r1);
+        \draw (y4)--(r2);
+
+        \node[draw, circle, fill=black, scale=0.4] at (6,-2.5) (o1) {};
+        \node[draw, circle, fill=black, scale=0.4] at (6.3,-2.8) (o2) {};
+        \node[draw, circle, fill=black, scale=0.4] at (6.3,-2.5) (o3) {};
+        \node[draw, circle, fill=black, scale=0.4] at (5.9,-2.8) (o4) {};
+        \draw[color=black] (o1)--(o2)--(o3)--(o4)--(o1);
+        \draw[color=black] (o2)--(o4);
+        \draw[color=black] (o3)--(o1);
+
+        \node[draw, circle, fill=black, scale=0.4] at (6,-1.6) (b1) {};
+        \node[draw, circle, fill=black, scale=0.4] at (6.3,-1.9) (b2) {};
+        \node[draw, circle, fill=black, scale=0.4] at (6.3,-1.6) (b3) {};
+        \draw[color=black] (b1)--(b2)--(b3)--(b1);
+
+
+
+        \node[draw, circle, fill=green, scale=0.4] at (10,0) (cg1) {};
+        \node[draw, circle, fill=green, scale=0.4] at (10.3,0.3) (cg2) {};
+        \node[draw, circle, fill=green, scale=0.4] at (10.4,-0.2) (cg3) {};
+        \node[draw, circle, fill=green, scale=0.4] at (10,-0.4) (cg4) {};
+        \draw[color=green] (cg1)--(cg2)--(cg3)--(cg4)--(cg1);
+        \draw[color=green] (cg1)--(cg3);
+        \draw[color=green] (cg2)--(cg4);
+
+        \node[draw, circle, fill=yellow, scale=0.4] at (11.5,0.5) (cy1) {};
+        \node[draw, circle, fill=yellow, scale=0.4] at (12,0.8) (cy2) {};
+        \node[draw, circle, fill=yellow, scale=0.4] at (12,0.3) (cy3) {};
+        \node[draw, circle, fill=yellow, scale=0.4] at (11.7,0.1) (cy4) {};
+        \draw[color=yellow] (cy1)--(cy2)--(cy3)--(cy4)--(cy1);
+        \draw[color=yellow] (cy1)--(cy3);
+        \draw[color=yellow] (cy2)--(cy4);
+
+        \node[draw, circle, fill=black, scale=0.4] at (12.7,-0.7) (csch1) {};
+        \node[draw, circle, fill=black, scale=0.4] at (12.4,-1) (csch2) {};
+        \node[draw, circle, fill=black, scale=0.4] at (12.8,-1.2) (csch3) {};
+        \draw[color=black] (csch1)--(csch2)--(csch3)--(csch1);
+
+        \node[draw, circle, fill=blue, scale=0.4] at (9.7,-1) (cb1) {};
+        \node[draw, circle, fill=blue, scale=0.4] at (9.4,-1.1) (cb2) {};
+        \node[draw, circle, fill=blue, scale=0.4] at (9.8,-1.3) (cb3) {};
+        \draw[color=blue] (cb1)--(cb2)--(cb3)--(cb1);
+
+        \node[draw, circle, fill=red, scale=0.4] at (11,-0.6) (cr1) {};
+        \node[draw, circle, fill=red, scale=0.4] at (11.2,-0.5) (cr2) {};
+        \node[draw, circle, fill=red, scale=0.4] at (11.5,-1) (cr3) {};
+        \node[draw, circle, fill=red, scale=0.4] at (11.2,-0.9) (cr4) {};
+        \node[draw, circle, fill=red, scale=0.4] at (11.3,-1.2) (cr5) {};
+        \draw[color=red] (cr1)--(cr2)--(cr3)--(cr4)--(cr5);
+        \draw[color=red] (cr1)--(cr3);
+        \draw[color=red] (cr1)--(cr4);
+        \draw[color=red] (cr2)--(cr4);
+        \draw[color=red] (cr3)--(cr5);
+
+        \node[draw, circle, fill=purple, scale=0.4] at (10.5,-1.5) (cp1) {};
+        \node[draw, circle, fill=purple, scale=0.4] at (11,-1.9) (cp2) {};
+        \node[draw, circle, fill=purple, scale=0.4] at (10.1,-1.9) (cp3) {};
+        \node[draw, circle, fill=purple, scale=0.4] at (10.9,-2.4) (cp4) {};
+        \node[draw, circle, fill=purple, scale=0.4] at (10,-2.4) (cp5) {};
+        \node[draw, circle, fill=purple, scale=0.4] at (10.5,-2.1) (cp6) {};
+        \draw[color=purple] (cp1)--(cp2);
+        \draw[color=purple] (cp1)--(cp3);
+        \draw[color=purple] (cp4)--(cp6);
+        \draw[color=purple] (cp4)--(cp5);
+        \draw[color=purple] (cp5)--(cp6);
+        \draw[color=purple] (cp6)--(cp1);
+        \draw[color=purple] (cp2)--(cp3);
+        \draw[color=purple] (cp2)--(cp4);
+        \draw[color=purple] (cp2)--(cp6);
+        \draw[color=purple] (cp5)--(cp3);
+        \draw[color=purple] (cp3)--(cp6);
+
+        \node[draw, circle, fill=orange, scale=0.4] at (12,-2.5) (co1) {};
+        \node[draw, circle, fill=orange, scale=0.4] at (12.3,-2.8) (co2) {};
+        \node[draw, circle, fill=orange, scale=0.4] at (12.3,-2.5) (co3) {};
+        \node[draw, circle, fill=orange, scale=0.4] at (11.9,-2.8) (co4) {};
+        \draw[color=orange] (co1)--(co2)--(co3)--(co4)--(co1);
+        \draw[color=orange] (co2)--(co4);
+        \draw[color=orange] (co3)--(co1);
+
+        \node[draw, circle, fill=brown, scale=0.4] at (12,-1.6) (cb1) {};
+        \node[draw, circle, fill=brown, scale=0.4] at (12.3,-1.9) (cb2) {};
+        \node[draw, circle, fill=brown, scale=0.4] at (12.3,-1.6) (cb3) {};
+        \draw[color=brown] (cb1)--(cb2)--(cb3)--(cb1);
+
+        \node[draw, info] at (0,-5) {\parbox{\linewidth}{\centering \textbf{$k$-NN graph:} \\ $p$ and $q$ are connected if $q$ \\ is among the top $k$ closest \\ neighbors of $p$.}};
+        \node[draw, info] at (11.5,-5) {\parbox{\linewidth}{\centering \textbf{Relative interconnectivity:} \\ connectivity of $C_1$ and $C_2$ \\ over internal connectivity. \\[0.2cm] \textbf{Relative closeness:} \\ closeness of $C_1$ and $C_2$ over \\ internal closeness.}};
+
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}{CHAMELEON (Clustering Complex Objects)}
+      \centering
+      \includegraphics[width=0.6\textwidth]{img/cluster.jpeg}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}{}
     \begin{frame}[c]
       \begin{center}
         Thank you for your attention.\\
