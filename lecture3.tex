@@ -21,13 +21,11 @@
 \usepackage{calc}
 \usepackage{ifthen}
 \usepackage{tikz}
-\usepackage{tikz}
 \usepackage{tikz-cd}
 \usepackage{pgfplots,pgfplotstable,pgf-pie}
 \usepackage{filecontents}
 \newcommand{\plots}{0.611201}
 \newcommand{\plotm}{2.19882}
-\pgfplotsset{height=4cm,width=8cm,compat=1.17}
 \pgfmathdeclarefunction{gauss}{2}{%
   \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
 }
@@ -52,7 +50,7 @@
 \pgfmathsetmacro\NumRows{\pgfplotsretval-1}
 
 \usepgfplotslibrary{groupplots}
-\pgfplotsset{compat=1.14}
+\pgfplotsset{height=4cm,width=8cm,compat=1.14}
 \newcommand{\tikzmark}[1]{\tikz[remember picture] \node[coordinate] (#1) {#1};}
 % Options:
 %  - inst:      Institute
@@ -107,7 +105,7 @@
   % Title
   \maketitle
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Chapter II: Getting to know your data}
     This is our agenda for this lecture:
@@ -121,7 +119,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Types of data sets}
       \begin{columns}
@@ -170,7 +168,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Types of data sets}
           \textbf{Ordered data:}
@@ -189,7 +187,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Important characteristics of structured data}
         \textbf{Dimensionality}:\\
@@ -207,7 +205,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Data objects}
       \textbf{Data sets are made up of data objects}.\\
@@ -231,7 +229,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Attributes}
     \textbf{Attribute}:\\
@@ -253,7 +251,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Attribute types}
     \begin{itemize}
@@ -261,7 +259,7 @@
         \begin{itemize}
             \item Categories, states, or "names of things".\\
                   E.g. \texttt{hair\_color} $= \{\text{auburn, black, blond, brown, grey, red, white}\}$.\\
-                  Other examples: \texttt{marital status}, \texttt{occupation}, \texttt{ID}, \texttt{ZIP code}.
+                  Other examples: \texttt{marital\_status}, \texttt{occupation}, \texttt{ID}, \texttt{ZIP code}.
         \end{itemize}
         \item \textbf{Binary}:
             \begin{itemize}
@@ -281,7 +279,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Numerical attribute types}
     \begin{itemize}
@@ -305,7 +303,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Discrete vs. continuous attributes }
     \begin{itemize}
@@ -327,7 +325,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Chapter II: Getting to know your data}
         \begin{itemize}
@@ -340,7 +338,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Basic statistical descriptions of data}
     \textbf{Motivation}:
@@ -367,7 +365,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Measuring the central tendency}
     \begin{itemize}
@@ -387,16 +385,22 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Measuring the central tendency (2)}
       \begin{columns}
         \begin{column}{0.6\textwidth}
           \textbf{Median:}
           \begin{itemize}[noitemsep]
-            \item The median $\tilde{m}$ minimizes the sum of absolute deviations for any $x$ of a sample $X$:
+            \item The median $\tilde{x}$ minimizes the sum of absolute deviations for any $x$ of a sample $X$:
             \begin{align}
               \sum_{i=1}^{n} |\tilde{x}-x_i| \leq \sum_{i=1}^{n} |x-x_i|.
+            \end{align}
+            \begin{align}
+              \tilde{x} = \begin{cases}
+              x_{\frac{N}{2}} & \text{if $N$ mod $2 = 0$,} \\
+              \frac{x_{\frac{N-1}{2}}+x_{\frac{N+1}{2}}}{2} & \text{if $N$ mod $2 \neq 0$.}
+            \end{cases}
             \end{align}
           \end{itemize}
         \end{column}
@@ -417,7 +421,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Measuring the central tendency (3)}
       \begin{columns}
@@ -451,7 +455,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Measuring the central tendency (3)}
       \begin{columns}
@@ -483,7 +487,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Example of mode, median and mean}
       \centering
@@ -518,7 +522,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Example of mode, median and mean}
     \textbf{Quartiles, outliers and boxplots:}
@@ -538,7 +542,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Boxplot analysis}
     \begin{center}
@@ -587,7 +591,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Properties of normal distribution curves}
     \begin{itemize}
@@ -615,7 +619,7 @@
       ]
       \addplot [fill=blue!20, draw=none, domain=-1:1] {gauss(0,1)} \closedcycle;
       \addplot [very thick,blue!50!black] {gauss(0,1)};
-      \node[below] at (0,0.15) {$\approx 66 \%$}; 
+      \node[below] at (0,0.15) {$\approx 66 \%$};
     \end{axis}
     \end{tikzpicture}
     \hspace{0.2cm}
@@ -630,7 +634,7 @@
       ]
       \addplot [fill=blue!20, draw=none, domain=-2:2] {gauss(0,1)} \closedcycle;
       \addplot [very thick,blue!50!black] {gauss(0,1)};
-      \node[below] at (0,0.15) {$\approx 95 \%$}; 
+      \node[below] at (0,0.15) {$\approx 95 \%$};
     \end{axis}
     \end{tikzpicture}
     \hspace{0.2cm}
@@ -645,7 +649,7 @@
       ]
       \addplot [fill=blue!20, draw=none, domain=-2.97:2.97] {gauss(0,1)} \closedcycle;
       \addplot [very thick,blue!50!black] {gauss(0,1)};
-      \node[below] at (0,0.15) {$\approx 99.7 \%$}; 
+      \node[below] at (0,0.15) {$\approx 99.7 \%$};
     \end{axis}
     \end{tikzpicture}
     \hspace{0.2cm}
@@ -721,7 +725,7 @@
   \end{frame}
 }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Quantile plot}
     \textbf{Displays all of the data.}\\
@@ -742,7 +746,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{
 }    \begin{frame}{Quantile-quantile (q-q) plot}
     \begin{itemize}
@@ -765,7 +769,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Scatter plots}
     Provides a first look at \textbf{bivariate data} to see clusters of points, outliers or similar.\\
@@ -775,7 +779,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Data profiling}
     \begin{itemize}
@@ -798,7 +802,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Chapter II: Getting to know your data}
     \begin{itemize}
@@ -811,7 +815,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Data visualization}
     \textbf{Why visualize data?}
@@ -833,7 +837,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Pixel oriented visualization techniques}
     \begin{itemize}
@@ -848,11 +852,11 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
-    \begin{frame}{Laying out pixels in circle segments}
+    \begin{frame}{Laying out pixels in a spiderweb diagram}
     To save space and show the connections among multiple dimensions, \\
-    space filling is often done in a circle segment.\\
+    space filling is often done in a spiderweb diagram.\\
     \centering
     \begin{tikzpicture}[scale=0.8]
     \pie[hide number]{17/Dim 1, 17/Dim 2, 17/Dim 3, 17/Dim 4, 17/Dim 5, 16/Dim 6}
@@ -875,16 +879,17 @@
     \end{frame}
   }
 
- { 
+ {
     \setbeamertemplate{footline}{}
     \begin{frame}{Laying out pixels in circle segments}
-    To save space and show the connections among multiple dimensions, space filling is often done in a circle segment.\\
+    To save space and show the connections among multiple dimensions, \\
+    space filling is often done in a circle segment.\\
     \centering
     \newcommand{\D}{7} % number of dimensions (config option)
     \newcommand{\U}{7} % number of scale units (config option)
 
     \newdimen\R % maximal diagram radius (config option)
-    \R=3.5cm 
+    \R=3.5cm
     \newdimen\L % radius to put dimension labels (config option)
     \L=4cm
     \newcommand{\A}{360/\D} % calculated angle between dimension axes
@@ -968,11 +973,11 @@
         (D6-5) --
         (D7-2) -- cycle;
 
-    \end{tikzpicture} 
+    \end{tikzpicture}
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Geometric projection visualization techniques}
     \begin{itemize}
@@ -990,7 +995,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Scatter plot matrices}
     \centering
@@ -998,61 +1003,7 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
-    \begin{frame}{Landscapes}
-    \textbf{Visualization of data as perspective landscapes.}\\
-    The data needs to be transformed into a (possibly artifical) two dimensional spatial representation which preserves some characteristics of data.\\[0.5cm]
-    \centering
-    \begin{tikzpicture}
-    \begin{axis}[
-        domain=-2:2,
-        domain y=0:2*pi,
-    ]
-
-        \newcommand\expr[2]{exp(-####1^2) * sin(deg(####2))}
-
-        \addplot3[
-            contour gnuplot={
-                % cdata should not be affected by z filter:
-                output point meta=rawz,
-                number=10,
-                labels=false,
-            },
-            samples=41,
-            z filter/.code=\def\pgfmathresult{-1.6},
-        ]
-            {\expr{x}{y}};
-
-        \addplot3[
-            samples=41,
-            samples y=10,
-            domain=0:2*pi,
-            domain y=-2:2,
-            % we want 1d (!) individually colored mesh segments:
-            mesh, patch type=line,
-            x filter/.code=\def\pgfmathresult{-2.5},
-        ] 
-            (y,x,{\expr{y}{x}});
-
-        \addplot3[
-            samples=41,
-            samples y=10,
-            % we want 1d (!) individually colored mesh segments:
-            mesh, patch type=line,
-            y filter/.code=\def\pgfmathresult{8},
-        ] 
-            {\expr{x}{y}};
-
-        \addplot3[surf,samples=25]
-            {\expr{x}{y}};
-
-    \end{axis}
-    \end{tikzpicture}
-    \end{frame}
-  }
-
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Parallel coordinate plot}
     \centering
@@ -1134,7 +1085,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Icon based visualization}
     \centering
@@ -1155,7 +1106,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Chernoff faces}
     \textbf{A way to display variables on a two-dimensional surface:}\\
@@ -1166,7 +1117,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Stick figure}
     A census data figure showing age, income, gender, education etc. \\
@@ -1177,7 +1128,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Hierarchical visualization techniques}
     \centering
@@ -1194,7 +1145,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Worlds within world}
     \begin{itemize}
@@ -1206,7 +1157,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Tree maps}
     \centering
@@ -1221,16 +1172,16 @@
      font=\sffamily,
     mystyle/.style={draw=white, very thick, text=white, font=\sffamily\bfseries},
     ]
-    \pie[square,  
+    \pie[square,
     style={mystyle},
-    color={yellow!80!orange, gray, blue!40, orange}, 
-    text=legend, 
+    color={yellow!80!orange, gray, blue!40, orange},
+    text=legend,
     ]{68/A, 5/B, 5/C, 22/D}
     \end{tikzpicture}
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Tree map of a file system}
     \centering
@@ -1239,7 +1190,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Info cubes}
     \begin{itemize}
@@ -1255,7 +1206,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Three dimensional cone trees}
     \centering
@@ -1273,7 +1224,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Visualizing complex data and relations}
     \centering
@@ -1289,7 +1240,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Chapter 2: Getting to know your data}
     \centering
@@ -1303,7 +1254,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Similarity and dissimilarity}
     \centering
@@ -1330,7 +1281,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Data matrices and dissimilarity matrices}
     \centering
@@ -1360,7 +1311,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Proximity measures for nominal attributes}
     \begin{itemize}
@@ -1383,7 +1334,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Proximity measure for binary attributes (I)}
     \begin{itemize}
@@ -1394,9 +1345,9 @@
       \begin{center}
         \begin{tabular}{ c | c c c }
          & $0$ & $1$ & $\sum$ \\ \hline
-         $0$ & $q$ & $r$ & $q+r$\\  
+         $0$ & $q$ & $r$ & $q+r$\\
          $1$ & $s$ & $t$ & $s+t$\\
-         $\sum$ & $q+s$ & $r+t$ & $q+r+s+t$   
+         $\sum$ & $q+s$ & $r+t$ & $q+r+s+t$
         \end{tabular}
       \end{center}
       \item Distance measure for symmetrical binary variables:
@@ -1411,7 +1362,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Proximity measure for binary attributes (II)}
     \begin{itemize}
@@ -1422,9 +1373,9 @@
       \begin{center}
         \begin{tabular}{ c | c c c }
          & $0$ & $1$ & $\sum$ \\ \hline
-         $0$ & $t$ & $s$ & $t+s$\\  
+         $0$ & $t$ & $s$ & $t+s$\\
          $1$ & $r$ & $q$ & $r+q$\\
-         $\sum$ & $t+s$ & $s+q$ & $q+r+s+t$   
+         $\sum$ & $t+s$ & $s+q$ & $q+r+s+t$
         \end{tabular}
       \end{center}
       \item Jaccard coefficient for asymmetrical binary variables:
@@ -1439,7 +1390,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Dissimilarity between binary variables}
     \begin{itemize}
@@ -1463,7 +1414,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Standardizing numerical data}
     \begin{itemize}
@@ -1483,7 +1434,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Example: data matrix and dissimilarity matrix}
 
@@ -1510,7 +1461,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Distance on numerical data: Minkowski distance}
     \begin{itemize}
@@ -1532,7 +1483,7 @@
   }
 
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Special cases of Minkowski distance}
     \begin{itemize}
@@ -1558,7 +1509,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Example: Minkowski, Euclidean and Supremum distance}
     \centering
@@ -1598,7 +1549,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Ordinal variables}
     \begin{itemize}
@@ -1617,7 +1568,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Attributes of mixed type}
     \begin{itemize}
@@ -1641,7 +1592,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Cosine similarity}
     A document can be represented by thousands of attributes, each recording the frequency of a particular word (such as keywords) or phrase in the document.\\[0.2cm]
@@ -1665,7 +1616,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Example: cosine similarity (I)}
     \begin{align}
@@ -1681,7 +1632,7 @@
   }
 
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Example: cosine similarity (II)}
     \begin{align}
@@ -1694,7 +1645,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Chapter 2: Getting to know your data}
     \centering
@@ -1708,7 +1659,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{Summary}
     \centering
@@ -1729,7 +1680,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{References I}
         \begin{itemize}
@@ -1745,7 +1696,7 @@
     \end{frame}
   }
 
-  { 
+  {
     \setbeamertemplate{footline}{}
     \begin{frame}{References II}
         \begin{itemize}
@@ -1762,10 +1713,9 @@
       \begin{center}
         Thank you for your attention.\\
         {\bf Any questions about the second chapter?}\\[0.5cm]
-        Ask them now, or again, drop me a line: \\ 
+        Ask them now, or again, drop me a line: \\
         \faSendO \ \texttt{luciano.melodia@fau.de}.
       \end{center}
     \end{frame}
   }
 \end{document}
-
