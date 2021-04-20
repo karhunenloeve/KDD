@@ -1765,8 +1765,6 @@
         \node[draw, circle, fill=black, scale=0.4] at (6.3,-1.6) (b3) {};
         \draw[color=black] (b1)--(b2)--(b3)--(b1);
 
-
-
         \node[draw, circle, fill=green, scale=0.4] at (10,0) (cg1) {};
         \node[draw, circle, fill=green, scale=0.4] at (10.3,0.3) (cg2) {};
         \node[draw, circle, fill=green, scale=0.4] at (10.4,-0.2) (cg3) {};
@@ -1837,7 +1835,96 @@
 
         \node[draw, info] at (0,-5) {\parbox{\linewidth}{\centering \textbf{$k$-NN graph:} \\ $p$ and $q$ are connected if $q$ \\ is among the top $k$ closest \\ neighbors of $p$.}};
         \node[draw, info] at (11.5,-5) {\parbox{\linewidth}{\centering \textbf{Relative interconnectivity:} \\ connectivity of $C_1$ and $C_2$ \\ over internal connectivity. \\[0.2cm] \textbf{Relative closeness:} \\ closeness of $C_1$ and $C_2$ over \\ internal closeness.}};
+        \draw[thick,->] (1.5,0)--(3.5,0);
+        \node at (2.5,0.6) {Construct $k$-NN};
+        \node at (2.5,0.3) {sparse graph};
 
+        \draw[thick,->] (7.2,0)--(9.2,0);
+        \node at (8.3,0.3) {Partition the graph};
+
+        \draw[thick,->] (9.2,-2) -- (7.2,-4);
+        \node at (9.5,-3) {Merge partitions};
+
+        \node[draw, circle, fill=blue, scale=0.4] at (5.5,-3.5) (ccy1) {};
+        \node[draw, circle, fill=blue, scale=0.4] at (6,-3.2) (ccy2) {};
+        \node[draw, circle, fill=blue, scale=0.4] at (6,-3.7) (ccy3) {};
+        \node[draw, circle, fill=blue, scale=0.4] at (5.7,-3.9) (ccy4) {};
+        \draw[color=blue] (ccy1)--(ccy2)--(ccy3)--(ccy4)--(ccy1);
+        \draw[color=blue] (ccy1)--(ccy3);
+        \draw[color=blue] (ccy2)--(ccy4);
+
+        \node[draw, circle, fill=blue, scale=0.4] at (6.7,-4.5) (ccsch1) {};
+        \node[draw, circle, fill=blue, scale=0.4] at (6.4,-4.8) (ccsch2) {};
+        \node[draw, circle, fill=blue, scale=0.4] at (6.8,-5) (ccsch3) {};
+        \draw[color=blue] (ccsch1)--(ccsch2)--(ccsch3)--(ccsch1);
+
+        \node[draw, circle, fill=blue, scale=0.4] at (5,-4.4) (ccr1) {};
+        \node[draw, circle, fill=blue, scale=0.4] at (5.2,-4.3) (ccr2) {};
+        \node[draw, circle, fill=blue, scale=0.4] at (5.5,-4.6) (ccr3) {};
+        \node[draw, circle, fill=blue, scale=0.4] at (5.2,-4.7) (ccr4) {};
+        \node[draw, circle, fill=blue, scale=0.4] at (5.3,-5) (ccr5) {};
+        \draw[color=blue] (ccr1)--(ccr2)--(ccr3)--(ccr4)--(ccr5);
+        \draw[color=blue] (ccr1)--(ccr3);
+        \draw[color=blue] (ccr1)--(ccr4);
+        \draw[color=blue] (ccr2)--(ccr4);
+        \draw[color=blue] (ccr3)--(ccr5);
+        \draw[color=blue] (ccy3)--(ccsch1);
+        \draw[color=blue] (ccy4)--(ccsch2);
+        \draw[color=blue] (ccr5)--(ccsch2);
+        \draw[color=blue] (ccr3)--(ccsch2);
+        \draw[color=blue] (ccr2)--(ccy3);
+        \draw[color=blue] (ccr1)--(ccy1);
+
+        \node[draw, circle, fill=red, scale=0.4] at (4,-3.8) (ccg1) {};
+        \node[draw, circle, fill=red, scale=0.4] at (4.3,-3.5) (ccg2) {};
+        \node[draw, circle, fill=red, scale=0.4] at (4.4,-4) (ccg3) {};
+        \node[draw, circle, fill=red, scale=0.4] at (4,-4.2) (ccg4) {};
+        \draw[color=red] (ccg1)--(ccg2)--(ccg3)--(ccg4)--(ccg1);
+        \draw[color=red] (ccg1)--(ccg3);
+        \draw[color=red] (ccg2)--(ccg4);
+
+        \node[draw, circle, fill=red, scale=0.4] at (3.7,-4.8) (ccb1) {};
+        \node[draw, circle, fill=red, scale=0.4] at (3.4,-4.9) (ccb2) {};
+        \node[draw, circle, fill=red, scale=0.4] at (3.8,-5.1) (ccb3) {};
+        \draw[color=red] (ccb1)--(ccb2)--(ccb3)--(ccb1);
+
+        \node[draw, circle, fill=red, scale=0.4] at (4.5,-5.3) (ccp1) {};
+        \node[draw, circle, fill=red, scale=0.4] at (5,-5.7) (ccp2) {};
+        \node[draw, circle, fill=red, scale=0.4] at (4.1,-5.7) (ccp3) {};
+        \node[draw, circle, fill=red, scale=0.4] at (4.9,-6.2) (ccp4) {};
+        \node[draw, circle, fill=red, scale=0.4] at (4,-6.2) (ccp5) {};
+        \node[draw, circle, fill=red, scale=0.4] at (4.5,-5.9) (ccp6) {};
+        \draw[color=red] (ccp1)--(ccp2);
+        \draw[color=red] (ccp1)--(ccp3);
+        \draw[color=red] (ccp4)--(ccp6);
+        \draw[color=red] (ccp4)--(ccp5);
+        \draw[color=red] (ccp5)--(ccp6);
+        \draw[color=red] (ccp6)--(ccp1);
+        \draw[color=red] (ccp2)--(ccp3);
+        \draw[color=red] (ccp2)--(ccp4);
+        \draw[color=red] (ccp2)--(ccp6);
+        \draw[color=red] (ccp5)--(ccp3);
+        \draw[color=red] (ccp3)--(ccp6);
+        \draw[color=red] (ccb1)--(ccg4);
+        \draw[color=red] (ccb2)--(ccg1);
+        \draw[color=red] (ccp1)--(ccg3);
+        \draw[color=red] (ccp3)--(ccb3);
+
+        \node[draw, circle, fill=green, scale=0.4] at (6,-6.2) (cco1) {};
+        \node[draw, circle, fill=green, scale=0.4] at (6.3,-6.6) (cco2) {};
+        \node[draw, circle, fill=green, scale=0.4] at (6.3,-6.3) (cco3) {};
+        \node[draw, circle, fill=green, scale=0.4] at (5.9,-6.6) (cco4) {};
+        \draw[color=green] (cco1)--(cco2)--(cco3)--(cco4)--(cco1);
+        \draw[color=green] (cco2)--(cco4);
+        \draw[color=green] (cco3)--(cco1);
+
+        \node[draw, circle, fill=green, scale=0.4] at (6,-5.6) (ccb1) {};
+        \node[draw, circle, fill=green, scale=0.4] at (6.3,-5.9) (ccb2) {};
+        \node[draw, circle, fill=green, scale=0.4] at (6.3,-5.6) (ccb3) {};
+        \draw[color=green] (ccb1)--(ccb2)--(ccb3)--(ccb1);
+        \draw[color=green] (ccb1)--(cco1);
+        \draw[color=green] (ccb2)--(cco2);
+        \node at (6.5,-5.3) {\textbf{Final clusters.}};
       \end{tikzpicture}
     \end{frame}
   }
