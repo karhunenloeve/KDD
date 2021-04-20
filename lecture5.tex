@@ -30,7 +30,6 @@
 \usepackage{filecontents}
 \newcommand{\plots}{0.611201}
 \newcommand{\plotm}{2.19882}
-\pgfplotsset{height=4cm,width=8cm,compat=1.17}
 \pgfmathdeclarefunction{gauss}{2}{%
   \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
 }
@@ -51,10 +50,10 @@
         anchor=south west,
         minimum width=2cm,
         minimum height=1.3cm,
-        align=center, 
+        align=center,
         inner sep=0.2cm,
         outer sep=0,
-        rectangle split, 
+        rectangle split,
         rectangle split parts=2,
         rectangle split draw splits=false},
     reverseclip/.style={
@@ -76,9 +75,9 @@
         align=left,
         font=\itshape
     },
-    Diamond/.style={ diamond, 
-                      draw, 
-                      shape aspect=2, 
+    Diamond/.style={ diamond,
+                      draw,
+                      shape aspect=2,
                       inner sep = 2pt,
                       text centered,
                       fill=blue!10!white,
@@ -157,8 +156,8 @@
   % Title
   \maketitle
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Chapter IV: Data warehousing and online analytical processing}
         \begin{itemize}
             \item \textbf{Data warehouse: basic concepts.}
@@ -171,8 +170,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{What is a data warehouse?}
         \begin{itemize}
             \item \textbf{Defined in many different ways, but not rigorously:}
@@ -188,8 +187,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Data warehouse -- subject-oriented}
         \begin{itemize}
             \item \textbf{Organized around major subjects.}
@@ -208,8 +207,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Data warehouse -- integrated}
         \begin{itemize}
             \item \textbf{Constructed by {\color{airforceblue}integrating multiple heterogeneous data sources}.}
@@ -227,8 +226,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Data warehouse -- time variant}
         \begin{itemize}
             \item \textbf{The {\color{airforceblue}time horizon} for a data warehouse is {\color{airforceblue}significantly longer} than that of operational systems.}
@@ -243,8 +242,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Data warehouse -- nonvolatile}
         \begin{itemize}
             \item \textbf{A {\color{airforceblue}physically separate} store of data.}
@@ -267,8 +266,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{OLTP vs. OLAP}
       \begin{tabularx}{\textwidth}{|l|X|X|}
       & \textbf{OLTP} & \textbf{OLAP} \\\hline
@@ -287,8 +286,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Why a separate data warehouse?}
     \begin{itemize}
       \item \textbf{High performance for both systems:}
@@ -317,8 +316,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Three Data warehouse models}
     \begin{itemize}
       \item \textbf{\color{airforceblue}Enterprise Warehouse:}
@@ -339,9 +338,9 @@
    \end{itemize}
     \end{frame}
   }
-  
-  { 
-    \setbeamertemplate{footline}{}
+
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Extraction, transformation, and loading (ETL)}
     \begin{itemize}
       \item \textbf{\color{airforceblue}Extraction:}
@@ -368,8 +367,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Metadata repository}
     \begin{itemize}
       \item \textbf{Metadata: the data defining Data warehouse objects.}
@@ -397,8 +396,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Chapter IV: Data warehousing and online analytical processing}
         \begin{itemize}
             \item Data warehouse: basic concepts.
@@ -411,8 +410,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{From tables and spreadsheets to data cubes}
         \begin{itemize}
             \item Data warehouse: basic concepts.
@@ -442,8 +441,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Cube: a lattice of cuboids}
     \begin{tikzpicture}
       \node[draw, circle, fill=black, label=below:{all}] at (2,6) {};
@@ -509,8 +508,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Conceptual modeling of data warehouses}
         \begin{itemize}
             \item \textbf{Star schema:}.
@@ -533,8 +532,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Example of star schema}
     \begin{tikzpicture}
     \node[basic, rectangle split part fill={green!20,white}] at (2,2) (time) {time
@@ -589,8 +588,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Example of snowflake schema}
     \begin{tikzpicture}
     \node[basic, rectangle split part fill={green!20,white}] at (2,2) (time) {time
@@ -657,8 +656,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Example of fact constellation}
     \tikzset{basic/.style={
             draw,
@@ -670,9 +669,9 @@
             align=left,
             font=\itshape
         },
-        Diamond/.style={ diamond, 
-                         draw, 
-                            shape aspect=2, 
+        Diamond/.style={ diamond,
+                         draw,
+                            shape aspect=2,
                             inner sep = 2pt,
                             text centered,
                             fill=blue!10!white,
@@ -754,8 +753,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{A concept hierarchy: dimension (location)}
     \begin{tikzpicture}
       \node at (2,6) (all) {all};
@@ -814,8 +813,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Data-cube measures: three categories}
         \begin{itemize}
             \item \textbf{Distributive:}
@@ -837,8 +836,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Aggregation type}
         \begin{itemize}
             \item \textbf{Non-trivial property.}
@@ -866,8 +865,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Aggregation type}
         \begin{itemize}
             \item \textbf{Sales volume as a function of product, month, and region.}
@@ -907,22 +906,22 @@
         \node at (15,1.5) (quarter) {\texttt{Quarter}};
         \node at (14,0) (month) {\texttt{Month}};
         \node at (16,0) (week) {\texttt{Week}};
-        \node at (15,-1.5) (day) {\texttt{Day}}; 
-        \draw (year) -- (quarter) -- (month) -- (day) -- (week) -- (year);       
+        \node at (15,-1.5) (day) {\texttt{Day}};
+        \draw (year) -- (quarter) -- (month) -- (day) -- (week) -- (year);
         \end{tikzpicture}
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Data cube sample}
     \centering
-    \includegraphics[width=10cm,height=6cm]{datacube.pdf}
+    \includegraphics[width=10cm,height=6cm]{img/datacube.pdf}
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Cuboids corresponding to the cube}
     \centering
     \begin{tikzpicture}
@@ -935,7 +934,7 @@
       \node[draw, circle, fill=black, label=below:{product,date}] at (-1,3) (productdate) {};
       \node[draw, circle, fill=black, label=below:{product,country}] at (1.5,3) (productcountry) {};
       \node[draw, circle, fill=black, label=below:{date,country}] at (4,3) (datecountry) {};
- 
+
       \node[draw, circle, fill=black, label=below:{product,date,country}] at (2,1.5) (productdatecountry) {};
 
       \node[label=below:{$0$-dimensional (apex) cuboid}] at (9,6)  {};
@@ -959,8 +958,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Typical OLAP operations}
         \begin{itemize}
             \item \textbf{{\color{airforceblue}Roll up} (drill up): summarize data.}
@@ -985,8 +984,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{A star-net query model}
     \centering
     \begin{tikzpicture}[scale=0.75]
@@ -1042,8 +1041,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Chapter IV: Data warehousing and online analytical processing}
         \begin{itemize}
             \item Data warehouse: basic concepts.
@@ -1056,8 +1055,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Design of data warehouse: a business-analysis framework}
         \begin{itemize}
             \item \textbf{Four views regarding the design of a data warehouse:}
@@ -1083,8 +1082,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Data warehouse design process}
         \begin{itemize}
             \item \textbf{Top-down, bottom-up approaches or a combination of both:}
@@ -1108,8 +1107,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Data warehouse development: a recommended approach}
     \centering
     \begin{tikzpicture}[>=latex']
@@ -1144,12 +1143,12 @@
         \path[draw,->] (ddm) edge (mtier);
         \path[draw,->] (edw) edge (mtier);
         \path[draw,->] (hlw) edge (edw);
-    \end{tikzpicture}        
+    \end{tikzpicture}
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Data warehouse usage}
         \begin{itemize}
             \item \textbf{Three kinds of Data warehouse applications.}
@@ -1173,8 +1172,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{From online analytical processing (OLAP) to online analytical mining (OLAM)}
         \begin{itemize}
             \item \textbf{Why online analytical mining?}
@@ -1197,8 +1196,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Chapter IV: Data warehousing and online analytical processing}
         \begin{itemize}
             \item Data warehouse: basic concepts.
@@ -1211,8 +1210,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Efficient data-cube computation}
         \begin{itemize}
             \item \textbf{Data cube can be viewed as a lattice of cuboids.}
@@ -1231,8 +1230,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{The "compute cube" operator}
       \begin{columns}
         \begin{column}{0.6\textwidth}
@@ -1279,8 +1278,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Indexing OLAP data: bitmap index}
         \begin{itemize}
             \item \textbf{Index on a particular column.}
@@ -1310,7 +1309,7 @@
         2 & 0 & 1 & 0 \\\hline
         3 & 1 & 0 & 0 \\\hline
         4 & 0 & 0 & 1 \\\hline
-        5 & 0 & 1 & 0 \\\hline        
+        5 & 0 & 1 & 0 \\\hline
         \end{tabular}\hspace{0.1cm}
         \begin{tabular}{| c | c | c |}
         \hline
@@ -1324,8 +1323,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Indexing OLAP data: join indices}
         \begin{itemize}
             \item \textbf{Join index:}
@@ -1348,8 +1347,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Indexing OLAP data: join indices (example)}
       \centering
       \begin{tikzpicture}
@@ -1402,8 +1401,8 @@
   }
 
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Efficient processing of OLAP queries}
     \begin{itemize}
       \item \textbf{Determine which operations should be performed on the available cuboids.}
@@ -1427,8 +1426,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{OLAP server architectures}
     \begin{itemize}
       \item \textbf{Relational OLAP (ROLAP).}
@@ -1454,8 +1453,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Chapter IV: Data warehousing and online analytical processing}
         \begin{itemize}
             \item Data warehouse: basic concepts.
@@ -1468,8 +1467,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Data generalization}
     \begin{itemize}
       \item \textbf{Summarize data:}
@@ -1490,8 +1489,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Attribute-oriented induction}
     \begin{itemize}
       \item \textbf{Proposed in 1989} (KDD'89 workshop).
@@ -1507,8 +1506,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Attribute-oriented induction: an example}
     \begin{itemize}
       \item \textbf{Example:} Describe general characteristics of graduate students in a University database.
@@ -1522,8 +1521,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Class characterization: an initial relation (I)}
     \begin{table}
     \small
@@ -1539,8 +1538,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Class characterization: prime generalized relation (II)}
     \begin{table}
     \begin{tabularx}{\textwidth}{|X|X|X|X|X|X|X|}
@@ -1555,8 +1554,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Class characterization: an example (III)}
     \centering
     Cross-table of birth region and gender:\\[0.5cm]
@@ -1570,8 +1569,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Basic principles of attribute-oriented induction}
     \begin{itemize}
       \item \textbf{Data focusing:}
@@ -1603,8 +1602,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Attribute-oriented induction: basic algorithm }
     \begin{itemize}
       \item \textbf{InitialRel:}
@@ -1632,8 +1631,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Presentation of generalized results}
     \begin{itemize}
       \item \textbf{Generalized relation:}
@@ -1658,8 +1657,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Mining-class comparisons}
     \begin{itemize}
       \item \textbf{Comparison: Comparing two or more classes.}
@@ -1686,8 +1685,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Concept description vs. cube-based OLAP}
     \begin{itemize}
       \item \textbf{Similarity:}
@@ -1706,8 +1705,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Chapter IV: Data warehousing and online analytical processing}
         \begin{itemize}
             \item Data warehouse: basic concepts.
@@ -1720,8 +1719,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Summary}
     \begin{itemize}
       \item \textbf{Data warehousing: multi-dimensional model of data.}
@@ -1750,7 +1749,7 @@
 
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{References (I)}
     \begin{itemize}
       \item S. Agarwal, R. Agrawal, P. M. Deshpande, A. Gupta, J. F. Naughton, R. Ramakrishnan, and S. Sarawagi: On the computation of multidimensional aggregates. VLDB'96.
@@ -1766,7 +1765,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{References (II)}
     \begin{itemize}
       \item V. Harinarayan, A. Rajaraman, and J. D. Ullman: Implementing data cubes efficiently. SIGMOD'96.
@@ -1782,15 +1781,14 @@
   }
 
   { % Questions?
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}[c]
       \begin{center}
         Thank you for your attention.\\
         {\bf Any questions about the fourth chapter?}\\[0.5cm]
-        Ask them now, or again, drop me a line: \\ 
+        Ask them now, or again, drop me a line: \\
         \faSendO \ \texttt{luciano.melodia@fau.de}.
       \end{center}
     \end{frame}
   }
 \end{document}
-

@@ -95,7 +95,6 @@
 
 % read in data file
 
-
 \newcommand{\MaxNumberX}{3}
 \newcommand{\MaxNumberY}{5}
 \newcommand{\tikzmark}[1]{\tikz[remember picture] \node[coordinate] (#1) {#1};}
@@ -128,7 +127,6 @@
 % Enable semi-transparent animation preview
 \setbeamercovered{transparent}
 
-
 \lstset{%
   language=Python,
   tabsize=2,
@@ -141,7 +139,6 @@
   xleftmargin=1em,
   numberstyle=\tt
 }
-
 
 % Title, authors, and date
 \title[KDD]{Chapter VII: Cluster analysis}
@@ -159,7 +156,7 @@
   \maketitle
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Chapter VII: Cluster analysis}
         \begin{itemize}
             \item \textbf{Cluster analysis: basic concepts.}
@@ -174,7 +171,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{What is cluster analysis?}
         \begin{itemize}
           \item \textbf{{\color{airforceblue}Cluster}: A collection of data objects within a larger set that are.}
@@ -202,7 +199,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Clustering for data understanding and applications}
         \begin{itemize}
           \item \textbf{Biology:}
@@ -238,7 +235,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Quality: what is good clustering?}
         \begin{itemize}
           \item \textbf{A good clustering method will produce high-quality clusters.}
@@ -263,7 +260,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Measure the quality of clustering}
         \begin{itemize}
           \item \textbf{Dissimilarity/similarity metric:}
@@ -284,7 +281,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Considerations for cluster analysis}
         \begin{itemize}
           \item \textbf{Partitioning criteria:}
@@ -312,7 +309,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Requirements and challenges}
         \begin{itemize}
           \item \textbf{Scalability:}
@@ -341,7 +338,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Major clustering approaches}
         \begin{itemize}
           \item \textbf{Partitioning approach:}
@@ -370,7 +367,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Major clustering approaches (II)}
         \begin{itemize}
           \item \textbf{Model-based approach:}
@@ -398,7 +395,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Chapter VII: Cluster analysis}
         \begin{itemize}
             \item Cluster analysis: basic concepts.
@@ -413,7 +410,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Partitioning algorithms: basic concept}
         \begin{itemize}
           \item \textbf{Partitioning method:}
@@ -441,7 +438,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{The $k$-means clustering method}
         \begin{itemize}
           \item \textbf{Given $k$, the $k$-means algorithm is implemented in four steps:}
@@ -472,7 +469,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{An example of $k$-means clustering}
       \begin{tikzpicture}
         \node [black] at (3,2.5) {\Large\textbullet};
@@ -587,7 +584,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Comments on the $k$-means method}
       \begin{itemize}
         \item \textbf{Strength:}
@@ -615,7 +612,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Variations of the $k$-means method}
       \begin{itemize}
         \item \textbf{Most of the variants of the $k$-means differ in:}
@@ -639,7 +636,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{What is the problem of the $k$-means method?}
       \begin{itemize}
         \item \textbf{The $k$-means algorithm is {\color{airforceblue}sensitive to outliers}!}
@@ -699,7 +696,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{The $k$-medoids clustering method}
       \begin{itemize}
         \item \textbf{$k$-medoids clustering:}
@@ -723,7 +720,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{PAM: A typical $k$-medoids algorithm}
       \newcommand*{\xMin}{0}%
       \newcommand*{\xMax}{10}%
@@ -856,7 +853,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{PAM (Partitioning Around Medoids)}
       \begin{itemize}
         \item \textbf{Use real objects to represent the clusters.}
@@ -880,7 +877,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{PAM Clustering (II)}
       \begin{itemize}
         \item \textbf{Case 1:}
@@ -926,7 +923,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{PAM Clustering (III)}
       \begin{itemize}
         \item \textbf{Case 2:}
@@ -972,7 +969,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{PAM Clustering (IV)}
       \begin{itemize}
         \item \textbf{Case 3:}
@@ -1018,7 +1015,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{PAM Clustering (V)}
       \begin{itemize}
         \item \textbf{Case 4:}
@@ -1062,7 +1059,7 @@
   }
 
   { % Questions?
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{CLARA (Clustering Large Applications)}
       \begin{itemize}
         \item \textbf{(Kaufmann and Rousseeuw, 1990)}
@@ -1084,7 +1081,7 @@
   }
 
   { % Questions?
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{CLARANS ("Randomized" CLARA)}
       \begin{itemize}
         \item \textbf{A Clustering Algorithm based on Randomized Search} (Ng \& Han, 1994)
@@ -1108,7 +1105,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Chapter VII: Cluster analysis}
         \begin{itemize}
             \item Cluster analysis: basic concepts.
@@ -1123,7 +1120,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Hierarchical clustering}
         \begin{itemize}
             \item \textbf{Does not require the number of clusters $k$ as an input, \\ but needs a termination condition.}
@@ -1178,7 +1175,7 @@
   }
 
   { % Questions?
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{AGNES (Agglomerative Nesting)}
       \begin{itemize}
         \item \textbf{Introduced in (Kaufmann \& Rousseeuw, 1990)}
@@ -1262,7 +1259,7 @@
   }
 
   { % Questions?
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Dendrogram: shows how clusters are merged}
       \begin{itemize}
         \item Decompose data objects into a several levels of nested partitioning (tree of clusters),\\ called a \textbf{\color{airforceblue}dendrogram}.
@@ -1296,7 +1293,7 @@
   }
 
   { % Questions?
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{DIANA (Divisive Analysis)}
       \begin{itemize}
         \item \textbf{Introduced in (Kaufmann \& Rousseeuw, 1990)}
@@ -1382,7 +1379,7 @@
   }
 
   { % Questions?
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Distance between clusters}
       \begin{itemize}
         \item \textbf{Minimum distance:}
@@ -1406,7 +1403,7 @@
   }
 
   { % Questions?
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Distance between clusters (II)}
       \begin{itemize}
         \item \textbf{Nearest-neighbor clustering algorithm:}
@@ -1431,7 +1428,7 @@
   }
 
   { % Questions?
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Distance between clusters (III)}
       \begin{itemize}
         \item \textbf{Farthest-neighbor clustering algorithm:}
@@ -1448,7 +1445,7 @@
   }
 
   { % Questions?
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Extensions to hierarchical clustering}
       \begin{itemize}
         \item \textbf{Major weakness of agglomerative clustering methods:}
@@ -1466,7 +1463,7 @@
   }
 
   { % Questions?
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{BIRCH (Balanced Iterative Reducing and Clustering Using Hierarchies)}
       \begin{itemize}
         \item (Zhang, Ramakrishnan \& Livny, SIGMOD'96)
@@ -1492,7 +1489,7 @@
   }
 
   { % Questions?
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Clustering feature in BIRCH}
       \begin{itemize}
         \item \textbf{Clustering Feature CF = (n, LS, SS)}:
@@ -1539,7 +1536,7 @@
   }
 
   { % Questions?
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Clustering feature in BIRCH (II)}
       \begin{itemize}
         \item \textbf{Allows to derive many useful statistics of a cluster:}
@@ -1555,7 +1552,7 @@
   }
 
   { % Questions?
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{CF-Tree in BIRCH}
       \begin{itemize}
         \item \textbf{Height-balanced tree.}
@@ -1580,7 +1577,7 @@
   }
 
   { % Questions?
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{CF-Tree structure}
       \centering
       \begin{tikzpicture}
@@ -1632,7 +1629,7 @@
   }
 
   { % Questions?
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{The BIRCH algorithm}
       \begin{itemize}
         \item \textbf{Phase 1:}
@@ -1657,7 +1654,7 @@
   }
 
   { % Questions?
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{CHAMELEON: hierarchical clustering using dynamic modeling}
       \begin{itemize}
         \item (Karypis, Han \& Kumar, 1999)
@@ -1683,7 +1680,7 @@
   }
 
   { % Questions?
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Overall framework of CHAMELEON}
       \begin{tikzpicture}[scale=0.9, node distance = 1cm, auto,font=\footnotesize,
           force/.style={rectangle, draw, fill=black!10, inner sep=5pt, text width=1.8cm, text badly centered, minimum height=1cm, font=\bfseries\footnotesize\sffamily},
@@ -1846,7 +1843,7 @@
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{CHAMELEON (Clustering Complex Objects)}
       \centering
       \includegraphics[width=0.6\textwidth]{img/cluster.jpeg}
@@ -1854,7 +1851,7 @@
   }
 
   { % Questions?
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}[c]
       \begin{center}
         Thank you for your attention.\\

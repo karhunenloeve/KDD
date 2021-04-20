@@ -28,7 +28,6 @@
 \usepackage{filecontents}
 \newcommand{\plots}{0.611201}
 \newcommand{\plotm}{2.19882}
-\pgfplotsset{height=4cm,width=8cm,compat=1.17}
 \pgfmathdeclarefunction{gauss}{2}{%
   \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
 }
@@ -106,8 +105,8 @@
   % Title
   \maketitle
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Chapter III: Preprocessing}
     This is our agenda for this lecture:
         \begin{itemize}
@@ -125,8 +124,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Data quality: why preprocess the data?}
     This is our agenda for this lecture:
         \begin{itemize}
@@ -144,8 +143,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Major tasks in data preprocessing}
       \begin{itemize}
         \item \textbf{Data cleaning:}
@@ -175,8 +174,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Chapter IV: Preprocessing}
         \begin{itemize}
             \item Data preprocessing: an overview.
@@ -193,8 +192,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Data cleaning}
       \textbf{Data in the real world is {\color{airforceblue}dirty}. Lots of potentially incorrect data:}
       \begin{itemize}
@@ -222,8 +221,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Incomplete (missing) data}
     \begin{itemize}
       \item \textbf{Data is not always available.}
@@ -244,8 +243,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{How to handle missing data?}
     \begin{itemize}
       \item \textbf{Ignore the tuple:}
@@ -268,8 +267,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Noisy data?}
     \begin{itemize}
       \item \textbf{\color{airforceblue}Noise:}
@@ -290,8 +289,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{How to handle noisy data?}
     \begin{itemize}
         \item \textbf{Beginning:}
@@ -316,8 +315,8 @@
     \end{frame}
   }
 
- { 
-    \setbeamertemplate{footline}{}
+ {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Data cleaning as a process}
     \begin{itemize}
       \item \textbf{Data-discrepancy detection:}
@@ -344,8 +343,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Chapter IV: Preprocessing}
         \begin{itemize}
             \item Data preprocessing: an overview.
@@ -362,8 +361,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Data integration}
     \begin{itemize}
        \item \textbf{Data integration:}
@@ -393,8 +392,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Handling redundancy in data integration}
     \begin{itemize}
       \item \textbf{Redundant data often occur when integrating multiple databases.}
@@ -416,8 +415,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Correlation analysis for nominal data (I)}
       \begin{itemize}
         \item \textbf{Two attributes:}
@@ -442,8 +441,8 @@
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Correlation analysis for nominal data (II)}
       \begin{itemize}
         \item \textbf{\color{airforceblue}$\chi^2$-test:}
@@ -464,8 +463,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{$\xi^2$ calculation: an example}
     \centering
     \begin{tabular}{l|c|c|c|}
@@ -485,8 +484,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Correlation analysis of numerical data}
     \begin{itemize}
       \item \textbf{\color{airforceblue}Correlation coefficient:}
@@ -505,8 +504,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Visually evaluating correlation}
     \begin{figure}[H]
         \centering
@@ -561,12 +560,12 @@ are those whose actual count is very different from the expected count.
             \end{tikzpicture}
             \caption{c) Negative correlation.}
         \end{minipage}\hfill
-    \end{figure} 
+    \end{figure}
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Covariance of numerical data (I)}
     \begin{itemize}
       \item \textbf{\color{airforceblue}Covariance} \textbf{is similar to correlation:}\\
@@ -583,8 +582,8 @@ are those whose actual count is very different from the expected count.
   }
 
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Covariance of numerical data (II)}
     \begin{itemize}
       \item \textbf{Positive covariance:}\\
@@ -600,8 +599,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Covariance: an example (I)}
     \begin{itemize}
       \item \textbf{Can be simplified in computation as:}
@@ -616,8 +615,8 @@ are those whose actual count is very different from the expected count.
   }
 
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Covariance: an example (II)}
     \begin{itemize}
       \item Suppose two stocks $A$ and $B$ have the following values within some time:\\
@@ -633,8 +632,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Chapter IV: Preprocessing}
         \begin{itemize}
             \item Data preprocessing: an overview.
@@ -651,8 +650,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Data reduction I: dimensionality reduction}
         \begin{itemize}
             \item \textbf{Curse of dimensionality:}
@@ -678,8 +677,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Data reduction strategies}
         \begin{itemize}
             \item Obtain a reduced representation of the data set that is much smaller in volume but yet produces the same (or almost the same)  results.
@@ -708,8 +707,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Mapping data to a new space}
     \begin{itemize}
       \item \textbf{Fourier transform}.
@@ -735,8 +734,8 @@ are those whose actual count is very different from the expected count.
   }
 
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{What is wavelet transform?}
     \begin{minipage}[b]{0.55\textwidth}
       \begin{itemize}
@@ -754,8 +753,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Wavelet transformation}
     \begin{itemize}
       \item \textbf{Discrete wavelet transform:}\\
@@ -775,7 +774,7 @@ are those whose actual count is very different from the expected count.
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Wavelet decomposition}
     \begin{itemize}
       \item \textbf{Example:}
@@ -801,7 +800,7 @@ are those whose actual count is very different from the expected count.
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Why wavelet transform?}
     \begin{itemize}
       \item \textbf{Use hat-shaped filters:}
@@ -823,7 +822,7 @@ are those whose actual count is very different from the expected count.
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Principal component analysis (I)}
     \begin{itemize}
       \item Principal component analysis is a method of summarizing \\
@@ -840,7 +839,7 @@ are those whose actual count is very different from the expected count.
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Principal component analysis: the problem (II)}
     \begin{itemize}
     \item Consider sample vectors $u_1, u_2, \ldots, u_n \in \mathbb{R}^m$ centered at zero and a complete orthonormal system $\{x_i \in \mathbb{R}^m \; \vert \; i = 1, 2, \ldots n\}$, such that:
@@ -859,7 +858,7 @@ are those whose actual count is very different from the expected count.
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Principal component analysis: optimization (III)}
     We seek for the maxima $w^*$ of the following loss function, which represent the variance of the projections of $x$ onto the new basis $u$:
     \begin{align}
@@ -881,7 +880,7 @@ are those whose actual count is very different from the expected count.
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Principal component analysis: loss function (IV)}
     Extreme values of $L(w)$ correspond to the solution of the following equations:
     \begin{align}
@@ -901,18 +900,18 @@ are those whose actual count is very different from the expected count.
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Principal component analysis: principal components (V)}
     \begin{itemize}
-      \item For a finite $a \in \mathbb{R}$, there exists a unique maximum with 
+      \item For a finite $a \in \mathbb{R}$, there exists a unique maximum with
       \begin{align}
       w^* = a \cdot c_1.
       \end{align}
-      \item The variance of the data becomes maximal for 
+      \item The variance of the data becomes maximal for
       \begin{align}
       u^* = u_1 = \pm c_1.
       \end{align}
-      \item This procedure is iterated with the constraint of orthogonality: 
+      \item This procedure is iterated with the constraint of orthogonality:
       \begin{align}
       w_k^Tc_l = 0, \; \forall l < k.
       \end{align}
@@ -922,7 +921,7 @@ are those whose actual count is very different from the expected count.
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Principal component analysis: principal components (VI)}
     \begin{itemize}
       \item The first principal component corresponds to the eigenvector of the correlation matrix with the largest eigenvalue.
@@ -943,7 +942,7 @@ are those whose actual count is very different from the expected count.
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Principal component analysis: principal components (VII)}
     Consider the variance of the $k$th component along a direction with unit vector $u_k$:
     \begin{align}
@@ -962,8 +961,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Attribute-subset selection}
     \begin{itemize}
       \item \textbf{Another way to reduce dimensionality of data.}
@@ -985,8 +984,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Heuristic search in attribute selection}
     \begin{itemize}
       \item \textbf{There are $2^d$ possible attribute combinations of $d$ attributes.}
@@ -1012,8 +1011,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Attribute creation (feature generation)}
     \begin{itemize}
       \item \textbf{Create new attributes (features) that can capture the important information in a data set more effectively than the original ones.}
@@ -1037,8 +1036,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Data reduction (II): numerosity reduction}
     \begin{itemize}
       \item \textbf{Reduce data volume by choosing alternative, {\color{airforceblue}smaller} forms of data representation.}
@@ -1061,8 +1060,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Parametric data reduction: regression and log-linear models}
     \begin{itemize}
       \item \textbf{Linear regression:}
@@ -1082,8 +1081,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Regression analysis}
     \begin{itemize}
       \item A collective name for techniques for the modeling and analysis of numerical data consisting \\ of values of a \textbf{{\color{airforceblue}dependent variable}} (also called response variable or measurement) and of one or more \textbf{{\color{airforceblue}independent variables}} (aka. explanatory variables or predictors).
@@ -1117,8 +1116,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Regression analysis and log-linear models}
     \begin{itemize}
       \item \textbf{Linear regression: $y = wx + b$}.
@@ -1141,8 +1140,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Histogram analysis}
     \begin{itemize}
       \item \textbf{Divide data into buckets and store average (sum) or each bucket.}
@@ -1156,8 +1155,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Clustering}
     \begin{itemize}
       \item \textbf{Partition data set into clusters based on similarity and store cluster representation (e.g., centroid and diameter) only.}
@@ -1171,8 +1170,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Sampling}
     \begin{itemize}
       \item \textbf{Obtain a small sample $x$ to represent the whole data set $X$.}
@@ -1190,8 +1189,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Types of sampling}
         \begin{itemize}
             \item \textbf{Simple random sampling.}
@@ -1216,8 +1215,8 @@ are those whose actual count is very different from the expected count.
   }
 
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Data-cube aggregation}
         \begin{itemize}
             \item \textbf{The lowest level of a data cube (base cuboid).}
@@ -1239,8 +1238,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Data reduction (III): data compression}
         \begin{itemize}
             \item \textbf{String compression.}
@@ -1262,8 +1261,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Chapter IV: Preprocessing}
         \begin{itemize}
             \item Data preprocessing: an overview.
@@ -1281,7 +1280,7 @@ are those whose actual count is very different from the expected count.
   }
 
  {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Data transformations}
     \begin{itemize}
       \item Functions applied to a finite set of samples.
@@ -1303,7 +1302,7 @@ are those whose actual count is very different from the expected count.
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Normalization}
       \begin{itemize}
         \item \textbf{Min-max normalization (to some interval $[\text{min},\text{max}]$):}
@@ -1326,7 +1325,7 @@ are those whose actual count is very different from the expected count.
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Discretization}
     \begin{itemize}
       \item \textbf{Three types of attributes:}
@@ -1349,7 +1348,7 @@ are those whose actual count is very different from the expected count.
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Data-discretization Methods}
     \begin{itemize}
       \item \textbf{Typical methods:}
@@ -1381,7 +1380,7 @@ are those whose actual count is very different from the expected count.
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Simple discretization: binning}
     \begin{itemize}
       \item \textbf{Equal-width (distance) partitioning:}
@@ -1402,7 +1401,7 @@ are those whose actual count is very different from the expected count.
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Binning methods for data smoothing}
     \begin{itemize}
       \item \textbf{Sorted data for price (in dollars):} \\
@@ -1423,8 +1422,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Discretization without using class labels (binning vs. clustering)}
     \begin{figure}[H]
         \centering
@@ -1442,12 +1441,12 @@ are those whose actual count is very different from the expected count.
             \includegraphics[width=5cm]{img/binningvsclustering4.png}
             \caption{c) K-means clustering.}
         \end{minipage}\hfill
-    \end{figure} 
+    \end{figure}
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Discretization by classification \& correlation analysis}
         \begin{itemize}
             \item \textbf{Classification:}
@@ -1470,8 +1469,8 @@ are those whose actual count is very different from the expected count.
   }
 
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Concept-hierarchy generation}
         \begin{itemize}
             \item \textbf{Concept hierarchy:}
@@ -1491,8 +1490,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Concept-hierarchy generation for nominal data}
         \begin{itemize}
             \item \textbf{Specification of a partial/total ordering of attributes explicitly at the schema level by users or experts.}
@@ -1516,8 +1515,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Automatic concept-hierarchy generation}
         \begin{itemize}
             \item \textbf{Some hierarchies can be automatically generated based on the analysis of the number of distinct values per attribute.}
@@ -1525,7 +1524,7 @@ are those whose actual count is very different from the expected count.
               \item The attribute with the most distinct values is placed at the lowest level of the hierarchy.
               \item Exceptions, e.g. weekday, month, quarter, year.
             \end{itemize}
-            \item Example: 
+            \item Example:
             \begin{align}
             \#(\text{streets} &= 674.339 > \#(\text{city}) =  3567,\\
             \#(\text{city}) &=  3567 > \#(\text{province or state}) =  356,\\
@@ -1535,8 +1534,8 @@ are those whose actual count is very different from the expected count.
     \end{frame}
   }
 
-  { 
-    \setbeamertemplate{footline}{}
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Chapter IV: Preprocessing}
         \begin{itemize}
             \item Data preprocessing: an overview.
@@ -1554,7 +1553,7 @@ are those whose actual count is very different from the expected count.
   }
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{Summary}
       \begin{itemize}
         \item \textbf{Data quality:} Accuracy, completeness, consistency, timeliness, believability, interpretability.
@@ -1582,7 +1581,7 @@ are those whose actual count is very different from the expected count.
 
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{References (I)}
       \begin{itemize}
         \item D. P. Ballou and G. K. Tayi: Enhancing data quality in data warehouse environments. Comm. of ACM, 42:73-78, 1999.
@@ -1598,7 +1597,7 @@ are those whose actual count is very different from the expected count.
 
 
   {
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{References (2)}
       \begin{itemize}
         \item H. Liu and H. Motoda (eds.): Feature Extraction, Construction, and Selection: A Data Mining Perspective. Kluwer Academic, 1998.
@@ -1612,15 +1611,14 @@ are those whose actual count is very different from the expected count.
   }
 
   { % Questions?
-    \setbeamertemplate{footline}{}
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}[c]
       \begin{center}
         Thank you for your attention.\\
         {\bf Any questions about the third chapter?}\\[0.5cm]
-        Ask them now, or again, drop me a line: \\ 
+        Ask them now, or again, drop me a line: \\
         \faSendO \ \texttt{luciano.melodia@fau.de}.
       \end{center}
     \end{frame}
   }
 \end{document}
-
