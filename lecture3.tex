@@ -506,12 +506,12 @@
           \addplot[line width=1.5pt,blue,domain=-1:3] {Gauss(x,0,0.6,-0.4)};
           \draw[line width=1.5pt,dashed, black] (0,0) -- (0,{Gauss(0,0,0.6,-0.4)});
           \draw[line width=1.5pt,dashed, red] (0.6,0) -- (0.6,{Gauss(0.6,0,0.6,-0.4)});
-          \draw[line width=1.5pt,dashed, red] (-0.4,0) -- (-0.4,{Gauss(-0.4,0,0.6,-0.4)});
-          \path (-0.4,0) coordinate (ML) (0.6,0) coordinate (MR) (0,0) coordinate (MM);
+          \draw[line width=1.5pt,dashed, red] (1.2,0) -- (1.2,{Gauss(0.5,0,0.7,0.5)});
+          \path (1.2,0) coordinate (ML) (0.6,0) coordinate (MR) (0,0) coordinate (MM);
       \end{axis}
-      \draw[latex-] (ML) to[out=-90,in=45] ++ (-0.4,-0.6) node[below left,inner
+      \draw[latex-] (ML) to[out=-90,in=45] ++ (1.1,-0.6) node[below right,inner
       sep=1pt]{Mean};
-      \draw[latex-] (MR) to[out=-90,in=135] ++ (0.6,-0.6) node[below right,inner
+      \draw[latex-] (MR) to[out=-90,in=135] ++ (0.2,-0.6) node[below right,inner
       sep=1pt]{Median};
       \draw[latex-] (MM) --++ (0,-0.6) node[below,inner
       sep=1pt]{Mode};
