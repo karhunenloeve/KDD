@@ -2666,6 +2666,97 @@
 
   {
     \setbeamertemplate{footline}[frame number]
+    \begin{frame}{CLIQUE: the major steps}
+      \begin{itemize}
+        \item \textbf{Monotonicity of dense cells w.r.t. dimensionality:}
+        \begin{itemize}
+          \item Based on the a priori property used in frequent-pattern and association-rule mining (see Chapter 5).
+          \item $k$-dimensional cell $c$ can have at least $l$ points only, if every $(k-1)$-dimensional projection of $c$ (which is a cell in a $(k-1)$-dimensional subspace) has at least $l$ points, too.
+        \end{itemize}
+        \item \textbf{Clustering step 1:}
+        \begin{itemize}
+          \item Partition each dimension into intervals, identify intervals containing at least $l$ points.
+          \item Iteratively join $k$-dimensional dense cells $c_1$ and $c_2$ in subspaces $(D_{i1}, \ldots, D_{ik})$ and $(D_{j1}, \ldots, D_{jk})$ with $D_{i1} = D_{j1}$ and $D_{i2} = D_{j2}$ and $\ldots D_{i(k-1)} = D_{j(k-1)}$ and $c_1$ and $c_2$ share the same intervals to those dimensions.
+          \item New $(k+1)$-dimensional candidate cell $c$ in space $(D_{i1}, \ldots, D_{ik}, D_{jk})$ tested for density.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{CLIQUE: the major steps (II)}
+      \begin{itemize}
+        \item \textbf{Clustering step 1 (cont.):}
+        \begin{itemize}
+          \item Iteration terminates when no more candidate cells can be generated or no candidate cells are dense.
+        \end{itemize}
+        \item \textbf{Clustering step 2:}
+        \begin{itemize}
+          \item Use dense cells in each subspace to assemble clusters.
+          \item Apply Minimum Description Length (MDL) principle to use the maximal regions to cover connected dense cells.
+          \begin{itemize}
+            \item \textbf{\color{airforceblue}Maximal region}: hyper rectangle where every cell falling into the regions is dense, and region cannot be extended further in any dimension.
+          \end{itemize}
+          \item Simple greedy approach:
+          \begin{itemize}
+            \item Start with arbitrary dense cell.
+            \item Find maximum region covering that cell.
+            \item Work on remaining dense cells that have not yet been covered.
+          \end{itemize}
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{CLIQUE: example}
+      \centering
+      \includegraphics[width=9cm]{img/clique.pdf}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Strength and Weakness of CLIQUE}
+      \begin{itemize}
+        \item \textbf{Strength:}
+        \begin{itemize}
+          \item Automatically finds subspaces of the highest dimensionality \\
+          such that high-density clusters exist in those subspaces.
+          \item Insensitive to the order of records in input and does not presume \\
+          any canonical data distribution.
+          \item Scales linearly with the size of input and has good scalability \\
+          as the number of dimensions in the data is increased.
+        \end{itemize}
+        \item \textbf{Weaknesses:}
+        \begin{itemize}
+          \item Dependent on proper grid size and density threshold.
+          \item Accuracy of clustering result may be degraded at the expense \\
+          of simplicity of the method.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Chapter VII: Cluster analysis}
+        \begin{itemize}
+            \item Cluster analysis: basic concepts.
+            \item Partitioning methods.
+            \item Hierarchical methods.
+            \item Density-based methods.
+            \item Grid-based methods.
+            \item \textbf{Evaluation of clustering.}
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{References}
         \begin{itemize}
           \item R. Agrawal, J. Gehrke, D. Gunopulos, and P. Raghavan: Automatic subspace clustering of high dimensional data for data mining applications. SIGMOD'98.
