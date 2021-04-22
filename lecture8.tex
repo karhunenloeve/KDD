@@ -2287,6 +2287,115 @@
 
   {
     \setbeamertemplate{footline}[frame number]
+    \begin{frame}{DBSCAN: the algorithm}
+      \begin{itemize}
+        \item All objects in database $D$ are marked \texttt{unvisited}.
+        \item Randomly select unvisited object $p$ and mark as \texttt{visited}.
+        \item If Eps-neighborhood of $p$ contains less than MinPts objects:
+        \begin{itemize}
+          \item Mark $p$ as noise.
+        \end{itemize}
+        \item Otherwise (that is, $p$ is core point):
+        \begin{itemize}
+          \item Create new cluster $C$ for point $p$.
+          \item Add all objects in Eps-neighborhood of $p$ to candidate set $N$.
+          \item For each $p'$ in $N$ that does not yet belong to a cluster:
+          \begin{itemize}
+            \item Add $p'$ to $C$.
+            \item If $p'$ is \texttt{unvisited}, mark as \texttt{visited}.
+            \item If $p'$ is core point, add all objects in its Eps-neighborhood to $N$.
+          \end{itemize}
+          \item Ends when $N$ is empty, that is, $C$ can no longer be expanded.
+        \end{itemize}
+        \item Continue the process (randomly select next unvisited object in $D$) until all points have been visited.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{DBSCAN: sensitive to parameters}
+      \centering
+      \includegraphics[width=14cm]{img/dbscan.png}\\
+      \includegraphics[width=2cm]{img/dbscan3.png}
+      \includegraphics[width=12cm]{img/dbscan2.png}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{OPTICS: a cluster-ordering method}
+      \begin{itemize}
+        \item \textbf{OPTICS: Ordering Points To Identify the Clustering Structure.}
+        \begin{itemize}
+          \item (Ankerst, Breunig, Kriegel \& Sander, SIGMOD'99)
+          \item Avoid difficulty of finding the right parameters:
+          \begin{itemize}
+            \item Only MinPts must be given, Eps remains open.
+          \end{itemize}
+          \item Produces a special \textbf{order of the database} w.r.t. its density-based clustering structure.
+          \item This cluster-ordering contains info equivalent to the density-based clusterings \\ corresponding to a broad range of parameter settings.
+          \item Good for both automatic and interactive cluster analysis, including finding \\
+          intrinsic clustering structure.
+          \item Can be represented graphically or using visualization techniques.
+          \item Process point in order: Select a point that is density-reachable w.r.t. the lowest Eps value, so that clusters with higher density (lower Eps) will be finished first.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{OPTICS: Some Extension of DBSCAN}
+      \begin{columns}
+        \begin{column}{0.7\textwidth}
+          \vspace{-4cm}
+          \begin{itemize}
+            \item \textbf{\color{airforceblue}Core distance:}
+            \begin{itemize}
+              \item of a point $p$.
+              \item Min Eps s.t. $p$ is core point.
+            \end{itemize}
+            \item \textbf{\color{airforceblue}Reachability Distance $r$:}
+            \begin{itemize}
+              \item of a point $p$ from $q$.
+              \item Minimum radius value that makes $p$ \\ directly density-reachable from $q$.
+              \item That is, $r(q,p) := \max\{\text{core-distance}(q), d(q,p)\}$.
+            \end{itemize}
+            \item \textbf{Example:}
+            \begin{itemize}
+              \item MinPts $= 5$, core\_distance$(q) = 3cm$.
+              \item $d(q,p_1) = 2.8 cm \implies r(q, p_1) = 3cm$.
+              \item $d(q,p_2) = 4 cm \implies r(q, p_2) = 4 cm$.
+            \end{itemize}
+          \end{itemize}
+        \end{column}
+        \begin{column}{0.3\textwidth}
+          \centering
+          \vspace{4cm}
+          \begin{tikzpicture}
+            \draw (0,0) circle (2cm);
+            \draw (0,0) circle (1cm);
+            \node[draw, circle, fill=airforceblue] at (0,0) (c) {};
+            \node[draw, circle, fill=airforceblue] at (-2,0) (p2) {};
+            \node[draw, circle, fill=airforceblue] at (-0.1,0.5) (p1) {};
+            \node[draw, circle, fill=airforceblue] at (-0.7,0.1) {};
+            \node[draw, circle, fill=airforceblue] at (0.8,0.05) {};
+            \node[draw, circle, fill=airforceblue] at (0.4,-0.7) {};
+            \node[draw, circle, fill=airforceblue] at (0.5,1) {};
+            \node at (0.3,0) {$q$};
+            \node at (-1.65,-0.2) {$p_2$};
+            \node at (-0.4,0.5) {$p_1$};
+            \draw (c)--(p2);
+            \draw (c)--(p1);
+          \end{tikzpicture}
+        \end{column}
+      \end{columns}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{References}
         \begin{itemize}
           \item R. Agrawal, J. Gehrke, D. Gunopulos, and P. Raghavan: Automatic subspace clustering of high dimensional data for data mining applications. SIGMOD'98.
