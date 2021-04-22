@@ -2237,6 +2237,56 @@
 
   {
     \setbeamertemplate{footline}[frame number]
+    \begin{frame}{DBSCAN: density-based spatial clustering of applications with noise}
+      \begin{itemize}
+        \item \textbf{Relies on a density-based notion of cluster:}
+        \begin{itemize}
+          \item A cluster is defined as a maximal set of density-connected points.
+        \end{itemize}
+        \item \textbf{Discovers clusters of arbitrary shape in spatial databases with noise.}
+      \end{itemize}
+      \centering
+      \vspace{0.5cm}
+      \begin{tikzpicture}
+        \draw (0,0) rectangle (6,4);
+        \node[draw, circle, fill=airforceblue] at (1.6,0.55) {};
+        \node[draw, circle, fill=airforceblue] at (1.4,0.85) {};
+        \node[draw, circle, fill=airforceblue] at (1.75,0.95) {};
+        \node[draw, circle, fill=airforceblue] at (1.25,1.8) (core) {};
+        \draw[dashed] (1.25,1.8) circle (0.7cm);
+
+        \node[draw, circle, fill=airforceblue] at (1.25,2.3) {};
+        \node[draw, circle, fill=airforceblue] at (0.8,1.75) {};
+        \node[draw, circle, fill=airforceblue] at (1.6,1.85) {};
+        \node[draw, circle, fill=airforceblue] at (1.1,1.25) {};
+        \node[draw, circle, fill=airforceblue] at (1.7,1.5) {};
+        \node[draw, circle, fill=airforceblue] at (1.2,3.2) (border) {};
+        \node[draw, circle, fill=airforceblue] at (0.8,2.8) {};
+        \node[draw, circle, fill=airforceblue] at (1.8,2.8) {};
+        \node[draw, circle, fill=airforceblue] at (1.8,3.2) {};
+
+        \node[draw, circle, fill=airforceblue] at (4.3,1.5) {};
+        \node[draw, circle, fill=airforceblue] at (4.1,1.2) {};
+        \node[draw, circle, fill=airforceblue] at (3.8,1.8) {};
+        \node[draw, circle, fill=airforceblue] at (4,2.1) {};
+        \node[draw, circle, fill=airforceblue] at (4.1,1.2) {};
+        \draw[dashed] (0.8,3.2) circle (0.7cm);
+        \node[draw, circle, fill=airforceblue] at (4.8,3.2) (outlier) {};
+        \draw[dashed] (4.4,3) circle (0.7cm);
+        \node[draw, fill=white] at (6,3.2) (o) {Outlier};
+        \node[draw, fill=white] at (-1,1.2) (c) {Core};
+        \node[draw, fill=white] at (-1,2.2) (b) {Border};
+        \node at (7,2.2) {Eps = 1cm};
+        \node at (7,1.7) {MinPts = 5};
+        \draw (outlier)--(o);
+        \draw (core)--(c);
+        \draw (border)--(b);
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
     \begin{frame}{References}
         \begin{itemize}
           \item R. Agrawal, J. Gehrke, D. Gunopulos, and P. Raghavan: Automatic subspace clustering of high dimensional data for data mining applications. SIGMOD'98.
