@@ -2021,6 +2021,21 @@
       \centering
       \begin{itemize}
         \item \textbf{Algorithm: Progressively merge points and clusters}
+        \begin{itemize}
+          \item Input: $D = \{o_1, \ldots, o_n\}$: a dataset containing $n$ objects.
+          \item Output: A hierarchy of clusters.
+          \item Method:
+          \begin{itemize}
+            \item \texttt{Create cluster for each object $C_i = \{o_i\}$, for $1 \leq i \leq n$}.
+            \item \textbf{For $i=1$ to $n$:}
+            \begin{itemize}
+              \item \texttt{Find a pair of clusters $C_i$ and $C_j$, such that}\\
+                    $C_i, C_j = \text{arg max}_{i \neq j} \left( \log\left( \frac{P(C_i \cup C_j)}{P(C_i)P(C_j)} \right) \right)$.
+                    \item \textbf{If $\log\left( \frac{P(C_i \cup C_j)}{P(C_i)P(C_j)}\right) > 0$ then} \texttt{merge $C_i$ and $C_j$},
+                    \item \textbf{Else stop.}
+            \end{itemize}
+          \end{itemize}
+        \end{itemize}
       \end{itemize}
     \end{frame}
   }
@@ -2037,6 +2052,162 @@
             \item Evaluation of clustering.
             \item Summary.
         \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Chapter VII: Cluster analysis}
+        \begin{itemize}
+          \item \textbf{Clustering based on density (local cluster criterion), such as density-connected points.}
+          \item \textbf{Major features:}
+          \begin{itemize}
+            \item Discover clusters of arbitrary shape.
+            \item Handle noise.
+            \item One scan.
+            \item Need density parameters as termination condition.
+          \end{itemize}
+          \item \textbf{Several interesting studies:}
+          \begin{itemize}
+            \item DBSCAN (Ester et al., KDD'96).
+            \item OPTICS (Ankerst et al., SIGMOD'99).
+            \item DENCLUE (Hinneburg \& Keim, KDD'98).
+            \item CLIQUE (Agrawal et al., SIGMOD'98) (more grid-based).
+          \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Density-dased clustering: basic concepts}
+        \begin{itemize}
+          \item \textbf{Two parameters:}
+          \begin{itemize}
+            \item \textbf{\color{airforceblue}Eps}: Maximum radius of a neighborhood.
+            \begin{itemize}
+              \item Defines the neighborhood of a point $p$: $N_{\text{Eps}}(p) := \{q \in D \; \vert \; d(p,q) \leq \text{Eps}\}$.
+              \item Distance function is still needed.
+            \end{itemize}
+            \item \textbf{\color{airforceblue}MinPts}: Minimum number of points in an Eps-neighborhood of a point $p$.
+          \end{itemize}
+          \item \textbf{{\color{airforceblue}Core-point condition:} $|N_{\text{Eps}}(p)| \geq \text{MinPts}$.}
+          \begin{itemize}
+            \item Only these neighborhoods are considered.
+          \end{itemize}
+        \end{itemize}
+        \centering
+        \begin{tikzpicture}
+          \draw (0,0) circle (1cm);
+          \draw (-0.5,-1) circle (1cm);
+          \node[draw, circle, fill=red, scale=0.5] at (-1,-1) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-0.8,0) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-0.9,0.4) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-0.1,0.1) {};
+          \node[draw, circle, fill=red, scale=0.5] at (0.4,-0.9) {};
+          \node[draw, circle, fill=red, scale=0.5] at (0.7,-1.3) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-1.5,-0.4) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-1,-0.6) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-0.9,-0.8) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-0.95,-0.5) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-1.25,-0.6) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-1.7,-0.6) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-1.7,-1.3) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-1.4,-1.2) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-1,-1.25) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-0.8,-1.25) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-0.4,-1.7) {};
+          \node[draw, circle, fill=green, scale=0.5] at (-0.5,-1) {};
+          \node[draw, circle, fill=green, scale=0.5] at (0,0) {};
+          \node at (0.2,0) {q};
+          \node at (-0.3,-1.2) {p};
+          \node at (2,0) {$\text{MinPts} = 5$};
+          \node at (2,-0.5) {$\text{Eps} = 1$ cm};
+        \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Directly density-reachable}
+      \begin{itemize}
+        \item A point $q$ is said to be directly density-reachable from a point $p$ \\
+        w.r.t. Eps, MinPts, if $q$ belongs to $N_{\text{Eps}}(p)$.
+      \end{itemize}
+      \centering
+      \vspace{0.5cm}
+      \begin{tikzpicture}
+        \draw (-0.5,-1) circle (1cm);
+        \node[draw, circle, fill=red, scale=0.5] at (-1,-1) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-0.8,0) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-0.9,0.4) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-0.1,0.1) {};
+        \node[draw, circle, fill=red, scale=0.5] at (0.4,-0.9) {};
+        \node[draw, circle, fill=red, scale=0.5] at (0.7,-1.3) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-1.5,-0.4) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-1,-0.6) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-0.9,-0.8) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-0.95,-0.5) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-1.25,-0.6) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-1.7,-0.6) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-1.7,-1.3) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-1.4,-1.2) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-1,-1.25) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-0.8,-1.25) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-0.4,-1.7) {};
+        \node[draw, circle, fill=green, scale=0.5] at (-0.5,-1) {};
+        \node[draw, circle, fill=green, scale=0.5] at (-0.3,-0.4) {};
+        \node at (-0.1,-0.4) {q};
+        \node at (-0.3,-1.2) {p};
+        \node at (2,0) {$\text{MinPts} = 5$};
+        \node at (2,-0.5) {$\text{Eps} = 1$ cm};
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Density-reachable and density-connected}
+      \begin{itemize}
+        \item \textbf{\color{airforceblue}Density-reachable:}
+        \begin{itemize}
+          \item A point $q$ is density-reachable from a point $p$ w.r.t. Eps, MinPts, if there is a \textbf{chain of points} $p_1, \ldots, p_n$, $p_1 = p$, $p_n = q$ such that $p_i+1$ is directly density-reachable from $p_i$.\\[0.2cm]
+          \centering
+          \begin{tikzpicture}
+            \node[draw, circle, fill=red, scale=0.3] at (0.3,0.1) {};
+            \node[draw, circle, fill=red, scale=0.3] at (0.3,0.5) {};
+            \node[draw, circle, fill=red, scale=0.3] at (-0.3,0.4) {};
+            \node[draw, circle, fill=red, scale=0.3] at (-0.2,0.45) {};
+            \node[draw, circle, fill=red, scale=0.3] at (0.5,0.45) (p3) {};
+            \node[draw, circle, fill=red, scale=0.3] at (0.8,0) {};
+            \node[draw, circle, fill=red, scale=0.3] at (0.7,-0.1) {};
+            \node[draw, circle, fill=red, scale=0.3] at (0.9,-0.3) {};
+            \node[draw, circle, fill=red, scale=0.3] at (0.9,0.4) {};
+            \node[draw, circle, fill=red, scale=0.3] at (1,0.55) {};
+            \node[draw, circle, fill=red, scale=0.3] at (1,0.35) {};
+            \node[draw, circle, fill=red, scale=0.3] at (1.1,0.65) {};
+
+            \draw (0,0) circle (0.5cm);
+            \node[draw, circle, fill=green, scale=0.3] at (0,0) (p1) {};
+            \node at (0.2,0) {\tiny$p_1$};
+            \draw (0.3,0.3) circle (0.5cm);
+            \node[draw, circle, fill=green, scale=0.3] at (0.3,0.3) (p2) {};
+            \node at (0.5,0.3) {\tiny$p_2$};
+            \draw[->] (p1)--(p2);
+            \draw (p2)--(p3);
+        \end{tikzpicture}
+        \end{itemize}
+        \item \textbf{\color{airforceblue}Density-connected:}
+        \begin{itemize}
+          \item A point $p$ is density-connected to a point $q$ w.r.t. Eps, MinPts, if there is a point $o$ such that both $p$ and $q$ are density-reachable from $o$. \\[0.2cm]
+          \centering
+          \begin{tikzpicture}
+            \draw (0,0) circle (0.5cm);
+            \draw (0.5,0.1) circle (0.5cm);
+            \draw (0.9,0.3) circle (0.5cm);
+          \end{tikzpicture}
+        \end{itemize}
+      \end{itemize}
     \end{frame}
   }
 
