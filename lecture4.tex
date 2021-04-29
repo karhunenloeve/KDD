@@ -107,7 +107,7 @@
 
   {
     \setbeamertemplate{footline}[frame number]
-    \begin{frame}{Chapter III: Preprocessing}
+    \begin{frame}{Chapter IV: Preprocessing} 
     This is our agenda for this lecture:
         \begin{itemize}
             \item \textbf{Data preprocessing: an overview.}
@@ -127,7 +127,6 @@
   {
     \setbeamertemplate{footline}[frame number]
     \begin{frame}{Data quality: why preprocess the data?}
-    This is our agenda for this lecture:
         \begin{itemize}
             \item \textbf{Measures for {\color{airforceblue}data quality}: A multidimensional view:}
             \begin{itemize}
@@ -269,7 +268,7 @@
 
   {
     \setbeamertemplate{footline}[frame number]
-    \begin{frame}{Noisy data?}
+    \begin{frame}{Noisy data}
     \begin{itemize}
       \item \textbf{\color{airforceblue}Noise:}
       \begin{itemize}
@@ -409,7 +408,7 @@
       \end{itemize}
       \item \textbf{Careful integration of the data from multiple sources:}
       \begin{itemize}
-        \item Helps to reduce\/avoid redundancies and inconsistencies and improve mining speed and quality.
+        \item Helps to reduce/avoid redundancies and inconsistencies and improve mining speed and quality.
       \end{itemize}
     \end{itemize}
     \end{frame}
@@ -417,7 +416,7 @@
 
   {
     \setbeamertemplate{footline}[frame number]
-    \begin{frame}{Correlation analysis for nominal data (I)}
+    \begin{frame}{Correlation analysis for nominal data (I)} % A has distinct values => A = A' ???
       \begin{itemize}
         \item \textbf{Two attributes:}
         \begin{itemize}
@@ -429,12 +428,12 @@
           \item Columns: the $n$ values of $A$.
           \item Rows: the $m$ values of $B$.
           \item Cells: counts of records with \\
-          $A' = \{ a_i \in A \; : \; a_i = a_k \; \text{for} \; a_k \in A\}$ and \\
+          $A' = \{ a_i \in A \; : \; a_i = a_k \; \text{for} \; a_k \in A\}$ and
           $B' = \{ b_j \in B \; : \; b_j = b_l \; \text{for} \; b_l \in B\}$.
         \end{itemize}
         \item \textbf{Expected count in cell $(i,j)$:}
         \begin{align}
-          e_{ij} = \frac{\#A' \cdot \#B'}{\#A + \#B},
+          e_{ij} = \frac{\#A' \cdot \#B'}{\#A + \#B}
         \end{align}
         \item where $\#A + \#B$ is the total number of records.
       \end{itemize}
@@ -443,7 +442,7 @@
 
   {
     \setbeamertemplate{footline}[frame number]
-    \begin{frame}{Correlation analysis for nominal data (II)}
+    \begin{frame}{Correlation analysis for nominal data (II)} % eventuell \hat{x} als erwartungswert explizit erklären ???
       \begin{itemize}
         \item \textbf{\color{airforceblue}$\chi^2$-test:}
         \begin{align}
@@ -486,7 +485,7 @@ are those whose actual count is very different from the expected count.
 
   {
     \setbeamertemplate{footline}[frame number]
-    \begin{frame}{Correlation analysis of numerical data}
+    \begin{frame}{Correlation analysis of numerical data} % Nur Diagonaleneinträge - Indizierung in Summe bis N+M ???
     \begin{itemize}
       \item \textbf{\color{airforceblue}Correlation coefficient:}
       \begin{itemize}
@@ -605,7 +604,7 @@ are those whose actual count is very different from the expected count.
     \begin{itemize}
       \item \textbf{Can be simplified in computation as:}
             \begin{align}
-              \text{Cov}(A,B) &= E(A - E(A))(B-E(B))\\
+              \text{Cov}(A,B) &= E((A - E(A))(B-E(B)))\\ 
                               &= E(AB-AE(B)-E(A)B+E(A)E(B))\\
                               &= E(AB)-E(A)E(B)-E(A)E(B)+E(A)E(B)\\
                               &= E(AB)-E(A)E(B).
@@ -652,7 +651,7 @@ are those whose actual count is very different from the expected count.
 
   {
     \setbeamertemplate{footline}[frame number]
-    \begin{frame}{Data reduction I: dimensionality reduction}
+    \begin{frame}{Data reduction (I): dimensionality reduction}
         \begin{itemize}
             \item \textbf{Curse of dimensionality:}
             \begin{itemize}
@@ -755,7 +754,7 @@ are those whose actual count is very different from the expected count.
 
   {
     \setbeamertemplate{footline}[frame number]
-    \begin{frame}{Wavelet transformation}
+    \begin{frame}{Wavelet transform} 
     \begin{itemize}
       \item \textbf{Discrete wavelet transform:}\\
             Transforms a vector $X$ into a different vector $X'$ of wavelet coefficients with the same length.
@@ -840,19 +839,19 @@ are those whose actual count is very different from the expected count.
 
   {
     \setbeamertemplate{footline}[frame number]
-    \begin{frame}{Principal component analysis: the problem (II)}
+    \begin{frame}{Principal component analysis: the problem (II)} % eventuell <x> als erwartungswert erklären ???
     \begin{itemize}
     \item Consider sample vectors $u_1, u_2, \ldots, u_n \in \mathbb{R}^m$ centered at zero and a complete orthonormal system $\{x_i \in \mathbb{R}^m \; \vert \; i = 1, 2, \ldots n\}$, such that:
     \begin{align}
-      \langle x \rangle &= \int x p(x) d^m x = 0,\\
+      \langle x \rangle &:= \int x p(x) d^m x = 0,\\
       \vert\vert u \vert\vert &= 1,\\
       \langle x^{T}u \rangle &= 0,
     \end{align}
     where the Euclidean norm of the vector is given by
     \begin{align}
-      \vert\vert u_i \vert\vert = \left(\sum_{i=1}^{m} u_i^2\right)^\frac{1}{2}.
+      \vert\vert u_i \vert\vert = \left(\sum_{j=1}^{m} u_{i, j}^2\right)^\frac{1}{2}.
     \end{align}
-      \item \textbf{Goal:} find $u^*$ such that $\langle (x^{T}u^*)^2 \rangle$, the variance of the projections of $x$ onto $u^*$ becomes maximal according to the probability distribution $p(x)$.
+      \item \textbf{Goal:} find $u_*$ such that the variance of the projections of $x$ onto $u_*$, $\langle (x^{T}u_*)^2 \rangle$, becomes maximal according to the probability distribution $p(x)$.
     \end{itemize}
     \end{frame}
   }
@@ -862,7 +861,7 @@ are those whose actual count is very different from the expected count.
     \begin{frame}{Principal component analysis: optimization (III)}
     We seek for the maxima $w^*$ of the following loss function, which represent the variance of the projections of $x$ onto the new basis $u$:
     \begin{align}
-      L(w) := \langle (\frac{x^Tw}{\vert\vert w \vert\vert})^2 \rangle = \langle (x^Tu)^2 \rangle = u^T \langle xx^T \rangle = u^T \mathbf{C} u,
+      L(w) := \langle (\frac{x^Tw}{\vert\vert w \vert\vert})^2 \rangle = \langle (x^Tu)^2 \rangle = u^T \langle xx^T \rangle u = u^T \mathbf{C} u,
     \end{align}
     with
     \begin{align}
@@ -870,7 +869,7 @@ are those whose actual count is very different from the expected count.
     \end{align}
     because of the fact that
     \begin{align}
-      \langle (x^Tw)^2 \rangle = \langle (x^Tw)(x^Tw) \rangle = w^T\langle xx^T \rangle w = w^T \mathbf{C}w,
+      \langle (x^Tu)^2 \rangle = \langle (x^Tu)(x^Tu) \rangle = u^T\langle xx^T \rangle u = u^T \mathbf{C}u,
     \end{align}
     and it holds that
     \begin{align}
@@ -885,11 +884,11 @@ are those whose actual count is very different from the expected count.
     Extreme values of $L(w)$ correspond to the solution of the following equations:
     \begin{align}
     \nabla_w L(w) &= 0,\\
-    \frac{\mathbf{C}w \vert\vert w \vert\vert^2 - (w \mathbf{C} w)w}{\vert\vert w \vert\vert^4} &= 0.
+    \frac{\mathbf{C}w \vert\vert w \vert\vert^2 - (w^T \mathbf{C} w)w}{\vert\vert w \vert\vert^4} &= 0.
     \end{align}
     This yields the following eigenvalue problem:
     \begin{align}
-      \mathbf{C}w = \frac{w\mathbf{C}w}{\vert\vert w \vert\vert^2} \cdot w = L(w) \cdot w = \lambda \cdot w.
+      \mathbf{C}w = \frac{w^T\mathbf{C}w}{\vert\vert w \vert\vert^2} \cdot w = L(w) \cdot w = \lambda \cdot w.
     \end{align}
     The above equation yields the eigenvalue problem, which solution is given by
     \begin{align}
@@ -929,7 +928,7 @@ are those whose actual count is very different from the expected count.
       \begin{align}
         x^Tu_i, \; i = 1, 2, \ldots, m.
       \end{align}
-      \item The $k$th component $x^Tu_k$ is along the direction of the eigenvector $u_k$ pointet to the $k$th biggest eigenvalue $\lambda_k$ of the covariance matrix:
+      \item The $k$th component $x^Tu_k$ is along the direction of the eigenvector $u_k$ pointed to the $k$th biggest eigenvalue $\lambda_k$ of the covariance matrix: % Satz macht keinen sinn: skalarer Wert zeigt in richtung eigenvektor auf eigenwert???
       \begin{align}
         \text{Cov}(x) = \langle (x-\mu) (x-\mu)^T \rangle, \; \text{with} \; \mu = \langle x \rangle.
       \end{align}
@@ -1022,7 +1021,6 @@ are those whose actual count is very different from the expected count.
         \begin{itemize}
           \item Domain-specific.
         \end{itemize}
-      \end{itemize}
       \item Mapping data to new space (see: data reduction).
       \begin{itemize}
         \item E.g. Fourier transformation, wavelet transformation, manifold approaches (not covered).
@@ -1032,6 +1030,7 @@ are those whose actual count is very different from the expected count.
         \item Combining features (see: discriminative frequent patterns in Chapter 5).
         \item Data discretization.
       \end{itemize}
+     \end{itemize}
     \end{itemize}
     \end{frame}
   }
@@ -1048,7 +1047,7 @@ are those whose actual count is very different from the expected count.
         \item Store only the parameters.
         \item Discard the data (except possible outliers):
         \begin{itemize}
-          \item Ex. log-linear models-obtain value at a point in $m$-dimensional space as the product of appropriate marginal subspaces .
+          \item Ex. log-linear models obtain value at a point in $m$-dimensional space as the product of appropriate marginal subspaces.
         \end{itemize}
       \end{itemize}
       \item \textbf{{\color{airforceblue}Non-parametric} methods:}
@@ -1146,7 +1145,7 @@ are those whose actual count is very different from the expected count.
     \setbeamertemplate{footline}[frame number]
     \begin{frame}{Histogram analysis}
     \begin{itemize}
-      \item \textbf{Divide data into buckets and store average (sum) or each bucket.}
+      \item \textbf{Divide data into buckets and store average (sum) of each bucket.}
       \item \textbf{Partitioning rules:}
       \begin{itemize}
         \item Equal-width: equal bucket range.
@@ -1311,13 +1310,13 @@ are those whose actual count is very different from the expected count.
         \begin{align}
           a_{\text{new}} = \frac{a - \text{min}_A}{\text{max}_A-\min_{A}} (\max - \min) + \min.
         \end{align}
-        Example: let income range from $\$12.000$ to $\$98.000$ normalized to $[0,1]$.\\
-        Then $\$73.600$ is mapped to $\frac{73.600-12.000}{98.000-12.000} (1-0) + 0 = 0.716$.
+        Example: let income range from $\$12,000$ to $\$98,000$ normalized to $[0,1]$.\\
+        Then $\$73,600$ is mapped to $\frac{73,600-12,000}{98,000-12,000} (1-0) + 0 = 0.716$.
         \item \textbf{Z-score normalization:}
         \begin{align}
           x_{\text{new}} := z = \frac{a-\mu_{A}}{\sigma_A}, \; \text{with $\mu$ being the mean and $\sigma$ the standard deviation.}
         \end{align}
-        Example: let $\mu = 54.000$ and $\sigma = 16.000$. Then $\frac{73.000-54.000}{16.000} = 1.225$.
+        Example: let $\mu = 54,000$ and $\sigma = 16,000$. Then $\frac{73,000-54,000}{16,000} = 1.188$.
         \item \textbf{Normalization by decimal scaling:}
         \begin{align}
         a_{\text{new}} = \frac{a}{10^k}, \; \text{where $k$ is the smallest integer such that} \; \max(\vert a_{\text{new}} \vert) < 1.
@@ -1372,7 +1371,7 @@ are those whose actual count is very different from the expected count.
               \begin{itemize}
                 \item Supervised, top-down split.
               \end{itemize}
-        \item \textbf{Correlation (e.g., $\chi^2$) analysis:}
+        \item \textbf{Correlation (e.g. $\chi^2$) analysis:}
               \begin{itemize}
                 \item Unsupervised, bottom-up merge.
               \end{itemize}
@@ -1394,7 +1393,7 @@ are those whose actual count is very different from the expected count.
       \end{itemize}
       \item \textbf{Equal-depth (frequency) partitioning:}
       \begin{itemize}
-        \item Divides the range into $N$ intervals, each containing approximately same number of samples.
+        \item Divides the range into $N$ intervals, each containing approximately the same number of samples.
         \item Good data scaling.
         \item Managing categorical attributes can be tricky.
       \end{itemize}
@@ -1528,7 +1527,7 @@ are those whose actual count is very different from the expected count.
             \end{itemize}
             \item Example:
             \begin{align}
-            \#(\text{streets} &= 674.339 > \#(\text{city}) =  3567,\\
+            \#(\text{streets}) &= 674.339 > \#(\text{city}) =  3567,\\
             \#(\text{city}) &=  3567 > \#(\text{province or state}) =  356,\\
             \#(\text{province or state}) &=  356 > \#(\text{country}) = 15.
             \end{align}
@@ -1560,7 +1559,7 @@ are those whose actual count is very different from the expected count.
       \begin{itemize}
         \item \textbf{Data quality:} Accuracy, completeness, consistency, timeliness, believability, interpretability.
         \item \textbf{Data cleaning:} E.g. missing/noisy values, outliers.
-        \item \textbf{Data integraiom from multiple sources:}
+        \item \textbf{Data integration from multiple sources:}
         \begin{itemize}
           \item Entity identification problem.
           \item Remove redundancies.
@@ -1583,14 +1582,14 @@ are those whose actual count is very different from the expected count.
 
 
   {
-    \setbeamertemplate{footline}[frame number]
+    \setbeamertemplate{footline}[frame number] 
     \begin{frame}{References (I)}
       \begin{itemize}
         \item D. P. Ballou and G. K. Tayi: Enhancing data quality in data warehouse environments. Comm. of ACM, 42:73-78, 1999.
-        \item A. Bruce, D. Donoho, and H.-Y. Gao: Wavelet analysis. IEEE Spectrum, Oct. 1996.
+        \item A. Bruce, D. Donoho and H.-Y. Gao: Wavelet analysis. IEEE Spectrum, Oct. 1996.
         \item {\color{airforceblue}T. Dasu and T. Johnson:  Exploratory Data Mining and Data Cleaning. John Wiley, 2003.}
         \item J. Devore and R. Peck: Statistics: The Exploration and Analysis of Data. Duxbury Press, 1997.
-        \item H. Galhardas, D. Florescu, D. Shasha, E. Simon, and C.-A. Saita: Declarative data cleaning: Language, model, and algorithms. VLDB'01.
+        \item H. Galhardas, D. Florescu, D. Shasha, E. Simon and C.-A. Saita: Declarative data cleaning: Language, model, and algorithms. VLDB'01.
         \item M. Hua and J. Pei: Cleaning disguised missing data: A heuristic approach. KDD'07.
         \item {\color{airforceblue}H. V. Jagadish et al.: Special Issue on Data Reduction Techniques.  Bulletin of the Technical Committee on Data Engineering, 20(4), Dec. 1997.}
       \end{itemize}
@@ -1607,7 +1606,7 @@ are those whose actual count is very different from the expected count.
         \item D. Pyle: Data Preparation for Data Mining. Morgan Kaufmann, 1999.
         \item {\color{airforceblue}V. Raman and J. Hellerstein: Potter's Wheel: An Interactive Framework for Data Cleaning and Transformation, VLDB'01.}
         \item T. Redman: Data Quality: The Field Guide. Digital Press (Elsevier), 2001.
-        \item R. Wang, V. Storey, and C. Firth: A framework for analysis of data quality research. IEEE Trans. Knowledge and Data Engineering, 7:623-640, 1995.
+        \item R. Wang, V. Storey and C. Firth: A framework for analysis of data quality research. IEEE Trans. Knowledge and Data Engineering, 7:623-640, 1995.
       \end{itemize}
     \end{frame}
   }
