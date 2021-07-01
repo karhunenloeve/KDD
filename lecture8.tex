@@ -1,0 +1,3019 @@
+\ifx\pdfminorversion\undefined\else\pdfminorversion=4\fi
+\documentclass[aspectratio=169,t,xcolor=dvipsnames]{beamer}
+%\documentclass[aspectratio=169,t,handout]{beamer}
+
+% English version FAU Logo
+\usepackage[english]{babel}
+% German version FAU Logo
+%\usepackage[ngerman]{babel}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{fontawesome}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{makecell}
+\usepackage{tikz}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{verbatim}
+\usepackage{pgfplots,pgfplotstable,pgf-pie}
+\usepackage{filecontents}
+\newcommand{\plots}{0.611201}
+\newcommand{\plotm}{2.19882}
+\pgfplotsset{height=4cm,width=8cm,compat=1.16}
+\pgfmathdeclarefunction{gauss}{2}{%
+  \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
+}
+
+\tikzset{
+    vertex/.style = {
+        circle,
+        fill            = black,
+        outer sep = 2pt,
+        inner sep = 1pt,
+    }
+}
+
+\tikzset{
+    mynode/.style={
+        draw,
+        thick,
+        anchor=south west,
+        minimum width=2cm,
+        minimum height=1.3cm,
+        align=center,
+        inner sep=0.2cm,
+        outer sep=0,
+        rectangle split,
+        rectangle split parts=2,
+        rectangle split draw splits=false},
+    reverseclip/.style={
+        insert path={(current page.north east) --
+            (current page.south east) --
+            (current page.south west) --
+            (current page.north west) --
+            (current page.north east)}
+    }
+}
+
+\tikzset{basic/.style={
+        draw,
+        rectangle split,
+        rectangle split parts=2,
+        rectangle split part fill={blue!20,white},
+        minimum width=2.5cm,
+        text width=2cm,
+        align=left,
+        font=\itshape
+    },
+    Diamond/.style={ diamond,
+                      draw,
+                      shape aspect=2,
+                      inner sep = 2pt,
+                      text centered,
+                      fill=blue!10!white,
+                      font=\itshape
+                    }}
+
+
+\tikzset{level 1/.append style={sibling angle=50,level distance = 165mm}}
+\tikzset{level 2/.append style={sibling angle=20,level distance = 45mm}}
+\tikzset{every node/.append style={scale=1}}
+
+\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,fit,positioning,shapes.symbols,chains,intersections,snakes,positioning,matrix,mindmap,shapes.multipart,shapes,calc,shapes.geometric}
+
+% read in data file
+
+\newcommand{\MaxNumberX}{3}
+\newcommand{\MaxNumberY}{5}
+\newcommand{\tikzmark}[1]{\tikz[remember picture] \node[coordinate] (#1) {#1};}
+
+\pgfplotstableread{data/iris.dat}\iris
+\pgfplotstablegetrowsof{\iris}
+\pgfplotsset{compat=1.14}
+\pgfmathsetmacro\NumRows{\pgfplotsretval-1}
+\definecolor{airforceblue}{rgb}{0.36, 0.54, 0.66}
+
+\usepgfplotslibrary{groupplots}
+% Options:
+%  - inst:      Institute
+%                 med:      MedFak FAU theme
+%                 nat:      NatFak FAU theme
+%                 phil:     PhilFak FAU theme
+%                 rw:       RWFak FAU theme
+%                 rw-jura:  RWFak FB Jura FAU theme
+%                 rw-wiso:  RWFak FB WISO FAU theme
+%                 tf:       TechFak FAU theme
+%  - image:     Cover image on title page
+%  - plain:     Plain title page
+%  - longtitle: Title page layout for long title
+\usetheme[%
+  image,%
+  longtitle,%
+  tf
+]{fau}
+
+% Enable semi-transparent animation preview
+\setbeamercovered{transparent}
+
+\lstset{%
+  language=Python,
+  tabsize=2,
+  basicstyle=\tt,
+  keywordstyle=\color{blue},
+  commentstyle=\color{green!50!black},
+  stringstyle=\color{red},
+  numbers=left,
+  numbersep=0.5em,
+  xleftmargin=1em,
+  numberstyle=\tt
+}
+
+% Title, authors, and date
+\title[KDD]{Chapter VII: Cluster analysis}
+\subtitle{Knowledge Discovery in Databases}
+\author[L.~Melodia]{Luciano Melodia M.A.}
+% English version
+\institute[Department]{Evolutionary Data Management, Friedrich-Alexander University Erlangen-Nürnberg}
+% German version
+%\institute[Lehrstuhl]{Lehrstuhl, Friedrich-Alexander-Universit\"at Erlangen-N\"urnberg}
+\date{Summer semester 2021}
+% Set additional logo (overwrites FAU seal)
+%\logo{\includegraphics[width=.15\textwidth]{themefau/art/xxx/xxx.pdf}}
+\begin{document}
+  % Title
+  \maketitle
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Chapter VII: Cluster analysis}
+        \begin{itemize}
+            \item \textbf{Cluster analysis: basic concepts.}
+            \item Partitioning methods.
+            \item Hierarchical methods.
+            \item Density-based methods.
+            \item Grid-based methods.
+            \item Evaluation of clustering.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{What is Cluster Analysis?}
+        \begin{itemize}
+          \item \textbf{{\color{airforceblue}Cluster}: A collection of data objects within a larger set that are.}
+          \begin{itemize}
+            \item {\color{airforceblue}Similar (or related)} to one another within the same group and,
+            \item dissimilar (or unrelated) to the objects outside the group.
+          \end{itemize}
+          \item \textbf{{\color{airforceblue}Cluster analysis} (or clustering, data segmentation, $\ldots$).}
+          \begin{itemize}
+            \item {\color{airforceblue}Define similarities} among data based on the characteristics found in the data (input from user!).
+            \item Group similar data objects into clusters.
+          \end{itemize}
+          \item \textbf{Unsupervised learning:}
+          \begin{itemize}
+            \item No predefined classes.
+            \item I.e., learning by observation (vs. learning by examples: supervised).
+          \end{itemize}
+          \item \textbf{Typical applications:}
+          \begin{itemize}
+            \item As a stand-alone tool to get insight into data distribution.
+            \item As a preprocessing step for other algorithms.
+          \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Clustering for Data Understanding and Applications}
+        \begin{itemize}
+          \item \textbf{Biology:}
+          \begin{itemize}
+            \item Taxonomy of living things: kingdom, phylum, class, order, family, genus, and species.
+          \end{itemize}
+          \item \textbf{Information retrieval:}
+          \begin{itemize}
+            \item Document clustering.
+          \end{itemize}
+          \item \textbf{Land use:}
+          \begin{itemize}
+            \item Identification of areas of similar land use in an earth-observation database.
+          \end{itemize}
+          \item \textbf{Marketing:}
+          \begin{itemize}
+            \item Help marketers discover distinct groups in their customer bases, and then use this knowledge to develop targeted marketing programs.
+          \end{itemize}
+          \item \textbf{City planning:}
+          \begin{itemize}
+            \item Identifying groups of houses according to their house type, value, and geographical location.
+          \end{itemize}
+          \item \textbf{Earthquake studies:}
+          \begin{itemize}
+            \item Observed earthquake epicenters should be clustered along continent faults.
+          \end{itemize}
+          \item \textbf{Climate:}
+          \begin{itemize}
+            \item Understanding earth climate, find patterns of atmosphere and ocean.
+          \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Quality: What is Good Clustering?}
+        \begin{itemize}
+          \item \textbf{A good clustering method will produce high-quality clusters.}
+          \begin{itemize}
+            \item \textbf{\color{airforceblue}High intra-class similarity:}
+            \begin{itemize}
+              \item Cohesive within clusters.
+            \end{itemize}
+            \item \textbf{\color{airforceblue}Low inter-class similarity:}
+            \begin{itemize}
+              \item Distinctive between clusters.
+            \end{itemize}
+          \end{itemize}
+          \item \textbf{The {\color{airforceblue}quality} of a clustering method depends on:}
+          \begin{itemize}
+            \item the \textbf{\color{airforceblue}similarity measure} used by the method,
+            \item its implementation, and
+            \item its ability to discover some or all of the hidden patterns.
+          \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Measure the Quality of Clustering}
+        \begin{itemize}
+          \item \textbf{Dissimilarity/similarity metric:}
+          \begin{itemize}
+            \item Similarity is expressed in terms of a distance function, typically a metric: $d(x,y)$.
+            \item The definitions of distance functions are usually rather different for interval-scaled, Boolean, categorical, ordinal, ratio, and vector variables (see chapter 2).
+            \item \textbf{\color{airforceblue}Weights} should be associated with different variables \\
+                  based on applications and data semantics.
+          \end{itemize}
+          \item \textbf{Quality of clustering:}
+          \begin{itemize}
+            \item There is usually a separate \textbf{\color{airforceblue}"quality" function} that measures the "goodness" of a cluster.
+            \item It is hard to define "similar enough" or "good enough."
+            \item The answer is typically highly subjective.
+          \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Considerations for Cluster Analysis}
+        \begin{itemize}
+          \item \textbf{Partitioning criteria:}
+          \begin{itemize}
+            \item Single level vs. hierarchical partitioning.
+            \item Often, multi-level hierarchical partitioning is desirable.
+          \end{itemize}
+          \item \textbf{Separation of clusters:}
+          \begin{itemize}
+            \item Exclusive (e.g., one customer belongs to only one region) vs.
+            \item Non-exclusive (e.g., one document may belong to more than one class).
+          \end{itemize}
+          \item \textbf{Similarity measure:}
+          \begin{itemize}
+            \item Distance-based (e.g., Euclidian, road network, vector) vs.
+            \item Connectivity-based (e.g., density or contiguity).
+          \end{itemize}
+          \item \textbf{Clustering space:}
+          \begin{itemize}
+            \item Full space (often when low-dimensional) vs.
+            \item Subspaces (often in high-dimensional clustering).
+          \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Requirements and Challenges}
+        \begin{itemize}
+          \item \textbf{Scalability:}
+          \begin{itemize}
+            \item Clustering all the data instead of only the samples.
+          \end{itemize}
+          \item \textbf{Ability to deal with different types of attributes:}
+          \begin{itemize}
+            \item Numerical, binary, categorical, ordinal, linked, and mixture of these.
+          \end{itemize}
+          \item \textbf{Constraint-based clustering:}
+          \begin{itemize}
+            \item User may give inputs on constraints.
+            \item Use domain knowledge to determine input parameters.
+          \end{itemize}
+          \item \textbf{Interpretability and usability.}
+          \item \textbf{Others:}
+          \begin{itemize}
+            \item Discovery of clusters with arbitrary shape.
+            \item Ability to deal with noisy data.
+            \item Incremental clustering and insensitivity to input order.
+            \item High dimensionality.
+          \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Major Clustering Approaches}
+        \begin{itemize}
+          \item \textbf{Partitioning approach:}
+          \begin{itemize}
+            \item Construct various partitions and then evaluate them by some criterion.
+            \item E.g., minimizing the sum of square errors.
+            \item Typical methods: k-means, k-medoids, CLARA, CLARANS.
+          \end{itemize}
+          \item \textbf{Hierarchical approach:}
+          \begin{itemize}
+            \item Create a hierarchical decomposition of the set of data (or objects) using some criterion.
+            \item Typical methods: AGNES, DIANA, BIRCH, CHAMELEON.
+          \end{itemize}
+          \item \textbf{Density-based approach:}
+          \begin{itemize}
+            \item Based on connectivity and density functions.
+            \item Typical methods: DBSCAN, OPTICS, DENCLUE.
+          \end{itemize}
+          \item \textbf{Grid-based approach:}
+          \begin{itemize}
+            \item Based on a multiple-level granularity structure.
+            \item Typical methods: STING, WaveCluster, CLIQUE.
+          \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Major Clustering Approaches (II)}
+        \begin{itemize}
+          \item \textbf{Model-based approach:}
+          \begin{itemize}
+            \item A model is hypothesized for each of the clusters and tries to find the best fit of that model to each other.
+            \item Typical methods: EM, SOM, COBWEB.
+          \end{itemize}
+          \item \textbf{Frequent-pattern-based approach:}
+          \begin{itemize}
+            \item Based on the analysis of frequent patterns.
+            \item Typical methods: p-Cluster.
+          \end{itemize}
+          \item \textbf{User-guided or constraint-based approach:}
+          \begin{itemize}
+            \item Clustering by considering user-specified or application-specific constraints.
+            \item Typical methods: COD (obstacles), constrained clustering.
+          \end{itemize}
+          \item \textbf{Link-based clustering:}
+          \begin{itemize}
+            \item Objects are often linked together in various ways.
+            \item Massive links can be used to cluster objects: SimRank, LinkClus.
+          \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Chapter VII: Cluster Analysis}
+        \begin{itemize}
+            \item Cluster analysis: basic concepts.
+            \item \textbf{Partitioning methods.}
+            \item Hierarchical methods.
+            \item Density-based methods.
+            \item Grid-based methods.
+            \item Evaluation of clustering.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Partitioning Algorithms: Basic Concept}
+        \begin{itemize}
+          \item \textbf{Partitioning method:}
+          \begin{itemize}
+            \item Partition a database $D$ of $n$ objects $o_j, j \in \{1, \ldots, n\}$ into a set of $k$-clusters $C_i$, $1 \leq i \leq k$ such that the sum of squared distances to $c_i$ is minimized \\ (where $c_i$ is the \textbf{\color{airforceblue}centroid} or \textbf{\color{airforceblue}medoid} of cluster $C_i$):
+            \begin{align}
+              \min \sum_{i=1}^{k} \sum_{o \in C_i} d(o,c_i)^2.
+            \end{align}
+          \end{itemize}
+          \item \textbf{Given $k$, find a partition of $k$ clusters that optimizes the chosen partitioning criterion.}
+          \begin{itemize}
+            \item Globally optimal: exhaustively enumerate all partitions.
+            \item Heuristic methods: k-means and k-medoids algorithms.
+            \item \textbf{\color{airforceblue}k-means} (MacQueen'67, Lloyd'57/'82):
+            \begin{itemize}
+              \item Each cluster is represented by the center of the cluster.
+            \end{itemize}
+            \item \textbf{\color{airforceblue}k-medoids} or PAM (Partition around medoids) (Kaufman \& Rousseeuw'87):
+            \begin{itemize}
+              \item Each cluster is represented by one of the objects in the cluster.
+            \end{itemize}
+          \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{The $k$-means Clustering Method}
+        \begin{itemize}
+          \item \textbf{Given $k$, the $k$-means algorithm is implemented in four steps:}
+          \begin{itemize}
+            \item[1.] Partition the database into $k$ non-empty subsets.
+            \begin{itemize}
+              \item E.g. the first $\frac{n}{k}$ objects, then the next $\frac{n}{k}$ objects, $\ldots$
+            \end{itemize}
+            \item[2.] Compute the centroids of the \textbf{clusters} of the current partitioning.
+            \begin{itemize}
+              \item The centroid is the center, i.e. mean point, of the cluster.
+              \item For each attribute (or dimension), calculate the average value.
+            \end{itemize}
+            \item[3.] Assign each object to the cluster with the nearest centroid.
+            \begin{itemize}
+              \item That is, for each object calculate distance to each of the $k$\\
+              centroids and pick the one with the smallest distance.
+            \end{itemize}
+          \item[4.] If any object has changed its cluster, go back to step 2. Otherwise stop.
+          \end{itemize}
+          \item \textbf{Variant:}
+          \begin{itemize}
+            \item Start with arbitrarily chosen $k$ objects as initial centroids in step $1$.
+            \item Continue with step $3$.
+          \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{An Example of $k$-means Clustering}
+      \begin{tikzpicture}
+        \node [black] at (3,2.5) {\Large\textbullet};
+        \node [black] at (4,3.5) {\Large\textbullet};
+        \node [black] at (2,2.5) {\Large\textbullet};
+        \node [black] at (2.5,3) {\Large\textbullet};
+        \node [black] at (3,1) {\Large\textbullet};
+        \node [black] at (3,1.2) {\Large\textbullet};
+        \node [black] at (1,1) {\Large\textbullet};
+        \node [black] at (1.5,1.5) {\Large\textbullet};
+        \node [black] at (2,2) {\Large\textbullet};
+        \node [black] at (2.5,2.5) {\Large\textbullet};
+        \node [black] at (3,3) {\Large\textbullet};
+        \node [black] at (3.5,3.5) {\Large\textbullet};
+        \node [black] at (4,3.5) {\Large\textbullet};
+        \node [black] at (4,2.3) {\Large\textbullet};
+        \node [black] at (4,2.5) {\Large\textbullet};
+        \node [black] at (2.5,3) {\Large\textbullet};
+        \node [black] at (2.7,0.5) {The initial data set.};
+
+        \node [black] at (7,1) {\Large\textbullet};
+        \node [black] at (7.5,1.5) {\Large\textbullet};
+        \node [black] at (8,2) {\Large\textbullet};
+        \node [red] at (8,2.5) {\Large\textbullet};
+        \node [red] at (8.5,2.5) {\Large\textbullet};
+        \node [black] at (9,1) {\Large\textbullet};
+        \node [black] at (9,1.2) {\Large\textbullet};
+        \node [red] at (9,2.5) {\Large\textbullet};
+        \node [red] at (9,3) {\Large\textbullet};
+        \node [red] at (9.5,3.5) {\Large\textbullet};
+        \node [red] at (10,3.5) {\Large\textbullet};
+        \node [red] at (10,3.5) {\Large\textbullet};
+        \node [black] at (10,2.3) {\Large\textbullet};
+        \node [red] at (10,2.5) {\Large\textbullet};
+
+        \node [black] at (12,1) {\Large\textbullet};
+        \node [black] at (12.5,1.5) {\Large\textbullet};
+        \node [black] at (13,2) {\Large\textbullet};
+        \node [red] at (13,2.5) {\Large\textbullet};
+        \node [red] at (13.5,2.5) {\Large\textbullet};
+        \node [black] at (14,1) {\Large\textbullet};
+        \node [black] at (14,1.2) {\Large\textbullet};
+        \node [red] at (14,2.5) {\Large\textbullet};
+        \node [red] at (14,3) {\Large\textbullet};
+        \node [red] at (14.5,3.5) {\Large\textbullet};
+        \node [red] at (15,3.5) {\Large\textbullet};
+        \node [red] at (15,3.5) {\Large\textbullet};
+        \node [black] at (15,2.3) {\Large\textbullet};
+        \node [red] at (15,2.5) {\Large\textbullet};
+        \node [orange] at (14.25,3.25) {\Huge\textbullet};
+        \node [blue] at (13.41,1.5) {\Huge\textbullet};
+
+        \node [black] at (12,-2.5) {\Large\textbullet};
+        \node [black] at (12.5,-2) {\Large\textbullet};
+        \node [black] at (13,-1.5) {\Large\textbullet};
+        \node [red] at (13,-1) {\Large\textbullet};
+        \node [red] at (13.5,-1) {\Large\textbullet};
+        \draw[green] (13,-1) circle (0.2cm);
+        \draw[green] (13.5,-1) circle (0.2cm);
+        \node [black] at (14,-2.5) {\Large\textbullet};
+        \node [black] at (14,-2.3) {\Large\textbullet};
+        \node [red] at (14,-1) {\Large\textbullet};
+        \node [red] at (14,-0.5) {\Large\textbullet};
+        \node [red] at (14.5,0) {\Large\textbullet};
+        \node [red] at (15,0) {\Large\textbullet};
+        \node [red] at (15,0) {\Large\textbullet};
+        \node [black] at (15,-1.2) {\Large\textbullet};
+        \draw[green] (15,-1.2) circle (0.2cm);
+        \node [red] at (15,-1) {\Large\textbullet};
+        \node [orange] at (14.25,-0.25) {\Huge\textbullet};
+        \node [blue] at (13.41,-2) {\Huge\textbullet};
+
+        \node [black] at (7,-2.5) {\Large\textbullet};
+        \node [black] at (7.5,-2) {\Large\textbullet};
+        \node [black] at (8,-1.5) {\Large\textbullet};
+        \node [black] at (8,-1) {\Large\textbullet};
+        \node [black] at (8.5,-1) {\Large\textbullet};
+        \node [black] at (9,-2.5) {\Large\textbullet};
+        \node [black] at (9,-2.3) {\Large\textbullet};
+        \node [red] at (9,-1) {\Large\textbullet};
+        \node [red] at (9,-0.5) {\Large\textbullet};
+        \node [red] at (9.5,0) {\Large\textbullet};
+        \node [red] at (10,0) {\Large\textbullet};
+        \node [red] at (10,0) {\Large\textbullet};
+        \node [red] at (10,-1.2) {\Large\textbullet};
+        \node [red] at (10,-1) {\Large\textbullet};
+        \node [orange] at (9.75,-0.53) {\Huge\textbullet};
+        \node [blue] at (8.14,-1.68) {\Huge\textbullet};
+
+        \draw [->] (13.41,1) -- (13.41,-0.5);
+        \node [black] at (14.7,0.5) {Reassign objects.};
+
+        \draw [->] (5,2) -- (6.5,2);
+        \node [black] at (5.8,3) {Arbitrarily partition};
+        \node [black] at (5.8,2.7) {objects into};
+        \node [black] at (5.8,2.4) {$k$ groups.};
+        \node [black] at (5.8,1.6) {Here $k = 2$.};
+
+        \draw [->] (10.5,2) -- (12,2);
+        \node [black] at (11.3,3) {Calculate};
+        \node [black] at (11.3,2.7) {the cluster};
+        \node [black] at (11.3,2.4) {centroids.};
+
+        \draw [->]  (12,-0.5) -- (10.5,-0.5);
+        \draw [->]  (10.5,0)--(11.7,0.8);
+        \node [black] at (9.5,0.5) {Loop if needed.};
+        \node [black] at (11.3,-1) {Update};
+        \node [black] at (11.3,-1.3) {the cluster};
+        \node [black] at (11.3,-1.6) {centroids.};
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Comments on the $k$-means Method}
+      \begin{itemize}
+        \item \textbf{Strength:}
+        \begin{itemize}
+          \item Efficient: $\mathcal{O}(tkn)$, where $n$ is $\#$ objects, $k$ is $\#$ of clusters, and $t$ is the $\#$ of iterations. Normally, $k$, $t \ll n$.
+          \item Comparing: PAM: $\mathcal{O}(k(n-k)^2)$, CLARA: $\mathcal{O}(ks^2 + k(n-k))$.
+          \item Comment: Often terminates at a local optimum.
+        \end{itemize}
+        \item \textbf{Weakness:}
+        \begin{itemize}
+          \item Applicable only to objects in a continuous n-dimensional space.
+          \begin{itemize}
+            \item Using the $k$-modes method for categorical data.
+            \item In comparison, $k$-medoids can be applied to a wide range of data.
+          \end{itemize}
+          \item Need to specify $k$, the number of clusters, in advance.
+          \begin{itemize}
+            \item There are ways to automatically determine the best $k$ (see Hastie et al., 2009).
+          \end{itemize}
+          \item Sensitive to noisy data and outliers.
+          \item Not suitable to discover clusters with non-convex shapes.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Variations of the $k$-means Method}
+      \begin{itemize}
+        \item \textbf{Most of the variants of the $k$-means differ in:}
+        \begin{itemize}
+          \item Selection of the initial $k$ subsets (or centroids).
+          \item Dissimilarity calculations.
+          \item Strategies to calculate cluster centroids.
+        \end{itemize}
+        \item \textbf{Handling categorical data: $k$-modes:}
+        \begin{itemize}
+          \item Replacing centroids with modes.
+          \begin{itemize}
+            \item See Chapter 2: mode = value that occurs most frequently in the data.
+          \end{itemize}
+          \item Using new dissimilarity measures to deal with categorical objects.
+          \item Using a frequency-based method to update modes of clusters.
+          \item A mixture of categorical and numerical data: k-prototype method.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{What is the Problem of the $k$-means Method?}
+      \begin{itemize}
+        \item \textbf{The $k$-means algorithm is {\color{airforceblue}sensitive to outliers}!}
+        \begin{itemize}
+          \item Since an object with an extremely large value may substantially \\
+          distort the distribution of the data.
+        \end{itemize}
+        \item \textbf{$k$-medoids:}
+        \begin{itemize}
+          \item Instead of taking the mean value of the objects in a cluster as a reference point,\\
+          medoids can be used, which is the most centrally located object in a cluster.
+        \end{itemize}
+      \end{itemize}
+      \centering
+      \newcommand*{\xMin}{0}%
+      \newcommand*{\xMax}{10}%
+      \newcommand*{\yMin}{0}%
+      \newcommand*{\yMax}{10}%
+      \begin{tikzpicture}[scale=0.3]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (4,3) {\Huge\textbullet};
+          \node[color=orange] at (3,6) {\Huge\textbullet};
+          \node[color=orange] at (3,8) {\Huge\textbullet};
+          \node[color=orange] at (4,7) {\Huge\textbullet};
+          \node[color=orange] at (4,5) {\Huge\textbullet};
+          \node[color=orange] at (5,5) {\Huge\textbullet};
+          \node[color=blue] at (5,1) {\Huge\textbullet};
+          \node[color=blue] at (7,3) {\Huge\textbullet};
+          \node[color=blue] at (7,4) {\Huge\textbullet};
+          \node[color=blue] at (8,5) {\Huge\textbullet};
+          \draw[->] (12,5)--(17,5);
+      \end{tikzpicture}
+      \begin{tikzpicture}[scale=0.3]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (4,3) {\Large\textbullet};
+          \node[color=red] at (3,6) {\Huge\textbullet};
+          \node[color=orange] at (3,8) {\Large\textbullet};
+          \node[color=orange] at (4,7) {\Large\textbullet};
+          \node[color=orange] at (4,5) {\Large\textbullet};
+          \node[color=orange] at (5,5) {\Large\textbullet};
+          \node[color=blue] at (5,1) {\Large\textbullet};
+          \node[color=blue] at (7,3) {\Huge\textbullet};
+          \node[color=blue] at (7,4) {\Large\textbullet};
+          \node[color=blue] at (8,5) {\Large\textbullet};
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{The $k$-medoids Clustering Method}
+      \begin{itemize}
+        \item \textbf{$k$-medoids clustering:}
+        \begin{itemize}
+          \item Find representative objects (medoids) in clusters.
+          \item \textbf{PAM} (Partitioning Around Medoids, Kaufmann \& Rousseeuw, 1987):
+            \begin{itemize}
+              \item Starts from an initial set of $k$ medoids and iteratively replaces one of the medoids \\
+              by one of the non-medoids, if it improves the total distance of the resulting clustering.
+              \item PAM works effectively for small data sets, but does not scale well for large\\
+              data sets (due to the computational complexity).
+            \end{itemize}
+            \end{itemize}
+        \item \textbf{Efficiency improvement on PAM:}
+        \begin{itemize}
+          \item CLARA (Kaufmann \& Rousseeuw, 1990): PAM on samples.
+          \item CLARANS (Ng \& Han, 1994): Randomized re-sampling.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{PAM: A Typical $k$-medoids Algorithm}
+      \newcommand*{\xMin}{0}%
+      \newcommand*{\xMax}{10}%
+      \newcommand*{\yMin}{0}%
+      \newcommand*{\yMax}{10}%
+      \centering
+      \begin{tikzpicture}[scale=0.23]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (2,6) {\Large\textbullet};
+          \node[color=orange] at (3,4) {\Large\textbullet};
+          \node[color=orange] at (3,8) {\Large\textbullet};
+          \node[color=orange] at (4,7) {\Large\textbullet};
+          \node[color=orange] at (6,2) {\Large\textbullet};
+          \node[color=orange] at (6,3) {\Large\textbullet};
+          \node[color=orange] at (7,3) {\Large\textbullet};
+          \node[color=orange] at (7,4) {\Large\textbullet};
+          \node[color=orange] at (7,6) {\Large\textbullet};
+          \node[color=orange] at (8,5) {\Large\textbullet};
+          \draw[->] (12,3)--(17,3);
+          \node at (14,8) {\scriptsize Arbitrarily};
+          \node at (14,7) {\scriptsize choose $k$};
+          \node at (14,6) {\scriptsize object as};
+          \node at (14,5) {\scriptsize initial};
+          \node at (14,4) {\scriptsize medoids};
+          \node at (14,2) {\scriptsize for $k=2$};
+      \end{tikzpicture}
+      \begin{tikzpicture}[scale=0.23]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (2,6) {\Large\textbullet};
+          \node[color=orange] at (3,4) {\Large\textbullet};
+          \node[color=blue] at (3,8) {\Large\textbullet};
+          \node[color=orange] at (4,7) {\Large\textbullet};
+          \node[color=orange] at (6,2) {\Large\textbullet};
+          \node[color=blue] at (6,3) {\Large\textbullet};
+          \node[color=orange] at (7,3) {\Large\textbullet};
+          \node[color=orange] at (7,4) {\Large\textbullet};
+          \node[color=orange] at (7,6) {\Large\textbullet};
+          \node[color=orange] at (8,5) {\Large\textbullet};
+          \draw[->] (12,3)--(17,3);
+          \node at (14,8) {\scriptsize Assign};
+          \node at (14,7) {\scriptsize each};
+          \node at (14,6) {\scriptsize remaining};
+          \node at (14,5) {\scriptsize object to};
+          \node at (14,4) {\scriptsize nearest medoid};
+      \end{tikzpicture}
+      \begin{tikzpicture}[scale=0.23]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (2,6) {\Large\textbullet};
+          \node[color=orange] at (3,4) {\Large\textbullet};
+          \node[color=blue] at (3,8) {\Large\textbullet};
+          \node[color=orange] at (4,7) {\Large\textbullet};
+          \node[color=orange] at (6,2) {\Large\textbullet};
+          \node[color=blue] at (6,3) {\Large\textbullet};
+          \node[color=orange] at (7,3) {\Large\textbullet};
+          \node[color=orange] at (7,4) {\Large\textbullet};
+          \node[color=orange] at (7,6) {\Large\textbullet};
+          \node[color=orange] at (8,5) {\Large\textbullet};
+          \draw[dashed] (3,6) ellipse (2cm and 3cm);
+          \draw[dashed] (7,4) ellipse (2cm and 3cm);
+          \draw[->] (12,3) to [out=30,in=30] (12,-1);
+          \node at (7,11) {\scriptsize Total cost = 20};
+          \node at (15,8) {\scriptsize Randomly};
+          \node at (15,7) {\scriptsize select};
+          \node at (15,6) {\scriptsize nonmedoid};
+          \node at (15,5) {\scriptsize object $o_\text{random}$};
+      \end{tikzpicture}\\
+      \hspace{1.2cm}
+      \begin{tikzpicture}[scale=0.23]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (2,6) {\Large\textbullet};
+          \node[color=orange] at (3,4) {\Large\textbullet};
+          \node[color=blue] at (3,8) {\Large\textbullet};
+          \node[color=orange] at (4,7) {\Large\textbullet};
+          \node[color=red] at (6,2) {\Large\textbullet};
+          \node[color=blue] at (6,3) {\Large\textbullet};
+          \node[color=orange] at (7,3) {\Large\textbullet};
+          \node[color=green] at (7,4) {\Large\textbullet};
+          \node[color=orange] at (7,6) {\Large\textbullet};
+          \node[color=orange] at (8,5) {\Large\textbullet};
+          \draw[->] (17,5)--(12,5);
+          \draw[->] (12,6)--(17,10);
+          \node at (15,4) {\scriptsize Compute};
+          \node at (15,3) {\scriptsize total cost of};
+          \node at (15,2) {\scriptsize swapping};
+          \node at (-5,4) {\scriptsize Swapping $o$};
+          \node at (-5,3) {\scriptsize and $o_\text{random}$};
+          \node at (-5,2) {\scriptsize if quality is};
+          \node at (-5,1) {\scriptsize improved};
+          \node at (3.4,11) {\scriptsize Total cost = 26};
+      \end{tikzpicture}
+      \begin{tikzpicture}[scale=0.23]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (2,6) {\Large\textbullet};
+          \node[color=orange] at (3,4) {\Large\textbullet};
+          \node[color=blue] at (3,8) {\Large\textbullet};
+          \node[color=orange] at (4,7) {\Large\textbullet};
+          \node[color=red] at (6,2) {\Large\textbullet};
+          \node[color=blue] at (6,3) {\Large\textbullet};
+          \node[color=orange] at (7,3) {\Large\textbullet};
+          \node[color=orange] at (7,4) {\Large\textbullet};
+          \node[color=orange] at (7,6) {\Large\textbullet};
+          \node[color=orange] at (8,5) {\Large\textbullet};
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{PAM (Partitioning Around Medoids)}
+      \begin{itemize}
+        \item \textbf{Use real objects to represent the clusters.}
+        \item \textbf{Algorithm:}
+        \begin{itemize}
+          \item[1.] Arbitrarily choose $k$ objects as the initial mediods.
+          \item[2.] Repeat.
+          \item[3.] \hspace{0.2cm} Assign each remaining object to the cluster with the nearest mediod $o_i$.
+          \item[4.] \hspace{0.2cm} Randomly select a non-medoid object $o_h$.
+          \item[5.] \hspace{0.2cm} Compute the total cost $\text{TC}_{ih}$ of swapping $o_i$ with $o_h$.
+          \item[6.] \hspace{0.2cm} If $\text{TC}_{ih} < 0$ then swap $o_i$ with $o_h$ to form the new set of $k$ medoids.
+          \item[7.] Until no change.
+        \end{itemize}
+        \item $\text{TC}_{ih} = \sum\limits_{j}C_{jih}$
+        \begin{itemize}
+          \item with $C_{jih}$ as the cost for object $o_j$ if $o_i$ is swapped with $o_h$.
+          \item That is, distance to new medoid minus distance to old medoid.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{PAM Clustering (II)}
+      \begin{itemize}
+        \item \textbf{Case 1:}
+        \begin{itemize}
+          \item $o_j$ currently belongs to medoid $o_i$. If $o_i$ is replaced with $o_h$ as a medoid, and $o_j$ is closest to $o_h$, then $o_j$ is reassigned to $o_h$ (same cluster, different distance).
+          \begin{align}
+            C_{jih} = d(o_j,o_h) - d(o_j,o_i).
+          \end{align}
+        \end{itemize}
+      \end{itemize}
+      \newcommand*{\xMin}{0}%
+      \newcommand*{\xMax}{10}%
+      \newcommand*{\yMin}{0}%
+      \newcommand*{\yMax}{10}%
+      \centering
+      \begin{tikzpicture}[scale=0.3]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \draw[thick] (7,6)--(6,4);
+          \draw[thick] (7,6)--(7,4);
+          \node[color=orange] at (3,4) {\Huge\textbullet};
+          \node[color=orange] at (2,6) {\Huge\textbullet};
+          \node[color=blue] at (3,8) {\Huge\textbullet};
+          \node[color=orange] at (4,7) {\Huge\textbullet};
+          \node[color=orange] at (6,2) {\Huge\textbullet};
+          \node[color=blue] at (6,4) {\Huge\textbullet};
+          \node[color=orange] at (7,3) {\Huge\textbullet};
+          \node[color=orange] at (7,4) {\Huge\textbullet};
+          \node[color=orange] at (7,6) {\Huge\textbullet};
+          \node[color=orange] at (8,5) {\Huge\textbullet};
+          \node at (3,9) {$t$};
+          \node at (7,7) {$j$};
+          \node at (5.4,4.3) {$i$};
+          \node at (7.3,4.7) {$h$};
+          \draw[dashed] (3,6) ellipse (2cm and 3cm);
+          \draw[dashed] (7,4) ellipse (2cm and 3cm);
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{PAM Clustering (III)}
+      \begin{itemize}
+        \item \textbf{Case 2:}
+        \begin{itemize}
+          \item $o_j$ currently belongs to medoid $o_t$, $t \neq j$. If $o_i$ is replaced with $o_h$ as a medoid, and $o_j$ is still closest to $o_t$, then the assignment does not change.
+          \begin{align}
+            C_{jih} = d(o_j,o_h) - d(o_j,o_i) = 0.
+          \end{align}
+        \end{itemize}
+      \end{itemize}
+      \newcommand*{\xMin}{0}%
+      \newcommand*{\xMax}{10}%
+      \newcommand*{\yMin}{0}%
+      \newcommand*{\yMax}{10}%
+      \centering
+      \begin{tikzpicture}[scale=0.3]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          %\draw[thick] (7,6)--(6,4);
+          %\draw[thick] (7,6)--(7,4);
+          \node[color=orange] at (3,4) {\Huge\textbullet};
+          \node[color=orange] at (2,6) {\Huge\textbullet};
+          \node[color=blue] at (3,8) {\Huge\textbullet};
+          \node[color=orange] at (4,7) {\Huge\textbullet};
+          \node[color=orange] at (6,2) {\Huge\textbullet};
+          \node[color=blue] at (6,4) {\Huge\textbullet};
+          \node[color=orange] at (7,3) {\Huge\textbullet};
+          \node[color=orange] at (7,4) {\Huge\textbullet};
+          \node[color=orange] at (4,9) {\Huge\textbullet};
+          \node[color=orange] at (8,5) {\Huge\textbullet};
+          \node at (3,9) {$t$};
+          \node at (4,10) {$j$};
+          \node at (5.4,4.3) {$i$};
+          \node at (7.3,4.7) {$h$};
+          \draw[dashed] (3,7) ellipse (2cm and 4cm);
+          \draw[dashed] (7,4) ellipse (2cm and 3cm);
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{PAM Clustering (IV)}
+      \begin{itemize}
+        \item \textbf{Case 3:}
+        \begin{itemize}
+          \item $o_j$ currently belongs to medoid $o_i$. If $o_i$ is replaced with $o_h$ as a medoid, and $o_j$ is closest to medoid $o_t$ of one of the other clusters, then $o_j$ is reassigned to $o_t$ (new cluster, different distance).
+          \begin{align}
+            C_{jih} = d(o_j,o_t) - d(o_j,o_i).
+          \end{align}
+        \end{itemize}
+      \end{itemize}
+      \newcommand*{\xMin}{0}%
+      \newcommand*{\xMax}{10}%
+      \newcommand*{\yMin}{0}%
+      \newcommand*{\yMax}{10}%
+      \centering
+      \begin{tikzpicture}[scale=0.3]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \draw[thick] (5,6)--(3,8);
+          \draw[thick] (5,6)--(4,5);
+          \node[color=orange] at (2,6) {\Huge\textbullet};
+          \node[color=orange] at (3,6) {\Huge\textbullet};
+          \node[color=orange] at (5,6) {\Huge\textbullet};
+          \node[color=orange] at (3,8) {\Huge\textbullet};
+          \node[color=orange] at (3,4) {\Huge\textbullet};
+          \node[color=blue] at (4,5) {\Huge\textbullet};
+          \node[color=blue] at (7,4) {\Huge\textbullet};
+          \node[color=orange] at (7,3) {\Huge\textbullet};
+          \node[color=orange] at (7,2) {\Huge\textbullet};
+          \node[color=orange] at (8,5) {\Huge\textbullet};
+          \draw[dashed] (3.5,6) ellipse (2cm and 3cm);
+          \draw[dashed] (7,4) ellipse (2cm and 3cm);
+          \node at (2.3,8.7) {$h$};
+          \node at (5,7) {$j$};
+          \node at (3.5,5) {$i$};
+          \node at (6.2,4.3) {$t$};
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{PAM Clustering (V)}
+      \begin{itemize}
+        \item \textbf{Case 4:}
+        \begin{itemize}
+          \item $o_j$ currently belongs to medoid $o_t$, $t \neq j$. If $o_i$ is replaced with $o_h$ as a medoid (from a different cluster!), and $o_j$ is closest to $o_h$, then $o_j$ is reassigned to $o_h$ (new cluster, different distance).
+          \begin{align}
+            C_{jih} = d(o_j,o_t) - d(o_j,o_i).
+          \end{align}
+        \end{itemize}
+      \end{itemize}
+      \newcommand*{\xMin}{0}%
+      \newcommand*{\xMax}{10}%
+      \newcommand*{\yMin}{0}%
+      \newcommand*{\yMax}{10}%
+      \centering
+      \begin{tikzpicture}[scale=0.3]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (2,6) {\Huge\textbullet};
+          \node[color=orange] at (3,8) {\Huge\textbullet};
+          \node[color=orange] at (4,7) {\Huge\textbullet};
+          \node[color=orange] at (3,4) {\Huge\textbullet};
+          \node[color=orange] at (5,1) {\Huge\textbullet};
+          \node[color=orange] at (7,4) {\Huge\textbullet};
+          \node[color=orange] at (8,4) {\Huge\textbullet};
+          \node[color=orange] at (8,5) {\Huge\textbullet};
+          \node[color=blue] at (4,5) {\Huge\textbullet};
+          \node[color=blue] at (7,2) {\Huge\textbullet};
+          \node at (3.3,5.3) {$i$};
+          \node at (6.3,4.3) {$h$};
+          \node at (6.3,2.3) {$t$};
+          \node at (8.5,4) {$j$};
+          \draw[dashed] (3.5,6) ellipse (2cm and 3cm);
+          \draw[dashed] (7,4) ellipse (2cm and 3cm);
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{CLARA (Clustering Large Applications)}
+      \begin{itemize}
+        \item \textbf{(Kaufmann and Rousseeuw, 1990)}
+        \item \textbf{Built in statistical-analysis packages, such as S+.}
+        \item \textbf{Draws multiple samples of the data set, applies PAM on each sample,\\
+         and gives the best clustering as the output.}
+        \item \textbf{Strength:}
+        \begin{itemize}
+          \item Deals with larger data sets than PAM.
+        \end{itemize}
+        \item \textbf{Weakness:}
+        \begin{itemize}
+          \item Efficiency depends on the sample size.
+          \item A good clustering based on samples will not necessarily represent \\
+          a good clustering of the whole data set if the sample is biased.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{CLARANS ("Randomized" CLARA)}
+      \begin{itemize}
+        \item \textbf{A Clustering Algorithm based on Randomized Search} (Ng \& Han, 1994)
+        \item \textbf{Samples:}
+        \begin{itemize}
+          \item Drawn dynamically with some randomness in each step of the search.
+        \end{itemize}
+        \item \textbf{Clustering process:}
+        \begin{itemize}
+          \item Can be presented as searching a graph where each node is a potential solution,\\
+          that is, a set of $k$ medoids.
+        \end{itemize}
+        \item \textbf{If local optimum found,}
+        \begin{itemize}
+          \item start with new randomly selected node in search for a new local optimum.
+        \end{itemize}
+        \item \textbf{More efficient and scalable than both PAM and CLARA.}
+        \item \textbf{Focusing techniques and spatial access structures may further improve its performance.} (Ester et al., 1995)
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Chapter VII: Cluster Analysis}
+        \begin{itemize}
+            \item Cluster analysis: basic concepts.
+            \item Partitioning methods.
+            \item \textbf{Hierarchical methods.}
+            \item Density-based methods.
+            \item Grid-based methods.
+            \item Evaluation of clustering.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Hierarchical Clustering}
+        \begin{itemize}
+            \item \textbf{Does not require the number of clusters $k$ as an input, \\ but needs a termination condition.}
+        \end{itemize}
+        \vspace{0.5cm}
+        \centering
+        \begin{tikzpicture}[->,>=stealth',auto,node distance=3cm,
+  thick,main node/.style={circle,draw}]
+          \draw[thick,->] (0,0)--(10,0);
+          \draw[thick,->] (10,-4)--(0,-4);
+          \draw (1,0)--(1,0.25);
+          \node at (1,0.5) {Step 0};
+          \draw (3,0)--(3,0.25);
+          \node at (3,0.5) {Step 1};
+          \draw (5,0)--(5,0.25);
+          \node at (5,0.5) {Step 2};
+          \draw (7,0)--(7,0.25);
+          \node at (7,0.5) {Step 3};
+          \draw (9,0)--(9,0.25);
+          \node at (9,0.5) {Step 4};
+          \draw (1,-4)--(1,-4.25);
+          \node at (1,-4.5) {Step 0};
+          \draw (3,-4)--(3,-4.25);
+          \node at (3,-4.5) {Step 1};
+          \draw (5,-4)--(5,-4.25);
+          \node at (5,-4.5) {Step 2};
+          \draw (7,-4)--(7,-4.25);
+          \node at (7,-4.5) {Step 3};
+          \draw (9,-4)--(9,-4.25);
+          \node at (9,-4.5) {Step 4};
+          \node[main node] at (1,-0.5) (a) {a};
+          \node[main node] at (1,-1.25) (b) {b};
+          \node[main node] at (1,-2) (c) {c};
+          \node[main node] at (1,-2.75) (d) {d};
+          \node[main node] at (1,-3.5) (e) {e};
+          \node[main node] at (3,-0.8) (ab) {a b};
+          \node[main node] at (5,-3.2) (de) {d e};
+          \node[main node] at (7,-2.5) (cde) {c d e};
+          \node[main node] at (9,-1.5) (abcde) {a b c d e};
+          \draw (a)--(ab);
+          \draw (b)--(ab);
+          \draw (ab)--(abcde);
+          \draw (c)--(cde);
+          \draw (d)--(de);
+          \draw (e)--(de);
+          \draw (de)--(cde);
+          \draw (cde)--(abcde);
+          \node at (11.5,-4) {\textbf{divisive (DIANA)}};
+          \node at (12,0) {\textbf{agglomerative (AGNES)}};
+        \end{tikzpicture}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{AGNES (Agglomerative Nesting)}
+      \begin{itemize}
+        \item \textbf{Introduced in (Kaufmann \& Rousseeuw, 1990)}
+        \item \textbf{Implemented in statistical packages, e.g., S+.}
+        \item \textbf{Use the single-link method.} (see below)
+        \item \textbf{Merge nodes that have the least dissimilarity.}
+        \item \textbf{Go on in a non-descending fashion.}
+        \item \textbf{Eventually all nodes belong to the same cluster.}
+      \end{itemize}
+      \newcommand*{\xMin}{0}%
+      \newcommand*{\xMax}{10}%
+      \newcommand*{\yMin}{0}%
+      \newcommand*{\yMax}{10}%
+      \centering
+      \begin{tikzpicture}[scale=0.23]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (2,6) {\Huge\textbullet};
+          \node[color=orange] at (3,4) {\Huge\textbullet};
+          \node[color=orange] at (3,8) {\Huge\textbullet};
+          \node[color=orange] at (4,5) {\Huge\textbullet};
+          \node[color=orange] at (4,7) {\Huge\textbullet};
+          \node[color=orange] at (6,2) {\Huge\textbullet};
+          \node[color=orange] at (7,2) {\Huge\textbullet};
+          \node[color=orange] at (7,4) {\Huge\textbullet};
+          \node[color=orange] at (8,4) {\Huge\textbullet};
+          \node[color=orange] at (8,5) {\Huge\textbullet};
+          \draw[->] (12,5)--(17,5);
+          \draw[dashed] (3.4,7.5) ellipse (1.5cm and 1.2cm);
+          \draw[dashed] (3.5,4.8) ellipse (1.5cm and 1cm);
+          \draw[dashed] (8,5) ellipse (1cm and 1.5cm);
+      \end{tikzpicture}
+      \begin{tikzpicture}[scale=0.23]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (2,6) {\Huge\textbullet};
+          \node[color=orange] at (3,4) {\Huge\textbullet};
+          \node[color=orange] at (3,8) {\Huge\textbullet};
+          \node[color=orange] at (4,5) {\Huge\textbullet};
+          \node[color=orange] at (4,7) {\Huge\textbullet};
+          \node[color=orange] at (6,2) {\Huge\textbullet};
+          \node[color=orange] at (7,2) {\Huge\textbullet};
+          \node[color=orange] at (7,4) {\Huge\textbullet};
+          \node[color=orange] at (8,4) {\Huge\textbullet};
+          \node[color=orange] at (8,5) {\Huge\textbullet};
+          \draw[->] (12,5)--(17,5);
+          \draw[dashed] (3,7) ellipse (2cm and 1.5cm);
+          \draw[dashed] (3.5,4.8) ellipse (1.5cm and 1cm);
+          \draw[dashed] (7.5,5) ellipse (1.5cm and 1.5cm);
+          \draw[dashed] (6.25,2.5) ellipse (1.5cm and 1cm);
+      \end{tikzpicture}
+      \begin{tikzpicture}[scale=0.23]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (2,6) {\Huge\textbullet};
+          \node[color=orange] at (3,4) {\Huge\textbullet};
+          \node[color=orange] at (3,8) {\Huge\textbullet};
+          \node[color=orange] at (4,5) {\Huge\textbullet};
+          \node[color=orange] at (4,7) {\Huge\textbullet};
+          \node[color=orange] at (6,2) {\Huge\textbullet};
+          \node[color=orange] at (7,2) {\Huge\textbullet};
+          \node[color=orange] at (7,4) {\Huge\textbullet};
+          \node[color=orange] at (8,4) {\Huge\textbullet};
+          \node[color=orange] at (8,5) {\Huge\textbullet};
+          \draw[dashed] (3,6) ellipse (2cm and 3cm);
+          \draw[dashed] (7,4) ellipse (2cm and 3cm);
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Dendrogram: Shows how Clusters are Merged}
+      \begin{itemize}
+        \item Decompose data objects into a several levels of nested partitioning (tree of clusters),\\ called a \textbf{\color{airforceblue}dendrogram}.
+        \item A clustering of the data objects is obtained by \textbf{\color{airforceblue}cutting} the dendrogram at the desired level,\\ then each connected component forms a cluster.
+      \end{itemize}
+      \centering
+      \resizebox{7cm}{!}{%
+      \begin{tikzpicture}[sloped]
+        \node (a) at (-6,0) {a};
+        \node (b) at (-3,0) {b};
+        \node (c) at (-0.5,0) {c};
+        \node (d) at (0.5,0) {d};
+        \node (e) at (2,0) {e};
+        \node (ab) at (-4.5,3) {};
+        \node (cd) at (0,1) {};
+        \node (cde) at (1,2) {};
+        \node (all) at (-1.5,5) {};
+
+        \draw  (a) |- (ab.center);
+        \draw  (b) |- (ab.center);
+        \draw  (c) |- (cd.center);
+        \draw  (d) |- (cd.center);
+        \draw  (e) |- (cde.center);
+        \draw  (cd.center) |- (cde.center);
+        \draw  (ab.center) |- (all.center);
+        \draw  (cde.center) |- (all.center);
+
+        \draw[->,-triangle 60] (-7,0) -- node[above]{distance} (-7,6);
+      \end{tikzpicture}}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{DIANA (Divisive Analysis)}
+      \begin{itemize}
+        \item \textbf{Introduced in (Kaufmann \& Rousseeuw, 1990)}
+        \item \textbf{Implemented in statistical analysis packages, e.g., S+.}
+        \item \textbf{Inverse order of AGNES.}
+        \item \textbf{Eventually each node forms a cluster of its own.}
+      \end{itemize}
+      \newcommand*{\xMin}{0}%
+      \newcommand*{\xMax}{10}%
+      \newcommand*{\yMin}{0}%
+      \newcommand*{\yMax}{10}%
+      \vspace{0.5cm}
+      \centering
+      \begin{tikzpicture}[scale=0.23]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (2,6) {\Huge\textbullet};
+          \node[color=orange] at (3,4) {\Huge\textbullet};
+          \node[color=orange] at (3,8) {\Huge\textbullet};
+          \node[color=orange] at (4,5) {\Huge\textbullet};
+          \node[color=orange] at (4,7) {\Huge\textbullet};
+          \node[color=orange] at (6,2) {\Huge\textbullet};
+          \node[color=orange] at (7,2) {\Huge\textbullet};
+          \node[color=orange] at (7,4) {\Huge\textbullet};
+          \node[color=orange] at (8,4) {\Huge\textbullet};
+          \node[color=orange] at (8,5) {\Huge\textbullet};
+          \draw[->] (12,5)--(17,5);
+          \draw[dashed] (3,6) ellipse (2cm and 3cm);
+          \draw[dashed] (7,4) ellipse (2cm and 3cm);
+      \end{tikzpicture}
+      \begin{tikzpicture}[scale=0.23]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (2,6) {\Huge\textbullet};
+          \node[color=orange] at (3,4) {\Huge\textbullet};
+          \node[color=orange] at (3,8) {\Huge\textbullet};
+          \node[color=orange] at (4,5) {\Huge\textbullet};
+          \node[color=orange] at (4,7) {\Huge\textbullet};
+          \node[color=orange] at (6,2) {\Huge\textbullet};
+          \node[color=orange] at (7,2) {\Huge\textbullet};
+          \node[color=orange] at (7,4) {\Huge\textbullet};
+          \node[color=orange] at (8,4) {\Huge\textbullet};
+          \node[color=orange] at (8,5) {\Huge\textbullet};
+          \draw[->] (12,5)--(17,5);
+          \draw[dashed] (3,7) ellipse (2cm and 1.5cm);
+          \draw[dashed] (3.5,4.8) ellipse (1.5cm and 1cm);
+          \draw[dashed] (7.5,5) ellipse (1.5cm and 1.5cm);
+          \draw[dashed] (6.25,2.5) ellipse (1.5cm and 1cm);
+      \end{tikzpicture}
+      \begin{tikzpicture}[scale=0.23]
+          \foreach \i in {\xMin,...,\xMax} {
+              \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+          }
+          \foreach \i in {\yMin,...,\yMax} {
+              \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+          }
+          \node[color=orange] at (2,6) {\Huge\textbullet};
+          \node[color=orange] at (3,4) {\Huge\textbullet};
+          \node[color=orange] at (3,8) {\Huge\textbullet};
+          \node[color=orange] at (4,5) {\Huge\textbullet};
+          \node[color=orange] at (4,7) {\Huge\textbullet};
+          \node[color=orange] at (6,2) {\Huge\textbullet};
+          \node[color=orange] at (7,2) {\Huge\textbullet};
+          \node[color=orange] at (7,4) {\Huge\textbullet};
+          \node[color=orange] at (8,4) {\Huge\textbullet};
+          \node[color=orange] at (8,5) {\Huge\textbullet};
+          \draw[dashed] (3.4,7.5) ellipse (1.5cm and 1.2cm);
+          \draw[dashed] (3.5,4.8) ellipse (1.5cm and 1cm);
+          \draw[dashed] (8,5) ellipse (1cm and 1.5cm);
+          \draw[dashed] (7,4.3) ellipse (0.8cm and 0.8cm);
+          \draw[dashed] (6.25,2.5) ellipse (1.5cm and 1cm);
+          \draw[dashed] (2,6) ellipse (0.8cm and 0.8cm);
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Distance Between Clusters}
+      \begin{itemize}
+        \item \textbf{Minimum distance:}
+        \begin{itemize}
+          \item Smallest distance between an object in one cluster and an object in the other, i.e., $\text{dist}_{\text{min}} (C_i, C_j) = \text{min}_{o_{ip} \in C_i, o_{jq} \in C_j} d(o_{ip}, o_{jq})$.
+        \end{itemize}
+        \item \textbf{Maximum distance:}
+        \begin{itemize}
+          \item Largest distance between an object in one cluster and an object in the other, i.e., $\text{dist}_\text{max}(C_i, C_j) = \text{max}_{o_{ip} \in C_i, o_{jq} \in C_j} d(o_{ip}, o_{jq}).$
+        \end{itemize}
+        \item \textbf{Average distance:}
+        \begin{itemize}
+          \item Average distance between an object in one cluster and an object in the other, i.e., $\text{dist}_{\text{avg}} (C_i, C_j) = \frac{1}{n_i \cdot n_j} \sum_{o_{ip} \in C_i, o_{jq} \in C_j} d(o_{ip}, o_{jq}).$
+        \end{itemize}
+        \item \textbf{Mean distance:}
+        \begin{itemize}
+          \item Distance between the centroids of two clusters, i.e., $\text{dist}_{\text{mean}} (C_i, C_j) = d(c_i, c_j).$
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Distance between Clusters (II)}
+      \begin{itemize}
+        \item \textbf{Nearest-neighbor clustering algorithm:}
+        \begin{itemize}
+          \item Uses \textbf{\color{airforceblue}minimum distance} to measure distance between clusters.
+        \end{itemize}
+        \item \textbf{Single-linkage algorithm:}
+        \begin{itemize}
+          \item Terminates if distance between nearest clusters exceeds user-defined threshold.
+        \end{itemize}
+        \item \textbf{Minimal spanning-tree algorithm:}
+        \begin{itemize}
+          \item View objects (data points) as nodes of a graph.
+          \item Edges form a path between nodes in a cluster.
+          \item Merging of two clusters corresponds to adding an edge between the nearest pair of nodes.
+          \item Because edges linking clusters always go between distinct clusters,\\
+          resulting graph will be a tree.
+          \item Thus, agglomerative hierarchical clustering that uses minimum distance produces minimal spanning tree.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Distance between Clusters (III)}
+      \begin{itemize}
+        \item \textbf{Farthest-neighbor clustering algorithm:}
+        \begin{itemize}
+          \item Uses \textbf{\color{airforceblue}maximum distance} to measure distance between clusters.
+        \end{itemize}
+        \item \textbf{Complete-linkage algorithm:}
+        \begin{itemize}
+          \item Terminates if maximum distance between nearest clusters exceeds user-defined threshold.
+          \item Good if true clusters are rather compact and approx. equal in size.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Extensions to Hierarchical Clustering}
+      \begin{itemize}
+        \item \textbf{Major weakness of agglomerative clustering methods:}
+        \begin{itemize}
+          \item Can never undo what was done previously.
+          \item Do not scale well: Time complexity of at least $\mathcal{O}(n^2)$, where $n$ is the number of objects.
+        \end{itemize}
+        \item \textbf{Integration of hierarchical and distance-based clustering:}
+        \begin{itemize}
+          \item BIRCH (1996): Uses CF-tree and incrementally adjusts the quality of sub-clusters.
+          \item CHAMELEON (1999): Hierarchical clustering using dynamic modeling.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{BIRCH (Balanced Iterative Reducing and Clustering Using Hierarchies)}
+      \begin{itemize}
+        \item (Zhang, Ramakrishnan \& Livny, SIGMOD'96)
+        \item \textbf{Incrementally construct a CF (Clustering Feature) tree:}
+        \begin{itemize}
+          \item A hierarchical data structure for multiphase clustering.
+          \item Phase 1: Scan DB to build an initial in-memory CF-tree.
+          \begin{itemize}
+            \item A multi-level compression of the data that tries to preserve the inherent clustering structure of the data.
+          \end{itemize}
+          \item Phase 2: Use an arbitrary clustering algorithm to cluster the leaf nodes of the CF-tree.
+        \end{itemize}
+        \item \textbf{Scales linearly:}
+        \begin{itemize}
+          \item Finds a good clustering with a single scan and improves the quality with a few additional scans.
+        \end{itemize}
+        \item \textbf{Weakness:}
+        \begin{itemize}
+          \item Handles only numerical data, and sensitive to the order of the data records.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Clustering Feature in BIRCH}
+      \begin{itemize}
+        \item \textbf{Clustering Feature CF = (n, LS, SS)}:
+        \begin{itemize}
+          \item $3$D vector summarizing statistics about clusters.
+          \item $n$: number of data points.
+          \item LS: linear sum of $N$ points $\sum_{i=1}^{n} x_i$.
+          \item SS: square sum of $N$ points $\sum_{i=1}^{n} x_i^2$.
+        \end{itemize}
+      \end{itemize}
+        \newcommand*{\xMin}{0}%
+        \newcommand*{\xMax}{10}%
+        \newcommand*{\yMin}{0}%
+        \newcommand*{\yMax}{10}%
+        \centering
+        \begin{tikzpicture}[scale=0.3]
+            \foreach \i in {\xMin,...,\xMax} {
+                \draw [very thin,gray] (\i,\yMin) -- (\i,\yMax)  node [below] at (\i,\yMin) {\tiny$\i$};
+            }
+            \foreach \i in {\yMin,...,\yMax} {
+                \draw [very thin,gray] (\xMin,\i) -- (\xMax,\i) node [left] at (\xMin,\i) {\tiny$\i$};
+            }
+            \node[color=orange] at (2,6) {\Huge\textbullet};
+            \node[color=orange] at (3,4) {\Huge\textbullet};
+            \node[color=orange] at (3,8) {\Huge\textbullet};
+            \node[color=orange] at (4,5) {\Huge\textbullet};
+            \node[color=orange] at (4,7) {\Huge\textbullet};
+            \node[color=orange] at (6,2) {\Huge\textbullet};
+            \node[color=orange] at (7,2) {\Huge\textbullet};
+            \node[color=orange] at (7,4) {\Huge\textbullet};
+            \node[color=orange] at (8,4) {\Huge\textbullet};
+            \node[color=orange] at (8,5) {\Huge\textbullet};
+            \draw[dashed] (3,6) ellipse (2cm and 3cm);
+            \draw[dashed] (7,4) ellipse (2cm and 3cm);
+            \node[draw] at (18,9) {CF = $(5,(16,30),(54,190))$};
+            \node at (18,7) {(3,4)};
+            \node at (18,5.7) {(2,6)};
+            \node at (18,4.4) {(4,5)};
+            \node at (18,3.1) {(4,7)};
+            \node at (18,1.8) {(3,8)};
+            \draw[->] (16,10) to [out=30,in=30] (3.3,9.5);
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Clustering Feature in BIRCH (II)}
+      \begin{itemize}
+        \item \textbf{Allows to derive many useful statistics of a cluster:}
+        \begin{itemize}
+          \item E.g. centroid: $c_i = \frac{\sum_{i=1}^{n}o_i}{n} = \frac{LS}{n}$.
+        \end{itemize}
+        \item \textbf{Additive:}
+        \begin{itemize}
+          \item For two disjoint clusters $C_1$ and $C_2$ with clustering features $CF_1 = (n_1, LS_1, SS_1)$ and $CF_2 = (n_2, LS_2, SS_2)$, the clustering feature of the cluster that is formed by merging $C_1$ and $C_2$ is simply: $CF_1 + CF_2 = (n_1 + n_2, LS_1 + LS_2, SS_1 + SS_2)$.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{CF-Tree in BIRCH}
+      \begin{itemize}
+        \item \textbf{Height-balanced tree.}
+        \item \textbf{Stores the clustering features for a hierarchical clustering.}
+        \begin{itemize}
+          \item Non-leaf nodes store sums of the CFs of their children.
+        \end{itemize}
+        \item \textbf{Two parameters:}
+        \begin{itemize}
+          \item \textbf{\color{airforceblue}Branching factor $B$}: max \# of children.
+          \item \textbf{\color{airforceblue}Threshold $T$}: maximum diameter of sub-clusters stored at leaf nodes.
+          \begin{itemize}
+            \item Diameter $D$: average pairwise distance within a cluster, \\
+            reflects the tightness of the cluster around the centroid:
+            \begin{align}
+              D = \sqrt{\frac{\sum_{i=1}^{n} \sum_{j=1}^{n} (o_i-o_j)^2}{n(n-1)}} = \sqrt{\frac{2nSS - 2LS^2}{n(n-1)}}.
+            \end{align}
+          \end{itemize}
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{CF-Tree structure}
+      \centering
+      \begin{tikzpicture}
+        \node at (0,0.75) {Root:};
+        \node at (0,0) {
+          \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            $CF_1$ & $CF_2$ & $CF_3$ & $\hdots$ & $CF_6$ \\ \hline
+            $\text{child}_1$ & $\text{child}_2$ & $\text{child}_3$ & $\hdots$ & $\text{child}_6$ \\\hline
+          \end{tabular}
+        };
+        \node at (-2,-1.2) {Non-leaf node:};
+        \node at (-2,-2) {
+          \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            $CF_1$ & $CF_2$ & $CF_3$ & $\hdots$ & $CF_5$ \\ \hline
+            $\text{child}_1$ & $\text{child}_2$ & $\text{child}_3$ & $\hdots$ & $\text{child}_5$ \\\hline
+          \end{tabular}
+        };
+        \node at (3,-2) {$\hdots$};
+        \node at (5,-2) {$\hdots$};
+        \node at (-3,-3.5) {Leaf node:};
+        \node at (-3,-4) {
+          \begin{tabular}{|c|c|c|c|c|c|}
+            \hline
+            prev & $CF_1$ & $CF_2$ & $\hdots$ & $CF_6$ & next \\ \hline
+          \end{tabular}
+        };
+        \node at (4,-3.5) {Leaf node:};
+        \node at (4,-4) {
+          \begin{tabular}{|c|c|c|c|c|c|}
+            \hline
+            prev & $CF_1$ & $CF_2$ & $\hdots$ & $CF_4$ & next \\ \hline
+          \end{tabular}
+        };
+        \draw[thick,->] (-2.2,-0.45)--(-4.3,-1.5);
+        \draw[thick,->] (-1.2,-0.45)--(2.3,-1.5);
+        \draw[thick,->] (0.2,-0.45)--(4.3,-1.5);
+        \draw[thick,->] (-3,-2.45)--(4.6,-3.8);
+        \draw[thick,->] (-4.3,-2.45)--(-5.2,-3.8);
+        \draw[thick,->] (0.1,-3.8)--(0.9,-3.8);
+        \draw[thick,->] (0.9,-4.2)--(0.1,-4.2);
+        \draw[thick,->] (7.1,-3.8)--(7.9,-3.8);
+        \draw[thick,->] (7.9,-4.2)--(7.1,-4.2);
+        \node at (-5,0) {B=7};
+        \node at (-5,-0.5) {T=6};
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{The BIRCH algorithm}
+      \begin{itemize}
+        \item \textbf{Phase 1:}
+        \begin{itemize}
+          \item \textbf{For each point in the input:}
+          \begin{itemize}
+            \item Find closest leaf-node entry.
+            \item Add point to leaf-node entry and update CF.
+            \item If $entry\_diameter > max\_diameter$, then split leaf node, and possibly parents.
+            \item Information about new point is passed toward the root of the tree.
+          \end{itemize}
+          \item \textbf{Algorithm is $\mathcal{O}(n)$ and incremental.}
+          \item \textbf{Concerns:}
+          \begin{itemize}
+            \item Sensitive to insertion order of data points.
+            \item Since we fix the size of leaf nodes, clusters may not be so natural.
+            \item Clusters tend to be spherical given the radius and diameter measures.
+          \end{itemize}
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{CHAMELEON: Hierarchical Clustering using Dynamic Modeling}
+      \begin{itemize}
+        \item (Karypis, Han \& Kumar, 1999)
+        \begin{itemize}
+          \item \textbf{Measures the similarity based on a dynamic model:}
+          \begin{itemize}
+            \item Two clusters are merged only if the \textbf{interconnectivity} and \textbf{closeness (proximity)} between two clusters are high relative to the internal interconnectivity of the clusters and the closeness of items within the clusters.
+          \end{itemize}
+          \item \textbf{Graph-based, and a two-phase algorithm.}
+          \begin{itemize}
+            \item Use a graph-partitioning algorithm:
+            \begin{itemize}
+              \item Cluster objects into a large number of relatively small sub-clusters.
+            \end{itemize}
+            \item Use an agglomerative hierarchical clustering algorithm:
+            \begin{itemize}
+              \item Find the genuine clusters by repeatedly combining these sub-clusters.
+            \end{itemize}
+          \end{itemize}
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Overall Framework of CHAMELEON}
+      \begin{tikzpicture}[scale=0.9, node distance = 1cm, auto,font=\footnotesize,
+          force/.style={rectangle, draw, fill=black!10, inner sep=5pt, text width=1.8cm, text badly centered, minimum height=1cm, font=\bfseries\footnotesize\sffamily},
+          info/.style={rectangle, draw, inner sep=5pt, text width=4cm, minimum height=1cm, font=\footnotesize\sffamily}]
+        \node [force, dashed] (a) {\parbox{\linewidth}{\centering Data \\ input.}};
+
+        \node[draw, circle, fill=black, scale=0.4] at (4,0) (g1) {};
+        \node[draw, circle, fill=black, scale=0.4] at (4.3,0.3) (g2) {};
+        \node[draw, circle, fill=black, scale=0.4] at (4.4,-0.2) (g3) {};
+        \node[draw, circle, fill=black, scale=0.4] at (4,-0.4) (g4) {};
+        \draw[color=black] (g1)--(g2)--(g3)--(g4)--(g1);
+        \draw[color=black] (g1)--(g3);
+        \draw[color=black] (g2)--(g4);
+
+        \node[draw, circle, fill=black, scale=0.4] at (5.5,0.5) (y1) {};
+        \node[draw, circle, fill=black, scale=0.4] at (6,0.8) (y2) {};
+        \node[draw, circle, fill=black, scale=0.4] at (6,0.3) (y3) {};
+        \node[draw, circle, fill=black, scale=0.4] at (5.7,0.1) (y4) {};
+        \draw[color=black] (y1)--(y2)--(y3)--(y4)--(y1);
+        \draw[color=black] (y1)--(y3);
+        \draw[color=black] (y2)--(y4);
+
+        \node[draw, circle, fill=black, scale=0.4] at (6.7,-0.7) (sch1) {};
+        \node[draw, circle, fill=black, scale=0.4] at (6.4,-1) (sch2) {};
+        \node[draw, circle, fill=black, scale=0.4] at (6.8,-1.2) (sch3) {};
+        \draw[color=black] (sch1)--(sch2)--(sch3)--(sch1);
+
+        \node[draw, circle, fill=black, scale=0.4] at (3.7,-1) (b1) {};
+        \node[draw, circle, fill=black, scale=0.4] at (3.4,-1.1) (b2) {};
+        \node[draw, circle, fill=black, scale=0.4] at (3.8,-1.3) (b3) {};
+        \draw[color=black] (b1)--(b2)--(b3)--(b1);
+        \draw (g1)--(b2);
+        \draw (g4)--(b3);
+
+        \node[draw, circle, fill=black, scale=0.4] at (5,-0.6) (r1) {};
+        \node[draw, circle, fill=black, scale=0.4] at (5.2,-0.5) (r2) {};
+        \node[draw, circle, fill=black, scale=0.4] at (5.5,-1) (r3) {};
+        \node[draw, circle, fill=black, scale=0.4] at (5.2,-0.9) (r4) {};
+        \node[draw, circle, fill=black, scale=0.4] at (5.3,-1.2) (r5) {};
+        \draw[color=black] (r1)--(r2)--(r3)--(r4)--(r5);
+        \draw[color=black] (r1)--(r3);
+        \draw[color=black] (r1)--(r4);
+        \draw[color=black] (r2)--(r4);
+        \draw[color=black] (r3)--(r5);
+
+        \node[draw, circle, fill=black, scale=0.4] at (4.5,-1.5) (p1) {};
+        \node[draw, circle, fill=black, scale=0.4] at (5,-1.9) (p2) {};
+        \node[draw, circle, fill=black, scale=0.4] at (4.1,-1.9) (p3) {};
+        \node[draw, circle, fill=black, scale=0.4] at (4.9,-2.4) (p4) {};
+        \node[draw, circle, fill=black, scale=0.4] at (4,-2.4) (p5) {};
+        \node[draw, circle, fill=black, scale=0.4] at (4.5,-2.1) (p6) {};
+        \draw[color=black] (p1)--(p2);
+        \draw[color=black] (p1)--(p3);
+        \draw[color=black] (p4)--(p6);
+        \draw[color=black] (p4)--(p5);
+        \draw[color=black] (p5)--(p6);
+        \draw[color=black] (p6)--(p1);
+        \draw[color=black] (p2)--(p3);
+        \draw[color=black] (p2)--(p4);
+        \draw[color=black] (p2)--(p6);
+        \draw[color=black] (p5)--(p3);
+        \draw[color=black] (p3)--(p6);
+        \draw (b3)--(p3);
+        \draw (g4)--(p1);
+        \draw (g2)--(p2);
+        \draw (g2)--(p1);
+        \draw (r1)--(p2);
+        \draw (r5)--(p2);
+        \draw (y1)--(r1);
+        \draw (y4)--(r2);
+
+        \node[draw, circle, fill=black, scale=0.4] at (6,-2.5) (o1) {};
+        \node[draw, circle, fill=black, scale=0.4] at (6.3,-2.8) (o2) {};
+        \node[draw, circle, fill=black, scale=0.4] at (6.3,-2.5) (o3) {};
+        \node[draw, circle, fill=black, scale=0.4] at (5.9,-2.8) (o4) {};
+        \draw[color=black] (o1)--(o2)--(o3)--(o4)--(o1);
+        \draw[color=black] (o2)--(o4);
+        \draw[color=black] (o3)--(o1);
+
+        \node[draw, circle, fill=black, scale=0.4] at (6,-1.6) (b1) {};
+        \node[draw, circle, fill=black, scale=0.4] at (6.3,-1.9) (b2) {};
+        \node[draw, circle, fill=black, scale=0.4] at (6.3,-1.6) (b3) {};
+        \draw[color=black] (b1)--(b2)--(b3)--(b1);
+
+        \node[draw, circle, fill=green, scale=0.4] at (10,0) (cg1) {};
+        \node[draw, circle, fill=green, scale=0.4] at (10.3,0.3) (cg2) {};
+        \node[draw, circle, fill=green, scale=0.4] at (10.4,-0.2) (cg3) {};
+        \node[draw, circle, fill=green, scale=0.4] at (10,-0.4) (cg4) {};
+        \draw[color=green] (cg1)--(cg2)--(cg3)--(cg4)--(cg1);
+        \draw[color=green] (cg1)--(cg3);
+        \draw[color=green] (cg2)--(cg4);
+
+        \node[draw, circle, fill=yellow, scale=0.4] at (11.5,0.5) (cy1) {};
+        \node[draw, circle, fill=yellow, scale=0.4] at (12,0.8) (cy2) {};
+        \node[draw, circle, fill=yellow, scale=0.4] at (12,0.3) (cy3) {};
+        \node[draw, circle, fill=yellow, scale=0.4] at (11.7,0.1) (cy4) {};
+        \draw[color=yellow] (cy1)--(cy2)--(cy3)--(cy4)--(cy1);
+        \draw[color=yellow] (cy1)--(cy3);
+        \draw[color=yellow] (cy2)--(cy4);
+
+        \node[draw, circle, fill=black, scale=0.4] at (12.7,-0.7) (csch1) {};
+        \node[draw, circle, fill=black, scale=0.4] at (12.4,-1) (csch2) {};
+        \node[draw, circle, fill=black, scale=0.4] at (12.8,-1.2) (csch3) {};
+        \draw[color=black] (csch1)--(csch2)--(csch3)--(csch1);
+
+        \node[draw, circle, fill=blue, scale=0.4] at (9.7,-1) (cb1) {};
+        \node[draw, circle, fill=blue, scale=0.4] at (9.4,-1.1) (cb2) {};
+        \node[draw, circle, fill=blue, scale=0.4] at (9.8,-1.3) (cb3) {};
+        \draw[color=blue] (cb1)--(cb2)--(cb3)--(cb1);
+
+        \node[draw, circle, fill=red, scale=0.4] at (11,-0.6) (cr1) {};
+        \node[draw, circle, fill=red, scale=0.4] at (11.2,-0.5) (cr2) {};
+        \node[draw, circle, fill=red, scale=0.4] at (11.5,-1) (cr3) {};
+        \node[draw, circle, fill=red, scale=0.4] at (11.2,-0.9) (cr4) {};
+        \node[draw, circle, fill=red, scale=0.4] at (11.3,-1.2) (cr5) {};
+        \draw[color=red] (cr1)--(cr2)--(cr3)--(cr4)--(cr5);
+        \draw[color=red] (cr1)--(cr3);
+        \draw[color=red] (cr1)--(cr4);
+        \draw[color=red] (cr2)--(cr4);
+        \draw[color=red] (cr3)--(cr5);
+
+        \node[draw, circle, fill=purple, scale=0.4] at (10.5,-1.5) (cp1) {};
+        \node[draw, circle, fill=purple, scale=0.4] at (11,-1.9) (cp2) {};
+        \node[draw, circle, fill=purple, scale=0.4] at (10.1,-1.9) (cp3) {};
+        \node[draw, circle, fill=purple, scale=0.4] at (10.9,-2.4) (cp4) {};
+        \node[draw, circle, fill=purple, scale=0.4] at (10,-2.4) (cp5) {};
+        \node[draw, circle, fill=purple, scale=0.4] at (10.5,-2.1) (cp6) {};
+        \draw[color=purple] (cp1)--(cp2);
+        \draw[color=purple] (cp1)--(cp3);
+        \draw[color=purple] (cp4)--(cp6);
+        \draw[color=purple] (cp4)--(cp5);
+        \draw[color=purple] (cp5)--(cp6);
+        \draw[color=purple] (cp6)--(cp1);
+        \draw[color=purple] (cp2)--(cp3);
+        \draw[color=purple] (cp2)--(cp4);
+        \draw[color=purple] (cp2)--(cp6);
+        \draw[color=purple] (cp5)--(cp3);
+        \draw[color=purple] (cp3)--(cp6);
+
+        \node[draw, circle, fill=orange, scale=0.4] at (12,-2.5) (co1) {};
+        \node[draw, circle, fill=orange, scale=0.4] at (12.3,-2.8) (co2) {};
+        \node[draw, circle, fill=orange, scale=0.4] at (12.3,-2.5) (co3) {};
+        \node[draw, circle, fill=orange, scale=0.4] at (11.9,-2.8) (co4) {};
+        \draw[color=orange] (co1)--(co2)--(co3)--(co4)--(co1);
+        \draw[color=orange] (co2)--(co4);
+        \draw[color=orange] (co3)--(co1);
+
+        \node[draw, circle, fill=brown, scale=0.4] at (12,-1.6) (cb1) {};
+        \node[draw, circle, fill=brown, scale=0.4] at (12.3,-1.9) (cb2) {};
+        \node[draw, circle, fill=brown, scale=0.4] at (12.3,-1.6) (cb3) {};
+        \draw[color=brown] (cb1)--(cb2)--(cb3)--(cb1);
+
+        \node[draw, info] at (0,-5) {\parbox{\linewidth}{\centering \textbf{$k$-NN graph:} \\ $p$ and $q$ are connected if $q$ \\ is among the top $k$ closest \\ neighbors of $p$.}};
+        \node[draw, info] at (11.5,-5) {\parbox{\linewidth}{\centering \textbf{Relative interconnectivity:} \\ connectivity of $C_1$ and $C_2$ \\ over internal connectivity. \\[0.2cm] \textbf{Relative closeness:} \\ closeness of $C_1$ and $C_2$ over \\ internal closeness.}};
+        \draw[thick,->] (1.5,0)--(3.5,0);
+        \node at (2.5,0.6) {Construct $k$-NN};
+        \node at (2.5,0.3) {sparse graph};
+
+        \draw[thick,->] (7.2,0)--(9.2,0);
+        \node at (8.3,0.3) {Partition the graph};
+
+        \draw[thick,->] (9.2,-2) -- (7.2,-4);
+        \node at (9.5,-3) {Merge partitions};
+
+        \node[draw, circle, fill=blue, scale=0.4] at (5.5,-3.5) (ccy1) {};
+        \node[draw, circle, fill=blue, scale=0.4] at (6,-3.2) (ccy2) {};
+        \node[draw, circle, fill=blue, scale=0.4] at (6,-3.7) (ccy3) {};
+        \node[draw, circle, fill=blue, scale=0.4] at (5.7,-3.9) (ccy4) {};
+        \draw[color=blue] (ccy1)--(ccy2)--(ccy3)--(ccy4)--(ccy1);
+        \draw[color=blue] (ccy1)--(ccy3);
+        \draw[color=blue] (ccy2)--(ccy4);
+
+        \node[draw, circle, fill=blue, scale=0.4] at (6.7,-4.5) (ccsch1) {};
+        \node[draw, circle, fill=blue, scale=0.4] at (6.4,-4.8) (ccsch2) {};
+        \node[draw, circle, fill=blue, scale=0.4] at (6.8,-5) (ccsch3) {};
+        \draw[color=blue] (ccsch1)--(ccsch2)--(ccsch3)--(ccsch1);
+
+        \node[draw, circle, fill=blue, scale=0.4] at (5,-4.4) (ccr1) {};
+        \node[draw, circle, fill=blue, scale=0.4] at (5.2,-4.3) (ccr2) {};
+        \node[draw, circle, fill=blue, scale=0.4] at (5.5,-4.6) (ccr3) {};
+        \node[draw, circle, fill=blue, scale=0.4] at (5.2,-4.7) (ccr4) {};
+        \node[draw, circle, fill=blue, scale=0.4] at (5.3,-5) (ccr5) {};
+        \draw[color=blue] (ccr1)--(ccr2)--(ccr3)--(ccr4)--(ccr5);
+        \draw[color=blue] (ccr1)--(ccr3);
+        \draw[color=blue] (ccr1)--(ccr4);
+        \draw[color=blue] (ccr2)--(ccr4);
+        \draw[color=blue] (ccr3)--(ccr5);
+        \draw[color=blue] (ccy3)--(ccsch1);
+        \draw[color=blue] (ccy4)--(ccsch2);
+        \draw[color=blue] (ccr5)--(ccsch2);
+        \draw[color=blue] (ccr3)--(ccsch2);
+        \draw[color=blue] (ccr2)--(ccy3);
+        \draw[color=blue] (ccr1)--(ccy1);
+
+        \node[draw, circle, fill=red, scale=0.4] at (4,-3.8) (ccg1) {};
+        \node[draw, circle, fill=red, scale=0.4] at (4.3,-3.5) (ccg2) {};
+        \node[draw, circle, fill=red, scale=0.4] at (4.4,-4) (ccg3) {};
+        \node[draw, circle, fill=red, scale=0.4] at (4,-4.2) (ccg4) {};
+        \draw[color=red] (ccg1)--(ccg2)--(ccg3)--(ccg4)--(ccg1);
+        \draw[color=red] (ccg1)--(ccg3);
+        \draw[color=red] (ccg2)--(ccg4);
+
+        \node[draw, circle, fill=red, scale=0.4] at (3.7,-4.8) (ccb1) {};
+        \node[draw, circle, fill=red, scale=0.4] at (3.4,-4.9) (ccb2) {};
+        \node[draw, circle, fill=red, scale=0.4] at (3.8,-5.1) (ccb3) {};
+        \draw[color=red] (ccb1)--(ccb2)--(ccb3)--(ccb1);
+
+        \node[draw, circle, fill=red, scale=0.4] at (4.5,-5.3) (ccp1) {};
+        \node[draw, circle, fill=red, scale=0.4] at (5,-5.7) (ccp2) {};
+        \node[draw, circle, fill=red, scale=0.4] at (4.1,-5.7) (ccp3) {};
+        \node[draw, circle, fill=red, scale=0.4] at (4.9,-6.2) (ccp4) {};
+        \node[draw, circle, fill=red, scale=0.4] at (4,-6.2) (ccp5) {};
+        \node[draw, circle, fill=red, scale=0.4] at (4.5,-5.9) (ccp6) {};
+        \draw[color=red] (ccp1)--(ccp2);
+        \draw[color=red] (ccp1)--(ccp3);
+        \draw[color=red] (ccp4)--(ccp6);
+        \draw[color=red] (ccp4)--(ccp5);
+        \draw[color=red] (ccp5)--(ccp6);
+        \draw[color=red] (ccp6)--(ccp1);
+        \draw[color=red] (ccp2)--(ccp3);
+        \draw[color=red] (ccp2)--(ccp4);
+        \draw[color=red] (ccp2)--(ccp6);
+        \draw[color=red] (ccp5)--(ccp3);
+        \draw[color=red] (ccp3)--(ccp6);
+        \draw[color=red] (ccb1)--(ccg4);
+        \draw[color=red] (ccb2)--(ccg1);
+        \draw[color=red] (ccp1)--(ccg3);
+        \draw[color=red] (ccp3)--(ccb3);
+
+        \node[draw, circle, fill=green, scale=0.4] at (6,-6.2) (cco1) {};
+        \node[draw, circle, fill=green, scale=0.4] at (6.3,-6.6) (cco2) {};
+        \node[draw, circle, fill=green, scale=0.4] at (6.3,-6.3) (cco3) {};
+        \node[draw, circle, fill=green, scale=0.4] at (5.9,-6.6) (cco4) {};
+        \draw[color=green] (cco1)--(cco2)--(cco3)--(cco4)--(cco1);
+        \draw[color=green] (cco2)--(cco4);
+        \draw[color=green] (cco3)--(cco1);
+
+        \node[draw, circle, fill=green, scale=0.4] at (6,-5.6) (ccb1) {};
+        \node[draw, circle, fill=green, scale=0.4] at (6.3,-5.9) (ccb2) {};
+        \node[draw, circle, fill=green, scale=0.4] at (6.3,-5.6) (ccb3) {};
+        \draw[color=green] (ccb1)--(ccb2)--(ccb3)--(ccb1);
+        \draw[color=green] (ccb1)--(cco1);
+        \draw[color=green] (ccb2)--(cco2);
+        \node at (6.5,-5.3) {\textbf{Final clusters.}};
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{CHAMELEON (Clustering Complex Objects)}
+      \centering
+      \includegraphics[width=0.6\textwidth]{img/cluster.jpeg}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Probabilistic Hierarchical Clustering}
+      \centering
+      \begin{itemize}
+        \item \textbf{Algorithmic hierarchical clustering.}
+        \begin{itemize}
+          \item Nontrivial to choose a good distance measure.
+          \item Hard to handle missing attribute values.
+          \item Optimization goal not clear: heuristic, local search.
+        \end{itemize}
+        \item \textbf{Probabilistic hierarchical clustering.}
+        \begin{itemize}
+          \item Use probabilistic models to measure distances between clusters.
+          \item \textbf{\color{airforceblue}Generative model:}
+          \begin{itemize}
+            \item Regard the set of data objects to be clustered as a sample of the underlying data-generation mechanism to be analyzed.
+          \end{itemize}
+          \item Easy to understand, same efficiency as algorithmic agglomerative clustering method, can handle partially observed data.
+          \item In practice, assume the generative models adopt \textbf{\color{airforceblue}common distribution functions}, e.g., Gaussian distribution or Bernoulli distribution, governed by parameters.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Generative Model (I)}
+      \centering
+      \begin{itemize}
+        \item Given a set of $1$-D points $X = \{x_1, \ldots, x_n\}$ for clustering analysis and assuming they are generated by a Gaussian distribution:
+        \begin{align}
+          N(\mu,\sigma) = \frac{1}{\sqrt{2 \pi \sigma^2}} \text{exp}\left({\frac{(x-\mu)^2}{2\sigma^2}}\right).
+        \end{align}
+        \item The probability that a point $x_i \in X$ is generated by the model:
+        \begin{align}
+          P(x_i \vert \mu, \sigma) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( \frac{(x_i-\mu)^2}{2\sigma^2}\right).
+        \end{align}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Generative Model (II)}
+      \centering
+      \begin{itemize}
+        \item The likelihood that $X$ is generated by the model:
+        \begin{align}
+          L(N(\mu,\sigma) \vert X) := P(X \vert \mu, \sigma) = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( \frac{(x_i-\mu)^2}{2\sigma^2}\right).
+        \end{align}
+        \item The task of learning the generative model: find the parameters $\mu$ and $\sigma$, such that
+        \begin{align}
+          N(\mu_0,\sigma_0) = \text{arg max}\left( L(N(\mu,\sigma)\vert X) \right).
+        \end{align}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{A Probabilistic Hierarchical Clustering Algorithm (I)}
+      \centering
+      \begin{itemize}
+        \item For a set of objects partitioned into $m$ clusters $C_1, \ldots, C_m$,
+              the quality can be measured by:
+              \begin{align}
+                Q(\{C_1, \ldots, C_m\}) = \prod_{i=1}^{m} P(C_i),
+              \end{align}
+              where $P(C_i)$ is the maximum likelihood of $C_i$.
+        \item Distance between clusters $C_i$ and $C_j$ can be computed as a proximity measure:
+              \begin{align}
+                d(C_i,C_j) = - \log \frac{P(C_i \cup C_j)}{P(C_i)P(C_j)}.
+              \end{align}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{A Probabilistic Hierarchical Clustering Algorithm (II)}
+      \centering
+      \begin{itemize}
+        \item \textbf{Algorithm: Progressively merge points and clusters}
+        \begin{itemize}
+          \item Input: $D = \{o_1, \ldots, o_n\}$: a dataset containing $n$ objects.
+          \item Output: A hierarchy of clusters.
+          \item Method:
+          \begin{itemize}
+            \item \texttt{Create cluster for each object $C_i = \{o_i\}$, for $1 \leq i \leq n$}.
+            \item \textbf{For $i=1$ to $n$:}
+            \begin{itemize}
+              \item \texttt{Find a pair of clusters $C_i$ and $C_j$, such that}\\
+                    $C_i, C_j = \text{arg max}_{i \neq j} \left( \log\left( \frac{P(C_i \cup C_j)}{P(C_i)P(C_j)} \right) \right)$.
+                    \item \textbf{If $\log\left( \frac{P(C_i \cup C_j)}{P(C_i)P(C_j)}\right) > 0$ then} \texttt{merge $C_i$ and $C_j$},
+                    \item \textbf{Else stop.}
+            \end{itemize}
+          \end{itemize}
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Chapter VII: Cluster Analysis}
+        \begin{itemize}
+            \item Cluster analysis: basic concepts.
+            \item Partitioning methods.
+            \item Hierarchical methods.
+            \item \textbf{Density-based methods.}
+            \item Grid-based methods.
+            \item Evaluation of clustering.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Chapter VII: Cluster Analysis}
+        \begin{itemize}
+          \item \textbf{Clustering based on density (local cluster criterion), such as density-connected points.}
+          \item \textbf{Major features:}
+          \begin{itemize}
+            \item Discover clusters of arbitrary shape.
+            \item Handle noise.
+            \item One scan.
+            \item Need density parameters as termination condition.
+          \end{itemize}
+          \item \textbf{Several interesting studies:}
+          \begin{itemize}
+            \item DBSCAN (Ester et al., KDD'96).
+            \item OPTICS (Ankerst et al., SIGMOD'99).
+            \item DENCLUE (Hinneburg \& Keim, KDD'98).
+            \item CLIQUE (Agrawal et al., SIGMOD'98) (more grid-based).
+          \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Density-dased Clustering: Basic Concepts}
+        \begin{itemize}
+          \item \textbf{Two parameters:}
+          \begin{itemize}
+            \item \textbf{\color{airforceblue}Eps}: Maximum radius of a neighborhood.
+            \begin{itemize}
+              \item Defines the neighborhood of a point $p$: $N_{\text{Eps}}(p) := \{q \in D \; \vert \; d(p,q) \leq \text{Eps}\}$.
+              \item Distance function is still needed.
+            \end{itemize}
+            \item \textbf{\color{airforceblue}MinPts}: Minimum number of points in an Eps-neighborhood of a point $p$.
+          \end{itemize}
+          \item \textbf{{\color{airforceblue}Core-point condition:} $|N_{\text{Eps}}(p)| \geq \text{MinPts}$.}
+          \begin{itemize}
+            \item Only these neighborhoods are considered.
+          \end{itemize}
+        \end{itemize}
+        \centering
+        \begin{tikzpicture}
+          \draw (0,0) circle (1cm);
+          \draw (-0.5,-1) circle (1cm);
+          \node[draw, circle, fill=red, scale=0.5] at (-1,-1) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-0.8,0) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-0.9,0.4) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-0.1,0.1) {};
+          \node[draw, circle, fill=red, scale=0.5] at (0.4,-0.9) {};
+          \node[draw, circle, fill=red, scale=0.5] at (0.7,-1.3) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-1.5,-0.4) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-1,-0.6) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-0.9,-0.8) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-0.95,-0.5) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-1.25,-0.6) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-1.7,-0.6) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-1.7,-1.3) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-1.4,-1.2) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-1,-1.25) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-0.8,-1.25) {};
+          \node[draw, circle, fill=red, scale=0.5] at (-0.4,-1.7) {};
+          \node[draw, circle, fill=green, scale=0.5] at (-0.5,-1) {};
+          \node[draw, circle, fill=green, scale=0.5] at (0,0) {};
+          \node at (0.2,0) {q};
+          \node at (-0.3,-1.2) {p};
+          \node at (2,0) {$\text{MinPts} = 5$};
+          \node at (2,-0.5) {$\text{Eps} = 1$ cm};
+        \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Directly Density-reachable}
+      \begin{itemize}
+        \item A point $q$ is said to be directly density-reachable from a point $p$ \\
+        w.r.t. Eps, MinPts, if $q$ belongs to $N_{\text{Eps}}(p)$.
+      \end{itemize}
+      \centering
+      \vspace{0.5cm}
+      \begin{tikzpicture}
+        \draw (-0.5,-1) circle (1cm);
+        \node[draw, circle, fill=red, scale=0.5] at (-1,-1) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-0.8,0) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-0.9,0.4) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-0.1,0.1) {};
+        \node[draw, circle, fill=red, scale=0.5] at (0.4,-0.9) {};
+        \node[draw, circle, fill=red, scale=0.5] at (0.7,-1.3) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-1.5,-0.4) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-1,-0.6) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-0.9,-0.8) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-0.95,-0.5) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-1.25,-0.6) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-1.7,-0.6) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-1.7,-1.3) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-1.4,-1.2) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-1,-1.25) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-0.8,-1.25) {};
+        \node[draw, circle, fill=red, scale=0.5] at (-0.4,-1.7) {};
+        \node[draw, circle, fill=green, scale=0.5] at (-0.5,-1) {};
+        \node[draw, circle, fill=green, scale=0.5] at (-0.3,-0.4) {};
+        \node at (-0.1,-0.4) {q};
+        \node at (-0.3,-1.2) {p};
+        \node at (2,0) {$\text{MinPts} = 5$};
+        \node at (2,-0.5) {$\text{Eps} = 1$ cm};
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Density-reachable and Density-connected}
+      \begin{itemize}
+        \item \textbf{\color{airforceblue}Density-reachable:}
+        \begin{itemize}
+          \item A point $q$ is density-reachable from a point $p$ w.r.t. Eps, MinPts, if there is a \textbf{chain of points} $p_1, \ldots, p_n$, $p_1 = p$, $p_n = q$ such that $p_i+1$ is directly density-reachable from $p_i$.\\[0.2cm]
+          \centering
+          \begin{tikzpicture}[scale=1.2]
+            \node[draw, circle, fill=red, scale=0.3] at (0.3,0.1) {};
+            \node[draw, circle, fill=red, scale=0.3] at (0.3,0.5) {};
+            \node[draw, circle, fill=red, scale=0.3] at (-0.3,0.4) {};
+            \node[draw, circle, fill=red, scale=0.3] at (-0.2,0.45) {};
+            \node[draw, circle, fill=red, scale=0.3] at (0.5,0.45) (p3) {};
+            \node[draw, circle, fill=red, scale=0.3] at (0.8,0) {};
+            \node[draw, circle, fill=red, scale=0.3] at (0.7,-0.1) {};
+            \node[draw, circle, fill=red, scale=0.3] at (0.9,-0.3) {};
+            \node[draw, circle, fill=red, scale=0.3] at (0.9,0.4) {};
+            \node[draw, circle, fill=red, scale=0.3] at (1,0.55) {};
+            \node[draw, circle, fill=red, scale=0.3] at (1,0.35) {};
+            \node[draw, circle, fill=red, scale=0.3] at (1.1,0.65) {};
+
+            \draw (0,0) circle (0.5cm);
+            \node[draw, circle, fill=green, scale=0.3] at (0,0) (p1) {};
+            \node at (0.2,0) {\tiny$p_1$};
+            \draw (0.3,0.3) circle (0.5cm);
+            \node[draw, circle, fill=green, scale=0.3] at (0.3,0.3) (p2) {};
+            \node at (0.5,0.3) {\tiny$p_2$};
+            \draw[->] (p1)--(p2);
+            \draw (p2)--(p3);
+        \end{tikzpicture}
+        \end{itemize}
+        \item \textbf{\color{airforceblue}Density-connected:}
+        \begin{itemize}
+          \item A point $p$ is density-connected to a point $q$ w.r.t. Eps, MinPts, if there is a point $o$ such that both $p$ and $q$ are density-reachable from $o$. \\[0.2cm]
+          \centering
+          \begin{tikzpicture}[scale=1.2]
+            \node[draw, circle, fill=red, scale=0.3] at (0.3,0.1) {};
+            \node[draw, circle, fill=red, scale=0.3] at (0.3,0.5) {};
+            \node[draw, circle, fill=red, scale=0.3] at (-0.3,0.4) {};
+            \node[draw, circle, fill=red, scale=0.3] at (-0.2,0.45) {};
+            \node[draw, circle, fill=red, scale=0.3] at (0.5,0.45) (p3) {};
+            \node[draw, circle, fill=red, scale=0.3] at (0.8,0) {};
+            \node[draw, circle, fill=red, scale=0.3] at (0.7,-0.1) {};
+            \node[draw, circle, fill=red, scale=0.3] at (0.9,-0.3) {};
+            \node[draw, circle, fill=red, scale=0.3] at (0.9,0.4) {};
+            \node[draw, circle, fill=red, scale=0.3] at (1,0.55) {};
+            \node[draw, circle, fill=red, scale=0.3] at (1,0.35) {};
+            \node[draw, circle, fill=red, scale=0.3] at (1.1,0.65) {};
+            \draw (0,0) circle (0.5cm);
+            \node[draw, circle, fill=green, scale=0.3] at (0,0) (p1) {};
+            \draw (0.5,0.1) circle (0.5cm);
+            \node[draw, circle, fill=green, scale=0.3] at (0.5,0.1) (p2) {};
+            \node at (0.4,0) {\tiny o};
+            \draw (0.9,0.3) circle (0.5cm);
+            \node[draw, circle, fill=green, scale=0.3] at (0.9,0.3) (p3) {};
+            \node[draw, circle, fill=green, scale=0.3] at (-0.4,0.3) (p4) {};
+            \node at (-0.5,0.3) {\tiny p};
+            \node[draw, circle, fill=green, scale=0.3] at (1.2,0.5) (p5) {};
+            \node at (1.3,0.4) {\tiny q};
+            \draw[->] (p2)--(p3);
+            \draw[->] (p2)--(p1);
+            \draw[->] (p3)--(p5);
+            \draw[->] (p1)--(p4);
+          \end{tikzpicture}
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{DBSCAN: Density-based Spatial Clustering of Applications with Noise}
+      \begin{itemize}
+        \item \textbf{Relies on a density-based notion of cluster:}
+        \begin{itemize}
+          \item A cluster is defined as a maximal set of density-connected points.
+        \end{itemize}
+        \item \textbf{Discovers clusters of arbitrary shape in spatial databases with noise.}
+      \end{itemize}
+      \centering
+      \vspace{0.5cm}
+      \begin{tikzpicture}
+        \draw (0,0) rectangle (6,4);
+        \node[draw, circle, fill=airforceblue] at (1.6,0.55) {};
+        \node[draw, circle, fill=airforceblue] at (1.4,0.85) {};
+        \node[draw, circle, fill=airforceblue] at (1.75,0.95) {};
+        \node[draw, circle, fill=airforceblue] at (1.25,1.8) (core) {};
+        \draw[dashed] (1.25,1.8) circle (0.7cm);
+
+        \node[draw, circle, fill=airforceblue] at (1.25,2.3) {};
+        \node[draw, circle, fill=airforceblue] at (0.8,1.75) {};
+        \node[draw, circle, fill=airforceblue] at (1.6,1.85) {};
+        \node[draw, circle, fill=airforceblue] at (1.1,1.25) {};
+        \node[draw, circle, fill=airforceblue] at (1.7,1.5) {};
+        \node[draw, circle, fill=airforceblue] at (1.2,3.2) (border) {};
+        \node[draw, circle, fill=airforceblue] at (0.8,2.8) {};
+        \node[draw, circle, fill=airforceblue] at (1.8,2.8) {};
+        \node[draw, circle, fill=airforceblue] at (1.8,3.2) {};
+
+        \node[draw, circle, fill=airforceblue] at (4.3,1.5) {};
+        \node[draw, circle, fill=airforceblue] at (4.1,1.2) {};
+        \node[draw, circle, fill=airforceblue] at (3.8,1.8) {};
+        \node[draw, circle, fill=airforceblue] at (4,2.1) {};
+        \node[draw, circle, fill=airforceblue] at (4.1,1.2) {};
+        \draw[dashed] (0.8,3.2) circle (0.7cm);
+        \node[draw, circle, fill=airforceblue] at (4.8,3.2) (outlier) {};
+        \draw[dashed] (4.4,3) circle (0.7cm);
+        \node[draw, fill=white] at (6,3.2) (o) {Outlier};
+        \node[draw, fill=white] at (-1,1.2) (c) {Core};
+        \node[draw, fill=white] at (-1,2.2) (b) {Border};
+        \node at (7,2.2) {Eps = 1cm};
+        \node at (7,1.7) {MinPts = 5};
+        \draw (outlier)--(o);
+        \draw (core)--(c);
+        \draw (border)--(b);
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{DBSCAN: The Algorithm}
+      \begin{itemize}
+        \item All objects in database $D$ are marked \texttt{unvisited}.
+        \item Randomly select unvisited object $p$ and mark as \texttt{visited}.
+        \item If Eps-neighborhood of $p$ contains less than MinPts objects:
+        \begin{itemize}
+          \item Mark $p$ as noise.
+        \end{itemize}
+        \item Otherwise (that is, $p$ is core point):
+        \begin{itemize}
+          \item Create new cluster $C$ for point $p$.
+          \item Add all objects in Eps-neighborhood of $p$ to candidate set $N$.
+          \item For each $p'$ in $N$ that does not yet belong to a cluster:
+          \begin{itemize}
+            \item Add $p'$ to $C$.
+            \item If $p'$ is \texttt{unvisited}, mark as \texttt{visited}.
+            \item If $p'$ is core point, add all objects in its Eps-neighborhood to $N$.
+          \end{itemize}
+          \item Ends when $N$ is empty, that is, $C$ can no longer be expanded.
+        \end{itemize}
+        \item Continue the process (randomly select next unvisited object in $D$) until all points have been visited.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{DBSCAN: Sensitive to Parameters}
+      \centering
+      \includegraphics[width=14cm]{img/dbscan.png}\\
+      \includegraphics[width=2cm]{img/dbscan3.png}
+      \includegraphics[width=12cm]{img/dbscan2.png}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{OPTICS: A Cluster-ordering Method}
+      \begin{itemize}
+        \item \textbf{OPTICS: Ordering Points To Identify the Clustering Structure.}
+        \begin{itemize}
+          \item (Ankerst, Breunig, Kriegel \& Sander, SIGMOD'99)
+          \item Avoid difficulty of finding the right parameters:
+          \begin{itemize}
+            \item Only MinPts must be given, Eps remains open.
+          \end{itemize}
+          \item Produces a special \textbf{order of the database} w.r.t. its density-based clustering structure.
+          \item This cluster-ordering contains info equivalent to the density-based clusterings \\ corresponding to a broad range of parameter settings.
+          \item Good for both automatic and interactive cluster analysis, including finding \\
+          intrinsic clustering structure.
+          \item Can be represented graphically or using visualization techniques.
+          \item Process point in order: Select a point that is density-reachable w.r.t. the lowest Eps value, so that clusters with higher density (lower Eps) will be finished first.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{OPTICS: Some Extension of DBSCAN}
+      \begin{columns}
+        \begin{column}{0.7\textwidth}
+          \vspace{-4cm}
+          \begin{itemize}
+            \item \textbf{\color{airforceblue}Core distance:}
+            \begin{itemize}
+              \item of a point $p$.
+              \item Min Eps s.t. $p$ is core point.
+            \end{itemize}
+            \item \textbf{\color{airforceblue}Reachability Distance $r$:}
+            \begin{itemize}
+              \item of a point $p$ from $q$.
+              \item Minimum radius value that makes $p$ \\ directly density-reachable from $q$.
+              \item That is, $r(q,p) := \max\{\text{core-distance}(q), d(q,p)\}$.
+            \end{itemize}
+            \item \textbf{Example:}
+            \begin{itemize}
+              \item MinPts $= 5$, core\_distance$(q) = 3cm$.
+              \item $d(q,p_1) = 2.8 cm \implies r(q, p_1) = 3cm$.
+              \item $d(q,p_2) = 4 cm \implies r(q, p_2) = 4 cm$.
+            \end{itemize}
+          \end{itemize}
+        \end{column}
+        \begin{column}{0.3\textwidth}
+          \centering
+          \vspace{4cm}
+          \begin{tikzpicture}
+            \draw (0,0) circle (2cm);
+            \draw (0,0) circle (1cm);
+            \node[draw, circle, fill=airforceblue] at (0,0) (c) {};
+            \node[draw, circle, fill=airforceblue] at (-2,0) (p2) {};
+            \node[draw, circle, fill=airforceblue] at (-0.1,0.5) (p1) {};
+            \node[draw, circle, fill=airforceblue] at (-0.7,0.1) {};
+            \node[draw, circle, fill=airforceblue] at (0.8,0.05) {};
+            \node[draw, circle, fill=airforceblue] at (0.4,-0.7) {};
+            \node[draw, circle, fill=airforceblue] at (0.5,1) {};
+            \node at (0.3,0) {$q$};
+            \node at (-1.65,-0.2) {$p_2$};
+            \node at (-0.4,0.5) {$p_1$};
+            \draw (c)--(p2);
+            \draw (c)--(p1);
+          \end{tikzpicture}
+        \end{column}
+      \end{columns}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{OPTICS: Algorithm}
+      \begin{itemize}
+        \item \textbf{Maintains a list of {\color{airforceblue}OrderSeeds}:}
+        \begin{itemize}
+          \item Points sorted by \textbf{reachability-distance} from their resp. closest core points.
+        \end{itemize}
+        \item \textbf{Begin with arbitrary point from input DB.}
+        \item \textbf{For each point $p$ under consideration:}
+        \begin{itemize}
+          \item Retrieve the closest MinPts points of $p$, determine core-distance, set reachability-distance to undefined.
+          \item Write $p$ to output.
+          \item If $p$ is core point, for each point $q$ in the Eps-neighborhood of $p$:
+          \begin{itemize}
+            \item Update reachability-distance from $p$.
+            \item Insert $q$ into OrderSeeds (if $q$ has not yet been processed).
+          \end{itemize}
+          \item Move to next object in OrderSeeds list with smallest reachability-distance (or input DB if OrderSeeds is empty).
+        \end{itemize}
+        \item \textbf{Continue until input DB fully consumed (and OrderSeeds empty).}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{OPTICS: Visualization}
+      \centering
+      \includegraphics[width=12cm]{img/clusterdensity.pdf}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{DENCLUE: Using Statistical Density Functions}
+      \begin{itemize}
+        \item \textbf{DENsity-based CLUstEring} (Hinneburg \& Keim, KDD'98)
+        \item \textbf{Using statistical density functions:}
+        \begin{itemize}
+          \item $f_{\text{Gaussian}}(x,y)= \exp\left(\frac{d(x,y)^2}{2\sigma^2}\right)$, influence of $y$ on $x$.
+          \item $f^D_{\text{Gaussian}}(x,x_i)= \sum_{i=1}^{N} \exp\left(\frac{d(x,y)^2}{2\sigma^2}\right)$, total influence on $x$.
+          \item $\nabla_{x_i} f^D_{\text{Gaussian}}(x,x_i) = \sum_{i=1}^{N} (x_i-x) \cdot \exp\left(\frac{d(x,y)^2}{2\sigma^2}\right)$, gradient of $x$ in direction $x_i$.
+        \end{itemize}
+        \item \textbf{Major features:}
+        \begin{itemize}
+          \item Solid mathematical foundation.
+          \item Good for data sets with large amounts of noise.
+          \item Allows a compact mathematical description of arbitrarily shaped \\
+          clusters in high-dimensional data sets.
+          \item Significantly faster than existing algorithms (e.g., DBSCAN).
+          \item But needs a large number of parameters.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{DENCLUE: Technical Essence}
+      \begin{itemize}
+        \item \textbf{Density estimation:}
+        \begin{itemize}
+          \item Estimation of an unobservable underlying probability density function based on a set of observed data.
+          \item Regarded as a sample.
+        \end{itemize}
+        \item \textbf{Kernel density estimation:}
+        \begin{itemize}
+          \item Treat an observed object as an indicator of high-probability density in the surrounding region.
+          \item Probability density at a point depends on the distances from this point to the observed objects.
+        \end{itemize}
+        \item \textbf{Density attractor:}
+        \begin{itemize}
+          \item Local maximum of the estimated density function.
+          \item Must be above threshold $\xi$.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{DENCLUE: Technical Essence (II)}
+      \begin{itemize}
+        \item \textbf{Clusters:}
+        \begin{itemize}
+          \item Can be determined mathematically by identifying density attractors.
+          \item That is, local maxima of the overall density function.
+        \end{itemize}
+        \item \textbf{Center-defined clusters:}
+        \begin{itemize}
+          \item Assign to each density attractor the points density-attracted to it.
+        \end{itemize}
+        \item \textbf{Arbitrary shaped cluster:}
+        \begin{itemize}
+          \item Merge density attractors that are connected through paths of high density ($>$ threshold).
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Density Attractor}
+      \centering
+      \vspace{1cm}
+      \includegraphics[width=4cm]{img/densityattractor.png}
+      \includegraphics[width=4cm]{img/densityattractor1.png}
+      \includegraphics[width=4cm]{img/densityattractor2.png}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Density Attractor}
+      \centering
+      \includegraphics[width=12cm]{img/densities.png}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Chapter VII: Cluster Analysis}
+        \begin{itemize}
+            \item Cluster analysis: basic concepts.
+            \item Partitioning methods.
+            \item Hierarchical methods.
+            \item Density-based methods.
+            \item \textbf{Grid-based methods.}
+            \item Evaluation of clustering.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Grid-based Clustering Method}
+      \begin{itemize}
+        \item \textbf{Using multi-resolution grid data structure.}
+        \item \textbf{Several interesting methods.}
+        \begin{itemize}
+          \item STING (a STatistical INformation Grid approach) (Wang, Yang \& Muntz, VLDB'97).
+          \item WaveCluster (Sheikholeslami, Chatterjee \& Zhang, VLDB'98):
+          \begin{itemize}
+            \item A multi-resolution clustering approach using wavelet method.
+            \item Not shown here.
+          \end{itemize}
+          \item CLIQUE (Agrawal et al., SIGMOD'98):
+          \begin{itemize}
+            \item Both grid-based and subspace clustering.
+          \end{itemize}
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{STING: A Statistical Information Grid Approach}
+      \begin{itemize}
+        \item \textbf{The spatial area is divided into rectangular cells.}
+        \item \textbf{There are several levels of cells corresponding to different levels of resolution.}
+        \item (Wang, Yang \& Muntz, VLDB'97)
+      \end{itemize}
+      \vspace{0.5cm}
+      \centering
+      \includegraphics[width=10cm]{img/layers.pdf}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{The STING Clustering Method (I)}
+      \begin{itemize}
+        \item \textbf{Each cell at a higher level:}
+        \begin{itemize}
+          \item Partitioned into a number of smaller cells at next lower level.
+        \end{itemize}
+        \item \textbf{Statistical info of each cell:}
+        \begin{itemize}
+          \item Calculated and stored beforehand and used to answer queries.
+          \item Count, plus for each attribute: mean, standard dev, min, max and \\
+          type of distribution: normal, uniform, etc.
+        \end{itemize}
+        \item \textbf{Parameters of higher-level cells:}
+        \begin{itemize}
+          \item Can easily be calculated from parameters of lower-level cells.
+        \end{itemize}
+        \item \textbf{Use a top-down approach:}
+        \begin{itemize}
+          \item To answer spatial data queries (or: cluster definitions).
+        \end{itemize}
+        \item \textbf{Start from a pre-selected layer:}
+        \begin{itemize}
+          \item Typically with a small number of cells.
+        \end{itemize}
+        \item \textbf{For each cell at the current level:}
+        \begin{itemize}
+          \item Compute the confidence interval.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{The STING Clustering Method (II)}
+      \begin{itemize}
+        \item \textbf{Cells labeled relevant or not relevant.}
+        \begin{itemize}
+          \item At the specified confidence level.
+          \item Irrelevant cells removed from further consideration.
+        \end{itemize}
+        \item \textbf{When finished examining the current layer, proceed to the next lower level.}
+        \begin{itemize}
+          \item Only look at cells that are children of relevant cells.
+        \end{itemize}
+        \item \textbf{Repeat this process until bottom layer is reached.}
+        \item \textbf{Find regions (clusters) that satisfy the {\color{airforceblue}density} specified.}
+        \begin{itemize}
+          \item Breadth-first search, at bottom layer.
+          \item Examine cells within a certain distance from center of current cell (often just the neighbors).
+          \item If average density within this small area is greater than density specified, mark area and put relevant cells just examined into queue.
+          \item Examine next cell from queue and repeat procedure, until end of queue.
+          \item Then one region has been identified.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{STING Algorithm: Analysis}
+      \begin{itemize}
+        \item \textbf{Advantages:}
+        \begin{itemize}
+          \item Query-independent, easy to parallelize, incremental update.
+          \item $\mathcal{O}(K)$, where $K$ is the number of grid cells at the lowest level.
+        \end{itemize}
+        \item \textbf{Disadvantages:}
+        \begin{itemize}
+          \item All the cluster boundaries are either horizontal or vertical, \\
+          and no diagonal boundary is detected.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{CLIQUE (CLustering In QUEst)}
+      \begin{itemize}
+        \item \textbf{Using {\color{airforceblue}subspaces} (lower-dimensional) of a high-dimensional data space that allow better clustering than original space:}
+        \begin{itemize}
+          \item (Agrawal, Gehrke, Gunopulos \& Raghavan, SIGMOD'98).
+        \end{itemize}
+        \item \textbf{CLIQUE can be considered as both density-based and grid-based.}
+        \begin{itemize}
+          \item Partitions each dimension into non-overlapping intervals, \\
+          thereby partitioning the entire data space into \textbf{cells}.
+          \item Uses density threshold to identify \textbf{dense} cells.
+          \begin{itemize}
+            \item A cell is dense, if the number of data points mapped to it exceeds the density threshold.
+          \end{itemize}
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{CLIQUE: The Major Steps (I)}
+      \begin{itemize}
+        \item \textbf{Monotonicity of dense cells w.r.t. dimensionality:}
+        \begin{itemize}
+          \item Based on the a priori property used in frequent-pattern and association-rule mining (see Chapter 5).
+          \item $k$-dimensional cell $c$ can have at least $l$ points only, if every $(k-1)$-dimensional projection of $c$ (which is a cell in a $(k-1)$-dimensional subspace) has at least $l$ points, too.
+        \end{itemize}
+        \item \textbf{Clustering step 1:}
+        \begin{itemize}
+          \item Partition each dimension into intervals, identify intervals containing at least $l$ points.
+          \item Iteratively join $k$-dimensional dense cells $c_1$ and $c_2$ in subspaces $(D_{i1}, \ldots, D_{ik})$ and $(D_{j1}, \ldots, D_{jk})$ with $D_{i1} = D_{j1}$ and $D_{i2} = D_{j2}$ and $\ldots D_{i(k-1)} = D_{j(k-1)}$ and $c_1$ and $c_2$ share the same intervals to those dimensions.
+          \item New $(k+1)$-dimensional candidate cell $c$ in space $(D_{i1}, \ldots, D_{ik}, D_{jk})$ tested for density.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{CLIQUE: The Major Steps (II)}
+      \begin{itemize}
+        \item \textbf{Clustering step 1 (cont.):}
+        \begin{itemize}
+          \item Iteration terminates when no more candidate cells can be generated or no candidate cells are dense.
+        \end{itemize}
+        \item \textbf{Clustering step 2:}
+        \begin{itemize}
+          \item Use dense cells in each subspace to assemble clusters.
+          \item Apply Minimum Description Length (MDL) principle to use the maximal regions to cover connected dense cells.
+          \begin{itemize}
+            \item \textbf{\color{airforceblue}Maximal region}: hyper rectangle where every cell falling into the regions is dense, and region cannot be extended further in any dimension.
+          \end{itemize}
+          \item Simple greedy approach:
+          \begin{itemize}
+            \item Start with arbitrary dense cell.
+            \item Find maximum region covering that cell.
+            \item Work on remaining dense cells that have not yet been covered.
+          \end{itemize}
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{CLIQUE: Example}
+      \centering
+      \includegraphics[width=9cm]{img/clique.pdf}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Strength and Weakness of CLIQUE}
+      \begin{itemize}
+        \item \textbf{Strength:}
+        \begin{itemize}
+          \item Automatically finds subspaces of the highest dimensionality \\
+          such that high-density clusters exist in those subspaces.
+          \item Insensitive to the order of records in input and does not presume \\
+          any canonical data distribution.
+          \item Scales linearly with the size of input and has good scalability \\
+          as the number of dimensions in the data is increased.
+        \end{itemize}
+        \item \textbf{Weaknesses:}
+        \begin{itemize}
+          \item Dependent on proper grid size and density threshold.
+          \item Accuracy of clustering result may be degraded at the expense \\
+          of simplicity of the method.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Chapter VII: Cluster Analysis}
+        \begin{itemize}
+            \item Cluster analysis: basic concepts.
+            \item Partitioning methods.
+            \item Hierarchical methods.
+            \item Density-based methods.
+            \item Grid-based methods.
+            \item \textbf{Evaluation of clustering.}
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Assessing Clustering Tendency}
+        \begin{itemize}
+            \item \textbf{Assess {\color{airforceblue}if non-random structure} exists in the data by measuring the probability that the data is generated by a uniform data distribution.}
+            \item \textbf{Data with random structure:}
+            \begin{itemize}
+                \item Points uniformly distributed in data space.
+            \end{itemize}
+            \item \textbf{Clustering may return clusters, but:}
+            \begin{itemize}
+              \item Artificial partitioning.
+              \item Meaningless.
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Hopkins Statistic (I)}
+        \begin{itemize}
+          \item \textbf{Data set:}
+          \begin{itemize}
+            \item Let $X = \{x_i \; \vert i=1,\ldots,n\}$ be a collection of n patterns in a $d$-dimensional space such that $x_i = (x_{i1}, x_{i2}, \ldots, x_{id})$.
+          \end{itemize}
+          \item \textbf{Random sample of data space:}
+          \begin{itemize}
+            \item Let $Y = \{y_j \; \vert \; j=1, \ldots, m\}$ be $m$ sampling points placed at random in the $d$-dimensional space, with $m \ll n$.
+          \end{itemize}
+          \item \textbf{Two types of distances defined:}
+          \begin{itemize}
+            \item $u_j$ as minimum distance from $y_j$ to its nearest pattern in $X$ and
+            \item $w_j$ as minimum distance from a randomly selected pattern in $X$ to its nearest neighbor in $X$.
+          \end{itemize}
+          \item \textbf{The {\color{airforceblue}Hopkins} statistic in d dimensions is defined as:}
+          \begin{align}
+            H = \frac{\sum_{j=1}^{m} u_j}{\sum_{j=1}^{m}u_j + \sum_{j=1}^{m} w_j}.
+          \end{align}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Hopkins Statistic (II)}
+        \begin{itemize}
+          \item \textbf{Compares nearest-neighbor distribution of randomly selected locations (points) to that for randomly selected patterns.}
+          \item \textbf{Under the null hypothesis, $H_0$, of uniform distribution:}
+          \begin{itemize}
+            \item Distances from sampling points to nearest patterns should, on the average,\\ \textbf{\color{airforceblue}be the same} as the interpattern nearest-neighbor distances, implying randomness.
+            \item $H$ should be about $0.5$.
+          \end{itemize}
+          \item \textbf{When patterns are aggregated or clustered:}
+          \begin{itemize}
+            \item Distances from sampling points to nearest patterns should, on the average,\\ \textbf{\color{airforceblue}larger} as the interpattern nearest-neighbor distances.
+            \item $H$ should be larger than $0.5$.
+            \item Almost equal to 1.0 for very well clustered data.
+          \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Determine the Number of Clusters}
+      \begin{itemize}
+        \item \textbf{Empirical method:}
+        \begin{itemize}
+          \item $\#$ of clusters $\approx \frac{\sqrt{n}}{2}$ for a dataset of $n$ points.
+        \end{itemize}
+        \item \textbf{Elbow method:}
+        \begin{itemize}
+          \item Use the turning point in the curve of sum of within-cluster variance w.r.t. the $\#$ of clusters.
+        \end{itemize}
+        \item \textbf{Cross-validation method:}
+        \begin{itemize}
+          \item Divide a given data set into $m$ parts.
+          \item Use $m-1$ parts to obtain a clustering model.
+          \item Use the remaining part to test the quality of the clustering.
+          \begin{itemize}
+            \item E.g., for each point in the test set, find the closest centroid, and use the sum of squared distances between all points in the test set and the closest centroids to measure how well the model fits the test set.
+          \end{itemize}
+          \item For any $k > 0$, repeat it $m$ times, compare the overall quality measure w.r.t. different $k$'s, and find $\#$ of clusters that fits the data the best.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Measuring Clustering Quality}
+      \begin{itemize}
+        \item \textbf{Two methods:}
+        \begin{itemize}
+          \item \textbf{{\color{airforceblue}Extrinsic}: supervised, i.e., the ground truth is available.}
+          \begin{itemize}
+            \item Compare a clustering against the ground truth using certain clustering quality measure.
+            \begin{itemize}
+              \item Ex. BCubed precision and recall metrics.
+            \end{itemize}
+          \end{itemize}
+          \item \textbf{{\color{airforceblue}Intrinsic}: unsupervised, i.e., the ground truth is unavailable.}
+          \begin{itemize}
+            \item Evaluate the goodness of a clustering by considering how well the clusters are separated, and how compact the clusters are.
+            \begin{itemize}
+              \item Ex. silhouette coefficient.
+            \end{itemize}
+          \end{itemize}
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Measuring Clustering Quality: Extrinsic Methods}
+      \begin{itemize}
+        \item \textbf{Clustering-quality measure: $Q(C,C_*)$.}
+        \begin{itemize}
+          \item For a clustering $C$ given the ground truth $C_*$.
+        \end{itemize}
+        \item \textbf{$Q$ is good, if it satisfies the following four essential criteria:}
+        \begin{itemize}
+          \item Cluster homogeneity:
+          \begin{itemize}
+            \item The purer, the better.
+          \end{itemize}
+          \item Cluster completeness:
+          \begin{itemize}
+            \item Should assign objects that belong to the same category \\
+            in the ground truth to the same cluster.
+          \end{itemize}
+          \item Rag bag:
+          \begin{itemize}
+            \item Putting a heterogeneous object into a pure cluster should be penalized more than putting it into a rag bag (i.e., "miscellaneous" or "other" category).
+          \end{itemize}
+          \item Small cluster preservation:
+          \begin{itemize}
+            \item Splitting a small category into pieces is more harmful than \\
+            splitting a large category into pieces.
+          \end{itemize}
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Chapter VII: Cluster Analysis}
+        \begin{itemize}
+            \item Cluster analysis: basic concepts.
+            \item Partitioning methods.
+            \item Hierarchical methods.
+            \item Density-based methods.
+            \item Grid-based methods.
+            \item Evaluation of clustering.
+            \item \textbf{Summary.}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Summary}
+      \begin{itemize}
+        \item \textbf{Cluster analysis:}
+        \begin{itemize}
+          \item Groups objects based on their similarity and has wide applications.
+        \end{itemize}
+        \item \textbf{Measure of similarity:}
+        \begin{itemize}
+          \item Can be computed for various types of data.
+        \end{itemize}
+        \item \textbf{Clustering algorithms can be categorized into:}
+        \begin{itemize}
+          \item Partitioning methods ($k$-means and $k$-medoids).
+          \item Hierarchical methods (BIRCH and CHAMELEON; probabilistic hierarchical clustering).
+          \item Density-based methods (DBSCAN, OPTICS, and DENCLUE).
+          \item Grid-based methods (STING, CLIQUE).
+          \item Model-based methods.
+        \end{itemize}
+        \item \textbf{Quality of clustering results.}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{References (I)}
+        \begin{itemize}
+          \item R. Agrawal, J. Gehrke, D. Gunopulos, and P. Raghavan: Automatic subspace clustering of high dimensional data for data mining applications. SIGMOD'98.
+          \item M. R. Anderberg: Cluster Analysis for Applications. Academic Press, 1973.
+          \item M. Ankerst, M. Breunig, H.-P. Kriegel, and J. Sander. OPTICS: Ordering points to identify the clustering structure, SIGMOD'99.
+          \item A. Banerjee and R. N. Davé: Validating Clusters using the Hopkins Statistic. Fuzzy Systems 2004.
+          \item F. Beil, M. Ester, and X. Xu: Frequent Term-Based Text Clustering. KDD'02.
+          \item M. M. Breunig, H.-P. Kriegel, R. Ng, and J. Sander: LOF: Identifying Density-Based Local Outliers. SIGMOD 2000.
+          \item M. Ester, H.-P. Kriegel, J. Sander, and X. Xu: A density-based algorithm for discovering clusters in large spatial databases. KDD'96.
+          \item M. Ester, H.-P. Kriegel, and X. Xu: Knowledge discovery in large spatial databases: Focusing techniques for efficient class identification. SSD'95.
+          \item D. Fisher: Knowledge acquisition via incremental conceptual clustering. Machine Learning, 2:139-172, 1987.
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{References (II)}
+        \begin{itemize}
+          \item L. Fu and E. Medico: FLAME, a novel fuzzy clustering method for the analysis of DNA microarray data. BMC Bioinformatics 2007, 8:3.
+          \item D. Gibson, J. Kleinberg, and P. Raghavan: Clustering categorical data: An approach based on dynamic systems. VLDB'98.
+          \item V. Ganti, J. Gehrke, and R. Ramakrishan: CACTUS Clustering Categorical Data Using Summaries. KDD'99.
+          \item D. Gibson, J. Kleinberg, and P. Raghavan: Clustering categorical data: An approach based on dynamic systems. VLDB'98.
+          \item S. Guha, R. Rastogi, and K. Shim. Cure: An efficient clustering algorithm for large databases. SIGMOD'98.
+          \item S. Guha, R. Rastogi, and K. Shim. ROCK: A robust clustering algorithm for categorical attributes. ICDE'99.
+          \item A. Hinneburg and D. A. Keim: An Efficient Approach to Clustering in Large Multimedia Databases with Noise. KDD'98.
+          \item A. K. Jain and R. C. Dubes: Algorithms for Clustering Data. Prentice Hall, 1988.
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{References (III)}
+        \begin{itemize}
+          \item G. Karypis, E.-H. Han, and V. Kumar: CHAMELEON: A Hierarchical Clustering Algorithm Using Dynamic Modeling. IEEE Computer, 32(8): 68-75, 1999.
+          \item L. Kaufman and P. J. Rousseeuw: Finding Groups in Data: an Introduction to Cluster Analysis. John Wiley \& Sons, 1990.
+          \item E. Knorr and R. Ng: Algorithms for mining distance-based outliers in large datasets. VLDB'98.
+          \item G. J. McLachlan and K.E. Bkasford: Mixture Models: Inference and Applications to Clustering. John Wiley and Sons, 1988.
+          \item R. Ng and J. Han: Efficient and effective clustering method for spatial data mining. VLDB'94.
+          \item L. Parsons, E. Haque, and H. Liu: Subspace Clustering for High Dimensional Data: A Review. SIGKDD Explorations, 6(1), June 2004.
+          \item E. Schikuta: Grid clustering: An efficient hierarchical clustering method for very large data sets. Pattern Recognition 1996.
+          \item G. Sheikholeslami, S. Chatterjee, and A. Zhang: WaveCluster: A multi-resolution clustering approach for very large spatial databases. VLDB'98.
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{References (IV)}
+        \begin{itemize}
+          \item A. K. H. Tung, J. Han, L. V. S. Lakshmanan, and R. T. Ng: Constraint-Based Clustering in Large Databases. ICDT'01.
+          \item A. K. H. Tung, J. Hou, and J. Han: Spatial Clustering in the Presence of Obstacles. ICDE'01.
+          \item H. Wang, W. Wang, J. Yang, and P.S. Yu: Clustering by pattern similarity in large data sets. SIGMOD'02.
+          \item W. Wang, Yang, and R. Muntz: STING: A Statistical Information Grid Approach to Spatial Data Mining. VLDB'97.
+          \item T. Zhang, R. Ramakrishnan, and M. Livny: BIRCH : An efficient data clustering method for very large databases. SIGMOD'96.
+          \item X. Yin, J. Han, and P. S. Yu: LinkClus: Efficient Clustering via Heterogeneous Semantic Links. VLDB'06.
+        \end{itemize}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}[c]
+      \begin{center}
+        Thank you for your attention.\\
+        {\bf Any questions about the seventh chapter?}\\[0.5cm]
+        Ask them now, or again, drop me a line: \\
+        \faSendO \ \texttt{luciano.melodia@fau.de}.
+      \end{center}
+    \end{frame}
+  }
+\end{document}

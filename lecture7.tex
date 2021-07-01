@@ -1,0 +1,2525 @@
+\ifx\pdfminorversion\undefined\else\pdfminorversion=4\fi
+\documentclass[aspectratio=169,t,table]{beamer}
+%\documentclass[aspectratio=169,t,handout]{beamer}
+
+% English version FAU Logo
+\usepackage[english]{babel}
+% German version FAU Logo
+%\usepackage[ngerman]{babel}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{hyperref}
+%\usepackage{fontawesome}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{verbatim}
+\usepackage{pgfplots,pgfplotstable,pgf-pie}
+\usepackage{filecontents}
+\usepackage{fontawesome}
+\newcommand{\plots}{0.611201}
+\newcommand{\plotm}{2.19882}
+\pgfplotsset{height=4cm,width=8cm,compat=1.16}
+\pgfmathdeclarefunction{gauss}{2}{%
+  \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
+}
+
+\tikzset{
+    vertex/.style = {
+        circle,
+        fill            = black,
+        outer sep = 2pt,
+        inner sep = 1pt,
+    }
+}
+
+\tikzset{
+    mynode/.style={
+        draw,
+        thick,
+        anchor=south west,
+        minimum width=2cm,
+        minimum height=1.3cm,
+        align=center,
+        inner sep=0.2cm,
+        outer sep=0,
+        rectangle split,
+        rectangle split parts=2,
+        rectangle split draw splits=false},
+    reverseclip/.style={
+        insert path={(current page.north east) --
+            (current page.south east) --
+            (current page.south west) --
+            (current page.north west) --
+            (current page.north east)}
+    }
+}
+
+\tikzset{basic/.style={
+        draw,
+        rectangle split,
+        rectangle split parts=2,
+        rectangle split part fill={blue!20,white},
+        minimum width=2.5cm,
+        text width=2cm,
+        align=left,
+        font=\itshape
+    },
+    Diamond/.style={ diamond,
+                      draw,
+                      shape aspect=2,
+                      inner sep = 2pt,
+                      text centered,
+                      fill=blue!10!white,
+                      font=\itshape
+                    }}
+
+
+\tikzset{level 1/.append style={sibling angle=50,level distance = 165mm}}
+\tikzset{level 2/.append style={sibling angle=20,level distance = 45mm}}
+\tikzset{every node/.append style={scale=1}}
+
+\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,fit,positioning,shapes.symbols,chains,intersections,snakes,positioning,matrix,mindmap,shapes.multipart,shapes,calc,shapes.geometric}
+
+% read in data file
+
+
+\newcommand{\MaxNumberX}{3}
+\newcommand{\MaxNumberY}{5}
+\newcommand{\tikzmark}[1]{\tikz[remember picture] \node[coordinate] (#1) {#1};}
+
+\pgfplotstableread{data/iris.dat}\iris
+\pgfplotstablegetrowsof{\iris}
+\pgfplotsset{compat=1.14}
+\pgfmathsetmacro\NumRows{\pgfplotsretval-1}
+\definecolor{airforceblue}{rgb}{0.36, 0.54, 0.66}
+
+\usepgfplotslibrary{groupplots}
+% Options:
+%  - inst:      Institute
+%                 med:      MedFak FAU theme
+%                 nat:      NatFak FAU theme
+%                 phil:     PhilFak FAU theme
+%                 rw:       RWFak FAU theme
+%                 rw-jura:  RWFak FB Jura FAU theme
+%                 rw-wiso:  RWFak FB WISO FAU theme
+%                 tf:       TechFak FAU theme
+%  - image:     Cover image on title page
+%  - plain:     Plain title page
+%  - longtitle: Title page layout for long title
+\usetheme[%
+  image,%
+  longtitle,%
+  tf
+]{fau}
+
+% Enable semi-transparent animation preview
+\setbeamercovered{transparent}
+
+
+\lstset{%
+  language=Python,
+  tabsize=2,
+  basicstyle=\tt,
+  keywordstyle=\color{blue},
+  commentstyle=\color{green!50!black},
+  stringstyle=\color{red},
+  numbers=left,
+  numbersep=0.5em,
+  xleftmargin=1em,
+  numberstyle=\tt
+}
+
+
+% Title, authors, and date
+\title[KDD]{Chapter VI: Classification}
+\subtitle{Knowledge Discovery in Databases}
+\author[L.~Melodia]{Luciano Melodia M.A.}
+% English version
+\institute[Department]{Evolutionary Data Management, Friedrich-Alexander University Erlangen-Nürnberg}
+% German version
+%\institute[Lehrstuhl]{Lehrstuhl, Friedrich-Alexander-Universit\"at Erlangen-N\"urnberg}
+\date{Summer semester 2021}
+% Set additional logo (overwrites FAU seal)
+%\logo{\includegraphics[width=.15\textwidth]{themefau/art/xxx/xxx.pdf}}
+\begin{document}
+  % Title
+  \maketitle
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Chapter VI: Classification}
+        \begin{itemize}
+            \item \textbf{Classification: basic concepts.}
+            \item Decision-tree induction.
+            \item Bayes classification methods.
+            \item Rule-based classification.
+            \item Model evaluation and selection.
+            \item Techniques to improve classification accuracy: ensemble methods.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Supervised vs. Unsupervised Learning}
+        \begin{itemize}
+            \item \textbf{\color{airforceblue}Supervised learning (classification).}
+            \begin{itemize}
+              \item Supervision:
+              \begin{itemize}
+                \item The \textbf{training data} (observations, measurements, etc.) are accompanied by \textbf{labels} indicating the \textbf{class} of the observations.
+                \item New data is classified based on a \textbf{model} created from the training data.
+              \end{itemize}
+            \end{itemize}
+            \item \textbf{\color{airforceblue}Unsupervised learning (clustering).}
+            \begin{itemize}
+              \item The class labels of training data are unknown.
+              \begin{itemize}
+                \item Or rather, there are no training data.
+              \end{itemize}
+            \end{itemize}
+            \begin{itemize}
+              \item Given a set of measurements, observations, etc., \\ the goal is to find classes or clusters in the data.
+              \begin{itemize}
+                \item See next chapter.
+              \end{itemize}
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Prediction Problems: Classification vs. Numerical Prediction}
+        \begin{itemize}
+            \item \textbf{Classification:}
+            \begin{itemize}
+              \item Predicts \textbf{\color{airforceblue}categorical class labels} (discrete, nominal).
+              \item Constructs a model based on the training set and the values (class labels) in a classifying attribute and uses it in classifying new data.
+            \end{itemize}
+            \item \textbf{Numerical prediction:}
+            \begin{itemize}
+              \item Models \textbf{\color{airforceblue}continuous-valued functions}.
+              \item I.e. predicts missing or unknown (future) values.
+            \end{itemize}
+            \item \textbf{Typical applications of classification:}
+            \begin{itemize}
+              \item Credit/loan approval: Will it be paid back?
+              \item Medical diagnosis: Is a tumor cancerous or benign?
+              \item Fraud detection: Is a transaction fraudulent or not?
+              \item Web-page categorization: Which category is it?
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Classification -- A Two-step Process}
+        \begin{itemize}
+            \item \textbf{Model construction: describing a set of predetermined classes:}
+            \begin{itemize}
+              \item Each tuple/sample is assumed to belong to a predefined class, as determined by the \textbf{\color{airforceblue}class-label attribute}.
+              \item The set of tuples used for model construction is the \textbf{\color{airforceblue}training set}.
+              \item The \textbf{\color{airforceblue}model} is represented as classification rules, decision trees, or mathematical formulae.
+            \end{itemize}
+            \item \textbf{Model usage, for classifying future or unknown objects:}
+            \begin{itemize}
+              \item Estimate \textbf{\color{airforceblue}accuracy} of the model:
+              \begin{itemize}
+                \item The known label of \textbf{test samples} is compared with the result from the model.
+                \item \textbf{Accuracy rate} is the percentage of test-set samples that are correctly classified by the model.
+                \item Test set is independent of training set (otherwise overfitting).
+              \end{itemize}
+              \item If the accuracy is acceptable, \textbf{\color{airforceblue}use the model} to classify data tuples whose class labels are not known.
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Classification -- A Two-step Process}
+      \centering
+      \begin{tikzpicture}
+        \node at (0,0) {
+        \begin{tabular}{|l|l|c|c|}
+          \hline
+          \cellcolor{blue!25}\textbf{\uppercase{name}} & \cellcolor{blue!25}\textbf{\uppercase{rank}} & \cellcolor{blue!25}\textbf{\uppercase{years}} & \cellcolor{brown!25}\textbf{\uppercase{tenured}} \\\hline
+          \cellcolor{yellow!25}Mike & \cellcolor{yellow!25}Assistant Prof & \cellcolor{yellow!25}3 & \cellcolor{red!15}no \\\hline
+          \cellcolor{yellow!25}Mary & \cellcolor{yellow!25}Assistant Prof & \cellcolor{yellow!25}7 & \cellcolor{green!15}yes \\\hline
+          \cellcolor{yellow!25}Bill & \cellcolor{yellow!25}Professor & \cellcolor{yellow!25}2 & \cellcolor{green!15}yes \\\hline
+          \cellcolor{yellow!25}Jim & \cellcolor{yellow!25}Associate Prof & \cellcolor{yellow!25}7 & \cellcolor{green!15}yes \\\hline
+          \cellcolor{yellow!25}Dave & \cellcolor{yellow!25}Assistant Prof & \cellcolor{yellow!25}6 & \cellcolor{red!15}no \\\hline
+          \cellcolor{yellow!25}Anne & \cellcolor{yellow!25}Associate Prof & \cellcolor{yellow!25}3 & \cellcolor{red!15}no \\\hline
+        \end{tabular}
+        };
+        \node[fill=orange!50, text width = 3cm, align=center] at (7.5,5) {Classification};
+        \node[fill=orange!50, text width = 3cm, align=center] at (7.5,4.6) {algorithms};
+
+        \node[fill=green!20, text width = 3cm, align=left] at (7.5,0) {\texttt{if RANK =}'Professor'};
+        \node[fill=green!20, text width = 3cm, align=left] at (7.5,-0.4) {\texttt{or YEARS >}6};
+        \node[fill=green!20, text width = 3cm, align=left] at (7.5,-0.8) {\texttt{then TENURED =}'yes'};
+
+        \node[text width = 3cm, align=center] at (0.05,3.7) {Training};
+        \node[text width = 3cm, align=center] at (0.05,3.3) {data};
+
+        \node[text width = 3cm, align=center] at (7.6,2.2) {Classifier};
+        \node[text width = 3cm, align=center] at (7.6,1.8) {(model)};
+
+        \draw [thick](-1.5,3.15) -- (-1.5,4.65);
+        \draw [thick](1.5,3.15) -- (1.5,4.65);
+        \draw [thick](-1.5,3.15) arc (180:360:1.5 and 0.5);
+        \draw [thick](-1.5,4.65) arc (180:360:1.5 and 0.5);
+        \draw [thick](1.5,4.65) arc (-1.5:180:1.5 and 0.5);
+        \draw [thick, ->] (2,4.7) -- (5.5,4.7);
+        \draw [thick, ->] (7.5,4.2) -- (7.5,3.8);
+        \draw [thick] (6.05,1.5) -- (5.9,0.2);
+        \draw [thick] (8.95,1.5) -- (9.1,0.2);
+
+        \draw [thick](6,1.65) -- (6,3.15);
+        \draw [thick](9,1.65) -- (9,3.15);
+        \draw [thick](6,1.65) arc (180:360:1.5 and 0.5);
+        \draw [thick](6,3.15) arc (180:360:1.5 and 0.5);
+        \draw [thick](9,3.15) arc (-1.5:180:1.5 and 0.5);
+        \draw [thick] (-3.7,1.5) -- (-1.5,3);
+        \draw [thick] (1.5,3) -- (3.7,1.5);
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Process (II): Using the Model in Prediction}
+      \centering
+      \begin{tikzpicture}
+        \draw [thick](-1.5,3.15) -- (-1.5,4.65);
+        \draw [thick](1.5,3.15) -- (1.5,4.65);
+        \draw [thick](-1.5,3.15) arc (180:360:1.5 and 0.5);
+        \draw [thick](-1.5,4.65) arc (180:360:1.5 and 0.5);
+        \draw [thick](1.5,4.65) arc (-1.5:180:1.5 and 0.5);
+        \draw [thick, ->] (2,4.7) -- (5.5,4.7);
+        \draw [thick, ->] (7.5,4.2) -- (7.5,3.8);
+        \draw [thick] (6.05,1.5) -- (5.9,0.2);
+        \draw [thick] (8.95,1.5) -- (9.1,0.2);
+        \node[text width = 3cm, align=center] at (0.05,3.7) {Training};
+        \node[text width = 3cm, align=center] at (0.05,3.3) {data};
+
+        \node[text width = 3cm, align=center] at (7.6,2.2) {Unseen};
+        \node[text width = 3cm, align=center] at (7.6,1.8) {data};
+
+        \node at (0,0.4){
+        \begin{tabular}{|l|l|c|c|}
+          \hline
+          \cellcolor{blue!20}\textbf{\uppercase{name}} & \cellcolor{blue!20}\textbf{\uppercase{rank}} & \cellcolor{blue!20}\textbf{\uppercase{years}} & \cellcolor{brown!20}\textbf{\uppercase{tenured}} \\\hline
+          Tom & Assistant Prof & 2 & no \\\hline
+          \cellcolor{green!20}Merlisa & \cellcolor{green!20}Associate Prof & \cellcolor{green!20}7 & \cellcolor{green!20}no \\\hline
+          George & Professor & 5 & yes \\\hline
+          Joseph & Assistant Prof & 7 & yes \\\hline
+        \end{tabular}
+        };
+        \node[fill=orange!50, text width = 3cm, align=center] at (7.5,5) {Classification};
+        \node[fill=orange!50, text width = 3cm, align=center] at (7.5,4.6) {algorithms};
+        \node[fill=green!20, text width = 3cm, align=center] at (7.5,0) {(Jeff, Professor,4)};
+        \draw [thick] (6.05,1.5) -- (5.9,0.2);
+        \draw [thick] (8.95,1.5) -- (9.1,0.2);
+        \draw [thick](6,1.65) -- (6,3.15);
+        \draw [thick](9,1.65) -- (9,3.15);
+        \draw [thick](6,1.65) arc (180:360:1.5 and 0.5);
+        \draw [thick](6,3.15) arc (180:360:1.5 and 0.5);
+        \draw [thick](9,3.15) arc (-1.5:180:1.5 and 0.5);
+        \draw [thick] (-3.7,1.5) -- (-1.5,3);
+        \draw [thick] (1.5,3) -- (3.7,1.5);
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Chapter VI: Classification}
+        \begin{itemize}
+            \item Classification: basic concepts.
+            \item \textbf{Decision-tree induction.}
+            \item Bayes classification methods.
+            \item Rule-based classification.
+            \item Model evaluation and selection.
+            \item Techniques to improve classification accuracy: ensemble methods.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Decision-tree Induction: An Example}
+      \begin{columns}
+        \begin{column}{0.4\textwidth}
+          \vspace{-3cm}
+          \begin{itemize}
+            \item \textbf{Training dataset: buys\_computer.}
+            \begin{itemize}
+              \item The dataset follows an example of Quinlan's ID3 (playing tennis).
+            \end{itemize}
+            \item \textbf{Resulting tree:}\\[0.1cm]
+            \centering
+            \begin{tikzpicture}
+              \node[draw, fill=blue!20] at (0,0) (a) {age?};
+              \node[fill=yellow!20] at (-1.5,-0.7) (b) {<=30};
+              \node[fill=yellow!20] at (0,-0.7) (c) {$31\ldots40$};
+              \node[fill=yellow!20] at (1.5,-0.7) (d) {$>40$};
+              \node[draw, fill=blue!20] at (-1.5,-1.4) (e) {student?};
+              \node[fill=yellow!20] at (-2,-2.1) (eno1) {no};
+              \node[fill=yellow!20] at (-1,-2.1) (eyes1) {yes};
+              \node[fill=orange!20] at (-2,-2.8) (eno2) {no};
+              \node[fill=green!20] at (-1,-2.8) (eyes2) {yes};
+              \node[draw, fill=blue!20] at (1.5,-1.4) (g) {credit rating?};
+              \node[fill=yellow!20] at (2,-2.1) (gf) {fair};
+              \node[fill=yellow!20] at (1,-2.1) (gex) {excellent};
+              \node[fill=orange!20] at (1,-2.8) (gno) {no};
+              \node[fill=green!20] at (2,-2.8) (gyes) {yes};
+              \node[fill=green!20] at (0,-1.4) (f) {yes};
+
+              \draw (a)--(b);
+              \draw (a)--(c);
+              \draw (a)--(d);
+              \draw (b)--(e);
+              \draw (c)--(f);
+              \draw (d)--(g);
+              \draw (e)--(eno1);
+              \draw (e)--(eyes1);
+              \draw (eno1)--(eno2);
+              \draw (eyes1)--(eyes2);
+              \draw (g)--(gex);
+              \draw (g)--(gf);
+              \draw (gex)--(gno);
+              \draw (gf)--(gyes);
+            \end{tikzpicture}
+          \end{itemize}
+        \end{column}
+        \begin{column}{0.6\textwidth}
+          \begin{tabular}{|l|l|c|c|c|}
+            \hline
+            \cellcolor{blue!20}age & \cellcolor{blue!20}income & \cellcolor{blue!20}student & \cellcolor{blue!20}credit\_rating & \cellcolor{blue!20}uter \\\hline
+            \cellcolor{yellow!20}$\leq 30$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$\leq 30$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$\leq 30$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$\leq 30$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$\leq 30$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+          \end{tabular}
+        \end{column}
+      \end{columns}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Algorithm for Decision-tree Induction}
+        \begin{itemize}
+            \item \textbf{Basic algorithm (a greedy algorithm):}
+            \begin{itemize}
+              \item Tree is constructed in a \textbf{\color{airforceblue}top-down recursive divide-and-conquer manner.}
+              \item Attributes are categorical.
+              \begin{itemize}
+                \item If not: discretize in advance.
+              \end{itemize}
+              \item At start, all the training examples are at the root.
+              \item Examples are \textbf{\color{airforceblue}partitioned recursively} based on selected attributes.
+              \item Test attributes are selected on the basis of a heuristic or statistical measure.
+              \begin{itemize}
+                \item E.g., information gain -- see on the next slide.
+              \end{itemize}
+            \end{itemize}
+            \item \textbf{Conditions for stopping partitioning:}
+            \begin{itemize}
+              \item All samples for a given node belong to the same class.
+              \item There are no remaining attributes for further partitioning.
+              \begin{itemize}
+                \item Majority voting is employed for classifying the leaf.
+              \end{itemize}
+              \item There are no samples left (i.e. partition for particular value is empty).
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Attribute-selection Measure: Information Gain (ID3/C4.5)}
+      \begin{itemize}
+        \item \textbf{Select the attribute with the highest information gain.}
+        \begin{itemize}
+          \item Let $p_i$ be the probability that an arbitrary tuple in $D$ belongs to class $C_i$,\\ estimated by $\frac{|C_i|}{|D|}$, such that $1 \leq i \leq m$.
+          \item \textbf{Expected information} (entropy) needed to classify a tuple in $D$:
+          \begin{align}
+            \text{Info}(D) = -\sum_{i=1}^{m}p_i \log_2(p_i).
+          \end{align}
+          \item \textbf{Information} needed (after using attribute $A$ to split $D$ into $v$ partitions) to classify $D$:
+          \begin{align}
+            \text{Info}_A(D) = \sum_{j=1}^v \left( \frac{|D_j|}{|D|} \text{Info}(D_j) \right).
+          \end{align}
+          \item \textbf{Information gained} by branching on $A$:
+          \begin{align}
+            \text{Gain}(A)=\text{Info}(D)-\text{Info}_A(D).
+          \end{align}
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Attribute Selection: Information Gain}
+      \begin{columns}
+        \begin{column}{0.45\textwidth}
+          \begin{itemize}
+            \item \textbf{Class P: buys\_computer = "yes"}
+            \item \textbf{Class N: buys\_computer = "no"}
+            \begin{align*}
+              \resizebox{7cm}{!}{%
+                $\text{Info}(D) = I(9,5) = - \frac{9}{14}\log_2(\frac{9}{14})-\frac{5}{14} \log_2(\frac{5}{14}) = 0.94$
+              }
+            \end{align*}
+          \end{itemize}
+          \centering
+          \begin{tabular}{|l|l|l|l|}
+            \hline
+            \cellcolor{blue!20}age & \cellcolor{blue!20}p & \cellcolor{blue!20}n & \cellcolor{blue!20}$l(p,n)$ \\\hline
+            \cellcolor{yellow!20}$\leq 30$ & 2 & 3 & 0.971 \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & 4 & 0 & 0 \\\hline
+            \cellcolor{yellow!20}$>40$ & 3 & 2 & 0.971 \\\hline
+          \end{tabular}\\[0.2cm]
+        \begin{itemize}
+          \item \textbf{Similarly,}
+          \begin{itemize}
+            \item $\text{Gain}(\texttt{income}) = 0.029$,
+            \item $\text{Gain}(\texttt{student}) = 0.090$,
+            \item $\text{Gain}(\texttt{credit\_rating}) = 0.048$.
+          \end{itemize}
+        \end{itemize}
+        \end{column}
+        \begin{column}{0.45\textwidth}
+          \vspace{-1.3cm}
+          \begin{align*}
+            \resizebox{7cm}{!}{%
+              $\text{Info}_{\texttt{age}}(D) = \frac{5}{14}I(2,3) + \frac{4}{14} I(4,0) + \frac{5}{14} I(3,2) = 0.694$.
+            }
+          \end{align*}
+          $\frac{5}{14} I(2,3)$ means "$\texttt{age} \leq 30$" has $5$ out of $14$ samples, with $2$ yes'es and $3$ no's. Hence,
+          \begin{align*}
+              \text{Gain}(\texttt{age}) = \text{Info}(D)-\text{Info}_{\texttt{age}}(D) = 0.246.
+          \end{align*}
+          \resizebox{6cm}{!}{%
+          \centering
+          \begin{tabular}{|l|l|c|l|c|}
+            \hline
+            \cellcolor{blue!20}age & \cellcolor{blue!20}income & \cellcolor{blue!20}student & \cellcolor{blue!20}credit\_rating & \cellcolor{brown!20}buys\_computer \\\hline
+            \cellcolor{yellow!20}$\leq30$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$\leq30$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$\leq30$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{red!20}no \\\hline
+			\cellcolor{yellow!20}$\leq 30$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$\leq30$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+          \end{tabular}}
+        \end{column}
+      \end{columns}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Partitioning in the Example}
+      \centering
+      \begin{tikzpicture}
+        \node[draw, fill=blue!20] at (0,0) (r) {age?};
+        \node[draw, fill=yellow!20] at (-2,-1) (a) {$\leq 30$};
+        \node[draw, fill=yellow!20] at (0,-1) (b) {$31\ldots40$};
+        \node[draw, fill=yellow!20] at (2,-1) (c) {$>40$};
+        \draw (r)--(a);
+        \draw (r)--(b);
+        \draw (r)--(c);
+        \node at (-4,-3) (t1) {
+        \begin{tabular}{|l|l|l|l|}
+          \hline
+          \cellcolor{blue!20}income & \cellcolor{blue!20}student & \cellcolor{blue!20}credit\_rating & \cellcolor{brown!20}buys\_computer \\\hline
+          \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & n\cellcolor{red!20}o \\\hline
+          \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+          \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{red!20}no \\\hline
+          \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+          \cellcolor{yellow!20}medium & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+        \end{tabular}
+        };
+        \node at (-2.5,-5.2) (t3) {
+        \begin{tabular}{|l|l|l|l|}
+          \hline
+          \cellcolor{blue!20}income & \cellcolor{blue!20}student & \cellcolor{blue!20}credit\_rating & \cellcolor{brown!20}buys\_computer \\\hline
+          \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+          \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+          \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+          \cellcolor{yellow!20}high & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+        \end{tabular}
+        };
+        \node at (2.8,-3.8) (t2) {
+        \begin{tabular}{|l|l|l|l|}
+          \hline
+          \cellcolor{blue!20}income & \cellcolor{blue!20}student & \cellcolor{blue!20}credit\_rating & \cellcolor{brown!20}buys\_computer \\\hline
+          \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+          \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+          \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+          \cellcolor{yellow!20}medium & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+          \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+        \end{tabular}
+        };
+        \draw (a)--(t1);
+        \draw (c)--(t2);
+        \draw (b)--(t3);
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Computing Information Gain for Continuous-valued Attributes}
+      \begin{itemize}
+        \item \textbf{Let attribute A be a continuous-valued attribute.}
+        \item \textbf{Must determine the best split point for A.}
+        \begin{itemize}
+          \item Sort the values of A in increasing order.
+          \item Typically, the midpoint between each pair of adjacent values \\ is considered as a possible split point.
+          \begin{itemize}
+            \item $\frac{a_i+a_{i+1}}{2}$ is the midpoint between the values of $a_i$ and $a_{i+1}$.
+          \end{itemize}
+          \item The point with the minimum expected information requirement for $A$ \\ is selected as the split point for $A$.
+        \end{itemize}
+        \item \textbf{Split:}
+        \begin{itemize}
+          \item $D_1$ is the set of tuples in $D$ satisfying $A \leq$ split point,\\
+                and $D_2$ is the set of tuples in $D$ satisfying $A >$ split point.
+        \end{itemize}
+        \item \textbf{So to say: Discretization as you go along.}
+        \begin{itemize}
+          \item For this particular purpose.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Gain Ratio for Attribute Selection (C4.5)}
+      \begin{itemize}
+        \item \textbf{Information-gain measure is biased towards attributes with a large number of values.}
+        \item \textbf{C4.5 (a successor of ID3) uses gain ratio to overcome the problem (normalization to information gain):}
+        \begin{align}
+          \text{SplitInfo}_A(D) = - \sum_{j=1}^{v} \frac{|D_j|}{|D|} \log_2\left( \frac{|D_j|}{|D|} \right),\\
+          \text{GainRatio}(A) = \frac{\text{Gain}(A)}{\text{SplitInfo}_A(D)}.
+        \end{align}
+        \item Example:
+        \begin{align}
+          \text{SplitInfo}_{\texttt{income}}(D) &= -\frac{4}{14} \log_2 \left( \frac{4}{14} \right) - \frac{6}{14} \log_2 \left( \frac{6}{14} \right) - \frac{4}{14} \log_2 \left( \frac{4}{14} \right) = 1.557,\\
+          \text{GainRatio}(\texttt{income}) &= \frac{0.029}{1.557} = 0.019.
+        \end{align}
+        \item The attribute with the maximum gain ratio is selected as the splitting attribute.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Gini Index}
+      \begin{itemize}
+        \item \textbf{Corrado Gini (1884 -- 1965).}
+        \begin{itemize}
+          \item Italian statistician and sociologist.
+        \end{itemize}
+        \item \textbf{Also called Gini coefficient.}
+        \item \textbf{Measures statistical dispersion.}
+        \begin{itemize}
+          \item Zero expresses perfect equality where all values belong to the same class.
+          \item One expresses maximal inequality among values.
+        \end{itemize}
+        \item \textbf{Based on the Lorenz curve.}
+        \begin{itemize}
+          \item Plots the proportion of the total sum of values ($y$-axis) that is cumulatively assigned to the bottom $x\%$ of the population.
+          \item Line at $45$ degrees thus represents perfect equality of value distribution.
+        \end{itemize}
+        \item \textbf{Gini coefficient then is $\ldots$}
+        \begin{itemize}
+          \item $\ldots$ the ratio of the area that lies between the line of equality and the Lorenz curve over the total area under the line of equality.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Gini Index (II)} % TODO: plot anpassen, sodass cumulative income nur steigt und nie faellt
+      \centering
+      Example: Distribution of incomes.\\[0.5cm]
+      \begin{tikzpicture}
+      \begin{axis}[
+          xmin=0, xmax=100,
+          ymin=0, ymax=100,
+          minor tick num = 4,
+          grid,
+          ylabel = cumulative income (in \%),
+          xlabel = cumulative population (in \%),
+          legend style={legend pos=north west},
+          ]
+      \addplot plot
+          coordinates {(0,0) (25,20) (50,15) (75,30) (100,100)};
+      \addplot plot
+          coordinates {(0,0) (25,10) (50,45) (75,40) (100,100)};
+      \addplot plot [thin]
+          coordinates {(0,0) (100,100)};
+      \legend{$L(1)$,$L(2)$}
+      \end{axis}
+    \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Gini Index (CART, IBM IntelligentMiner)}
+      \begin{itemize}
+        \item \textbf{If a dataset D contains examples from n classes, Gini index gini(D) is defined as:}
+        \begin{align}
+          \text{gini}(D) = 1-\sum_{j=1}^{n} p_j^2,
+        \end{align}
+        where $p_j$ is the relative frequency of class $j$ in $D$.
+        \item \textbf{If a dataset $D$ is split on $A$ into two subsets $D_1$ and $D_2$, the Gini index $\text{gini}(D)$ is defined as}
+        \begin{align}
+          \text{gini}_A(D) = \frac{|D_1|}{|D|}\text{gini}(D_1)+\frac{|D_2|}{|D|}\text{gini}(D_2).
+        \end{align}
+        \item \textbf{Reduction in impurity:}
+        \begin{align}
+          \Delta \text{gini}_A(D) = \text{gini}(D)-\text{gini}_A(D).
+        \end{align}
+        \item \textbf{The attribute $A$ provides the smallest $\text{gini}_A(D)$ (or the largest reduction in impurity) \\ is chosen to split the node.}
+        \begin{itemize}
+          \item Need to enumerate all the possible splitting points for each attribute.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Computation of Gini Index (I)}
+      \begin{itemize}
+        \item \textbf{Example:}
+        \begin{itemize}
+          \item $D$ has $9$ tuples in $\text{buys\_computer} =$ "yes" and 5 in "no", thus
+          \begin{align}
+            \text{gini}(D) = 1 - \left( \frac{9}{14} \right)^2 - \left( \frac{5}{14} \right)^2 = 0.459.
+          \end{align}
+        \end{itemize}
+        \item Suppose the attribute $\texttt{income}$ partitions $D$ \\ into $10$ in $D_1:\{\texttt{low,medium}\}$ and $4$ in $D_2: \{\texttt{high}\}$:
+        \begin{align}
+          &\text{gini}(D\vert_{D[\texttt{income}]="medium", "low"}) \\
+          &= \frac{10}{14} \text{gini}(D_1) + \frac{4}{14} \text{gini}(D_2)\\
+          &=\frac{10}{14} \left(1-\left( \frac{7}{10} \right)^2 - \left( \frac{3}{10} \right)^2 \right) + \frac{4}{14} \left( 1-\left( \frac{2}{4} \right)^2 - \left( \frac{2}{4} \right)^2 \right) =\\
+          &= 0.443 = \text{gini}(D\vert_{D[\texttt{income}]="high"}).
+        \end{align}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Computation of Gini Index (II)}
+      \begin{itemize}
+        \item \textbf{Example (cont.):}
+        \begin{itemize}
+          \item $\text{gini}(D\vert_{D[\texttt{income}]="low", "high"}) = 0.458$,\\
+                $\text{gini}(D\vert_{D[\texttt{income}]="medium", "high"}) = 0.450.$
+          \item Thus, split on the \{"low","medium"\} and \{"high"\}, since it has the lowest gini index.
+        \end{itemize}
+        \item \textbf{All attributes are assumed continuous-valued.}
+        \item \textbf{May need other tools, E.g., clustering, to get the possible split values.}
+        \item \textbf{Can be modified for categorical attributes.}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Computation of Gini Index (III)}
+      \begin{itemize}
+        \item \textbf{The three measures, in general, return good results, but}
+        \begin{itemize}
+          \item \textbf{\color{airforceblue}Information gain:}
+          \begin{itemize}
+            \item Biased towards multi-valued attributes.
+          \end{itemize}
+          \item \textbf{\color{airforceblue}Gain ratio:}
+          \begin{itemize}
+            \item Tends to prefer unbalanced splits in which one partition is much smaller than the others.
+          \end{itemize}
+          \item \textbf{\color{airforceblue}Gini index:}
+          \begin{itemize}
+            \item Biased to multi-valued attributes.
+            \item Has difficulty when number of classes is large.
+            \item Tends to favor tests that result in equal-sized partitions and purity in both partitions.
+          \end{itemize}
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Other Attribute-selection Measures}
+      \begin{itemize}
+        \item \textbf{CHAID:}
+        \begin{itemize}
+          \item A popular decision-tree algorithm, measure based on $\chi^2$ test for independence.
+        \end{itemize}
+        \item \textbf{C-SEP:}
+        \begin{itemize}
+          \item Performs better than information gain and Gini index in certain cases.
+        \end{itemize}
+        \item \textbf{G-statistic:}
+        \begin{itemize}
+          \item Has a close approximation to $\chi^2$ distribution.
+        \end{itemize}
+        \item \textbf{MDL (Minimal Description Length) principle:}
+        \begin{itemize}
+          \item I.e. the simplest solution is preferred.
+          \item The best tree is the one that requires the fewest number of bits to both (1) encode the tree and (2) encode the exceptions to the tree.
+        \end{itemize}
+        \item \textbf{Multivariate splits:}
+        \begin{itemize}
+          \item Partitioning based on multiple variable combinations.
+          \item CART: finds multivariate splits based on a linear combination of attributes.
+        \end{itemize}
+        \item \textbf{Which attribute-selection measure is the best?}
+        \begin{itemize}
+          \item Most give good results, none is significantly superior to others.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Overfitting and Tree Pruning}
+      \begin{itemize}
+        \item \textbf{Overfitting: An induced tree may overfit the training data.}
+        \begin{itemize}
+          \item Too many branches, some may reflect anomalies due to noise or outliers.
+          \item Poor accuracy for unseen samples.
+        \end{itemize}
+        \item \textbf{Two approaches to avoid overfitting:}
+        \begin{itemize}
+          \item \textbf{\color{airforceblue}Prepruning:}
+          \begin{itemize}
+            \item Halt tree construction early.\\
+                  Do not split a node, if this would result in the goodness measure falling below a threshold.
+            \item Difficult to choose an appropriate threshold.
+          \end{itemize}
+          \item \textbf{\color{airforceblue}Postpruning:}
+          \begin{itemize}
+            \item Remove branches from a "fully grown" tree.\\
+                  Get a sequence of progressively pruned trees.
+            \item Use a set of data different from the training data to decide which is the "best pruned tree."
+          \end{itemize}
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Enhancements to Basic Decision-Tree Induction}
+      \begin{itemize}
+        \item \textbf{Allow for} \textbf{\color{airforceblue}continuous-valued attributes.}
+        \begin{itemize}
+          \item Dynamically define new discrete-valued attributes that partition the values of continuous-valued attributes into a discrete set of intervals.
+        \end{itemize}
+        \item \textbf{Handle} \textbf{\color{airforceblue}missing attribute values.}
+        \begin{itemize}
+          \item Assign the most common value of the attribute.
+          \item Assign probability to each of the possible values.
+        \end{itemize}
+      \item \textbf{\color{airforceblue}Attribute construction.}
+      \begin{itemize}
+        \item Create new attributes based on existing ones that are sparsely represented.
+        \item This reduces fragmentation, repetition, and replication.
+      \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Classification in Large Databases}
+      \begin{itemize}
+        \item \textbf{Classification -- a classical problem extensively \\ studied by statisticians and machine-learning researchers.}
+        \item \textbf{Scalability:}
+        \begin{itemize}
+          \item Classifying datasets with millions of examples and \\ hundreds of attributes with reasonable speed.
+        \end{itemize}
+        \item \textbf{Why is decision-tree induction popular?}
+        \begin{itemize}
+          \item Relatively fast learning speed (compared to other classification methods).
+          \item Convertible to simple and easy-to-understand classification rules.
+          \item Can use SQL queries for accessing databases.
+          \item Classification accuracy comparable with other methods.
+        \end{itemize}
+        \item \textbf{RainForest (Gehrke, Ramakrishnan \& Ganti, VLDB'98).}
+        \begin{itemize}
+          \item Builds an AVC-list (attribute, value, class\_label).
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Scalability Framework for RainForest}
+      \begin{itemize}
+        \item \textbf{Separates the scalability aspects from the criteria that determine the quality of the tree.}
+        \item \textbf{Builds an} \textbf{\color{airforceblue}AVC-list:}.
+        \begin{itemize}
+          \item AVC (Attribute, Value, Class\_label).
+        \end{itemize}
+        \item \textbf{\color{airforceblue}AVC-set} \textbf{(of an attribute X):}
+        \begin{itemize}
+          \item Projection of training dataset onto the attribute $X$ and class label where counts of individual class label are aggregated.
+        \end{itemize}
+        \item \textbf{\color{airforceblue}AVC-group} \textbf{(of a node n):}
+        \begin{itemize}
+          \item Set of AVC-sets of all predictor attributes at the node $n$.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{RainForest: Training Set and its AVC-sets}
+      \begin{columns}
+        \begin{column}{0.6\textwidth}
+          \begin{tabular}{|c|l|c|l|c|}
+            \hline
+            \cellcolor{blue!20}age & \cellcolor{blue!20}income & \cellcolor{blue!20}student & \cellcolor{blue!20}credit\_rating & \cellcolor{brown!20}buys\_computer \\\hline
+            \cellcolor{yellow!20}$\leq30$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$\leq30$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$\leq30$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$\leq30$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$\leq30$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+          \end{tabular}
+        \end{column}
+        \begin{column}{0.3\textwidth}
+          \vspace{-3cm}
+
+          \centering
+          AVC-set on age:\\
+          \begin{tabular}{|c|c|c|}
+            \hline
+            age & yes & no \\\hline
+            $\leq 30$ & 2 & 3 \\\hline
+            $31\ldots40$ & 4 & 0 \\\hline
+            $>40$ & 3 & 2 \\\hline
+          \end{tabular}\\[1cm]
+          AVC-set on income:\\
+          \begin{tabular}{|c|c|c|}
+            \hline
+            income & yes & no \\\hline
+            high & 2 & 2 \\\hline
+            medium & 4 & 2 \\\hline
+            low & 3 & 1 \\\hline
+          \end{tabular}
+        \end{column}
+      \end{columns}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{RainForest: Training Set and its AVC-sets (II)}
+      \begin{columns}
+        \begin{column}{0.6\textwidth}
+          \begin{tabular}{|c|l|c|l|c|}
+            \hline
+            \cellcolor{blue!20}age & \cellcolor{blue!20}income & \cellcolor{blue!20}student & \cellcolor{blue!20}credit\_rating & \cellcolor{brown!20}buys\_computer \\\hline
+            \cellcolor{yellow!20}$\leq30$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$\leq30$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$\leq30$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$\leq30$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$\leq30$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+          \end{tabular}
+        \end{column}
+        \begin{column}{0.3\textwidth}
+          \vspace{-3cm}
+
+          \centering
+          AVC-set on student:\\
+          \begin{tabular}{|c|c|c|}
+            \hline
+            student & yes & no \\\hline
+            yes & 6 & 1 \\\hline
+            no & 3 & 4 \\\hline
+          \end{tabular}\\[1cm]
+          AVC-set on credit\_rating:\\
+          \begin{tabular}{|c|c|c|}
+            \hline
+            credit\_rating & yes & no \\\hline
+            fair & 6 & 2 \\\hline
+            excellent & 3 & 3 \\\hline
+          \end{tabular}
+        \end{column}
+      \end{columns}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{BOAT (Bootstrapped Optimistic Algorithm for Tree Construction)}
+      \begin{itemize}
+        \item \textbf{Use a statistical technique called bootstrapping to create several smaller samples (subsets), each fitting in memory.}
+        \begin{itemize}
+          \item See on the subsequent slides.
+        \end{itemize}
+        \item \textbf{Each subset is used to create a tree, resulting in several trees.}
+        \item \textbf{These trees are examined and used to construct a new tree T'.}
+        \begin{itemize}
+          \item It turns out that T' is very close to the tree that would be generated \\
+          using the whole data set together.
+        \end{itemize}
+        \item \textbf{Advantages:}
+        \begin{itemize}
+          \item Requires only two scans of DB.
+          \item An incremental algorithm:
+          \begin{itemize}
+            \item Take insertions and deletions of training data and update the decision tree.
+          \end{itemize}
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Presentation of Classification Results}
+      \centering
+      \includegraphics[height=0.9\textheight]{img/classification1.jpeg}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Visualization of a Decision Tree in SGI/MineSet 3.0}
+      \centering
+      \includegraphics[height=0.9\textheight]{img/classification2.jpeg}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Interactive Visual Mining by Perception-based Classification (PBC)}
+      \centering
+      \includegraphics[height=0.9\textheight]{img/classification3.jpeg}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Chapter VI: Classification}
+        \begin{itemize}
+            \item Classification: basic concepts.
+            \item Decision-tree induction.
+            \item \textbf{Bayes classification methods.}
+            \item Rule-based classification.
+            \item Model evaluation and selection.
+            \item Techniques to improve classification accuracy: ensemble methods.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Bayesian Classification: Why?}
+        \begin{itemize}
+            \item \textbf{A statistical classifier:}
+            \begin{itemize}
+              \item Performs probabilistic prediction, i.e. predicts class-membership probabilities.
+            \end{itemize}
+            \item \textbf{Foundation:} \textbf{\color{airforceblue}Bayes' Theorem.}
+            \item \textbf{Performance:}
+            \begin{itemize}
+              \item A simple Bayesian classifier (naïve Bayesian classifier) has performance comparable with decision tree and selected neural-network classifiers.
+            \end{itemize}
+            \item \textbf{Incremental:}
+            \begin{itemize}
+              \item Each training example can incrementally increase/decrease the probability that a hypothesis is correct -- prior knowledge can be combined with observed data.
+            \end{itemize}
+            \item \textbf{Standard:}
+            \begin{itemize}
+              \item Even when Bayesian methods are computationally intractable, they can provide a standard of optimal decision making against which other methods can be measured.
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Bayes' Theorem: Basics}
+        \begin{itemize}
+          \item \textbf{Let $X$ be a data sample ("evidence").}
+          \begin{itemize}
+            \item The class label shall be unknown.
+          \end{itemize}
+          \item \textbf{Let $C_i$ be the hypothesis that $X$ belongs to class $i$.}
+          \item \textbf{Classification is to determine $P(C_i|X)$:}
+          \begin{itemize}
+            \item \textbf{\color{airforceblue}Posteriori probability:} the probability that the hypothesis \\ holds given the observed data sample $X$.
+          \end{itemize}
+          \item $P(C_i)$:
+          \begin{itemize}
+            \item \textbf{\color{airforceblue}Prior probability:} the initial probability.
+            \item E.g., $X$ will buy computer, regardless of age, income, $\ldots$
+          \end{itemize}
+          \item $P(X)$:
+          \begin{itemize}
+            \item Probability that sample data is observed.
+          \end{itemize}
+          \item $P(X|C_j)$:
+          \begin{itemize}
+            \item \textbf{\color{airforceblue}Likelihood:} the probability of observing the sample $X$ given that the hypothesis holds.
+            \item E.g., given that $X$ buys computer, the probability that $X$ is $31\ldots40$, medium income.
+          \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Bayes' Theorem (II)}
+        \begin{itemize}
+          \item \textbf{Given training data $X$, the posteriori probability $P(C_i|X)$\\
+           of a hypothesis $C_i$ follows from the Bayes' Theorem:}
+           \begin{align}
+             P(C_i|X) = \frac{P(X|C_i)P(C_i)}{P(X)}.
+           \end{align}
+          \item \textbf{Predicts that $X$ belongs to $C_i$ if the probability $P(C_i|X)$\\
+           is {\color{airforceblue}the highest} among all the $P(C_k|X)$ for all $k$ classes.}
+           \item \textbf{Practical difficulty:}
+           \begin{itemize}
+             \item Requires initial knowledge of many probabilities.
+             \item Significant computational cost.
+           \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Towards Naïve Bayesian Classifier}
+        \begin{itemize}
+          \item \textbf{Let $D$ be a training set of tuples and their associated class labels.}
+          \begin{itemize}
+            \item Each tuple is represented by an $n$-dimensional attribute $X = (x_1,x_2,\ldots,x_n)$.
+          \end{itemize}
+          \item \textbf{Supose there are $m$ classes $C_1,C_2, \ldots, C_m$.}
+          \item \textbf{Classification is to derive the {\color{airforceblue}maximum posteriori probability}.}
+          \begin{itemize}
+            \item i.e. the maximal $P(C_i|X)$.
+          \end{itemize}
+          \item \textbf{This can be derived from Bayes' Theorem:}
+          \begin{align}
+            P(C_i|X) = \frac{P(X|C_i)P(C_i)}{P(X)}.
+          \end{align}
+          \item \textbf{Since $P(X)$ is constant for all classes, we must maximize only:}
+          \begin{align}
+            P(X|C_i)P(C_i).
+          \end{align}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Derivation of Naïve Bayes Classifier}
+        \begin{itemize}
+          \item \textbf{A simplifying assumption: attributes are {\color{airforceblue}conditionally independent}.}
+          \begin{itemize}
+            \item I.e. no dependence relation between attributes (which is "naïve").
+            \begin{align*}
+              \resizebox{7cm}{!}{%
+              $P(X|C_i) = \prod_{k=1}^{n} P(x_k|C_i) = P(x_1|C_i)P(x_2|C_i)\cdots P(x_n|C_i).$}
+            \end{align*}
+            \item This greatly reduces the computation cost:\\
+                  Only count the class distribution.
+            \item If $A_k$ is categorical,
+            \begin{itemize}
+              \item $P(x_k|C_i)$is the number of tuples in $C_i$ having value $x_k$ for $A_k$ \\
+                    divided by $|C_{i,D}|$ (the number of tuples of $C_i$ in $D$).
+            \end{itemize}
+            \item If $A_k$ is continuous-valued,
+            \begin{itemize}
+              \item $P(x_k|C_i)$ is usually computed based on Gaussian distribution with a mean $\mu$ and standard deviation $\sigma$:
+              \begin{align*}
+                \resizebox{4cm}{!}{%
+                $G(x,\mu,\sigma) = \frac{1}{\sqrt{2\pi}\sigma}e^{\frac{(x-\mu)^2}{2\sigma^2}},$}
+              \end{align*}
+              \item and $P(x_k|C_i) = G(x_k,\mu_{C_i},\sigma_{C_i})$.
+            \end{itemize}
+          \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Naïve Bayesian Cellcolormake Dataset}
+      \begin{columns}
+        \begin{column}{0.4\textwidth}
+          \vspace{-2cm}
+          \begin{itemize}
+            \item \textbf{Classes:}
+            \begin{itemize}
+              \item $C_1$: \texttt{buys\_computer} = "yes".
+              \item $C_2$: \texttt{buys\_computer} = "no".
+            \end{itemize}
+            \item \textbf{Data sample:}
+            \begin{itemize}
+              \item $X = (\texttt{age} \leq 30,$ \\
+              $\texttt{income} = "medium",$ \\
+              $\texttt{student} = "yes",$\\
+              $\texttt{credit\_rating} = "fair")$.
+            \end{itemize}
+          \end{itemize}
+        \end{column}
+        \begin{column}{0.6\textwidth}
+          \resizebox{\columnwidth}{!}{%
+          \begin{tabular}{|l|l|c|l|c|}
+            \hline
+            \cellcolor{blue!20}age & \cellcolor{blue!20}income & \cellcolor{blue!20}student & \cellcolor{blue!20}credit\_rating & \cellcolor{brown!20}buys\_computer \\\hline
+            \cellcolor{yellow!20}$\leq30$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$\leq30$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}low & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$\leq30$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{red!20}no \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$\leq30$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}excellent & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$31\ldots40$ & \cellcolor{yellow!20}high & \cellcolor{yellow!20}yes & \cellcolor{yellow!20}fair & \cellcolor{green!20}yes \\\hline
+            \cellcolor{yellow!20}$>40$ & \cellcolor{yellow!20}medium & \cellcolor{yellow!20}no & \cellcolor{yellow!20}excellent & \cellcolor{red!20}no \\\hline
+          \end{tabular}}
+        \end{column}
+      \end{columns}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Naïve Bayesian Classifier: An Example}
+      \begin{itemize}
+        \item $P(C_i)$:
+        \begin{itemize}
+          \item $P(\texttt{buys\_computer} = "yes") = \frac{9}{14} = 0.643$.
+          \item $P(\texttt{buys\_computer} = "no") = \frac{5}{14} = 0.357$.
+        \end{itemize}
+        \item $X = (\texttt{age} \leq 30 , \texttt{income} = "medium", \texttt{student} = "yes", \texttt{credit\_rating} = "fair")$.
+        \item \textbf{Compute $P(X|C_i)$ for each class:}
+        \begin{itemize}
+          \item $P(\texttt{age} \leq 30 | \texttt{buys\_computer} = "yes") = \frac{2}{9} = 0.222$.
+          \item $P(\texttt{age} \leq 30 | \texttt{buys\_computer} = "no") = \frac{3}{5} = 0.6$.
+          \item $P(\texttt{income} = "medium" | \texttt{buys\_computer} = "yes") = \frac{4}{9} = 0.444$.
+          \item $P(\texttt{income} = "medium" | \texttt{buys\_computer} = "no") = \frac{2}{5} = 0.4$.
+          \item $P(\texttt{student} = "yes" | \texttt{buys\_computer} = "yes") = \frac{6}{9} = 0.667$.
+          \item $P(\texttt{student} = "yes" | \texttt{buys\_computer} = "no") = \frac{1}{5} = 0.2$.
+          \item $P(\texttt{credit\_rating} = "fair" | \texttt{buys\_computer} = "yes") = \frac{6}{9} = 0.667$.
+          \item $P(\texttt{credit\_rating} = "fair" | \texttt{buys\_computer} = "no") = \frac{2}{5} = 0.4$.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Naïve Bayesian Classifier: An Example (II)}
+      \begin{itemize}
+        \item $P(C_i)$:
+        \begin{itemize}
+          \item $P(X | \texttt{buys\_computer} = "yes") = 0.222 \cdot 0.444 \cdot 0.667 \cdot 0.667 = 0.044$.
+          \item $P(X | \texttt{buys\_computer} = "no") = 0.6 \cdot 0.4 \cdot 0.2 \cdot 0.4 = 0.019$.
+        \end{itemize}
+        \item $P(X | C_i) \cdot P(C_i)$:
+        \begin{itemize}
+          \item $P(X | \texttt{buys\_computer} = "yes") \cdot  P(\texttt{buys\_computer} = "yes") = 0.028$.
+          \item $P(X | \texttt{buys\_computer} = "no") \cdot  P(\texttt{buys\_computer} = "no") = 0.007$.
+        \end{itemize}
+        \item \textbf{Therefore, $X$ belongs to class $C_1$ (\texttt{buys\_computer} = "yes")}.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Avoiding the Zero-probability Problem}
+      \begin{itemize}
+        \item \textbf{Naïve Bayesian prediction requires each conditional probability to be non-zero.}
+        \begin{itemize}
+          \item Otherwise, the predicted probability will be zero.
+          \begin{align}
+            \resizebox{4cm}{!}{
+            $P(X|C_i) = \prod_{k=1}^{n} P(x_k|C_i).$}
+          \end{align}
+        \end{itemize}
+        \item \textbf{Example:}
+        \begin{itemize}
+          \item Suppose a dataset with $1000$ tuples, \texttt{income} = "low" $(0)$, \texttt{income} = "medium" $(990)$, and \texttt{income} = "high" $(10)$.
+        \end{itemize}
+        \item \textbf{Use {\color{airforceblue}Laplacian correction} (or Laplacian estimator):}
+        \begin{itemize}
+          \item Add $1$ to each case:
+          \begin{itemize}
+            \item $P(\texttt{income} = "low") = \frac{1}{1003}$.
+            \item $P(\texttt{income} = "medium") = \frac{991}{1003}$.
+            \item $P(\texttt{income} = "high") = \frac{11}{1003}$.
+          \end{itemize}
+          \item The "corrected" probability estimates are close to their "uncorrected" counterparts.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Naïve Bayesian Classifier: Comments}
+      \begin{itemize}
+        \item \textbf{Advantages:}
+        \begin{itemize}
+          \item Easy to implement.
+          \item Good results obtained in most of the cases.
+        \end{itemize}
+        \item \textbf{Disadvantages:}
+        \begin{itemize}
+          \item Assumption: class conditional independence, therefore loss of accuracy.
+          \item Practically, \textbf{dependencies} exist among variables.
+          \begin{itemize}
+            \item E.g., hospital patients:
+            \begin{itemize}
+              \item Profile: age, family history, etc.
+              \item Symptoms: fever, cough, etc.
+              \item Disease: lung cancer, diabetes, etc.
+            \end{itemize}
+            \item Cannot be modeled by naïve Bayesian classifier.
+          \end{itemize}
+        \end{itemize}
+      \item \textbf{How to deal with these dependencies?}
+      \begin{itemize}
+        \item Bayesian belief networks (see textbook).
+      \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Chapter VI: Classification}
+        \begin{itemize}
+            \item Classification: basic concepts.
+            \item Decision-tree induction.
+            \item Bayes classification methods.
+            \item \textbf{Rule-based classification.}
+            \item Model evaluation and selection.
+            \item Techniques to improve classification accuracy: ensemble methods.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Using \uppercase{if-then} Rules for Classification}
+      \begin{itemize}
+        \item \textbf{Represent the knowledge in the form of {\color{airforceblue}IF-THEN rules}.}
+        \begin{itemize}
+          \item E.g., if \texttt{age} $\leq 30$ AND \texttt{student} = "yes" THEN buys\_computer = "yes".
+          \item Readable.
+        \end{itemize}
+        \item \textbf{Rule {\color{airforceblue}antecedent/precondition} vs. rule {\color{airforceblue}consequent}}.
+        \item \textbf{Assessment of a rule R: coverage and accuracy.}
+        \begin{itemize}
+          \item $n_{\text{covers}} = \#$ of tuples covered by $R$ (antecedent if true).
+          \item $n_{\text{correct}} = \#$ of tuples correctly classified by $R$.
+          \item $\text{coverage}(R) = \frac{n_{\text{covers}}}{|D|}$ with $D$ training data set.
+          \item $\text{accuracy}(R) = \frac{n_{\text{correct}}}{n_{\text{covers}}}$.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Using \uppercase{if-then} Rules for Classification (II)}
+      \begin{itemize}
+        \item \textbf{If more than one rule are triggered, need {\color{airforceblue}conflict resolution}.}
+        \begin{itemize}
+          \item \textbf{\color{airforceblue}Size ordering:}
+          \begin{itemize}
+            \item Assign the highest priority to the triggered rule that has the "toughest" requirement \\ (i.e., the most attribute tests).
+          \end{itemize}
+          \item \textbf{\color{airforceblue}Class-based ordering:}
+          \begin{itemize}
+            \item Decreasing order of prevalence or misclassification cost per class.
+          \end{itemize}
+        \item \textbf{\color{airforceblue}Rule-based ordering} (decision list):
+        \begin{itemize}
+          \item Rules are organized into one long priority list,\\
+          according to some measure of rule quality, or by experts.
+        \end{itemize}
+      \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Rule Extraction from a Decision Tree}
+      \begin{itemize}
+        \item \textbf{Rules are {\color{airforceblue}easier to understand} than large trees.}
+        \item \textbf{Rule can be created for {\color{airforceblue}each path from the root to a leaf.}}
+        \begin{itemize}
+          \item The leaf holds the class prediction.
+        \end{itemize}
+        \item \textbf{Each attribute-value pair along the path forms a conjunction:}
+      \end{itemize}
+      \begin{columns}
+        \begin{column}{0.45\textwidth}
+          \vspace{-3.3cm}
+          \begin{itemize}
+            \item \textbf{Example:}
+            \begin{itemize}
+              \item IF \texttt{age} $\leq$ 30 AND \texttt{student} = "no" \\
+                    THEN \texttt{buys\_computer} = "no".
+              \item IF \texttt{age} $\leq$ 30 AND \texttt{student} = "yes" \\
+                    THEN \texttt{buys\_computer} = "yes".
+              \item IF \texttt{age} $31\ldots40$ THEN \texttt{buys\_computer} = "yes".
+              \item
+              \item
+            \end{itemize}
+          \end{itemize}
+        \end{column}
+        \begin{column}{0.55\textwidth}
+          \centering
+          \begin{tikzpicture}
+            \node[draw, fill=blue!20] at (0,0) (a) {age?};
+            \node[fill=yellow!20] at (-1.5,-0.7) (b) {<=30};
+            \node[fill=yellow!20] at (0,-0.7) (c) {$31\ldots40$};
+            \node[fill=yellow!20] at (1.5,-0.7) (d) {$>40$};
+            \node[draw, fill=blue!20] at (-1.5,-1.4) (e) {student?};
+            \node[fill=yellow!20] at (-2,-2.1) (eno1) {no};
+            \node[fill=yellow!20] at (-1,-2.1) (eyes1) {yes};
+            \node[fill=orange!20] at (-2,-2.8) (eno2) {no};
+            \node[fill=green!20] at (-1,-2.8) (eyes2) {yes};
+            \node[draw, fill=blue!20] at (1.5,-1.4) (g) {credit rating?};
+            \node[fill=yellow!20] at (2,-2.1) (gf) {fair};
+            \node[fill=yellow!20] at (1,-2.1) (gex) {excellent};
+            \node[fill=orange!20] at (1,-2.8) (gno) {no};
+            \node[fill=green!20] at (2,-2.8) (gyes) {yes};
+            \node[fill=green!20] at (0,-1.4) (f) {yes};
+
+            \draw (a)--(b);
+            \draw (a)--(c);
+            \draw (a)--(d);
+            \draw (b)--(e);
+            \draw (c)--(f);
+            \draw (d)--(g);
+            \draw (e)--(eno1);
+            \draw (e)--(eyes1);
+            \draw (eno1)--(eno2);
+            \draw (eyes1)--(eyes2);
+            \draw (g)--(gex);
+            \draw (g)--(gf);
+            \draw (gex)--(gno);
+            \draw (gf)--(gyes);
+          \end{tikzpicture}
+        \end{column}
+      \end{columns}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Rule Induction: Sequential Covering Method}
+      \begin{itemize}
+        \item \textbf{Sequential covering algorithm:}
+        \begin{itemize}
+          \item Extracts rules directly from training data.
+        \end{itemize}
+        \item \textbf{Typical sequential covering algorithms:}
+        \begin{itemize}
+          \item FOIL, AQ, CN2, RIPPER.
+        \end{itemize}
+        \item \textbf{Rules are learned {\color{airforceblue}sequentially}.}
+        \begin{itemize}
+          \item Each rule for a given class $C_i$ will cover many tuples of $C_i$, but none (or few) of the tuples of other classes.
+        \end{itemize}
+        \item \textbf{Steps:}
+        \begin{itemize}
+          \item Rules are learned one at a time.
+          \item Each time a rule is learned, the tuples covered by the rule are removed.
+          \item The process repeats on the remaining tuples unless termination condition, e.g., when no more training examples left or when the quality of a rule returned is below a user-specified threshold.
+        \end{itemize}
+        \item \textbf{Compare with decision-tree induction:}
+        \begin{itemize}
+          \item That was learning a set of rules simultaneously.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Sequential Covering Algorithm}
+      \begin{itemize}
+        \item \textbf{While (enough target tuples left):}
+        \begin{itemize}
+          \item generate a rule;
+          \item remove positive target tuples satisfying this rule;
+        \end{itemize}
+        \centering
+        \begin{tikzpicture}
+          \draw[fill=airforceblue] (0,0) ellipse (5.2 and 2.5) (0,0) node [text=black] {};
+          \draw[fill=white] (0,1) ellipse (2 and 1.2) (0,0) node [text=black] {};
+          \draw[fill=white] (-3,-0.2) ellipse (2 and 1.2) (0,0) node [text=black] {};
+          \draw[fill=white] (3,0) ellipse (2 and 1.2) (0,0) node [text=black] {};
+          \node at (0,1.1) (a1) {Examples covered};
+          \node at (0,0.8) (a2) {by rule 2};
+          \node at (3,0.1) (b1) {Examples covered};
+          \node at (3,-0.2) (b2) {by rule 3};
+          \node at (-3,-0.2) (c1) {Examples covered};
+          \node at (-3,-0.5) (c2) {by rule 1};
+          \node at (-1,-1.5) (d1) {\textbf{Positive}};
+          \node at (-1,-1.8) (d2) {\textbf{examples}};
+        \end{tikzpicture}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Sequential Covering Algorithm (II)}
+      \begin{itemize}
+        \item \textbf{To generate a rule:}
+        \begin{itemize}
+          \item \textbf{while}(true:)
+          \begin{itemize}
+            \item find the best predicate $p$ (attribute = value);
+            \item \textbf{if} \texttt{FOIL\_Gain}(p) > threshold
+            \item \textbf{then} add $p$ to current rule;
+            \item \textbf{else} break;
+          \end{itemize}
+        \end{itemize}
+      \end{itemize}
+      \centering
+      \begin{tikzpicture}
+        \draw[fill=red!20] (-3,0) rectangle (1,4) (0,0) node [text=black] {};
+        \draw[fill=airforceblue!20] (6,0) rectangle (0,4) (0,0) node [text=black] {};
+        \node at (3,0.5) (a1) {Negative examples};
+        \node at (-1.5,0.5) (a1) {Positive examples};
+        \draw[fill=yellow!20, opacity=0.5] (-0.7,2.5) ellipse (2 and 1.2) (0,0) node [text=black] {};
+        \node[opacity=0.5] at (-0.7,3) {$A3=1$};
+        \draw[fill=yellow!20, opacity=0.5] (-0.7,2.5) ellipse (1.8 and 1) (0,0) node [text=black] {};
+        \node[opacity=0.5] at (-0.7,2.7) {$A3=1 \&\& A1=2$};
+        \draw[fill=yellow!20, opacity=0.5] (-0.7,2.5) ellipse (1.6 and 0.8) (0,0) node [text=black] {};
+        \node[opacity=0.5] at (-0.7,2.4) {$A3=1 \&\& A1=2$};
+        \node[opacity=0.5] at (-0.7,2.1) {$\&\& A8=5$};
+      \end{tikzpicture}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Sequential Covering Algorithm (III)}
+      \begin{itemize}
+        \item \textbf{Start with the most general rule possible:}
+        \begin{itemize}
+          \item Condition = empty.
+        \end{itemize}
+        \item \textbf{Add new attributes by adopting a greedy depth-first strategy.}
+        \begin{itemize}
+          \item Pick the one that improves the rule quality most.
+          \item Current rule $R$: IF condition THEN class = c.
+          \item New rule $R'$: IF condition' THEN class = c,
+          \item $pos/neg$ are $\#$ of positive/negative tuples covered by $R$.
+        \end{itemize}
+        \item \textbf{Rule-quality measures.}
+        \begin{itemize}
+          \item Must consider both coverage and accuracy.
+          \item \texttt{FOIL\_Gain} (from \texttt{FOIL} - First-Order Inductive Learner):
+          \begin{align}
+            \text{FOIL\_Gain} = \text{pos}' \left( \log_2 \frac{\text{pos}'}{\text{pos}' + \text{neg}'} - \log_2 \frac{\text{pos}}{\text{pos}+\text{neg}} \right).
+          \end{align}
+          \item Favors rules that have high accuracy and cover many positive tuples.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Rule Pruning}
+      \begin{itemize}
+        \item \textbf{Danger of {\color{airforceblue}overfitting}.}
+        \item \textbf{Removing a conjunct (attribute test),}
+        \begin{itemize}
+          \item if pruned version of rule has greater quality,\\
+                assessed on an independent set of test tuples (called "pruning set").
+        \end{itemize}
+        \item \textbf{FOIL uses:}
+              \begin{align}
+                \text{FOIL\_Prune}(R) = \frac{\text{pos}-\text{neg}}{\text{pos}+\text{neg}}.
+              \end{align}
+        \item If $\text{FOIL\_Prune}$ is higher for the pruned version of $R$, prune $R$.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Chapter VI: Classification}
+        \begin{itemize}
+            \item Classification: basic concepts.
+            \item Decision-tree induction.
+            \item Bayes classification methods.
+            \item Rule-based classification.
+            \item \textbf{Model evaluation and selection.}
+            \item Techniques to improve classification accuracy: ensemble methods.
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Model Evaluation and Selection}
+        \begin{itemize}
+          \item \textbf{Evaluation metrics:}
+          \begin{itemize}
+            \item How can we measure accuracy?
+            \item Other metrics to consider?
+          \end{itemize}
+          \item \textbf{Use {\color{airforceblue}test} set of class-labeled tuples instead of training set when assessing accuracy.}
+          \item \textbf{Methods for estimating a classifier's accuracy:}
+          \begin{itemize}
+            \item Holdout method, random subsampling.
+            \item Cross-validation.
+            \item Bootstrap.
+          \end{itemize}
+          \item \textbf{Comparing classifiers:}
+          \begin{itemize}
+            \item Confidence intervals.
+            \item Cost-benefit analysis and ROC curves.
+          \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Model Evaluation and Selection (II)}
+        \begin{itemize}
+          \item \textbf{Confusion Matrix:}\\[0.2cm]
+          \begin{tabular}{|c|c|c|}
+            \hline
+            Actual class/predicted class: & $C_1$ & $\neg C_1$ \\\hline
+            $C_1$ & \textbf{True positives (TP)} & \textbf{False negatives (FN)} \\\hline
+            $\neg C_1$ & \textbf{False positives (FP)} & \textbf{True negatives (TN)} \\\hline
+          \end{tabular}
+          \item \textbf{Example:}\\[0.2cm]
+          \begin{tabular}{|c|c|c|c|}
+            \hline
+            Actual class/predicted class: & buys\_computer = yes & buys\_computer = no & Total \\\hline
+            buys\_computer = yes & \textbf{6954} & \textbf{46} & 7000 \\\hline
+            buys\_computer = no & \textbf{412} & \textbf{2588} & 3000 \\\hline
+            Total & 7366 & 2634 & 10000 \\\hline
+          \end{tabular}
+          \item Given $M$ classes, an entry $C^{(m)}_{ij}$ in an $M \times M$ confusion matrix indicates \# of tuples in class $i$ that were labeled by the classifier as class $j$.
+          \item May have extra rows/columns to provide totals.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Classifier-evaluation Metrics: Accuracy, Error Rate, Sensitivity and Specificity}
+      \begin{columns}
+        \begin{column}{0.5\textwidth}
+          \centering
+          \begin{tabular}{|c|c|c|c|}
+            \hline
+            A/P & C & $\neg$ C & \\\hline
+            C & \textbf{TP} & \textbf{FN} & \textbf{P}\\\hline
+            $\neg$ C & \textbf{FP} & \textbf{TN} & \textbf{N} \\\hline
+            & \textbf{P}' & \textbf{N}' & \textbf{All}\\\hline
+          \end{tabular}
+          \begin{itemize}
+            \item \textbf{Classifier accuracy, or recognition rate:}
+            \begin{itemize}
+              \item Percentage of test set tuples that are correctly classified.
+              \item $\text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{All}}.$
+              \item \textbf{Error rate:}
+                \begin{itemize}
+                  \item $1-\text{accuracy}$, or
+                  \item $\text{Error rate} = \frac{\text{FP}+\text{FN}}{\text{All}}.$
+                \end{itemize}
+            \end{itemize}
+          \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+          \begin{itemize}
+            \item \textbf{Class-imbalance problem:}
+            \begin{itemize}
+              \item One class may be rare e.g., fraud, or HIV-positive.
+              \item Significant majority of the negative class and minority of the positive class
+              \item \textbf{Sensitivity:} True-positive recognition rate. $\text{Sensitivity} = \frac{TP}{P}$.
+              \item \textbf{Specificity:} False-negative recognition rate. $\text{Specificity} = \frac{TN}{N}$.
+            \end{itemize}
+          \end{itemize}
+        \end{column}
+      \end{columns}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Classifier-evaluation Metrics: Precision, Recall, and F-measures}
+      \begin{itemize}
+        \item \textbf{Precision:}
+        \begin{itemize}
+          \item Exactness -- the $\%$ of tuples that are actually positive \\
+          in those that the classifier labeled as positive: $\frac{\text{TP}}{\text{TP} + \text{FP}}$.
+        \end{itemize}
+        \item \textbf{Recall:}
+        \begin{itemize}
+          \item Completeness -- the $\%$ of tuples that the classifier labeled \\
+          as positive in all positive tuples: $\frac{\text{TP}}{\text{TP} + \text{FN}}$.
+          \item Perfect score is $1.0$.
+        \end{itemize}
+        \item \textbf{Inverse relationship between precision and recall.}% TODO: bezeichnung inverse evtl verwirrend
+        \item \textbf{F-measure ($F_1$ or $F$-score):}
+        \begin{itemize}
+          \item Gives equal weight to precision and recall: $F = \frac{2\cdot\text{precision}\cdot \text{recall}}{\text{precision} + \text{recall}}$.
+        \end{itemize}
+        \item \textbf{$F_\beta$ weighted measure of precision and recall:}
+        \begin{itemize}
+          \item Assigns $\beta$ times as much weight to recall as to precision: $F_\beta = \frac{(1+\beta^2) \cdot \text{precision} \cdot \text{recall}}{\beta^2 \cdot \text{precision} + \text{recall}}$.
+        \end{itemize}
+      \end{itemize} % TODO: (1+beta)^2 oder (1+beta^2) - wie ist F-beta measure definiert
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Classifier-evaluation Metrics: Precision, Recall, and F-measures (II)}
+      \centering
+      \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        Actual class/predicted class & cancer = yes & cancer = no & Total & Recognition ($\%$) \\\hline
+        cancer = yes & \textbf{90} & \textbf{210} & 300 & 30.00 (sensitivity) \\\hline
+        cancer = no & \textbf{140} & \textbf{9560} & 9700 & 98.56 (specificity) \\\hline
+        Total & 230 & 9770 & 10000 & 96.40 (accuracy) \\\hline
+      \end{tabular}\\[0.2cm]
+      \begin{itemize}
+        \item Precision $= \frac{90}{230} = 39.13 \%$.
+        \item Recall $=\frac{90}{300} = 30.00 \%$.
+        \item $F_1$-measure = $\frac{2 \cdot 0.3913 \cdot 0.3}{0.3913 + 0.3} = 33.96 \%$.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Classifier-evaluation Metrics: Holdout \& Cross-validation Methods}
+      \begin{itemize}
+        \item \textbf{Holdout method.}
+        \begin{itemize}
+          \item Given data is randomly partitioned into two independent sets:
+          \begin{itemize}
+            \item \textbf{\color{airforceblue}Training set} (E.g., $2/3$) for model construction.
+            \item \textbf{\color{airforceblue}Test set} (E.g., $1/3$) for accuracy estimation.
+          \end{itemize}
+          \item Random sampling: a variation of holdout.
+          \begin{itemize}
+            \item Repeat holdout $k$ times, accuracy = avg. of the accuracies obtained.
+          \end{itemize}
+        \end{itemize}
+        \item \textbf{{\color{airforceblue}Cross-validation} ($k$-fold, where $k = 10$ is most popular).}
+        \begin{itemize}
+          \item Randomly partition the data into $k$ mutually exclusive subsets, each approximately equal size.
+          \item At $i$-th iteration, use $D_i$ as test set and the others as training set.
+          \item Leave-one-out: $k$ folds, where $k = \#$ of tuples; for small-sized data.
+          \item Stratified cross-validation: Folds are stratified so that class distribution in each fold is approx. the same as that in the initial data.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Evaluating Classifier Accuracy: Bootstrap}
+      \begin{itemize}
+        \item \textbf{Bootstrap.}
+        \begin{itemize}
+          \item Works well with small data sets.
+          \item Samples the given training tuples uniformly with replacement.
+          \begin{itemize}
+            \item I.e. each time a tuple is selected, it is equally likely \\
+            to be selected again and re-added to the training set.
+          \end{itemize}
+        \end{itemize}
+        \item \textbf{Several bootstrap methods, and a common one is $.632$ bootstrap.}
+        \begin{itemize}
+          \item Data set with $d$ tuples sampled d times, with replacement, \\
+          resulting in a training set of $d$ samples.
+          \item The data tuples that did not make it into the training set end up forming the test set.
+          \begin{itemize}
+            \item About $63.2\%$ of the original data end up in the bootstrap, and the remaining $36.8\%$ form the test set (since $(1-\frac{1}{d})^d \approx e^{-1} = 0.368)$.
+          \end{itemize}
+          \item Repeat the sampling procedure $k$ times; overall accuracy of the model:
+          \begin{align}
+            \text{Acc}(M) = \frac{1}{k} \sum_{i=1}^{k} 0.632 \cdot \text{Acc}(M_i)_{\text{test\_set}} + 0.368 \cdot \text{Acc}(M_i)_{\text{train\_set}}.
+          \end{align}
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Evaluating Classifier Accuracy: Bootstrap (II)}
+      \begin{itemize}
+        \item \textbf{Suppose we have $2$ classifiers, $M_1$ and $M_2$, which one is better?}
+        \item \textbf{Use $10$-fold cross-validation to obtain $\overline{\text{err}}(M_1)$ and $\overline{\text{err}}(M_2)$.}
+        \begin{itemize}
+          \item Recall: error rate is $1-\text{accuracy}(M)$.
+        \end{itemize}
+        \item \textbf{Mean error rates:}
+        \begin{itemize}
+          \item Just estimates of error on the true population of future data cases.
+        \end{itemize}
+        \item \textbf{What if the difference between the $2$ error rates is just attributed to chance?}
+        \begin{itemize}
+          \item Use a test of statistical significance.
+          \item Obtain confidence limits for our error estimates.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Evaluating Classifier Accuracy: Null Hypothesis}
+      \begin{itemize}
+        \item \textbf{Perform $10$-fold cross-validation.}
+        \begin{itemize}
+          \item $10$ times.
+        \end{itemize}
+        \item \textbf{Assume samples follow a $t$-distribution with $k-1$ degrees of freedom.}
+        \begin{itemize}
+          \item Here, $k = 10$.
+        \end{itemize}
+        \item \textbf{Use $t$-test}
+        \begin{itemize}
+          \item Student's $t$-test.
+        \end{itemize}
+        \item \textbf{Null hypothesis:}
+        \begin{itemize}
+          \item $M_1$ and $M_2$ are the same.
+        \end{itemize}
+        \item \textbf{If we can reject the null hypothesis, then}
+        \begin{itemize}
+          \item Conclude that difference between $M_1$ and $M_2$ is statistically significant.
+          \item Obtain confidence limits for our error estimates.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Estimating Confidence Intervals: $t$-Test}
+      \begin{itemize}
+        \item \textbf{If only one test set available: pairwise comparison:}
+        \begin{itemize}
+          \item For $i$-th round of $10$-fold cross-validation, the same cross partitioning is used to obtain $\text{err}(M_1)_i$ and $\text{err}(M_2)_i$.
+          \item Average over $10$ rounds to get $\overline{\text{err}}(M_1)$ and $\overline{\text{err}}(M_2)$.
+          \item $t$-test computes $t$-statistic with $k-1$ degrees of freedom:
+                \begin{align}
+                  \resizebox{3cm}{!}{%
+                  $t = \frac{\overline{\text{err}}(M_1)- \overline{\text{err}}(M_2)}{\sqrt{\frac{\text{var}(M_1-M_2)}{k}}},$}
+                \end{align}
+          \item where
+                \begin{align}
+                  \resizebox{10cm}{!}{%
+                  $\text{var}(M_1-M_2) = \frac{1}{k} \sum_{i=1}^{k} \left[ \text{err}(M_1)_i - \text{err}(M_2)_i - (\overline{\text{err}}(M_1) - \overline{\text{err}}(M_2))\right]^2.$}
+                \end{align}
+        \end{itemize}
+        \item \textbf{If two test sets available: use nonpaired $t$-test:}
+              \begin{align}
+                \resizebox{5cm}{!}{%
+                $\text{var}(M_1-M_2) = \sqrt{\frac{\text{var}(M_1)}{k_1} + \frac{\text{var}(M_2)}{k_2}},$}
+              \end{align}
+              where $k_1$ \& $k_2$ are $\#$ of cross-validation samples used for $M_1$ \& $M_2$, respectively.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Estimating Confidence Intervals: Table for $t$-Distribution}
+      \begin{columns}
+        \begin{column}{0.5\textwidth}
+          \vspace{-6cm}
+          \centering
+          \includegraphics[width=0.8\textwidth]{img/ttest1.jpeg}
+          \begin{itemize}
+            \item Symmetrical.
+            \item \textbf{\color{airforceblue}Significance level}:
+            \begin{itemize}
+              \item E.g., $\text{sig} = 0.05$ or $5\%$ means $M_1$ \& $M_2$ are significantly different for $95\%$ of population.
+            \end{itemize}
+            \item Confidence limit: $z = \frac{\text{sig}}{2}$.
+          \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+          \centering
+          \includegraphics[width=0.7\textwidth]{img/ttest2.jpeg}
+        \end{column}
+      \end{columns}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Estimating Confidence Intervals: Statistical Significance}
+	  \begin{itemize}
+	    \item \textbf{Are $M_1$ and $M_2$ {\color{airforceblue} significantly different}?}
+		\begin{itemize}
+		  \item Compute $t$. Select significance level (E.g., sig = $5 \%$).
+      \item Consult table for $t$-distribution:
+          \begin{itemize}
+          	\item $t$-distribution is symmetrical:
+          	\begin{itemize}
+              \item Typically upper $\%$ points of distribution shown.
+	        \end{itemize}
+            \item Find critical value $c$ corresponding to $k-1$ degrees of freedom (here, $9$)
+            \item and for confidence limit $z = \frac{\text{sig}}{2}$ (here, $0.025$).
+            \item $\implies$ Here, critical value $c = 2.262$
+          \end{itemize}
+          \item If $t > c$ or $t < -c$, then $t$ value lies in rejection region:
+	      \begin{itemize}
+            \item \textbf{Reject null hypothesis} that mean error rates of $M_1$ and $M_2$ are equal.
+            \item Conclude: \textbf{statistically significant difference} between $M_1$ and $M_2$.
+	      \end{itemize}
+	      \item Otherwise, conclude that any difference is chance.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Model Selection: ROC-Curves}
+      \begin{columns}
+        \begin{column}{0.6\textwidth}
+          \begin{itemize}
+            \item \textbf{ROC (Receiver Operating Characteristics) curves:}
+            \begin{itemize}
+              \item For visual comparison of classification models.
+              \item Originated from signal-detection theory.
+              \item Shows the trade-off between the true-positive rate and the false-positive rate.
+            \end{itemize}
+            \item \textbf{The area under the ROC curve is a {\color{airforceblue}measure of the accuracy} of the model.}
+            \item \textbf{{\color{airforceblue}Rank the test tuples} in decreasing order:}
+            \begin{itemize}
+              \item The one that is most likely to belong to the positive class appears at the top of the list.
+            \end{itemize}
+            \item \textbf{The closer to the diagonal line (i.e. the closer the area is to $0.5$), the less accurate is the model.}
+          \end{itemize}
+        \end{column}
+        \begin{column}{0.4\textwidth}
+          \vspace{-1cm}
+          \centering
+          \includegraphics[width=\textwidth]{img/roc-curve.png}
+          \begin{itemize}
+            \item Vertical axis represents TP.
+            \item Horizontal axis repr. the FP.
+            \item The plot also shows a diagonal line.
+            \item A model with perfect accuracy will have an area of $1.0$.
+          \end{itemize}
+        \end{column}
+      \end{columns}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Issues after Model Selection}
+      \begin{itemize}
+        \item \textbf{Accuracy.}
+        \begin{itemize}
+          \item Classifier accuracy: predicting class label.
+        \end{itemize}
+        \item \textbf{Speed.}
+        \begin{itemize}
+          \item Time to construct the model (training time).
+          \item Time to use the model (classification/prediction time).
+        \end{itemize}
+        \item \textbf{Robustness.}
+        \begin{itemize}
+          \item Handling noise and missing values.
+        \end{itemize}
+        \item \textbf{Scalability.}
+        \begin{itemize}
+          \item Efficiency in disk-resident databases.
+        \end{itemize}
+        \item \textbf{Interpretability.}
+        \begin{itemize}
+          \item Understanding and insight provided by the model.
+        \end{itemize}
+        \item \textbf{Other measures.}
+        \begin{itemize}
+          \item E.g., goodness of rules, such as decision-tree size or compactness of classification rules.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Chapter VI: Classification}
+        \begin{itemize}
+            \item Classification: basic concepts.
+            \item Decision-tree induction.
+            \item Bayes classification methods.
+            \item Rule-based classification.
+            \item Model evaluation and selection.
+            \item \textbf{Techniques to improve classification accuracy: ensemble methods.}
+            \item Summary.
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Ensemble Methods: Increasing the Accuracy}
+      \begin{columns}
+        \begin{column}{0.4\textwidth}
+          \centering
+          \begin{itemize}
+            \item \textbf{{\color{airforceblue}Ensemble} methods:}
+            \begin{itemize}
+              \item Use a combination of models to increase accuracy.
+              \item Combine a series of $k$ learned models, $M_1$, $M_2$, $\ldots$, $M_k$, with the aim of creating an improved model $M^*$.
+            \end{itemize}
+          \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+          \centering
+          \begin{itemize}
+            \item \textbf{Popular ensemble methods:}
+            \begin{itemize}
+              \item Bagging:
+              \begin{itemize}
+                \item Averaging the prediction over a collection of classifiers.
+              \end{itemize}
+              \item Boosting:
+              \begin{itemize}
+                \item Weighted vote with a collection of classifiers.
+              \end{itemize}
+              \item Ensemble:
+              \begin{itemize}
+                \item Combining a set of heterogeneous classifiers.
+              \end{itemize}
+            \end{itemize}
+          \end{itemize}
+        \end{column}
+      \end{columns}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Bagging: Boostrap Aggregation}
+      \begin{itemize}
+        \item \textbf{Analogy:}
+        \begin{itemize}
+          \item Diagnosis based on multiple doctors' majority vote.
+        \end{itemize}
+        \item \textbf{Training:}
+        \begin{itemize}
+          \item Given a set $D$ of d tuples, at each iteration $i$, a training set $D_i$ of $d$ tuples is sampled with replacement from $D$ (i.e., bootstrap).
+          \item A classifier model $M_i$ is learned for each training set $D_i$.
+        \end{itemize}
+        \item \textbf{Classification: classify an unknown sample $X$.}
+        \begin{itemize}
+          \item Each classifier $M_i$ returns its class prediction.
+          \item The bagged classifier $M^*$ counts the votes and assigns the class with the most votes to $X$.
+        \end{itemize}
+        \item \textbf{Prediction:}
+        \begin{itemize}
+          \item Can be applied to the prediction of continuous values by taking the average value of each prediction for a given test tuple.
+        \end{itemize}
+        \item \textbf{Accuracy:}
+        \begin{itemize}
+          \item Often significantly better than a single classifier derived from $D$.
+          \item For noisy data: not considerably worse, more robust.
+          \item Proved improved accuracy in prediction.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Boosting}
+      \begin{itemize}
+        \item \textbf{Analogy:}
+        \begin{itemize}
+          \item Consult several doctors, based on a combination of weighted diagnoses -- weight assigned based on the previous diagnosis accuracy
+        \end{itemize}
+        \item \textbf{How boosting works:}
+        \begin{itemize}
+          \item Weights are assigned to each training tuple.
+          \item A series of $k$ classifiers is iteratively learned.
+          \item After a classifier $M_i$ is learned, the weights are updated to allow the subsequent classifier, $M_{i+1}$ to pay more attention to the training tuples that were misclassified by $M_i$.
+          \item The final $M^*$ combines the votes of each individual classifier, where the weight of each classifier's vote is a function of its accuracy.
+        \end{itemize}
+        \item \textbf{Boosting algorithm can be extended for numeric prediction.}
+        \begin{itemize}
+          \item Each classifier $M_i$ returns its class prediction.
+          \item The bagged classifier $M^*$ counts the votes and assigns the class with the most votes to $X$.
+        \end{itemize}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{AdaBoost ("Adaptive Boosting" (Freund and Schapire, 1997))}
+      \begin{itemize}
+        \item \textbf{Given a set of d class-labeled tuples: $(x_1 , y_1), \ldots, (x_d, y_d)$.}
+        \item \textbf{Initially, all the weights of tuples are set the same: $\frac{1}{d}$.}
+        \item \textbf{Generate $k$ classifiers in $k$ rounds. At round $i$,}
+        \begin{itemize}
+          \item Tuples from $D$ are sampled (with replacement) to form a training set $D_i$ of the same size.
+          \item Each tuple's chance of being selected is based on its weight.
+          \item A classification model $M_i$ is derived from $D_i$.
+          \item Its error rate is calculated using $D_i$ as a test set.
+          \item If a tuple is misclassified, its weight is increased, otherwise it is decreased.
+        \end{itemize}
+        \item \textbf{Error rate: $\text{err}(x_j)$ is the misclassification error of tuple $x_j$. Classifier $M_i$ error rate is the sum of the weights of the misclassified tuples:}
+        \begin{align}
+          \text{error}(M_i) = \sum_{j=1}^{d} w_j \cdot \text{err}(x_j).
+        \end{align}
+        \textbf{The weight of classifier $M_i$'s vote is: $\log \frac{1-\text{error}(M_i)}{\text{error}(M_i)}$.}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Random Forest (Breiman, 2001)}
+      \begin{itemize}
+        \item \textbf{Random forest:}
+        \begin{itemize}
+          \item Each classifier in the ensemble is a decision-tree classifier and is generated using a random selection of attributes at each node to determine the split.
+          \item During classification, each tree votes and the most popular class is returned.
+        \end{itemize}
+        \item \textbf{Two methods to construct random forests:}
+        \begin{itemize}
+          \item Forest-RI (random input selection):
+          \begin{itemize}
+            \item Randomly select, at each node, F attributes as candidates for the split at the node. The CART methodology is used to grow the trees to maximum size.
+          \end{itemize}
+          \item Creates new attributes (or features) that are a linear combination of the existing attributes (reduces the correlation between individual classifiers).
+        \end{itemize}
+        \item \textbf{Comparable in accuracy to AdaBoost, but more robust to errors and outliers.}
+        \item \textbf{Insensitive to the number of attributes selected for consideration at each split, and faster than bagging or boosting.}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Classification of Class-imbalanced Data Sets}
+      \begin{itemize}
+        \item \textbf{Class-imbalance problem:}
+        \begin{itemize}
+          \item Rare positive example but numerous negative ones.
+          \begin{itemize}
+            \item E.g., medical diagnosis, fraud, oil-spill, fault, etc.
+          \end{itemize}
+          \item Traditional methods assume a balanced distribution of classes and equal error costs: not suitable for class-imbalanced data.
+        \end{itemize}
+        \item \textbf{Typical methods for imbalanced data in 2-class classification:}
+        \begin{itemize}
+          \item \textbf{\color{airforceblue}Oversampling:}
+          \begin{itemize}
+            \item Re-sampling of data from positive class.
+          \end{itemize}
+          \item \textbf{\color{airforceblue}Undersampling:}
+          \begin{itemize}
+            \item Randomly eliminate tuples from negative class.
+          \end{itemize}
+          \item \textbf{\color{airforceblue}Threshold-moving:}
+          \begin{itemize}
+            \item Moves the decision threshold, $t$, so that the rare-class tuples are easier to classify, and hence, less chance of costly false-negative errors
+          \end{itemize}
+          \item \textbf{\color{airforceblue}Ensemble techniques:}
+          \begin{itemize}
+            \item Ensemble multiple classifiers introduced above.
+          \end{itemize}
+        \end{itemize}
+        \item \textbf{Still difficult on multi-class tasks.}
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Chapter VI: Classification}
+        \begin{itemize}
+            \item Classification: basic concepts.
+            \item Decision-tree induction.
+            \item Bayes classification methods.
+            \item Rule-based classification.
+            \item Model evaluation and selection.
+            \item Techniques to improve classification accuracy: ensemble methods.
+            \item \textbf{Summary.}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Summary}
+        \begin{itemize}
+          \item \textbf{Classification.}
+          \begin{itemize}
+            \item A form of data analysis that extracts models describing important data classes.
+          \end{itemize}
+          \item \textbf{Effective and scalable methods devopeped for:}
+          \begin{itemize}
+            \item Decision-tree induction, naive Bayesian classification, rule-based classification, and many other classification methods.
+          \end{itemize}
+          \item \textbf{Evaluation metrics:}
+          \begin{itemize}
+            \item Accuracy, sensitivity, specificity, precision, recall, $F$-measure, and $F_\beta$-measure.
+          \end{itemize}
+          \item \textbf{Stratified $k$-fold cross-validation.}
+          \begin{itemize}
+            \item Recommended for accuracy estimation.
+          \end{itemize}
+          \item \textbf{Significance tests and ROC curves.}
+          \begin{itemize}
+            \item Useful for model selection.
+          \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Summary (II)}
+        \begin{itemize}
+          \item \textbf{Ensemble methods.}
+          \begin{itemize}
+            \item Bagging and boosting can be used to increase overall accuracy by learning and combining a series of individual models.
+          \end{itemize}
+          \item \textbf{Numerous comparisons of the different classification methods.}
+          \begin{itemize}
+            \item Matter remains a research topic.
+            \item No single method has been found to be superior over all others for all data sets.
+            \item Issues such as accuracy, training time, robustness, scalability, and interpretability must be considered and can involve trade-offs, further complicating the quest for an overall superior method.
+          \end{itemize}
+        \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Reference: Books on Classification}
+      \begin{itemize}
+        \item E. Alpaydin: Introduction to Machine Learning. 2$^\text{nd}$ ed., MIT Press, 2011.
+        \item L. Breiman, J. Friedman, R. Olshen, and C. Stone: Classification and Regression Trees. Wadsworth International Group, 1984.
+        \item C. M. Bishop: Pattern Recognition and Machine Learning. Springer, 2006.
+        \item R. O. Duda, P. E. Hart, and D. G. Stork. Pattern Classification. 2$^\text{nd}$ ed., John Wiley, 2001.
+        \item T. Hastie, R. Tibshirani, and J. Friedman: The Elements of Statistical Learning: Data Mining, Inference, and Prediction. Springer-Verlag, 2001.
+        \item H. Liu and H. Motoda (eds.): Feature Extraction, Construction, and Selection: A Data Mining Perspective. Kluwer Academic, 1998.
+        \item T. M. Mitchell: Machine Learning. McGraw Hill, 1997.
+        \item S. Marsland: Machine Learning: An Algorithmic Perspective. Chapman \& Hall/CRC, 2009.
+        \item \color{airforceblue} J. R. Quinlan: C4.5: Programs for Machine Learning. Morgan Kaufmann, 1993.
+        \item J. W. Shavlik and T. G. Dietterich. Readings in Machine Learning. Morgan Kaufmann, 1990.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Reference: Books on Classification (II)}
+      \begin{itemize}
+        \item P. Tan, M. Steinbach, and V. Kumar: Introduction to Data Mining. Addison Wesley, 2005.
+        \item S. M. Weiss and C. A. Kulikowski: Computer Systems that Learn: Classification and Prediction Methods from Statistics, Neural Nets, Machine Learning, and Expert Systems. Morgan Kaufman, 1991.
+        \item S. M. Weiss and N. Indurkhya: Predictive Data Mining. Morgan Kaufmann, 1997.
+        \item I. H. Witten and E. Frank: Data Mining: Practical Machine Learning Tools and Techniques. 2$^\text{nd}$ ed., Morgan Kaufmann, 2005
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Reference: Decision Trees}
+      \begin{itemize}
+        \item M. Ankerst, C. Elsen, M. Ester, and H.-P. Kriegel: Visual classification: An interactive approach to decision tree construction. KDD'99.
+        \item C. Apte and S. Weiss: Data mining with decision trees and decision rules. Future Generation Computer Systems 13, 1997.
+        \item C. E. Brodley and P. E. Utgoff: Multivariate decision trees. Machine Learning 19:45-77, 1995.
+        \item P. K. Chan and S. J. Stolfo: Learning arbiter and combiner trees from partitioned data for scaling machine learning. KDD'95.
+        \item U. M. Fayyad: Branching on attribute values in decision tree generation. AAAI'94.
+        \item M. Mehta, R. Agrawal, and J. Rissanen: SLIQ: A fast scalable classifier for data mining. EDBT'96.
+        \item J. Gehrke, R. Ramakrishnan, and V. Ganti: Rainforest: A framework for fast decision tree construction of large datasets. VLDB'98.
+        \item J. Gehrke, V. Gant, R. Ramakrishnan, and W.-Y. Loh: BOAT -- Optimistic Decision Tree Construction. SIGMOD'99
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Reference: Decision Trees (II)}
+      \begin{itemize}
+        \item S. K. Murthy: Automatic Construction of Decision Trees from Data: A Multi-Disciplinary Survey. Data Mining and Knowledge Discovery 2(4):345-389, 1998.
+        \item J. R. Quinlan: Induction of decision trees. Machine Learning 1:81-106, 1986.
+        \item J. R. Quinlan and R. L. Rivest: Inferring decision trees using the minimum description length principle. Information and Computation 80:227-248, Mar. 1989.
+        \item S. K. Murthy. Automatic construction of decision trees from data: A multi-disciplinary survey. Data Mining and Knowledge Discovery 2:345-389, 1998.
+        \item R. Rastogi and K. Shim: Public: A decision tree classifier that integrates building and pruning. VLDB'98.
+        \item J. Shafer, R. Agrawal, and M. Mehta: SPRINT: A scalable parallel classifier for data mining. VLDB'96.
+        \item Y.-S. Shih: Families of splitting criteria for classification trees. Statistics and Computing 9:309-315, 1999.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Reference: Neural Networks}
+      \begin{itemize}
+        \item C. M. Bishop: Neural Networks for Pattern Recognition. Oxford University Press, 1995.
+        \item Y. Chauvin and D. Rumelhart: Backpropagation: Theory, Architectures, and Applications. Lawrence Erlbaum, 1995
+        \item J. W. Shavlik, R. J. Mooney, and G. G. Towell: Symbolic and neural learning algorithms: An experimental comparison. Machine Learning 6:111-144, 1991.
+        \item S. Haykin: Neural Networks and Learning Machines. Prentice Hall, Saddle River, NJ, 2008.
+        \item J. Hertz, A. Krogh, and R. G. Palmer: Introduction to the Theory of Neural Computation. Addison Wesley, 1991.
+        \item R. Hecht-Nielsen: Neurocomputing. Addison Wesley, 1990.
+        \item B. D. Ripley: Pattern Recognition and Neural Networks. Cambridge University Press, 1996.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Reference: Support Vector Machines}
+      \begin{itemize}
+        \item C. J. C. Burges: A Tutorial on Support Vector Machines for Pattern Recognition. Data Mining and Knowledge Discovery 2(2):121-168, 1998.
+        \item N. Cristianini and J. Shawe-Taylor: An Introduction to Support Vector Machines and Other Kernel-Based Learning Methods. Cambridge Univ. Press, 2000.
+        \item H. Drucker, C. J. C. Burges, L. Kaufman, A. Smola, and V. N. Vapnik: Support vector regression machines. NIPS, 1997.
+        \item J. C. Platt: Fast training of support vector machines using sequential minimal optimization. In B. Schoelkopf, C. J. C. Burges, and A. Smola (eds.). Advances in Kernel Methods|Support Vector Learning, pages 185-208. MIT Press, 1998.
+        \item B. Schoelkopf, P. L. Bartlett, A. Smola, and R. Williamson: Shrinking the tube: A new support vector regression algorithm. NIPS, 1999.
+        \item H. Yu, J. Yang, and J. Han: Classifying large data sets using SVM with hierarchical clusters. KDD'03.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Reference: Pattern-based Classification}
+      \begin{itemize}
+        \item H. Cheng, X. Yan, J. Han, and C.-W: Hsu: Discriminative Frequent Pattern Analysis for Effective Classification. ICDE'07.
+        \item H. Cheng, X. Yan, J. Han, and P. S. Yu: Direct Discriminative Pattern Mining for Effective Classification. ICDE'08.
+        \item G. Cong, K.-L. Tan, A. K. H. Tung, and X. Xu: Mining top-k covering rule groups for gene expression data. SIGMOD'05.
+        \item G. Dong and J. Li: Efficient mining of emerging patterns: Discovering trends and differences. KDD'99.
+        \item H. S. Kim, S. Kim, T. Weninger, J. Han, and T. Abdelzaher: NDPMine: Efficiently mining discriminative numerical features for pattern-based classification. ECMLPKDD'10.
+        \item W. Li, J. Han, and J. Pei: CMAR: Accurate and Efficient Classification Based on Multiple Class-Association Rules. ICDM'01.
+        \item B. Liu, W. Hsu, and Y. Ma: Integrating classification and association rule mining. KDD'98.
+        \item J. Wang and G. Karypis: HARMONY: Efficiently mining the best rules for classification. SDM'05.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Reference: Rule Induction}
+      \begin{itemize}
+        \item P. Clark and T. Niblett: The CN2 induction algorithm. Machine Learning 3:261-283, 1989.
+        \item W. Cohen: Fast effective rule induction. ICML'95
+        \item S. L. Crawford: Extensions to the CART algorithm. Int. J. Man-Machine Studies 31:197-217, Aug. 1989.
+        \item J. R. Quinlan and R. M. Cameron-Jones: FOIL: A midterm report. ECML'93
+        \item P. Smyth and R. M. Goodman: An information theoretic approach to rule induction. IEEE Trans. Knowledge and Data Engineering 4:301-316, 1992.
+        \item X. Yin and J. Han. CPAR: Classification based on predictive association rules. SDM'03.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Reference: $k$-NN \& Case-based Reasoning}
+      \begin{itemize}
+        \item A. Aamodt and E. Plazas: Case-based reasoning: Foundational issues, methodological variations, and system approaches. AI Comm. 7:39-52, 1994.
+        \item T. Cover and P. Hart: Nearest neighbor pattern classification. IEEE Trans. Information Theory 13:21-27, 1967.
+        \item B. V. Dasarathy. Nearest Neighbor (NN) Norms: NN Pattern Classification Techniques. IEEE Computer Society Press, 1991.
+        \item J. L. Kolodner: Case-Based Reasoning. Morgan Kaufmann, 1993.
+        \item A. Veloso, W. Meira, and M. Zaki: Lazy associative classification. ICDM'06.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Reference: Bayesian Method \& Statistical Models}
+      \begin{itemize}
+        \item A. J. Dobson: An Introduction to Generalized Linear Models. Chapman \& Hall, 1990.
+        \item D. Heckerman, D. Geiger, and D. M. Chickering: Learning Bayesian networks: The combination of knowledge and statistical data. Machine Learning, 1995.
+        \item G. Cooper and E. Herskovits: A Bayesian method for the induction of probabilistic networks from data. Machine Learning 9:309-347, 1992.
+        \item A. Darwiche: Bayesian networks. Comm. ACM 53:80-90, 2010.
+        \item A. P. Dempster, N. M. Laird, and D. B. Rubin: Maximum likelihood from incomplete data via the EM algorithm. J. Royal Statistical Society, Series B, 39:1-38, 1977.
+        \item D. Heckerman, D. Geiger, and D. M. Chickering: Learning Bayesian networks: The combination of knowledge and statistical data. Machine Learning 20:197-243, 1995.
+        \item F. V. Jensen: An Introduction to Bayesian Networks. Springer Verlag, 1996.
+        \item D. Koller and N. Friedman: Probabilistic Graphical Models: Principles and Techniques. The MIT Press, 2009.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Reference: Bayesian Method \& Statistical Models (II)}
+      \begin{itemize}
+        \item J. Pearl: Probabilistic Reasoning in Intelligent Systems. Morgan Kauffman, 1988.
+        \item S. Russell, J. Binder, D. Koller, and K. Kanazawa: Local learning in probabilistic networks with hidden variables. IJCAI'95.
+        \item V. N. Vapnik: Statistical Learning Theory. John Wiley \& Sons, 1998.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Reference: Semi-supervised \& Multi-class Learning}
+      \begin{itemize}
+        \item O. Chapelle, B. Schoelkopf, and A. Zien: Semi-supervised Learning. MIT Press, 2006.
+        \item T. G. Dietterich and G. Bakiri: Solving multiclass learning problems via error-correcting output codes. J. Articial Intelligence Research 2:263-286, 1995.
+        \item W. Dai, Q. Yang, G. Xue, and Y. Yu: Boosting for transfer learning. ICML'07.
+        \item S. J. Pan and Q. Yang: A survey on transfer learning. IEEE Trans. on Knowledge and Data Engineering 22:1345-1359, 2010.
+        \item B. Settles: Active learning literature survey. CS Tech. Rep. 1648, Univ. Wisconsin-Madison, 2010.
+        \item X. Zhu: Semi-supervised learning literature survey. CS Tech. Rep. 1530, Univ. Wisconsin-Madison, 2005.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Reference: Genetic Algorithms \& Rough/Fuzzy Sets}
+      \begin{itemize}
+        \item D. Goldberg: Genetic Algorithms in Search, Optimization, and Machine Learning. Addison-Wesley, 1989.
+        \item S. A. Harp, T. Samad, and A. Guha: Designing application-specific neural networks using the genetic algorithm. NIPS, 1990.
+        \item Z. Michalewicz: Genetic Algorithms + Data Structures = Evolution Programs. Springer Verlag, 1992.
+        \item M. Mitchell: An Introduction to Genetic Algorithms. MIT Press, 1996.
+        \item Z. Pawlak: Rough Sets, Theoretical Aspects of Reasoning about Data. Kluwer Academic, 1991.
+        \item S. Pal and A. Skowron (eds.): Fuzzy Sets, Rough Sets and Decision Making Processes. New York, 1998.
+        \item R. R. Yager and L. A. Zadeh: Fuzzy Sets, Neural Networks and Soft Computing. Van Nostrand Reinhold, 1994.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Reference: Model Evaluation, Ensemble Methods}
+      \begin{itemize}
+        \item L. Breiman: Bagging predictors. Machine Learning 24:123-140, 1996.
+        \item L. Breiman: Random forests. Machine Learning 45:5-32, 2001.
+        \item C. Elkan: The foundations of cost-sensitive learning. IJCAI'01.
+        \item B. Efron and R. Tibshirani: An Introduction to the Bootstrap. Chapman \& Hall, 1993.
+        \item J. Friedman and E. P. Bogdan: Predictive learning via rule ensembles. Ann. Applied Statistics 2:91 6-954, 2008.
+        \item T.-S. Lim, W.-Y. Loh, and Y.-S. Shih: A comparison of prediction accuracy, complexity, and training time of thirty-three old and new classification algorithms. Machine Learning, 2000.
+        \item J. Magidson: The Chaid approach to segmentation modeling: Chi-squared automatic interaction detection. In R. P. Bagozzi (ed.). Advanced Methods of Marketing Research, Blackwell Business, 1994.
+        \item J. R. Quinlan:. Bagging, boosting, and C4.5. AAAI'96.
+      \end{itemize}
+    \end{frame}
+  }
+
+  {
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}{Reference: Model Evaluation, Ensemble Methods (II)}
+      \begin{itemize}
+        \item G. Seni and J. F. Elder: Ensemble Methods in Data Mining: Improving Accuracy Through Combining Predictions. Morgan and Claypool, 2010.
+        \item Y. Freund and R. E. Schapire: A decision-theoretic generalization of on-line learning and an application to boosting. J. Computer and System Sciences, 1997.
+      \end{itemize}
+    \end{frame}
+  }
+
+  { % Questions?
+    \setbeamertemplate{footline}[frame number]
+    \begin{frame}[c]
+      \begin{center}
+        Thank you for your attention.\\
+        {\bf Any questions about the sixt chapter?}\\[0.5cm]
+        Ask them now, or again, drop me a line: \\
+        \faSendO \ \texttt{luciano.melodia@fau.de}.
+      \end{center}
+    \end{frame}
+  }
+\end{document}
