@@ -174,12 +174,12 @@
     \setbeamertemplate{footline}[frame number]
     \begin{frame}{What is Cluster Analysis?}
         \begin{itemize}
-          \item \textbf{{\color{airforceblue}Cluster}: A collection of data objects within a larger set that are.}
+          \item \textbf{{\color{airforceblue}Cluster}: A collection of data objects within a larger set that are:}
           \begin{itemize}
             \item {\color{airforceblue}Similar (or related)} to one another within the same group and,
             \item dissimilar (or unrelated) to the objects outside the group.
           \end{itemize}
-          \item \textbf{{\color{airforceblue}Cluster analysis} (or clustering, data segmentation, $\ldots$).}
+          \item \textbf{{\color{airforceblue}Cluster analysis} (or clustering, data segmentation, $\ldots$):}
           \begin{itemize}
             \item {\color{airforceblue}Define similarities} among data based on the characteristics found in the data (input from user!).
             \item Group similar data objects into clusters.
@@ -266,7 +266,7 @@
           \item \textbf{Dissimilarity/similarity metric:}
           \begin{itemize}
             \item Similarity is expressed in terms of a distance function, typically a metric: $d(x,y)$.
-            \item The definitions of distance functions are usually rather different for interval-scaled, Boolean, categorical, ordinal, ratio, and vector variables (see chapter 2).
+            \item The definitions of distance functions are usually rather different for interval-scaled, boolean, categorical, ordinal, ratio, and vector variables (see chapter 2).
             \item \textbf{\color{airforceblue}Weights} should be associated with different variables \\
                   based on applications and data semantics.
           \end{itemize}
@@ -296,7 +296,7 @@
           \end{itemize}
           \item \textbf{Similarity measure:}
           \begin{itemize}
-            \item Distance-based (e.g., Euclidian, road network, vector) vs.
+            \item Distance-based (e.g., Euclidean, road network, vector) vs.
             \item Connectivity-based (e.g., density or contiguity).
           \end{itemize}
           \item \textbf{Clustering space:}
@@ -417,7 +417,7 @@
           \begin{itemize}
             \item Partition a database $D$ of $n$ objects $o_j, j \in \{1, \ldots, n\}$ into a set of $k$-clusters $C_i$, $1 \leq i \leq k$ such that the sum of squared distances to $c_i$ is minimized \\ (where $c_i$ is the \textbf{\color{airforceblue}centroid} or \textbf{\color{airforceblue}medoid} of cluster $C_i$):
             \begin{align}
-              \min \sum_{i=1}^{k} \sum_{o \in C_i} d(o,c_i)^2.
+              \min \sum_{i=1}^{k} \sum_{j=1 \in n} d(o_j,c_i)^2.
             \end{align}
           \end{itemize}
           \item \textbf{Given $k$, find a partition of $k$ clusters that optimizes the chosen partitioning criterion.}
@@ -796,7 +796,7 @@
           \draw[dashed] (3,6) ellipse (2cm and 3cm);
           \draw[dashed] (7,4) ellipse (2cm and 3cm);
           \draw[->] (12,3) to [out=30,in=30] (12,-1);
-          \node at (7,11) {\scriptsize Total cost = 20};
+          \node at (7,11) {\scriptsize Total cost = 21};
           \node at (15,8) {\scriptsize Randomly};
           \node at (15,7) {\scriptsize select};
           \node at (15,6) {\scriptsize nonmedoid};
@@ -829,7 +829,7 @@
           \node at (-5,3) {\scriptsize and $o_\text{random}$};
           \node at (-5,2) {\scriptsize if quality is};
           \node at (-5,1) {\scriptsize improved};
-          \node at (3.4,11) {\scriptsize Total cost = 26};
+          \node at (3.4,11) {\scriptsize Total cost = 25};
       \end{tikzpicture}
       \begin{tikzpicture}[scale=0.23]
           \foreach \i in {\xMin,...,\xMax} {
