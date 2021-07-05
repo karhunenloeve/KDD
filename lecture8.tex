@@ -930,7 +930,7 @@
         \begin{itemize}
           \item $o_j$ currently belongs to medoid $o_t$, $t \neq j$. If $o_i$ is replaced with $o_h$ as a medoid, and $o_j$ is still closest to $o_t$, then the assignment does not change.
           \begin{align}
-            C_{jih} = d(o_j,o_h) - d(o_j,o_i) = 0.
+            C_{jih} = d(o_j,o_h) - d(o_j,o_t) \geq 0.
           \end{align}
         \end{itemize}
       \end{itemize}
@@ -976,7 +976,7 @@
         \begin{itemize}
           \item $o_j$ currently belongs to medoid $o_i$. If $o_i$ is replaced with $o_h$ as a medoid, and $o_j$ is closest to medoid $o_t$ of one of the other clusters, then $o_j$ is reassigned to $o_t$ (new cluster, different distance).
           \begin{align}
-            C_{jih} = d(o_j,o_t) - d(o_j,o_i).
+            C_{jih} = d(o_j,o_t) - d(o_j,o_h) < 0.
           \end{align}
         \end{itemize}
       \end{itemize}
@@ -1022,7 +1022,7 @@
         \begin{itemize}
           \item $o_j$ currently belongs to medoid $o_t$, $t \neq j$. If $o_i$ is replaced with $o_h$ as a medoid (from a different cluster!), and $o_j$ is closest to $o_h$, then $o_j$ is reassigned to $o_h$ (new cluster, different distance).
           \begin{align}
-            C_{jih} = d(o_j,o_t) - d(o_j,o_i).
+            C_{jih} = d(o_j,o_h) - d(o_j,o_t) < 0.
           \end{align}
         \end{itemize}
       \end{itemize}
