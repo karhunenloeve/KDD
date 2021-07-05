@@ -1541,7 +1541,9 @@
       \begin{itemize}
         \item \textbf{Allows to derive many useful statistics of a cluster:}
         \begin{itemize}
-          \item E.g. centroid: $c_i = \frac{\sum_{i=1}^{n}o_i}{n} = \frac{LS}{n}$.
+          \item E.g. centroid: $c_i = \frac{\sum_{i=1}^{n}o_i}{n} = \frac{LS}{n}$,
+          \item radius: $R = \sqrt{\frac{\sum_{i=1}^{n}(\mathbf{x}_i-\mathbf{c})^2}{n}} = \sqrt{\frac{nSS-2LS^2+nLS}{n^2}}$,
+          \item diameter: $D = \sqrt{\frac{\sum_{i=1}^{n}\sum_{j=1}^{n}(\mathbf{x}_i-\mathbf{x}_j)^2}{n(n-1)}} = \sqrt{\frac{2nSS-2LS^2}{n(n-1)}}$, etc.
         \end{itemize}
         \item \textbf{Additive:}
         \begin{itemize}
@@ -1593,8 +1595,8 @@
         \node at (-2,-2) {
           \begin{tabular}{|c|c|c|c|c|}
             \hline
-            $CF_1$ & $CF_2$ & $CF_3$ & $\hdots$ & $CF_5$ \\ \hline
-            $\text{child}_1$ & $\text{child}_2$ & $\text{child}_3$ & $\hdots$ & $\text{child}_5$ \\\hline
+            $CF_{11}$ & $CF_{12}$ & $CF_{13}$ & $\hdots$ & $CF_{15}$ \\ \hline
+            $\text{child}_{11}$ & $\text{child}_{12}$ & $\text{child}_{13}$ & $\hdots$ & $\text{child}_{15}$ \\\hline
           \end{tabular}
         };
         \node at (3,-2) {$\hdots$};
@@ -1603,14 +1605,14 @@
         \node at (-3,-4) {
           \begin{tabular}{|c|c|c|c|c|c|}
             \hline
-            prev & $CF_1$ & $CF_2$ & $\hdots$ & $CF_6$ & next \\ \hline
+            prev & $CF_{111}$ & $CF_{112}$ & $\hdots$ & $CF_{116}$ & next \\ \hline
           \end{tabular}
         };
         \node at (4,-3.5) {Leaf node:};
         \node at (4,-4) {
           \begin{tabular}{|c|c|c|c|c|c|}
             \hline
-            prev & $CF_1$ & $CF_2$ & $\hdots$ & $CF_4$ & next \\ \hline
+            prev & $CF_{121}$ & $CF_{122}$ & $\hdots$ & $CF_{124}$ & next \\ \hline
           \end{tabular}
         };
         \draw[thick,->] (-2.2,-0.45)--(-4.3,-1.5);
@@ -1618,10 +1620,10 @@
         \draw[thick,->] (0.2,-0.45)--(4.3,-1.5);
         \draw[thick,->] (-3,-2.45)--(4.6,-3.8);
         \draw[thick,->] (-4.3,-2.45)--(-5.2,-3.8);
-        \draw[thick,->] (0.1,-3.8)--(0.9,-3.8);
-        \draw[thick,->] (0.9,-4.2)--(0.1,-4.2);
-        \draw[thick,->] (7.1,-3.8)--(7.9,-3.8);
-        \draw[thick,->] (7.9,-4.2)--(7.1,-4.2);
+        \draw[thick,->] (0.1,-3.6)--(0.9,-3.6);
+        \draw[thick,->] (0.9,-4.4)--(0.1,-4.4);
+        \draw[thick,->] (7.1,-3.6)--(7.9,-3.6);
+        \draw[thick,->] (7.9,-4.4)--(7.1,-4.4);
         \node at (-5,0) {B=7};
         \node at (-5,-0.5) {T=6};
       \end{tikzpicture}
@@ -1661,7 +1663,7 @@
         \begin{itemize}
           \item \textbf{Measures the similarity based on a dynamic model:}
           \begin{itemize}
-            \item Two clusters are merged only if the \textbf{interconnectivity} and \textbf{closeness (proximity)} between two clusters are high relative to the internal interconnectivity of the clusters and the closeness of items within the clusters.
+            \item Two clusters are merged only if the \textbf{interconnectivity} and \textbf{closeness (proximity)} between two clusters are high relative to the intraconnectivity of the clusters and the closeness of items within the clusters.
           \end{itemize}
           \item \textbf{Graph-based, and a two-phase algorithm.}
           \begin{itemize}
