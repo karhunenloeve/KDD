@@ -417,7 +417,7 @@
           \begin{itemize}
             \item Partition a database $D$ of $n$ objects $o_j, j \in \{1, \ldots, n\}$ into a set of $k$-clusters $C_i$, $1 \leq i \leq k$ such that the sum of squared distances to $c_i$ is minimized \\ (where $c_i$ is the \textbf{\color{airforceblue}centroid} or \textbf{\color{airforceblue}medoid} of cluster $C_i$):
             \begin{align}
-              \min \sum_{i=1}^{k} \sum_{j=1 \in n} d(o_j,c_i)^2.
+              \min \sum_{i=1}^{k} \sum_{j=1}^{n} d(o_j,c_i)^2.
             \end{align}
           \end{itemize}
           \item \textbf{Given $k$, find a partition of $k$ clusters that optimizes the chosen partitioning criterion.}
