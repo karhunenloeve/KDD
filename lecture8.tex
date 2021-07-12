@@ -2082,18 +2082,18 @@
 
   {
     \setbeamertemplate{footline}[frame number]
-    \begin{frame}{Density-dased Clustering: Basic Concepts}
+    \begin{frame}{Density-based Clustering: Basic Concepts}
         \begin{itemize}
           \item \textbf{Two parameters:}
           \begin{itemize}
-            \item \textbf{\color{airforceblue}Eps}: Maximum radius of a neighborhood.
+            \item \textbf{\color{airforceblue}$\epsilon$}: Maximum radius of a neighborhood.
             \begin{itemize}
-              \item Defines the neighborhood of a point $p$: $N_{\text{Eps}}(p) := \{q \in D \; \vert \; d(p,q) \leq \text{Eps}\}$.
+              \item Defines the neighborhood of a point $p$: $N_{\epsilon}(p) := \{q \in D \; \vert \; d(p,q) \leq \epsilon\}$.
               \item Distance function is still needed.
             \end{itemize}
-            \item \textbf{\color{airforceblue}MinPts}: Minimum number of points in an Eps-neighborhood of a point $p$.
+            \item \textbf{\color{airforceblue}MinPts}: Minimum number of points in an $\epsilon$-neighborhood of a point $p$.
           \end{itemize}
-          \item \textbf{{\color{airforceblue}Core-point condition:} $|N_{\text{Eps}}(p)| \geq \text{MinPts}$.}
+          \item \textbf{{\color{airforceblue}Core-point condition:} $|N_{\epsilon}(p)| \geq \text{MinPts}$.}
           \begin{itemize}
             \item Only these neighborhoods are considered.
           \end{itemize}
@@ -2124,7 +2124,7 @@
           \node at (0.2,0) {q};
           \node at (-0.3,-1.2) {p};
           \node at (2,0) {$\text{MinPts} = 5$};
-          \node at (2,-0.5) {$\text{Eps} = 1$ cm};
+          \node at (2,-0.5) {$\epsilon = 1$ cm};
         \end{tikzpicture}
     \end{frame}
   }
@@ -2134,7 +2134,7 @@
     \begin{frame}{Directly Density-reachable}
       \begin{itemize}
         \item A point $q$ is said to be directly density-reachable from a point $p$ \\
-        w.r.t. Eps, MinPts, if $q$ belongs to $N_{\text{Eps}}(p)$.
+        w.r.t. $\epsilon$, MinPts, if $q$ belongs to $N_{\epsilon}(p)$.
       \end{itemize}
       \centering
       \vspace{0.5cm}
@@ -2162,7 +2162,7 @@
         \node at (-0.1,-0.4) {q};
         \node at (-0.3,-1.2) {p};
         \node at (2,0) {$\text{MinPts} = 5$};
-        \node at (2,-0.5) {$\text{Eps} = 1$ cm};
+        \node at (2,-0.5) {$\epsilon = 1$ cm};
       \end{tikzpicture}
     \end{frame}
   }
@@ -2173,7 +2173,7 @@
       \begin{itemize}
         \item \textbf{\color{airforceblue}Density-reachable:}
         \begin{itemize}
-          \item A point $q$ is density-reachable from a point $p$ w.r.t. Eps, MinPts, if there is a \textbf{chain of points} $p_1, \ldots, p_n$, $p_1 = p$, $p_n = q$ such that $p_i+1$ is directly density-reachable from $p_i$.\\[0.2cm]
+          \item A point $q$ is density-reachable from a point $p$ w.r.t. $\epsilon$, MinPts, if there is a \textbf{chain of points} $p_1, \ldots, p_n$, $p_1 = p$, $p_n = q$ such that $p_i+1$ is directly density-reachable from $p_i$.\\[0.2cm]
           \centering
           \begin{tikzpicture}[scale=1.2]
             \node[draw, circle, fill=red, scale=0.3] at (0.3,0.1) {};
@@ -2201,7 +2201,7 @@
         \end{itemize}
         \item \textbf{\color{airforceblue}Density-connected:}
         \begin{itemize}
-          \item A point $p$ is density-connected to a point $q$ w.r.t. Eps, MinPts, if there is a point $o$ such that both $p$ and $q$ are density-reachable from $o$. \\[0.2cm]
+          \item A point $p$ is density-connected to a point $q$ w.r.t. $\epsilon$, MinPts, if there is a point $o$ such that both $p$ and $q$ are density-reachable from $o$. \\[0.2cm]
           \centering
           \begin{tikzpicture}[scale=1.2]
             \node[draw, circle, fill=red, scale=0.3] at (0.3,0.1) {};
@@ -2278,7 +2278,7 @@
         \node[draw, fill=white] at (6,3.2) (o) {Outlier};
         \node[draw, fill=white] at (-1,1.2) (c) {Core};
         \node[draw, fill=white] at (-1,2.2) (b) {Border};
-        \node at (7,2.2) {Eps = 1cm};
+        \node at (7,2.2) {$\epsilon$ = 1cm};
         \node at (7,1.7) {MinPts = 5};
         \draw (outlier)--(o);
         \draw (core)--(c);
@@ -2293,19 +2293,19 @@
       \begin{itemize}
         \item All objects in database $D$ are marked \texttt{unvisited}.
         \item Randomly select unvisited object $p$ and mark as \texttt{visited}.
-        \item If Eps-neighborhood of $p$ contains less than MinPts objects:
+        \item If $\epsilon$-neighborhood of $p$ contains less than MinPts objects:
         \begin{itemize}
           \item Mark $p$ as noise.
         \end{itemize}
         \item Otherwise (that is, $p$ is core point):
         \begin{itemize}
           \item Create new cluster $C$ for point $p$.
-          \item Add all objects in Eps-neighborhood of $p$ to candidate set $N$.
+          \item Add all objects in $\epsilon$-neighborhood of $p$ to candidate set $N$.
           \item For each $p'$ in $N$ that does not yet belong to a cluster:
           \begin{itemize}
             \item Add $p'$ to $C$.
             \item If $p'$ is \texttt{unvisited}, mark as \texttt{visited}.
-            \item If $p'$ is core point, add all objects in its Eps-neighborhood to $N$.
+            \item If $p'$ is core point, add all objects in its $\epsilon$-neighborhood to $N$.
           \end{itemize}
           \item Ends when $N$ is empty, that is, $C$ can no longer be expanded.
         \end{itemize}
@@ -2333,14 +2333,14 @@
           \item (Ankerst, Breunig, Kriegel \& Sander, SIGMOD'99)
           \item Avoid difficulty of finding the right parameters:
           \begin{itemize}
-            \item Only MinPts must be given, Eps remains open.
+            \item Only MinPts must be given, $\epsilon$ remains open.
           \end{itemize}
           \item Produces a special \textbf{order of the database} w.r.t. its density-based clustering structure.
           \item This cluster-ordering contains info equivalent to the density-based clusterings \\ corresponding to a broad range of parameter settings.
           \item Good for both automatic and interactive cluster analysis, including finding \\
           intrinsic clustering structure.
           \item Can be represented graphically or using visualization techniques.
-          \item Process point in order: Select a point that is density-reachable w.r.t. the lowest Eps value, so that clusters with higher density (lower Eps) will be finished first.
+          \item Process point in order: Select a point that is density-reachable w.r.t. the lowest $\epsilon$ value, so that clusters with higher density (lower $\epsilon$) will be finished first.
         \end{itemize}
       \end{itemize}
     \end{frame}
@@ -2356,7 +2356,7 @@
             \item \textbf{\color{airforceblue}Core distance:}
             \begin{itemize}
               \item of a point $p$.
-              \item Min Eps s.t. $p$ is core point.
+              \item Min $\epsilon$ s.t. $p$ is core point.
             \end{itemize}
             \item \textbf{\color{airforceblue}Reachability Distance $r$:}
             \begin{itemize}
@@ -2409,7 +2409,7 @@
         \begin{itemize}
           \item Retrieve the closest MinPts points of $p$, determine core-distance, set reachability-distance to undefined.
           \item Write $p$ to output.
-          \item If $p$ is core point, for each point $q$ in the Eps-neighborhood of $p$:
+          \item If $p$ is core point, for each point $q$ in the $\epsilon$-neighborhood of $p$:
           \begin{itemize}
             \item Update reachability-distance from $p$.
             \item Insert $q$ into OrderSeeds (if $q$ has not yet been processed).
@@ -2437,8 +2437,8 @@
         \item \textbf{Using statistical density functions:}
         \begin{itemize}
           \item $f_{\text{Gaussian}}(x,y)= \exp\left(\frac{d(x,y)^2}{2\sigma^2}\right)$, influence of $y$ on $x$.
-          \item $f^D_{\text{Gaussian}}(x,x_i)= \sum_{i=1}^{N} \exp\left(\frac{d(x,y)^2}{2\sigma^2}\right)$, total influence on $x$.
-          \item $\nabla_{x_i} f^D_{\text{Gaussian}}(x,x_i) = \sum_{i=1}^{N} (x_i-x) \cdot \exp\left(\frac{d(x,y)^2}{2\sigma^2}\right)$, gradient of $x$ in direction $x_i$.
+          \item $f^D_{\text{Gaussian}}(x,x_i)= \sum_{i=1}^{N} \exp\left(\frac{d(x,x_i)^2}{2\sigma^2}\right)$, total influence on $x$.
+          \item $\nabla_{x_i} f^D_{\text{Gaussian}}(x,x_i) = \sum_{i=1}^{N} (x_i-x) \cdot \exp\left(\frac{d(x,x_i)^2}{2\sigma^2}\right)$, gradient of $x$ in direction $x_i$.
         \end{itemize}
         \item \textbf{Major features:}
         \begin{itemize}
